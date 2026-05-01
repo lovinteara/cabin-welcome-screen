@@ -1,0 +1,478 @@
+// =========================================================================
+// CABIN WELCOME SCREEN — CONFIGURATION
+// Edit this file to update cabin info, activities, restaurants, and quotes.
+// After editing, just refresh the browser/TV — no other steps needed.
+// =========================================================================
+
+// -------------------------------------------------------------------------
+// WHICH CABIN IS THIS DISPLAY FOR?
+//
+// HOSTED VERSION (recommended): The cabin is set by the URL parameter.
+//   Example: yoursite.com/?cabin=huckleberry  → loads Huckleberry Hut
+//   Each Pi just opens its own URL — no per-cabin config needed.
+//
+// LOCAL FILE VERSION (fallback): If you're opening index.html directly
+//   from your computer with no URL parameter, the page uses the value
+//   below. Change it to test a different cabin locally.
+//
+// Options: 'huckleberry', 'gathering', 'little-chalet', 'big-chalet',
+//          'caldera', 'dshouse', 'rrl', 'charming'
+// -------------------------------------------------------------------------
+const ACTIVE_CABIN = 'huckleberry';
+
+// -------------------------------------------------------------------------
+// CABIN CONFIGS — wifi, location, check-out time per property
+// -------------------------------------------------------------------------
+const CABINS = {
+  huckleberry: {
+    name: 'Huckleberry Hut',
+    lat: 44.4167, lon: -111.3833,
+    wifi: 'Huckleberry Hut',
+    pw: 'Y3llowst0neTrout!',
+    checkout: '10:00 AM',
+    wifiSet: true
+  },
+  gathering: {
+    name: 'Gathering Place',
+    lat: 44.4250, lon: -111.3700,
+    wifi: 'The Gathering Place',
+    pw: 'Cascade4139',
+    checkout: '10:00 AM',
+    wifiSet: true
+  },
+  'little-chalet': {
+    name: 'Little Chalet',
+    lat: 44.4300, lon: -111.4000,
+    wifi: 'LittleChalet',
+    pw: 'Chalet42652',
+    checkout: '10:00 AM',
+    wifiSet: true
+  },
+  'big-chalet': {
+    name: 'Big Chalet',
+    lat: 44.4310, lon: -111.4010,
+    wifi: 'BigChaletintheforest',
+    pw: 'Chalet4265',
+    checkout: '10:00 AM',
+    wifiSet: true
+  },
+  caldera: {
+    name: 'Caldera Cottage',
+    lat: 44.4100, lon: -111.3900,
+    wifi: 'Caldera Cottage',
+    pw: 'Lodgepole3795',
+    checkout: '10:00 AM',
+    wifiSet: true
+  },
+  dshouse: {
+    name: "D'Shouse Haven",
+    lat: 44.4200, lon: -111.3750,
+    wifi: '[Add network]',
+    pw: '[Add password]',
+    checkout: '10:00 AM',
+    wifiSet: false
+  },
+  rrl: {
+    name: 'RRL Sleeps 14',
+    lat: 44.4180, lon: -111.3820,
+    wifi: '[Add network]',
+    pw: '[Add password]',
+    checkout: '10:00 AM',
+    wifiSet: false
+  },
+  charming: {
+    name: 'Charming Log Home',
+    lat: 44.4350, lon: -111.3650,
+    wifi: '[Add network]',
+    pw: '[Add password]',
+    checkout: '10:00 AM',
+    wifiSet: false
+  }
+};
+
+// -------------------------------------------------------------------------
+// HOST CONTACT INFO — shown on the Contact slide
+// -------------------------------------------------------------------------
+const CONTACT = {
+  hostName: 'Teara and Andy',
+  hostPhone: '(385) 685-0272',  // <- update with real number
+  souvenirSite: 'ipsouvenirsandgifts.com',
+  emergency: '911',
+  hospital: 'Madison Memorial · Rexburg'
+};
+
+// -------------------------------------------------------------------------
+// ACTIVITIES — hikes, drives, fishing, Yellowstone/Teton, rentals
+//
+// FIELDS:
+//   name        - display name
+//   category    - shown above the name (e.g. "Today's hike")
+//   lat, lon    - coordinates (used for accurate per-cabin drive times)
+//   distance    - hiking distance, "varies", or "—" if not applicable
+//   elevation   - elevation gain or "flat" or "—"
+//   difficulty  - "Easy", "Moderate", "Strenuous", "Drive-up", or "Varies"
+//   seasons     - array: ["spring","summer","fall","winter"]
+//   minTemp     - skip this activity if today's high is below this (°F)
+//   weatherSafe - false = skip on stormy days
+//   blurb       - short description shown to guests
+//   fav         - true = your local favorite (gets 2x rotation weight)
+//
+// To ADD a spot: copy the block, paste, edit. No commas missing!
+// To REMOVE a spot: delete the entire { ... } block including trailing comma.
+// -------------------------------------------------------------------------
+const ACTIVITIES = [
+  // ============ TEARA'S LOCAL FAVORITES ============
+  { name: "Imperial Geyser", category: "Today's hike",
+    lat: 44.524, lon: -110.851,
+    distance: "5.6 mi", elevation: "mostly flat", difficulty: "Easy",
+    seasons: ["summer","fall"], minTemp: 40, weatherSafe: true,
+    blurb: "Best hike in Yellowstone. Mostly flat walk past Fairy Falls to a working geyser most tourists miss.",
+    fav: true },
+
+  { name: "Wade Lake & Cliff Lake", category: "Today's adventure",
+    lat: 44.840, lon: -111.585,
+    distance: "varies", elevation: "flat", difficulty: "Easy",
+    seasons: ["summer","fall"], minTemp: 50, weatherSafe: true,
+    blurb: "Two teal-blue lakes side by side. No motorized boats — paddle, kayak, or float in peace.",
+    fav: true },
+
+  { name: "High Mountain Adventures", category: "Today's adventure",
+    lat: 44.547, lon: -111.450,
+    distance: "—", elevation: "—", difficulty: "Varies",
+    seasons: ["spring","summer","fall","winter"],
+    blurb: "ATV, UTV, snowmobile rentals at base of Sawtelle. Hours vary by season — call ahead to book: (208) 558-9572.",
+    fav: true },
+
+  // ============ ISLAND PARK CLASSICS ============
+  { name: "Upper Mesa Falls", category: "Today's hike",
+    lat: 44.184, lon: -111.32,
+    distance: "0.6 mi", elevation: "minimal", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 35, weatherSafe: true,
+    blurb: "Boardwalk to Idaho's last undammed waterfall. Stunning even in light rain." },
+
+  { name: "Big Springs Trail", category: "Today's walk",
+    lat: 44.500, lon: -111.262,
+    distance: "0.5 mi", elevation: "flat", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 35, weatherSafe: true,
+    blurb: "Source of the Henry's Fork. 120 million gallons a day, paved path, trout in the pools." },
+
+  { name: "Coffee Pot Rapids Trail", category: "Today's hike",
+    lat: 44.502, lon: -111.345,
+    distance: "2.2 mi", elevation: "75 ft", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 35, weatherSafe: true,
+    blurb: "Follow the Henry's Fork from quiet stream to roaring rapids. Shaded — great in heat." },
+
+  { name: "Harriman Ranch Loop", category: "Today's walk",
+    lat: 44.355, lon: -111.479,
+    distance: "2.5 mi", elevation: "flat", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 30, weatherSafe: true,
+    blurb: "Trumpeter swans, working ranch buildings, world-class fly water. $7 entry." },
+
+  { name: "Henry's Lake State Park", category: "Today's fishing",
+    lat: 44.620, lon: -111.401,
+    distance: "varies", elevation: "flat", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 40, weatherSafe: true,
+    blurb: "Brook, cutthroat, and rainbow-cutthroat hybrids. Boating and kayaking too." },
+
+  { name: "Targhee Creek Trail", category: "Today's challenge",
+    lat: 44.660, lon: -111.348,
+    distance: "8 mi", elevation: "2200 ft", difficulty: "Strenuous",
+    seasons: ["summer"], minTemp: 50, weatherSafe: false,
+    blurb: "Climbs to the Continental Divide at 9000 ft. Bear country — carry spray, make noise." },
+
+  { name: "Sawtell Peak Drive", category: "Today's drive",
+    lat: 44.547, lon: -111.450,
+    distance: "12 mi drive", elevation: "9875 ft summit", difficulty: "Drive-up",
+    seasons: ["summer","fall"], minTemp: 45, weatherSafe: false,
+    blurb: "Drive to a 9875 ft summit. Caldera, Yellowstone, and Henry's Lake all in view. Closed Nov–May." },
+
+  { name: "Yellowstone Shortline Trail", category: "Today's ride",
+    lat: 44.218, lon: -111.444,
+    distance: "8.5 mi paved", elevation: "flat", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 40, weatherSafe: true,
+    blurb: "Smooth asphalt rail-trail. Family-friendly. Bring bikes or rent in town." },
+
+  { name: "Big Springs Float", category: "Today's float",
+    lat: 44.500, lon: -111.262,
+    distance: "3 hr float", elevation: "flat", difficulty: "Easy",
+    seasons: ["summer"], minTemp: 55, weatherSafe: true,
+    blurb: "Crystal-clear, slow-moving water from Big Springs to Mack's Inn. Moose sightings common." },
+
+  // ============ WINTER ============
+  { name: "Two Top Snowmobile Trail", category: "Today's ride",
+    lat: 44.620, lon: -111.150,
+    distance: "30+ mi loop", elevation: "varies", difficulty: "Moderate",
+    seasons: ["winter"], minTemp: -20, weatherSafe: true,
+    blurb: "Connects Island Park to West Yellowstone. Part of 1500+ miles of groomed trail." },
+
+  { name: "Harriman Snowshoe — River Ranch Loop", category: "Today's snowshoe",
+    lat: 44.355, lon: -111.479,
+    distance: "2.5 mi", elevation: "flat", difficulty: "Easy",
+    seasons: ["winter"], minTemp: -10, weatherSafe: true,
+    blurb: "Beginner-friendly snowshoe loop. Warm up at the Jones House along the way." },
+
+  // ============ YELLOWSTONE ============
+  { name: "Old Faithful", category: "Today's Yellowstone",
+    lat: 44.460, lon: -110.828,
+    distance: "1 mi loop", elevation: "flat", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 30, weatherSafe: true,
+    blurb: "Erupts roughly every 90 minutes. West entrance via 20 then south through the park." },
+
+  { name: "Grand Prismatic Spring", category: "Today's Yellowstone",
+    lat: 44.525, lon: -110.838,
+    distance: "1.6 mi", elevation: "100 ft", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 30, weatherSafe: true,
+    blurb: "Yellowstone's most photographed spring. The overlook trail beats the boardwalk for views." },
+
+  { name: "Lamar Valley", category: "Today's wildlife drive",
+    lat: 44.898, lon: -110.219,
+    distance: "drive", elevation: "varies", difficulty: "Drive-up",
+    seasons: ["spring","summer","fall"], minTemp: 25, weatherSafe: true,
+    blurb: "America's Serengeti — bison, wolves, bears, eagles. Best at dawn or dusk." },
+
+  { name: "Cave Falls", category: "Today's hidden gem",
+    lat: 44.140, lon: -111.013,
+    distance: "0.3 mi", elevation: "flat", difficulty: "Easy",
+    seasons: ["summer","fall"], minTemp: 40, weatherSafe: true,
+    blurb: "Hidden waterfall in Yellowstone's quiet southwest corner. Locals' secret." },
+
+  // ============ TETONS ============
+  { name: "Jenny Lake (Tetons)", category: "Today's Teton trip",
+    lat: 43.752, lon: -110.725,
+    distance: "varies", elevation: "flat", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 35, weatherSafe: true,
+    blurb: "Boat shuttle to Hidden Falls and Inspiration Point. Iconic Teton experience." }
+];
+
+// -------------------------------------------------------------------------
+// RESTAURANTS — Teara's vetted picks
+//
+// closedDays: array of day numbers — 0=Sun, 1=Mon, 2=Tue, 3=Wed,
+//             4=Thu, 5=Fri, 6=Sat
+// Empty array [] means open every day.
+// -------------------------------------------------------------------------
+const RESTAURANTS = [
+  { name: "Café Sabor",
+    subtype: "Mexican · Island Park, Hwy 20",
+    closedDays: [2],  // closed Tuesdays
+    blurb: "Worth the wait. Try the ceviche, combos, chimichangas — and the caramel churros.",
+    fav: true },
+
+  { name: "Lakeside Lodge",
+    subtype: "American steaks · local Miller Ag beef",
+    closedDays: [],
+    blurb: "Finger steaks made with local Miller Ag beef.",
+    fav: true },
+
+  { name: "Boondocks",
+    subtype: "American · Hwy 20",
+    closedDays: [],
+    blurb: "Solid menu top to bottom. Campfire fries are the move.",
+    fav: true },
+
+  { name: "Pond's Lodge Pizza",
+    subtype: "Pizza · classic Island Park spot",
+    closedDays: [],
+    blurb: "We love the cheese breadsticks with ranch.",
+    fav: true },
+
+  { name: "Shotgun Bar",
+    subtype: "Bar + food Wed–Sun",
+    closedDays: [1, 2],  // food only Wed-Sun, so Mon and Tue excluded
+    blurb: "Fun spot for beer and wine. Food served Wednesday through Sunday only.",
+    fav: true }
+];
+
+// -------------------------------------------------------------------------
+// QUOTES — rotated daily on the inspirational slide
+// Add as many as you like.
+// -------------------------------------------------------------------------
+const QUOTES = [
+  { text: "In every walk with nature, one receives far more than they seek.", attr: "John Muir" },
+  { text: "The mountains are calling and I must go.", attr: "John Muir" },
+  { text: "Of all the paths you take in life, make sure a few of them are dirt.", attr: "John Muir" },
+  { text: "Look deep into nature, and then you will understand everything better.", attr: "Albert Einstein" },
+  { text: "Wilderness is not a luxury but a necessity of the human spirit.", attr: "Edward Abbey" },
+  { text: "The clearest way into the universe is through a forest wilderness.", attr: "John Muir" }
+  { text: "Adopt the pace of nature: her secret is patience.", attr: "Ralph Waldo Emerson" },
+{ text: "Heaven is under our feet as well as over our heads.", attr: "Henry David Thoreau" },
+{ text: "Live in the sunshine, swim the sea, drink the wild air.", attr: "Ralph Waldo Emerson" },
+{ text: "Between every two pines is a doorway to a new world.", attr: "John Muir" },
+{ text: "Keep close to nature’s heart.", attr: "John Muir" },
+{ text: "Nature does not hurry, yet everything is accomplished.", attr: "Lao Tzu" },
+{ text: "The earth has music for those who listen.", attr: "William Shakespeare" },
+{ text: "Time spent among trees is never time wasted.", attr: "Katrina Mayer" },
+{ text: "The mountains are where I feel most alive.", attr: "Unknown" },
+{ text: "Go where you feel most alive.", attr: "Unknown" },
+{ text: "Take only memories, leave only footprints.", attr: "Chief Seattle" },
+{ text: "The best view comes after the hardest climb.", attr: "Unknown" },
+{ text: "Escape the ordinary.", attr: "Unknown" },
+{ text: "Let the adventure begin.", attr: "Unknown" },
+{ text: "Find me where the wild things are.", attr: "Unknown" },
+{ text: "Sky above, earth below, peace within.", attr: "Unknown" },
+{ text: "Wander often, wonder always.", attr: "Unknown" },
+{ text: "Into the forest I go to lose my mind and find my soul.", attr: "John Muir" },
+{ text: "Life is better in hiking boots.", attr: "Unknown" },
+{ text: "Breathe in the wild air.", attr: "Ralph Waldo Emerson" },
+{ text: "Roam far, wander wide.", attr: "Unknown" },
+{ text: "The journey is the destination.", attr: "Dan Eldon" },
+{ text: "Nature is the art of God.", attr: "Dante Alighieri" },
+{ text: "To walk in nature is to witness a thousand miracles.", attr: "Mary Davis" },
+{ text: "Stay wild.", attr: "Unknown" },
+{ text: "Adventure awaits.", attr: "Unknown" },
+{ text: "Leave the road, take the trails.", attr: "Pythagoras" },
+{ text: "Let nature be your teacher.", attr: "William Wordsworth" },
+{ text: "Not all those who wander are lost.", attr: "J.R.R. Tolkien" },
+{ text: "Collect moments, not things.", attr: "Unknown" },
+{ text: "The world is big and I want to have a good look at it.", attr: "John Muir" },
+{ text: "Climb mountains, not so the world can see you, but so you can see the world.", attr: "David McCullough Jr." },
+{ text: "Adventure is worthwhile.", attr: "Aesop" },
+{ text: "The tans will fade, but the memories will last forever.", attr: "Unknown" },
+{ text: "Happiness is hiking with friends.", attr: "Unknown" },
+{ text: "Every mountain top is within reach if you just keep climbing.", attr: "Barry Finlay" },
+{ text: "The wilderness holds answers to questions man has not yet learned to ask.", attr: "Nancy Wynne Newhall" },
+{ text: "Look at the stars. See their beauty.", attr: "Unknown" },
+{ text: "Fresh air, don’t care.", attr: "Unknown" },
+{ text: "Camp more, worry less.", attr: "Unknown" },
+{ text: "Wild and free.", attr: "Unknown" },
+{ text: "Life begins at the end of your comfort zone.", attr: "Neale Donald Walsch" },
+{ text: "Sunsets are proof that endings can be beautiful too.", attr: "Unknown" },
+{ text: "Nature is not a place to visit. It is home.", attr: "Gary Snyder" },
+{ text: "If you truly love nature, you will find beauty everywhere.", attr: "Vincent van Gogh" },
+{ text: "Go outside and get some fresh perspective.", attr: "Unknown" },
+{ text: "Keep it wild.", attr: "Unknown" },
+{ text: "Let’s wander where the WiFi is weak.", attr: "Unknown" },
+{ text: "Nature never goes out of style.", attr: "Unknown" },
+{ text: "The mountains whisper for me to wander.", attr: "Unknown" },
+{ text: "Wherever you go, go with all your heart.", attr: "Confucius" },
+{ text: "Rise above the storm and you will find the sunshine.", attr: "Mario Fernandez" },
+{ text: "Every sunset brings the promise of a new dawn.", attr: "Ralph Waldo Emerson" },
+{ text: "Choose joy.", attr: "Unknown" },
+{ text: "Do more things that make you forget to check your phone.", attr: "Unknown" },
+{ text: "Adventure is out there.", attr: "Up" },
+{ text: "Wake up and explore.", attr: "Unknown" },
+{ text: "Find your wild.", attr: "Unknown" },
+{ text: "Let’s get lost.", attr: "Unknown" },
+{ text: "Nature heals.", attr: "Unknown" },
+{ text: "Simplicity is the ultimate sophistication.", attr: "Leonardo da Vinci" },
+{ text: "Peace begins where expectations end.", attr: "Unknown" },
+{ text: "Keep going.", attr: "Unknown" },
+{ text: "Dream big, wander often.", attr: "Unknown" },
+{ text: "Find your path.", attr: "Unknown" },
+{ text: "Go where the road takes you.", attr: "Unknown" },
+{ text: "Stay curious.", attr: "Unknown" },
+{ text: "Make today an adventure.", attr: "Unknown" },
+{ text: "Live simply.", attr: "Unknown" },
+{ text: "Chase the sun.", attr: "Unknown" },
+{ text: "Explore more.", attr: "Unknown" },
+{ text: "Adventure is calling.", attr: "Unknown" },
+{ text: "Follow the river.", attr: "Unknown" },
+{ text: "Let the mountains guide you.", attr: "Unknown" },
+{ text: "Be here now.", attr: "Ram Dass" },
+{ text: "Find your peace.", attr: "Unknown" },
+{ text: "Create your own sunshine.", attr: "Unknown" },
+{ text: "Live life outdoors.", attr: "Unknown" },
+{ text: "Nature is therapy.", attr: "Unknown" },
+{ text: "Stay grounded.", attr: "Unknown" },
+{ text: "Keep exploring.", attr: "Unknown" },
+{ text: "Go where you feel free.", attr: "Unknown" },
+{ text: "Just breathe.", attr: "Unknown" },
+{ text: "Take the scenic route.", attr: "Unknown" },
+{ text: "Wild hearts roam free.", attr: "Unknown" },
+{ text: "Every step is a story.", attr: "Unknown" },
+{ text: "The earth laughs in flowers.", attr: "Ralph Waldo Emerson" },
+{ text: "Let your soul wander.", attr: "Unknown" },
+{ text: "Collect memories, not miles.", attr: "Unknown" },
+{ text: "Adventure more, worry less.", attr: "Unknown" },
+{ text: "Life is short, go outside.", attr: "Unknown" },
+{ text: "Nature brings clarity.", attr: "Unknown" },
+{ text: "Find magic in the moment.", attr: "Unknown" },
+{ text: "Let the forest set you free.", attr: "Unknown" },
+{ text: "Take time to wander.", attr: "Unknown" },
+{ text: "The trail leads to peace.", attr: "Unknown" },
+{ text: "Slow down and enjoy.", attr: "Unknown" },
+{ text: "Chase the horizon.", attr: "Unknown" },
+{ text: "Feel the breeze.", attr: "Unknown" },
+{ text: "Let the wild inspire you.", attr: "Unknown" },
+{ text: "Sunshine is the best medicine.", attr: "Unknown" },
+{ text: "Nature is full of endless beauty.", attr: "Unknown" },
+{ text: "Find beauty in simplicity.", attr: "Unknown" },
+{ text: "Every path has a story.", attr: "Unknown" },
+{ text: "Breathe deeply.", attr: "Unknown" },
+{ text: "Let the journey unfold.", attr: "Unknown" },
+{ text: "Find your balance.", attr: "Unknown" },
+{ text: "Take it all in.", attr: "Unknown" },
+{ text: "Moments like this matter.", attr: "Unknown" },
+{ text: "Escape and breathe.", attr: "Unknown" },
+{ text: "Nature is calling.", attr: "Unknown" },
+{ text: "Listen to the wind.", attr: "Unknown" },
+{ text: "Life feels better outside.", attr: "Unknown" },
+{ text: "Discover something new.", attr: "Unknown" },
+{ text: "Be wild and free.", attr: "Unknown" },
+{ text: "Let the stars guide you.", attr: "Unknown" },
+{ text: "Adventure fuels the soul.", attr: "Unknown" },
+{ text: "Nature is a gift.", attr: "Unknown" },
+{ text: "Enjoy the view.", attr: "Unknown" },
+{ text: "Take a deep breath and begin.", attr: "Unknown" },
+{ text: "Lose yourself in nature.", attr: "Unknown" },
+{ text: "Feel alive.", attr: "Unknown" },
+{ text: "Follow your own trail.", attr: "Unknown" },
+{ text: "Be present.", attr: "Unknown" },
+{ text: "Let go and explore.", attr: "Unknown" },
+{ text: "Find your freedom.", attr: "Unknown" },
+{ text: "Nature refreshes the soul.", attr: "Unknown" },
+{ text: "Stay awhile.", attr: "Unknown" },
+{ text: "Peace is found outdoors.", attr: "Unknown" },
+{ text: "Go further.", attr: "Unknown" },
+{ text: "Let your spirit roam.", attr: "Unknown" },
+{ text: "Pause and appreciate.", attr: "Unknown" },
+{ text: "Wander freely.", attr: "Unknown" },
+{ text: "Every sunrise is a new beginning.", attr: "Unknown" },
+{ text: "Find your calm.", attr: "Unknown" },
+{ text: "Enjoy the little things.", attr: "Unknown" },
+{ text: "Nature inspires.", attr: "Unknown" },
+{ text: "Explore the unknown.", attr: "Unknown" },
+{ text: "Let the adventure unfold.", attr: "Unknown" },
+{ text: "Be fearless.", attr: "Unknown" },
+{ text: "Create memories here.", attr: "Unknown" },
+{ text: "Welcome to your escape.", attr: "Unknown" },
+{ text: "Relax and unwind.", attr: "Unknown" },
+{ text: "You are exactly where you need to be.", attr: "Unknown" },
+{ text: "Stay a little longer.", attr: "Unknown" },
+{ text: "Make yourself at home.", attr: "Unknown" },
+{ text: "Adventure lives here.", attr: "Unknown" },
+{ text: "Slow mornings, golden nights.", attr: "Unknown" },
+{ text: "Good vibes only.", attr: "Unknown" },
+{ text: "Peaceful moments ahead.", attr: "Unknown" },
+{ text: "Enjoy every second.", attr: "Unknown" },
+{ text: "Nature welcomes you.", attr: "Unknown" },
+{ text: "Let the memories begin.", attr: "Unknown" },
+{ text: "Take time to relax.", attr: "Unknown" },
+{ text: "Home away from home.", attr: "Unknown" },
+{ text: "Find your happy place.", attr: "Unknown" },
+{ text: "Make it unforgettable.", attr: "Unknown" },
+{ text: "Stay wild, stay kind.", attr: "Unknown" },
+{ text: "Breathe in the moment.", attr: "Unknown" },
+{ text: "Enjoy the journey.", attr: "Unknown" },
+{ text: "Stay present.", attr: "Unknown" },
+{ text: "Wander with purpose.", attr: "Unknown" },
+{ text: "Adventure begins here.", attr: "Unknown" },
+{ text: "Nature nurtures the soul.", attr: "Unknown" },
+{ text: "Feel the stillness.", attr: "Unknown" },
+{ text: "Reconnect with nature.", attr: "Unknown" },
+{ text: "Peaceful days ahead.", attr: "Unknown" },
+{ text: "The wild is waiting.", attr: "Unknown" },
+{ text: "Find your rhythm.", attr: "Unknown" },
+{ text: "Let nature reset you.", attr: "Unknown" },
+{ text: "Welcome to tranquility.", attr: "Unknown" },
+{ text: "Let go of the noise.", attr: "Unknown" },
+{ text: "Embrace the calm.", attr: "Unknown" },
+{ text: "Find your adventure.", attr: "Unknown" },
+{ text: "Nature is your escape.", attr: "Unknown" },
+{ text: "Let the mountains move you.", attr: "Unknown" },
+{ text: "Stay curious, stay wild.", attr: "Unknown" },
+{ text: "Every day is a new path.", attr: "Unknown" },
+{ text: "Explore your surroundings.", attr: "Unknown" },
+{ text: "Make memories that last.", attr: "Unknown" },
+{ text: "Enjoy your stay.", attr: "Unknown" }
+];
