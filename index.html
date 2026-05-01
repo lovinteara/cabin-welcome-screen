@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabin Welcome</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; background: #1a1729; color: #f0e8f0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  #welcome-screen { position: fixed; inset: 0; color: #f0e8f0; }
+  .slide { position: absolute; inset: 0; padding: 80px; box-sizing: border-box; opacity: 0; transition: opacity 0.8s ease; display: flex; flex-direction: column; justify-content: center; }
+  .slide.active { opacity: 1; }
+  .slide.welcome-slide { align-items: center; justify-content: center; }
+  .slide-label { font-size: 18px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
+  .slide h1 { font-size: 72px; font-weight: 400; margin: 0 0 24px; line-height: 1.05; font-family: Georgia, serif; }
+  .slide p { font-size: 26px; line-height: 1.5; margin: 0; max-width: 900px; }
+  .big-temp { font-size: 120px; font-weight: 400; line-height: 1; font-family: Georgia, serif; }
+  .row-label { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .info-row { display: flex; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid; font-size: 28px; max-width: 900px; }
+  .info-row .k { opacity: 0.5; }
+  .info-row .v { font-weight: 500; }
+  .info-row .v.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .info-row .v.placeholder { color: #d85a30 !important; font-style: italic; font-weight: 400; }
+  .info-row .v.note { font-size: 22px; }
+  .dots { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background 0.3s; }
+  .clock-el { position: absolute; top: 40px; left: 56px; font-size: 22px; z-index: 5; font-variant-numeric: tabular-nums; font-weight: 500; }
+  .cabin-tag { position: absolute; top: 40px; right: 56px; font-size: 16px; letter-spacing: 3px; text-transform: uppercase; z-index: 5; opacity: 0.5; }
+  .weather-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 32px; max-width: 1100px; }
+  .weather-cell { padding: 24px; border-radius: 12px; }
+  .weather-cell .day { font-size: 16px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; opacity: 0.5; }
+  .weather-cell .temp { font-size: 36px; font-weight: 500; font-family: Georgia, serif; }
+  .weather-cell .cond { font-size: 18px; margin-top: 6px; opacity: 0.7; }
+  .alerts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .alert-pill { font-size: 18px; padding: 10px 18px; border-radius: 8px; }
+  .alert-fire { background: rgba(228,75,74,0.15); color: #f0928f; }
+  .alert-freeze { background: rgba(133,183,235,0.15); color: #b5d4f4; }
+  .alert-snow { background: rgba(186,117,23,0.18); color: #f0c87a; }
+  .alert-stars { background: rgba(127,119,221,0.18); color: #cecbf6; }
+  .weather-row { display: flex; gap: 36px; margin-top: 24px; font-size: 20px; flex-wrap: wrap; }
+  .weather-row span { opacity: 0.5; }
+  .weather-row span strong { opacity: 1; font-weight: 500; }
+  .live-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #5cb874; margin-right: 10px; vertical-align: middle; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+  .refresh-tag { position: absolute; bottom: 32px; right: 32px; font-size: 14px; opacity: 0.3; letter-spacing: 1.5px; text-transform: uppercase; z-index: 5; }
+  .quote-text { font-family: Georgia, serif; font-style: italic; font-size: 52px; line-height: 1.3; max-width: 1200px; }
+  .quote-attr { font-size: 22px; margin-top: 36px; letter-spacing: 1.5px; opacity: 0.5; }
+  .activity-stats { display: flex; gap: 48px; margin: 32px 0; flex-wrap: wrap; }
+  .activity-stats > div .stat-val { font-size: 36px; font-weight: 500; font-family: Georgia, serif; }
+  .fav-tag { display: inline-block; font-size: 16px; padding: 6px 14px; border-radius: 6px; letter-spacing: 1.5px; margin-bottom: 16px; }
+  .welcome-logo-img { max-width: 68%; max-height: 68%; object-fit: contain; }
+  .biz-logo { position: absolute; bottom: 28px; left: 40px; z-index: 6; height: 52px; opacity: 0.8; }
+  .weather-icon-wrap { display: flex; align-items: center; gap: 36px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div id="welcome-screen">
+
+<div class="clock-el" id="clock">—</div>
+<div class="cabin-tag" id="cabin-tag">—</div>
+
+<!-- Slide 0: Welcome -->
+<div class="slide welcome-slide" data-slide="0">
+  <img class="welcome-logo-img" id="cabin-logo" src="" alt="" style="display:none;" />
+  <div id="welcome-text-fallback" style="text-align:center; display:none;">
+    <h1 id="welcome-name-text" style="font-size:80px;"></h1>
+  </div>
+</div>
+
+<!-- Slide 1: WiFi -->
+<div class="slide" data-slide="1">
+  <div class="slide-label">Connect</div>
+  <h1>Wi-Fi</h1>
+  <div style="margin-top:16px;">
+    <div class="info-row"><span class="k">Network</span><span class="v mono" id="wifi-net">—</span></div>
+    <div class="info-row"><span class="k">Password</span><span class="v mono" id="wifi-pw">—</span></div>
+  </div>
+</div>
+
+<!-- Slide 2: Weather today -->
+<div class="slide" data-slide="2">
+  <div class="slide-label"><span class="live-dot"></span>Live · <span id="weather-loc">Island Park</span></div>
+  <div class="weather-icon-wrap">
+    <div id="current-icon"></div>
+    <div>
+      <span class="big-temp" id="current-temp">—</span>
+      <p style="margin-top:8px;opacity:0.7;" id="current-cond">Loading…</p>
+    </div>
+  </div>
+  <div class="weather-row">
+    <span><strong id="hi-temp">—</strong> high</span>
+    <span><strong id="lo-temp">—</strong> low</span>
+    <span>Wind <strong id="wind">—</strong></span>
+    <span>Sunset <strong id="sunset">—</strong></span>
+  </div>
+  <div class="alerts" id="alerts"></div>
+</div>
+
+<!-- Slide 3: 4-day forecast -->
+<div class="slide" data-slide="3">
+  <div class="slide-label">4-day forecast</div>
+  <h1 style="font-size:48px;">What's coming up</h1>
+  <div class="weather-grid" id="forecast-grid"></div>
+</div>
+
+<!-- Slide 4: Activity -->
+<div class="slide" data-slide="4">
+  <div class="slide-label" id="activity-category">Today's pick</div>
+  <div id="fav-badge"></div>
+  <h1 id="activity-name">—</h1>
+  <p id="activity-blurb">—</p>
+  <div class="activity-stats" id="activity-stats"></div>
+</div>
+
+<!-- Slide 5: Food -->
+<div class="slide" data-slide="5">
+  <div class="slide-label">Local pick · Food</div>
+  <div id="food-fav-badge"></div>
+  <h1 id="food-name">—</h1>
+  <p id="food-blurb">—</p>
+  <p id="food-sub" style="margin-top:16px;font-size:20px;opacity:0.5;">—</p>
+</div>
+
+<!-- Slide 6: Essentials -->
+<div class="slide" data-slide="6">
+  <div class="slide-label">Good to know</div>
+  <h1>Cabin essentials</h1>
+  <div style="margin-top:16px;">
+    <div class="info-row"><span class="k">Check-out</span><span class="v" id="checkout">—</span></div>
+    <div class="info-row"><span class="k">Quiet hours</span><span class="v">10 PM – 8 AM</span></div>
+    <div class="info-row"><span class="k">Coffee</span><span class="v note" id="coffee-note">Bring your favorite — hard to find here</span></div>
+    <div class="info-row"><span class="k">Groceries</span><span class="v">Sam Patch · 8 AM – 8 PM daily</span></div>
+  </div>
+</div>
+
+<!-- Slide 7: Quote -->
+<div class="slide" style="justify-content:center;align-items:center;text-align:center;" data-slide="7">
+  <div class="quote-text" id="quote">—</div>
+  <div class="quote-attr" id="quote-attr">—</div>
+</div>
+
+<!-- Slide 8: Contact -->
+<div class="slide" data-slide="8">
+  <div class="slide-label">If you need us</div>
+  <h1>Contact</h1>
+  <div style="margin-top:16px;">
+    <div class="info-row"><span class="k">Host</span><span class="v" id="contact-host">—</span></div>
+    <div class="info-row"><span class="k">Souvenirs</span><span class="v" id="contact-souv">—</span></div>
+    <div class="info-row"><span class="k">Emergency</span><span class="v" id="contact-emerg">—</span></div>
+    <div class="info-row"><span class="k">Hospital</span><span class="v" id="contact-hosp">—</span></div>
+  </div>
+</div>
+
+<div class="dots" id="dots"></div>
+<img class="biz-logo" id="biz-logo" src="visit-island-park-dark-bg.png" alt="Visit Island Park Idaho" />
+<div class="refresh-tag" id="refresh-tag">Updated —</div>
+
+</div>
+<script src="config.js"></script>
+<script>
+(function () {
+  // ── SLIDE SETUP ───────────────────────────────────────────
+  const slides = document.querySelectorAll('#welcome-screen .slide');
+  const dotsEl = document.getElementById('dots');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    dotsEl.appendChild(d);
+  });
+  const dots = dotsEl.querySelectorAll('.dot');
+
+  function goNext() {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+  setInterval(goNext, 8000);
+
+  // ── CLOCK ────────────────────────────────────────────────
+  function tick() {
+    const n = new Date();
+    const h = n.getHours(), m = n.getMinutes();
+    document.getElementById('clock').textContent =
+      (h % 12 || 12) + ':' + (m < 10 ? '0' + m : m) + ' ' + (h >= 12 ? 'PM' : 'AM');
+  }
+  tick(); setInterval(tick, 30000);
+
+  // ── THEMING ───────────────────────────────────────────────
+  function applyTheme(t) {
+    const ws = document.getElementById('welcome-screen');
+    ws.style.background = t.bg;
+    ws.style.color = t.text;
+    document.body.style.background = t.bg;
+    document.body.style.color = t.text;
+    const style = document.createElement('style');
+    style.textContent = `
+      .slide-label, .clock-el { color: ${t.accent}; }
+      .slide h1 { color: ${t.text}; }
+      .slide p { color: ${t.subtext}; }
+      .info-row { border-color: ${t.border}; }
+      .info-row .k { color: ${t.muted}; }
+      .info-row .v { color: ${t.text}; }
+      .info-row .v.note { color: ${t.accent}; }
+      .dot.active { background: ${t.accent} !important; }
+      .live-dot { background: ${t.accent2}; }
+      .fav-tag { background: rgba(151,196,89,0.15); color: ${t.accent2}; }
+      .weather-cell { background: ${t.accent}22; border: 0.5px solid ${t.accent}33; }
+      .weather-row span strong { color: ${t.subtext}; }
+      .big-temp, .activity-stats .stat-val, .quote-text { color: ${t.text}; }
+      .quote-attr { color: ${t.muted}; }
+    `;
+    document.head.appendChild(style);
+    // Weather icon stroke color
+    window._iconStroke = t.accent;
+  }
+
+  // ── WEATHER HELPERS ───────────────────────────────────────
+  function wDesc(code) {
+    const m = {
+      0:{t:'Clear',i:'sun'},1:{t:'Mostly clear',i:'sun'},
+      2:{t:'Partly cloudy',i:'partly'},3:{t:'Overcast',i:'cloud'},
+      45:{t:'Foggy',i:'cloud'},48:{t:'Foggy',i:'cloud'},
+      51:{t:'Light drizzle',i:'rain'},53:{t:'Drizzle',i:'rain'},55:{t:'Heavy drizzle',i:'rain'},
+      61:{t:'Light rain',i:'rain'},63:{t:'Rain',i:'rain'},65:{t:'Heavy rain',i:'rain'},
+      71:{t:'Light snow',i:'snow'},73:{t:'Snow',i:'snow'},75:{t:'Heavy snow',i:'snow'},77:{t:'Snow grains',i:'snow'},
+      80:{t:'Showers',i:'rain'},81:{t:'Showers',i:'rain'},82:{t:'Heavy showers',i:'rain'},
+      85:{t:'Snow showers',i:'snow'},86:{t:'Heavy snow',i:'snow'},
+      95:{t:'Thunderstorm',i:'storm'},96:{t:'Thunderstorm',i:'storm'},99:{t:'Thunderstorm',i:'storm'}
+    };
+    return m[code] || {t:'Unknown',i:'sun'};
+  }
+
+  function iconSvg(type, size) {
+    const s = window._iconStroke || '#c9a876';
+    size = size || 56;
+    if (type==='sun') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><circle cx="32" cy="32" r="12" stroke="${s}" stroke-width="2.5" fill="none"/><g stroke="${s}" stroke-width="2.5" stroke-linecap="round"><line x1="32" y1="6" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="58"/><line x1="6" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="58" y2="32"/><line x1="13" y1="13" x2="19" y2="19"/><line x1="45" y1="45" x2="51" y2="51"/><line x1="13" y1="51" x2="19" y2="45"/><line x1="45" y1="19" x2="51" y2="13"/></g></svg>`;
+    if (type==='partly') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><circle cx="22" cy="22" r="10" stroke="${s}" stroke-width="2.5" fill="none"/><path d="M28 42 Q28 32,38 32 Q48 32,48 42 L48 46 Q56 46,56 52 Q56 58,48 58 L24 58 Q16 58,16 52 Q16 46,24 46 Z" stroke="${s}" stroke-width="2.5" fill="none"/></svg>`;
+    if (type==='cloud') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><path d="M20 40 Q20 26,32 26 Q44 26,44 40 L44 44 Q54 44,54 50 Q54 56,44 56 L20 56 Q12 56,12 50 Q12 44,20 44 Z" stroke="${s}" stroke-width="2.5" fill="none"/></svg>`;
+    if (type==='rain') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><path d="M18 30 Q18 18,30 18 Q42 18,42 30 L42 34 Q52 34,52 40 Q52 46,42 46 L18 46 Q10 46,10 40 Q10 34,18 34 Z" stroke="${s}" stroke-width="2.5" fill="none"/><line x1="22" y1="50" x2="20" y2="58" stroke="${s}" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="50" x2="30" y2="58" stroke="${s}" stroke-width="2.5" stroke-linecap="round"/><line x1="42" y1="50" x2="40" y2="58" stroke="${s}" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+    if (type==='snow') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><path d="M18 30 Q18 18,30 18 Q42 18,42 30 L42 34 Q52 34,52 40 Q52 46,42 46 L18 46 Q10 46,10 40 Q10 34,18 34 Z" stroke="${s}" stroke-width="2.5" fill="none"/><circle cx="22" cy="54" r="2" fill="${s}"/><circle cx="32" cy="54" r="2" fill="${s}"/><circle cx="42" cy="54" r="2" fill="${s}"/></svg>`;
+    if (type==='storm') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><path d="M18 28 Q18 16,30 16 Q42 16,42 28 L42 32 Q52 32,52 38 Q52 44,42 44 L18 44 Q10 44,10 38 Q10 32,18 32 Z" stroke="${s}" stroke-width="2.5" fill="none"/><path d="M30 46 L24 56 L30 56 L26 62" stroke="${s}" stroke-width="2.5" fill="none" stroke-linejoin="round"/></svg>`;
+    return '';
+  }
+
+  function dayShort(d) { return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
+  function fmtTime(iso) {
+    const d = new Date(iso);
+    const h = d.getHours(), m = d.getMinutes();
+    return (h%12||12)+':'+(m<10?'0'+m:m)+' '+(h>=12?'PM':'AM');
+  }
+  function moonDown(date) {
+    const syn = 29.530588853;
+    const ref = new Date('2000-01-06T18:14:00Z').getTime();
+    const ph = ((date.getTime()-ref)/86400000 % syn) / syn;
+    return ph < 0.15 || ph > 0.85;
+  }
+
+  // ── ALERTS ────────────────────────────────────────────────
+  function buildAlerts(data) {
+    const alerts = [];
+    const codes = data.daily.weather_code;
+    const lows = data.daily.temperature_2m_min;
+    const highs = data.daily.temperature_2m_max;
+    const today = new Date();
+    const snow = [71,73,75,77,85,86];
+    if (codes.some(c => snow.includes(c))) alerts.push({cls:'alert-snow', text:'Snow in forecast — check road conditions'});
+    if (lows[0]<=32||lows[1]<=32) alerts.push({cls:'alert-freeze', text:'Freeze warning — overnight low '+Math.round(Math.min(lows[0],lows[1]))+'°'});
+    const mo = today.getMonth();
+    if (mo>=5&&mo<=8&&highs[0]>=85) alerts.push({cls:'alert-fire', text:'High fire danger — no open flames outside'});
+    if ((codes[0]===0||codes[0]===1)&&moonDown(today)) alerts.push({cls:'alert-stars', text:'Great stargazing tonight — clear skies, dark moon'});
+    return alerts;
+  }
+
+  // ── SMART ROTATION ────────────────────────────────────────
+  function season() {
+    const m = new Date().getMonth();
+    if (m===11||m<=1) return 'winter';
+    if (m<=4) return 'spring';
+    if (m<=7) return 'summer';
+    return 'fall';
+  }
+  function doy() { return Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/86400000); }
+
+  function pickActivity(weather) {
+    const s = season();
+    const hi = weather ? weather.daily.temperature_2m_max[0] : 60;
+    const code = weather ? weather.daily.weather_code[0] : 1;
+    const stormy = [65,82,86,95,96,99,75].includes(code);
+    let pool = ACTIVITIES.filter(a => a.seasons.includes(s) && !(a.minTemp && hi < a.minTemp) && !(stormy && a.weatherSafe===false));
+    if (!pool.length) pool = ACTIVITIES.filter(a => a.seasons.includes(s));
+    const weighted = []; pool.forEach(a => { weighted.push(a); if (a.fav) weighted.push(a); });
+    return weighted[doy() % weighted.length];
+  }
+
+  function pickRestaurant() {
+    const day = new Date().getDay();
+    const open = RESTAURANTS.filter(r => !r.closedDays.includes(day));
+    const pool = open.length ? open : RESTAURANTS;
+    return pool[doy() % pool.length];
+  }
+
+  function pickQuote() { return QUOTES[doy() % QUOTES.length]; }
+
+  // ── DRIVE TIME ────────────────────────────────────────────
+  function drive(cabin, act) {
+    if (!act.lat) return null;
+    const R=3959, dLat=(act.lat-cabin.lat)*Math.PI/180, dLon=(act.lon-cabin.lon)*Math.PI/180;
+    const a=Math.sin(dLat/2)**2+Math.cos(cabin.lat*Math.PI/180)*Math.cos(act.lat*Math.PI/180)*Math.sin(dLon/2)**2;
+    return Math.round(2*R*Math.asin(Math.sqrt(a))/35*60+5);
+  }
+
+  // ── APPLY TO DOM ─────────────────────────────────────────
+  function applyActivity(cabin, weather) {
+    const a = pickActivity(weather);
+    document.getElementById('activity-category').textContent = a.category;
+    document.getElementById('fav-badge').innerHTML = a.fav ? '<span class="fav-tag">★ Local favorite</span>' : '';
+    document.getElementById('activity-name').textContent = a.name;
+    document.getElementById('activity-blurb').textContent = a.blurb;
+    const d = drive(cabin, a);
+    const stats = document.getElementById('activity-stats');
+    stats.innerHTML = '';
+    const add = (lbl, val) => { stats.innerHTML += `<div><div class="row-label">${lbl}</div><div class="stat-val">${val}</div></div>`; };
+    if (a.distance && a.distance!=='—') add('Distance', a.distance);
+    if (a.elevation && a.elevation!=='—') add('Elevation', a.elevation);
+    if (a.difficulty) add('Difficulty', a.difficulty);
+    if (d) add('Drive from cabin', '~'+d+' min');
+  }
+
+  function applyFood() {
+    const r = pickRestaurant();
+    document.getElementById('food-fav-badge').innerHTML = r.fav ? '<span class="fav-tag">★ Local favorite</span>' : '';
+    document.getElementById('food-name').textContent = r.name;
+    document.getElementById('food-blurb').textContent = r.blurb;
+    document.getElementById('food-sub').textContent = r.subtype;
+  }
+
+  function applyQuote() {
+    const q = pickQuote();
+    document.getElementById('quote').textContent = '"' + q.text + '"';
+    document.getElementById('quote-attr').textContent = '— ' + q.attr;
+  }
+
+  function applyContact() {
+    document.getElementById('contact-host').textContent = CONTACT.hostName + ' · ' + CONTACT.hostPhone;
+    document.getElementById('contact-souv').textContent = CONTACT.souvenirSite;
+    document.getElementById('contact-emerg').textContent = CONTACT.emergency;
+    document.getElementById('contact-hosp').textContent = CONTACT.hospital;
+  }
+
+  // ── WEATHER LOAD ─────────────────────────────────────────
+  async function loadWeather(cabin) {
+    document.getElementById('weather-loc').textContent = cabin.name;
+    try {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${cabin.lat}&longitude=${cabin.lon}&current=temperature_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunset&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FDenver&forecast_days=5`;
+      const data = await (await fetch(url)).json();
+      const cur = data.current;
+      const t = wDesc(cur.weather_code);
+      document.getElementById('current-temp').textContent = Math.round(cur.temperature_2m)+'°';
+      document.getElementById('current-cond').textContent = t.t;
+      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 140);
+      document.getElementById('hi-temp').textContent = Math.round(data.daily.temperature_2m_max[0])+'°';
+      document.getElementById('lo-temp').textContent = Math.round(data.daily.temperature_2m_min[0])+'°';
+      document.getElementById('wind').textContent = Math.round(cur.wind_speed_10m)+' mph';
+      document.getElementById('sunset').textContent = fmtTime(data.daily.sunset[0]);
+      document.getElementById('alerts').innerHTML = buildAlerts(data).map(a=>`<div class="alert-pill ${a.cls}">${a.text}</div>`).join('');
+      const grid = document.getElementById('forecast-grid');
+      grid.innerHTML = '';
+      for (let i=1;i<=4;i++) {
+        const w = wDesc(data.daily.weather_code[i]);
+        grid.innerHTML += `<div class="weather-cell"><div class="day">${dayShort(data.daily.time[i])}</div><div style="display:flex;align-items:center;gap:12px;">${iconSvg(w.i,36)}<div class="temp">${Math.round(data.daily.temperature_2m_max[i])}°</div></div><div class="cond">${w.t}</div></div>`;
+      }
+      applyActivity(cabin, data);
+      const n=new Date(), h=n.getHours(), m=n.getMinutes();
+      document.getElementById('refresh-tag').textContent = 'Updated '+(h%12||12)+':'+(m<10?'0'+m:m)+' '+(h>=12?'PM':'AM');
+    } catch {
+      document.getElementById('current-cond').textContent = 'Weather unavailable';
+      applyActivity(cabin, null);
+    }
+  }
+
+  // ── INIT ─────────────────────────────────────────────────
+  function getCabinKey() {
+    const p = new URLSearchParams(window.location.search).get('cabin');
+    if (p && CABINS[p]) return p;
+    if (typeof ACTIVE_CABIN!=='undefined' && CABINS[ACTIVE_CABIN]) return ACTIVE_CABIN;
+    return Object.keys(CABINS)[0];
+  }
+
+  function init() {
+    const key = getCabinKey();
+    const cabin = CABINS[key];
+    const theme = THEMES[key] || THEMES[Object.keys(THEMES)[0]];
+
+    applyTheme(theme);
+
+    document.getElementById('cabin-tag').textContent = cabin.name;
+
+    // Welcome slide: logo or text
+    const logoImg = document.getElementById('cabin-logo');
+    const fallback = document.getElementById('welcome-text-fallback');
+    if (theme.logoUrl) {
+      logoImg.src = theme.logoUrl;
+      logoImg.alt = cabin.name;
+      logoImg.style.cssText = theme.logoStyle;
+      logoImg.style.display = 'block';
+      fallback.style.display = 'none';
+    } else {
+      document.getElementById('welcome-name-text').textContent = cabin.name;
+      fallback.style.display = 'block';
+      logoImg.style.display = 'none';
+    }
+
+    // WiFi
+    const netEl = document.getElementById('wifi-net');
+    const pwEl = document.getElementById('wifi-pw');
+    netEl.textContent = cabin.wifi;
+    pwEl.textContent = cabin.pw;
+    if (!cabin.wifiSet) { netEl.classList.add('placeholder'); pwEl.classList.add('placeholder'); }
+
+    document.getElementById('checkout').textContent = cabin.checkout;
+    applyContact();
+    applyFood();
+    applyQuote();
+    loadWeather(cabin);
+
+    setInterval(() => loadWeather(cabin), 30*60*1000);
+
+    // Re-rotate at midnight
+    const msTilMidnight = 864e5 - (Date.now() % 864e5);
+    setTimeout(() => {
+      applyFood(); applyQuote(); loadWeather(cabin);
+      setInterval(() => { applyFood(); applyQuote(); loadWeather(cabin); }, 864e5);
+    }, msTilMidnight);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
