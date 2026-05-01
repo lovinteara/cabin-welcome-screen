@@ -196,8 +196,8 @@ const CABINS = {
 // HOST CONTACT INFO
 // -------------------------------------------------------------------------
 const CONTACT = {
-  hostName: 'Teara',
-  hostPhone: '(208) 558-0100',  // <- update with your real number
+  hostName: 'Andy & Teara',
+  hostPhone: '(385)685-0272',  // <- update with your real number
   souvenirSite: 'ipsouvenirsandgifts.com',
   emergency: '911',
   hospital: 'Madison Memorial · Rexburg'
