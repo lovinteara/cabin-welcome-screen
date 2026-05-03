@@ -131,7 +131,7 @@ const CABINS = {
     lat: 44.4167, lon: -111.3833,
     wifi: 'Huckleberry Hut',
     pw: 'Yellowst0neTrout!',
-    checkout: '11:00 AM',
+    checkout: '10:00 AM',
     wifiSet: true
   },
   gathering: {
@@ -139,15 +139,15 @@ const CABINS = {
     lat: 44.4250, lon: -111.3700,
     wifi: 'The Gathering Place',
     pw: 'Cascade4139',
-    checkout: '11:00 AM',
+    checkout: '10:00 AM',
     wifiSet: true
   },
   'little-chalet': {
     name: 'Little Chalet',
     lat: 44.4300, lon: -111.4000,
-    wifi: 'LittleChalet',
+    wifi: 'LittleChaletInTheForest',
     pw: 'Chalet42652',
-    checkout: '11:00 AM',
+    checkout: '10:00 AM',
     wifiSet: true
   },
   'big-chalet': {
@@ -155,7 +155,7 @@ const CABINS = {
     lat: 44.4310, lon: -111.4010,
     wifi: 'BigChaletintheforest',
     pw: 'Chalet4265',
-    checkout: '11:00 AM',
+    checkout: '10:00 AM',
     wifiSet: true
   },
   caldera: {
@@ -169,25 +169,25 @@ const CABINS = {
   dshouse: {
     name: "D'Shouse Haven",
     lat: 44.4200, lon: -111.3750,
-    wifi: '[Add network]',
-    pw: '[Add password]',
-    checkout: '11:00 AM',
+    wifi: 'DshouseHaven',
+    pw: 'MARK2021',
+    checkout: '10:00 AM',
     wifiSet: false
   },
   rrl: {
     name: 'RRL Sleeps 14',
     lat: 44.4180, lon: -111.3820,
-    wifi: '[Add network]',
-    pw: '[Add password]',
-    checkout: '11:00 AM',
+    wifi: 'RiverRockLodge',
+    pw: 'Cabin2018',
+    checkout: '10:00 AM',
     wifiSet: false
   },
   charming: {
     name: 'Charming Log Home',
     lat: 44.4350, lon: -111.3650,
-    wifi: '[Add network]',
-    pw: '[Add password]',
-    checkout: '11:00 AM',
+    wifi: 'DodgeInn',
+    pw: 'Untracked21',
+    checkout: '10:00 AM',
     wifiSet: false
   }
 };
@@ -225,7 +225,7 @@ const ACTIVITIES = [
     lat: 44.547, lon: -111.450,
     distance: "—", elevation: "—", difficulty: "Varies",
     seasons: ["spring","summer","fall","winter"],
-    blurb: "ATV, UTV, snowmobile rentals at base of Sawtelle. Hours vary by season — call ahead: (208) 558-9572.",
+    blurb: "ATV, UTV, snowmobile rentals at base of Sawtelle. Hours 7:30am-5:30pm — call: (208) 558-9572.  Tell them you are staying at Teara's place and they will gift you 20% off or a FULL day rental for 1/2 day rental price.",
     fav: true },
 
   { name: "Upper Mesa Falls", category: "Today's hike",
