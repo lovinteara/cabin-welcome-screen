@@ -204,12 +204,22 @@
   });
   const dots = dotsEl.querySelectorAll('.dot');
 
+  // Quote slide index — find it by looking for the quote element
+  function getQuoteSlideIndex() {
+    for (let i = 0; i < slides.length; i++) {
+      if (slides[i].querySelector('#quote')) return i;
+    }
+    return -1;
+  }
+
   function goNext() {
     slides[current].classList.remove('active');
     dots[current].classList.remove('active');
     current = (current + 1) % slides.length;
     slides[current].classList.add('active');
     dots[current].classList.add('active');
+    // Refresh quote every time the quote slide comes up
+    if (current === getQuoteSlideIndex()) applyQuote();
   }
   setInterval(goNext, 8000);
 
@@ -336,7 +346,22 @@
     return pool[doy() % pool.length];
   }
 
-  function pickQuote() { return QUOTES[doy() % QUOTES.length]; }
+  // Pick a random quote each time the quote slide becomes active
+  function pickQuote() {
+    return QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  }
+
+  function refreshQuoteOnShow() {
+    // Every time the slideshow cycles, if the quote slide is coming up next, pick a new one
+    const origNext = goNext;
+    return function() {
+      origNext();
+      // If we just landed on the quote slide, refresh it
+      const q = pickQuote();
+      document.getElementById('quote').textContent = '"' + q.text + '"';
+      document.getElementById('quote-attr').textContent = '— ' + q.attr;
+    };
+  }
 
   // ── DRIVE TIME ────────────────────────────────────────────
   function drive(cabin, act) {
