@@ -57,9 +57,39 @@ const THEMES = {
     logoUrl: 'caldera-logo-dark-bg.png',
     logoStyle: 'max-width: 75%; max-height: 65%;'
   },
-  dshouse:        { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
-  rrl:            { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
-  charming:       { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' }
+  dshouse: {
+    bg: '#192028',
+    accent: '#5fa8b8',
+    accent2: '#7abda8',
+    text: '#eef4f5',
+    subtext: '#c4d4d8',
+    muted: '#7a9aa5',
+    border: 'rgba(95,168,184,0.2)',
+    logoUrl: 'visit-island-park-full.png',
+    logoStyle: 'max-width: 65%; max-height: 60%;'
+  },
+  rrl: {
+    bg: '#192028',
+    accent: '#5fa8b8',
+    accent2: '#7abda8',
+    text: '#eef4f5',
+    subtext: '#c4d4d8',
+    muted: '#7a9aa5',
+    border: 'rgba(95,168,184,0.2)',
+    logoUrl: 'visit-island-park-full.png',
+    logoStyle: 'max-width: 65%; max-height: 60%;'
+  },
+  charming: {
+    bg: '#192028',
+    accent: '#5fa8b8',
+    accent2: '#7abda8',
+    text: '#eef4f5',
+    subtext: '#c4d4d8',
+    muted: '#7a9aa5',
+    border: 'rgba(95,168,184,0.2)',
+    logoUrl: 'visit-island-park-full.png',
+    logoStyle: 'max-width: 65%; max-height: 60%;'
+  }
 };
 
 const CABINS = {
