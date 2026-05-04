@@ -56,10 +56,10 @@
 </head>
 <body>
 <div id="welcome-screen">
- 
+
 <div class="clock-el" id="clock">—</div>
 <div class="cabin-tag" id="cabin-tag">—</div>
- 
+
 <!-- Slide 0: Welcome -->
 <div class="slide welcome-slide" data-slide="0">
   <img class="welcome-logo-img" id="cabin-logo" src="" alt="" style="display:none;" />
@@ -71,7 +71,7 @@
     <div id="guest-details-line" style="font-size:20px; letter-spacing:2px; margin-top:14px; opacity:0.6;"></div>
   </div>
 </div>
- 
+
 <!-- Slide 1: WiFi -->
 <div class="slide" data-slide="1">
   <div class="slide-label">Connect</div>
@@ -81,7 +81,7 @@
     <div class="info-row"><span class="k">Password</span><span class="v mono" id="wifi-pw">—</span></div>
   </div>
 </div>
- 
+
 <!-- Slide 2: Weather today -->
 <div class="slide" data-slide="2">
   <div class="slide-label"><span class="live-dot"></span>Live · <span id="weather-loc">Island Park</span></div>
@@ -100,14 +100,14 @@
   </div>
   <div class="alerts" id="alerts"></div>
 </div>
- 
+
 <!-- Slide 3: 4-day forecast -->
 <div class="slide" data-slide="3">
   <div class="slide-label">4-day forecast</div>
   <h1 style="font-size:48px;">What's coming up</h1>
   <div class="weather-grid" id="forecast-grid"></div>
 </div>
- 
+
 <!-- Slide 4: Regional weather -->
 <div class="slide" data-slide="4r" id="regional-slide">
   <div class="slide-label">Regional weather today</div>
@@ -135,7 +135,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- Slide 4: Activity -->
 <div class="slide" data-slide="4">
   <div class="slide-label" id="activity-category">Today's pick</div>
@@ -144,7 +144,7 @@
   <p id="activity-blurb">—</p>
   <div class="activity-stats" id="activity-stats"></div>
 </div>
- 
+
 <!-- Slide 5: Food -->
 <div class="slide" data-slide="5">
   <div class="slide-label">Local pick · Food</div>
@@ -153,7 +153,7 @@
   <p id="food-blurb">—</p>
   <p id="food-sub" style="margin-top:16px;font-size:20px;opacity:0.5;">—</p>
 </div>
- 
+
 <!-- Slide 6: Essentials -->
 <div class="slide" data-slide="6">
   <div class="slide-label">Good to know</div>
@@ -165,13 +165,13 @@
     <div class="info-row"><span class="k">Groceries</span><span class="v">Sam Patch · 8 AM – 8 PM daily</span></div>
   </div>
 </div>
- 
+
 <!-- Slide 7: Quote -->
 <div class="slide" style="justify-content:center;align-items:center;text-align:center;" data-slide="7">
   <div class="quote-text" id="quote">—</div>
   <div class="quote-attr" id="quote-attr">—</div>
 </div>
- 
+
 <!-- Slide 8: Contact -->
 <div class="slide" data-slide="8">
   <div class="slide-label">If you need us</div>
@@ -183,11 +183,11 @@
     <div class="info-row"><span class="k">Hospital</span><span class="v" id="contact-hosp">—</span></div>
   </div>
 </div>
- 
+
 <div class="dots" id="dots"></div>
 <img class="biz-logo" id="biz-logo" src="visit-island-park-dark-bg.png" alt="Visit Island Park Idaho" />
 <div class="refresh-tag" id="refresh-tag">Updated —</div>
- 
+
 </div>
 <script src="config.js"></script>
 <script>
@@ -196,14 +196,14 @@
   const slides = document.querySelectorAll('#welcome-screen .slide');
   const dotsEl = document.getElementById('dots');
   let current = 0;
- 
+
   slides.forEach((_, i) => {
     const d = document.createElement('div');
     d.className = 'dot' + (i === 0 ? ' active' : '');
     dotsEl.appendChild(d);
   });
   const dots = dotsEl.querySelectorAll('.dot');
- 
+
   function goNext() {
     slides[current].classList.remove('active');
     dots[current].classList.remove('active');
@@ -212,7 +212,7 @@
     dots[current].classList.add('active');
   }
   setInterval(goNext, 8000);
- 
+
   // ── CLOCK ────────────────────────────────────────────────
   function tick() {
     const n = new Date();
@@ -221,7 +221,7 @@
       (h % 12 || 12) + ':' + (m < 10 ? '0' + m : m) + ' ' + (h >= 12 ? 'PM' : 'AM');
   }
   tick(); setInterval(tick, 30000);
- 
+
   // ── THEMING ───────────────────────────────────────────────
   function applyTheme(t) {
     const ws = document.getElementById('welcome-screen');
@@ -250,7 +250,7 @@
     // Weather icon stroke color
     window._iconStroke = t.accent;
   }
- 
+
   // ── WEATHER HELPERS ───────────────────────────────────────
   function wDesc(code) {
     const m = {
@@ -266,7 +266,7 @@
     };
     return m[code] || {t:'Unknown',i:'sun'};
   }
- 
+
   function iconSvg(type, size) {
     const s = window._iconStroke || '#c9a876';
     size = size || 56;
@@ -278,7 +278,7 @@
     if (type==='storm') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><path d="M18 28 Q18 16,30 16 Q42 16,42 28 L42 32 Q52 32,52 38 Q52 44,42 44 L18 44 Q10 44,10 38 Q10 32,18 32 Z" stroke="${s}" stroke-width="2.5" fill="none"/><path d="M30 46 L24 56 L30 56 L26 62" stroke="${s}" stroke-width="2.5" fill="none" stroke-linejoin="round"/></svg>`;
     return '';
   }
- 
+
   function dayShort(d) { return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
   function fmtTime(iso) {
     const d = new Date(iso);
@@ -291,7 +291,7 @@
     const ph = ((date.getTime()-ref)/86400000 % syn) / syn;
     return ph < 0.15 || ph > 0.85;
   }
- 
+
   // ── ALERTS ────────────────────────────────────────────────
   function buildAlerts(data) {
     const alerts = [];
@@ -307,7 +307,7 @@
     if ((codes[0]===0||codes[0]===1)&&moonDown(today)) alerts.push({cls:'alert-stars', text:'Great stargazing tonight — clear skies, dark moon'});
     return alerts;
   }
- 
+
   // ── SMART ROTATION ────────────────────────────────────────
   function season() {
     const m = new Date().getMonth();
@@ -317,7 +317,7 @@
     return 'fall';
   }
   function doy() { return Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/86400000); }
- 
+
   function pickActivity(weather) {
     const s = season();
     const hi = weather ? weather.daily.temperature_2m_max[0] : 60;
@@ -328,16 +328,16 @@
     const weighted = []; pool.forEach(a => { weighted.push(a); if (a.fav) weighted.push(a); });
     return weighted[doy() % weighted.length];
   }
- 
+
   function pickRestaurant() {
     const day = new Date().getDay();
     const open = RESTAURANTS.filter(r => !r.closedDays.includes(day));
     const pool = open.length ? open : RESTAURANTS;
     return pool[doy() % pool.length];
   }
- 
+
   function pickQuote() { return QUOTES[doy() % QUOTES.length]; }
- 
+
   // ── DRIVE TIME ────────────────────────────────────────────
   function drive(cabin, act) {
     if (!act.lat) return null;
@@ -345,7 +345,7 @@
     const a=Math.sin(dLat/2)**2+Math.cos(cabin.lat*Math.PI/180)*Math.cos(act.lat*Math.PI/180)*Math.sin(dLon/2)**2;
     return Math.round(2*R*Math.asin(Math.sqrt(a))/35*60+5);
   }
- 
+
   // ── APPLY TO DOM ─────────────────────────────────────────
   function applyActivity(cabin, weather) {
     const a = pickActivity(weather);
@@ -362,7 +362,7 @@
     if (a.difficulty) add('Difficulty', a.difficulty);
     if (d) add('Drive from cabin', '~'+d+' min');
   }
- 
+
   function applyFood() {
     const r = pickRestaurant();
     document.getElementById('food-fav-badge').innerHTML = r.fav ? '<span class="fav-tag">★ Local favorite</span>' : '';
@@ -370,20 +370,20 @@
     document.getElementById('food-blurb').textContent = r.blurb;
     document.getElementById('food-sub').textContent = r.subtype;
   }
- 
+
   function applyQuote() {
     const q = pickQuote();
     document.getElementById('quote').textContent = '"' + q.text + '"';
     document.getElementById('quote-attr').textContent = '— ' + q.attr;
   }
- 
+
   function applyContact() {
     document.getElementById('contact-host').textContent = CONTACT.hostName + ' · ' + CONTACT.hostPhone;
     document.getElementById('contact-souv').textContent = CONTACT.souvenirSite;
     document.getElementById('contact-emerg').textContent = CONTACT.emergency;
     document.getElementById('contact-hosp').textContent = CONTACT.hospital;
   }
- 
+
   // ── WEATHER LOAD ─────────────────────────────────────────
   async function loadWeather(cabin) {
     document.getElementById('weather-loc').textContent = cabin.name;
@@ -414,7 +414,7 @@
       applyActivity(cabin, null);
     }
   }
- 
+
   // ── GUEST LOOKUP ─────────────────────────────────────
   async function loadGuest(cabinKey) {
     try {
@@ -426,13 +426,13 @@
       return null;
     }
   }
- 
+
   function applyGuest(guest, theme) {
     const greetingEl = document.getElementById('guest-greeting');
     const nameLine = document.getElementById('guest-name-line');
     const detailsLine = document.getElementById('guest-details-line');
     if (!guest || !guest.firstName) { greetingEl.style.display = 'none'; return; }
- 
+
     // Format departure date — parse manually to avoid timezone/browser issues
     let deptStr = '';
     if (guest.departure && typeof guest.departure === 'string') {
@@ -445,20 +445,20 @@
         if (months[mo] && !isNaN(dy)) deptStr = months[mo] + ' ' + dy;
       }
     }
- 
-    // Build party string
+
+    // Build party string — combine adults + kids as total guests, pets separate
+    const totalGuests = (guest.adults || 0) + (guest.children || 0);
     const parts = [];
-    if (guest.adults) parts.push(guest.adults + (guest.adults === 1 ? ' guest' : ' guests'));
-    if (guest.children) parts.push(guest.children + (guest.children === 1 ? ' child' : ' children'));
+    if (totalGuests) parts.push(totalGuests + (totalGuests === 1 ? ' guest' : ' guests'));
     if (guest.pets) parts.push(guest.pets + (guest.pets === 1 ? ' pet' : ' pets'));
     const partyStr = parts.join(' · ');
- 
+
     nameLine.textContent = `Welcome, ${guest.firstName}!`;
     nameLine.style.color = theme.accent;
     detailsLine.textContent = [deptStr ? `Checking out ${deptStr}` : '', partyStr].filter(Boolean).join('  ·  ');
     greetingEl.style.display = 'block';
   }
- 
+
   // ── REGIONAL WEATHER ─────────────────────────────────
   const REGIONAL_LOCATIONS = [
     { id: 'ynp',  label: 'Yellowstone NP',      lat: 44.4605, lon: -110.8281 },
@@ -466,7 +466,7 @@
     { id: 'slc',  label: 'Salt Lake City (SLC)', lat: 40.7899, lon: -111.9791 },
     { id: 'bzn',  label: 'Bozeman (BZN)',         lat: 45.7777, lon: -111.1527 }
   ];
- 
+
   async function loadRegionalWeather() {
     for (const loc of REGIONAL_LOCATIONS) {
       try {
@@ -484,7 +484,7 @@
       }
     }
   }
- 
+
   // ── INIT ─────────────────────────────────────────────────
   function getCabinKey() {
     const p = new URLSearchParams(window.location.search).get('cabin');
@@ -492,16 +492,16 @@
     if (typeof ACTIVE_CABIN!=='undefined' && CABINS[ACTIVE_CABIN]) return ACTIVE_CABIN;
     return Object.keys(CABINS)[0];
   }
- 
+
   function init() {
     const key = getCabinKey();
     const cabin = CABINS[key];
     const theme = THEMES[key] || THEMES[Object.keys(THEMES)[0]];
- 
+
     applyTheme(theme);
- 
+
     document.getElementById('cabin-tag').textContent = cabin.name;
- 
+
     // Welcome slide: logo or text
     const logoImg = document.getElementById('cabin-logo');
     const fallback = document.getElementById('welcome-text-fallback');
@@ -516,14 +516,14 @@
       fallback.style.display = 'block';
       logoImg.style.display = 'none';
     }
- 
+
     // WiFi
     const netEl = document.getElementById('wifi-net');
     const pwEl = document.getElementById('wifi-pw');
     netEl.textContent = cabin.wifi;
     pwEl.textContent = cabin.pw;
     if (!cabin.wifiSet) { netEl.classList.add('placeholder'); pwEl.classList.add('placeholder'); }
- 
+
     document.getElementById('checkout').textContent = cabin.checkout;
     applyContact();
     applyFood();
@@ -531,12 +531,12 @@
     loadWeather(cabin);
     loadRegionalWeather();
     setInterval(loadRegionalWeather, 30*60*1000);
- 
+
     // Load guest name for personalized welcome
     loadGuest(key).then(guest => applyGuest(guest, theme));
- 
+
     setInterval(() => loadWeather(cabin), 30*60*1000);
- 
+
     // Re-rotate at midnight
     const msTilMidnight = 864e5 - (Date.now() % 864e5);
     setTimeout(() => {
@@ -544,7 +544,7 @@
       setInterval(() => { applyFood(); applyQuote(); loadWeather(cabin); }, 864e5);
     }, msTilMidnight);
   }
- 
+
   init();
 })();
 </script>
