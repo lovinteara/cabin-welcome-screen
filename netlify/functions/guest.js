@@ -30,23 +30,40 @@ exports.handler = async function(event) {
     lookback.setDate(lookback.getDate() - 60);
     const fromDate = lookback.toLocaleDateString('en-CA', { timeZone: 'America/Denver' });
 
+    // Use list_bookings with include_guest=true for full guest object
     const url = `https://api.ownerreservations.com/v2/bookings?property_ids=${propertyId}&from_date=${fromDate}&to_date=${today}&status=active&include_guest=true`;
     const creds = Buffer.from(`${apiUser}:${apiKey}`).toString('base64');
     const res = await fetch(url, {
       headers: { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/json' }
     });
 
-    if (!res.ok) return { statusCode: 200, headers, body: JSON.stringify({ guest: null }) };
+    if (!res.ok) {
+      console.error('OwnerRez error:', res.status, await res.text());
+      return { statusCode: 200, headers, body: JSON.stringify({ guest: null }) };
+    }
 
     const data = await res.json();
-    const bookings = (data.items || []).filter(b => !b.is_block);
+    const bookings = (data.items || []).filter(b => !b.is_block && b.type !== 'block');
+
+    // Find guest currently in the cabin: arrival <= today < departure
     const current = bookings.find(b =>
-      b.arrival <= today && b.departure > today && b.status === 'active' && b.guest_name
+      b.arrival <= today &&
+      b.departure > today &&
+      b.status === 'active'
     );
 
     if (!current) return { statusCode: 200, headers, body: JSON.stringify({ guest: null }) };
 
-    const firstName = current.guest_name.split(' ')[0];
+    // OwnerRez returns guest name in TWO possible formats:
+    // Format A (list_bookings_with_guests): { guest_name: "Teara Galbraith" }
+    // Format B (list_bookings include_guest): { guest: { first_name: "Teara", last_name: "Galbraith" } }
+    let firstName = '';
+    if (current.guest && current.guest.first_name) {
+      firstName = current.guest.first_name;
+    } else if (current.guest_name) {
+      firstName = current.guest_name.split(' ')[0];
+    }
+
     if (!firstName) return { statusCode: 200, headers, body: JSON.stringify({ guest: null }) };
 
     const dept = new Date(current.departure + 'T12:00:00');
@@ -56,11 +73,18 @@ exports.handler = async function(event) {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        guest: { firstName, departure, adults: current.adults||0, children: current.children||0, pets: current.pets||0 }
+        guest: {
+          firstName,
+          departure,
+          adults:   current.adults   || 0,
+          children: current.children || 0,
+          pets:     current.pets     || 0
+        }
       })
     };
 
   } catch(err) {
+    console.error('Error:', err);
     return { statusCode: 200, headers, body: JSON.stringify({ guest: null }) };
   }
 };
