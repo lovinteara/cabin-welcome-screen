@@ -10,6 +10,20 @@ const PROPERTY_IDS = {
   charming:        471812
 };
 
+function formatDeparture(dateStr) {
+  // dateStr is YYYY-MM-DD e.g. "2026-05-23"
+  if (!dateStr || typeof dateStr !== 'string') return '';
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return '';
+  const year  = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1; // 0-indexed
+  const day   = parseInt(parts[2], 10);
+  if (isNaN(year) || isNaN(month) || isNaN(day)) return '';
+  const months = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+  return `${months[month]} ${day}`;
+}
+
 exports.handler = async function(event) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -30,7 +44,6 @@ exports.handler = async function(event) {
     lookback.setDate(lookback.getDate() - 60);
     const fromDate = lookback.toLocaleDateString('en-CA', { timeZone: 'America/Denver' });
 
-    // Use list_bookings with include_guest=true for full guest object
     const url = `https://api.ownerreservations.com/v2/bookings?property_ids=${propertyId}&from_date=${fromDate}&to_date=${today}&status=active&include_guest=true`;
     const creds = Buffer.from(`${apiUser}:${apiKey}`).toString('base64');
     const res = await fetch(url, {
@@ -54,9 +67,7 @@ exports.handler = async function(event) {
 
     if (!current) return { statusCode: 200, headers, body: JSON.stringify({ guest: null }) };
 
-    // OwnerRez returns guest name in TWO possible formats:
-    // Format A (list_bookings_with_guests): { guest_name: "Teara Galbraith" }
-    // Format B (list_bookings include_guest): { guest: { first_name: "Teara", last_name: "Galbraith" } }
+    // Handle both OwnerRez guest name formats
     let firstName = '';
     if (current.guest && current.guest.first_name) {
       firstName = current.guest.first_name;
@@ -66,8 +77,8 @@ exports.handler = async function(event) {
 
     if (!firstName) return { statusCode: 200, headers, body: JSON.stringify({ guest: null }) };
 
-    const dept = new Date(current.departure + 'T12:00:00');
-    const departure = dept.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    // Safe date formatting — no Date() constructor, parse manually
+    const departure = formatDeparture(current.departure);
 
     return {
       statusCode: 200,
