@@ -13,7 +13,17 @@ const THEMES = {
     logoUrl: 'huckleberry-logo-dark-bg.png',
     logoStyle: 'max-width: 70%; max-height: 65%;'
   },
-  gathering:      { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
+  gathering: {
+    bg: '#1a1a24',
+    accent: '#c47eb5',
+    accent2: '#8fc4b0',
+    text: '#f0edf5',
+    subtext: '#cdc5d8',
+    muted: '#8a7a9a',
+    border: 'rgba(196,126,181,0.2)',
+    logoUrl: 'gathering-logo-dark-bg.png',
+    logoStyle: 'max-width: 72%; max-height: 68%;'
+  },
   'little-chalet':{ bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
   'big-chalet':   { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
   caldera:        { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
