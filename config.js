@@ -24,9 +24,39 @@ const THEMES = {
     logoUrl: 'gathering-logo-dark-bg.png',
     logoStyle: 'max-width: 72%; max-height: 68%;'
   },
-  'little-chalet':{ bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
-  'big-chalet':   { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
-  caldera:        { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
+  'little-chalet': {
+    bg: '#191e21',
+    accent: '#6dbdad',
+    accent2: '#9dcbbf',
+    text: '#eef5f4',
+    subtext: '#c4d8d5',
+    muted: '#7a9a96',
+    border: 'rgba(109,189,173,0.2)',
+    logoUrl: 'chalet-logo-dark-bg.png',
+    logoStyle: 'max-width: 68%; max-height: 62%;'
+  },
+  'big-chalet': {
+    bg: '#191e21',
+    accent: '#6dbdad',
+    accent2: '#9dcbbf',
+    text: '#eef5f4',
+    subtext: '#c4d8d5',
+    muted: '#7a9a96',
+    border: 'rgba(109,189,173,0.2)',
+    logoUrl: 'chalet-logo-dark-bg.png',
+    logoStyle: 'max-width: 68%; max-height: 62%;'
+  },
+  caldera: {
+    bg: '#201a1e',
+    accent: '#d4837a',
+    accent2: '#8aab7a',
+    text: '#f5eeee',
+    subtext: '#d4c4c4',
+    muted: '#9a8585',
+    border: 'rgba(212,131,122,0.2)',
+    logoUrl: 'caldera-logo-dark-bg.png',
+    logoStyle: 'max-width: 75%; max-height: 65%;'
+  },
   dshouse:        { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
   rrl:            { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' },
   charming:       { bg: '#1a2329', accent: '#c9a876', accent2: '#5cb874', text: '#f5f0e6', subtext: '#d4cdbe', muted: '#8a8275', border: 'rgba(201,168,118,0.2)', logoUrl: null, logoStyle: '' }
