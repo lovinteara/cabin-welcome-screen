@@ -433,11 +433,17 @@
     const detailsLine = document.getElementById('guest-details-line');
     if (!guest || !guest.firstName) { greetingEl.style.display = 'none'; return; }
  
-    // Format departure date nicely e.g. "May 23"
+    // Format departure date — parse manually to avoid timezone/browser issues
     let deptStr = '';
-    if (guest.departure) {
-      const d = new Date(guest.departure + 'T12:00:00');
-      deptStr = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    if (guest.departure && typeof guest.departure === 'string') {
+      const months = ['January','February','March','April','May','June',
+                      'July','August','September','October','November','December'];
+      const parts = guest.departure.split('-');
+      if (parts.length === 3) {
+        const mo = parseInt(parts[1], 10) - 1;
+        const dy = parseInt(parts[2], 10);
+        if (months[mo] && !isNaN(dy)) deptStr = months[mo] + ' ' + dy;
+      }
     }
  
     // Build party string
