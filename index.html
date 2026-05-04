@@ -450,7 +450,7 @@
     const totalGuests = (guest.adults || 0) + (guest.children || 0);
     const parts = [];
     if (totalGuests) parts.push(totalGuests + (totalGuests === 1 ? ' guest' : ' guests'));
-    if (guest.pets) parts.push(guest.pets + (guest.pets === 1 ? ' pet' : ' pets'));
+    if (guest.pets) parts.push(guest.pets + (guest.pets === 1 ? ' pet welcome 🐾' : ' pets welcome 🐾'));
     const partyStr = parts.join(' · ');
 
     nameLine.textContent = `Welcome, ${guest.firstName}!`;
