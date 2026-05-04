@@ -99,7 +99,7 @@ const CABINS = {
   'big-chalet':   { name: 'Big Chalet',            lat: 44.4310, lon: -111.4010, wifi: 'BigChaletintheforest',  pw: 'Chalet4265',        checkout: '10:00 AM', wifiSet: true },
   caldera:        { name: 'Caldera Cottage',       lat: 44.4100, lon: -111.3900, wifi: 'Caldera Cottage',       pw: 'Lodgepole3795',     checkout: '10:00 AM', wifiSet: true },
   dshouse:        { name: "D'Shouse Haven",        lat: 44.4200, lon: -111.3750, wifi: 'DshouseHaven',          pw: 'MARK2021',          checkout: '10:00 AM', wifiSet: true },
-  rrl:            { name: 'RRL Sleeps 14',         lat: 44.4180, lon: -111.3820, wifi: 'RiverRockLodge',        pw: 'Cabin2018',         checkout: '10:00 AM', wifiSet: true },
+  rrl:            { name: 'River Rock Lodge',      lat: 44.4180, lon: -111.3820, wifi: 'RiverRockLodge',        pw: 'Cabin2018',         checkout: '10:00 AM', wifiSet: true },
   charming:       { name: 'Charming Log Home',     lat: 44.4350, lon: -111.3650, wifi: 'DodgeInn',             pw: 'Untracked21',       checkout: '10:00 AM', wifiSet: true }
 };
 
@@ -212,7 +212,7 @@ const RESTAURANTS = [
   { name: "Café Sabor", subtype: "Mexican · Island Park, Hwy 20", closedDays: [2],
     blurb: "Worth the wait. Try the ceviche, combos, chimichangas — and the caramel churros.", fav: true },
   { name: "Lakeside Lodge", subtype: "American steaks · local Miller Ag beef", closedDays: [],
-    blurb: "Finger steaks made with local Miller Ag beef. The Millers own Lakeside.", fav: true },
+    blurb: "Finger steaks made with local Miller Ag beef.", fav: true },
   { name: "Boondocks", subtype: "American · Hwy 20", closedDays: [],
     blurb: "Solid menu top to bottom. Campfire fries are the move.", fav: true },
   { name: "Pond's Lodge Pizza", subtype: "Pizza · classic Island Park spot", closedDays: [],
