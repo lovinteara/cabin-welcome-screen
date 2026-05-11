@@ -54,6 +54,8 @@
   .weather-icon-wrap { display: flex; align-items: center; gap: 36px; margin-top: 8px; }
   .slide { z-index: 2; }
 </style>
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 <div id="welcome-screen">
@@ -80,9 +82,16 @@
 <div class="slide" data-slide="1">
   <div class="slide-label">Connect</div>
   <h1>Wi-Fi</h1>
-  <div style="margin-top:16px;">
-    <div class="info-row"><span class="k">Network</span><span class="v mono" id="wifi-net">—</span></div>
-    <div class="info-row"><span class="k">Password</span><span class="v mono" id="wifi-pw">—</span></div>
+  <div style="display:flex; gap:60px; align-items:center; margin-top:16px;">
+    <div style="flex:1;">
+      <div class="info-row"><span class="k">Network</span><span class="v mono" id="wifi-net">—</span></div>
+      <div class="info-row"><span class="k">Password</span><span class="v mono" id="wifi-pw">—</span></div>
+      <p style="margin-top:28px; font-size:20px; opacity:0.5;">Scan the QR code with your phone camera to connect instantly — no typing needed.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:14px; flex-shrink:0;">
+      <div id="wifi-qr" style="background:#fff; padding:16px; border-radius:12px;"></div>
+      <p style="font-size:16px; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Scan to connect</p>
+    </div>
   </div>
 </div>
 
@@ -141,21 +150,26 @@
 </div>
 
 <!-- Slide: Live Webcam — Sawtelle Peak -->
-<div class="slide" data-slide="webcam" id="webcam-slide" style="padding:0; overflow:hidden;">
-  <div style="position:absolute; inset:0; display:flex; flex-direction:column;">
-    <div style="padding:24px 56px 12px; display:flex; justify-content:space-between; align-items:center; z-index:2; flex-shrink:0;">
-      <div>
-        <div class="slide-label">Live view · Sawtelle Peak</div>
-        <h1 style="font-size:42px; font-family:Georgia,serif; font-weight:400;">Current Mountain Conditions</h1>
-      </div>
-      <img src="high-mountain-adv.png" style="height:64px; opacity:0.9;" />
+<div class="slide" data-slide="webcam" id="webcam-slide" style="justify-content:flex-start;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <div>
+      <div class="slide-label">Live snapshot · Sawtelle Peak · updates every 2 min</div>
+      <h1 style="font-size:48px; font-family:Georgia,serif; font-weight:400;">Current Mountain Conditions</h1>
     </div>
-    <iframe 
-      src="https://g1.ipcamlive.com/player/player.php?alias=highmtn&autoplay=true" 
-      style="flex:1; border:none; width:100%; min-height:0; background:#000;"
-      allowfullscreen
-      title="High Mountain Adventures Live Cam">
-    </iframe>
+    <img src="high-mountain-adv.png" style="height:64px; opacity:0.9;" />
+  </div>
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; min-height:0; width:100%;">
+    <img id="webcam-snapshot" 
+      src="https://g1.ipcamlive.com/player/snapshot.php?alias=highmtn" 
+      style="max-width:100%; max-height:100%; object-fit:contain; border-radius:8px;"
+      alt="High Mountain Adventures Live Cam"
+      onerror="this.style.display='none'; document.getElementById('webcam-fallback').style.display='flex';"
+    />
+    <div id="webcam-fallback" style="display:none; flex-direction:column; align-items:center; justify-content:center; gap:16px; opacity:0.5;">
+      <svg width="80" height="80" viewBox="0 0 64 64" fill="none"><rect x="4" y="14" width="48" height="36" rx="4" stroke="currentColor" stroke-width="2.5"/><circle cx="32" cy="32" r="8" stroke="currentColor" stroke-width="2.5"/><path d="M56 28 L60 24 L60 40 L56 36" stroke="currentColor" stroke-width="2.5"/></svg>
+      <p style="font-size:20px;">Camera temporarily unavailable</p>
+      <p style="font-size:16px;">Visit highmountainadventures.com/live-cam</p>
+    </div>
   </div>
 </div>
 
@@ -274,6 +288,17 @@
     setTimeout(() => { goNext(); scheduleNext(); }, isWebcam ? 30000 : 8000);
   }
   scheduleNext();
+
+  // Refresh webcam snapshot every 2 minutes
+  setInterval(() => {
+    const snap = document.getElementById('webcam-snapshot');
+    if (snap) {
+      snap.src = 'https://g1.ipcamlive.com/player/snapshot.php?alias=highmtn&t=' + Date.now();
+    }
+  }, 120000);
+
+  // Also refresh when webcam slide becomes active
+  const origGoNext = goNext;
 
   // ── CLOCK ────────────────────────────────────────────────
   function tick() {
@@ -635,6 +660,22 @@
     netEl.textContent = cabin.wifi;
     pwEl.textContent = cabin.pw;
     if (!cabin.wifiSet) { netEl.classList.add('placeholder'); pwEl.classList.add('placeholder'); }
+
+    // Generate WiFi QR code
+    // Format: WIFI:T:WPA;S:NetworkName;P:Password;;
+    const qrContainer = document.getElementById('wifi-qr');
+    if (qrContainer && cabin.wifiSet) {
+      qrContainer.innerHTML = '';
+      const wifiString = `WIFI:T:WPA;S:${cabin.wifi};P:${cabin.pw};;`;
+      new QRCode(qrContainer, {
+        text: wifiString,
+        width: 200,
+        height: 200,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
 
     document.getElementById('checkout').textContent = cabin.checkout;
     applyContact();
