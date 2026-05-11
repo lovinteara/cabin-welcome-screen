@@ -9,7 +9,7 @@
   html, body { height: 100%; overflow: hidden; background: #1a1729; color: #f0e8f0; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
   #welcome-screen { position: fixed; inset: 0; color: #f0e8f0; }
-  .slide { position: absolute; inset: 0; padding: 80px; box-sizing: border-box; opacity: 0; transition: opacity 0.8s ease; display: flex; flex-direction: column; justify-content: center; }
+  .slide { position: absolute; inset: 0; padding: 60px 80px; box-sizing: border-box; opacity: 0; transition: opacity 0.8s ease; display: flex; flex-direction: column; justify-content: center; }
   .slide.active { opacity: 1; }
   .slide.welcome-slide { align-items: center; justify-content: center; }
   .slide-label { font-size: 18px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
@@ -52,6 +52,7 @@
   .welcome-logo-img { max-width: 68%; max-height: 68%; object-fit: contain; }
   .biz-logo { position: absolute; bottom: 28px; left: 40px; z-index: 6; height: 52px; opacity: 0.8; }
   .weather-icon-wrap { display: flex; align-items: center; gap: 36px; margin-top: 8px; }
+  .slide { z-index: 2; }
 </style>
 </head>
 <body>
@@ -59,6 +60,9 @@
 
 <div class="clock-el" id="clock">—</div>
 <div class="cabin-tag" id="cabin-tag">—</div>
+<div id="slide-cabin-logo" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1; pointer-events:none; opacity:0.06; display:none;">
+  <img id="slide-logo-img" src="" style="max-width:600px; max-height:400px;" />
+</div>
 
 <!-- Slide 0: Welcome -->
 <div class="slide welcome-slide" data-slide="0">
@@ -136,9 +140,31 @@
   </div>
 </div>
 
+<!-- Slide: Live Webcam — Sawtelle Peak -->
+<div class="slide" data-slide="webcam" id="webcam-slide" style="padding:0; overflow:hidden;">
+  <div style="position:absolute; inset:0; display:flex; flex-direction:column;">
+    <div style="padding:24px 56px 12px; display:flex; justify-content:space-between; align-items:center; z-index:2; flex-shrink:0;">
+      <div>
+        <div class="slide-label">Live view · Sawtelle Peak</div>
+        <h1 style="font-size:42px; font-family:Georgia,serif; font-weight:400;">Current Mountain Conditions</h1>
+      </div>
+      <img src="high-mountain-adv.png" style="height:64px; opacity:0.9;" />
+    </div>
+    <iframe 
+      src="https://www.iplivecams.com/live-cams/high-mountain-adventures-island-park-idaho-united-states/" 
+      style="flex:1; border:none; width:100%; min-height:0;"
+      allowfullscreen
+      title="High Mountain Adventures Live Cam">
+    </iframe>
+  </div>
+</div>
+
 <!-- Slide 4: Activity -->
 <div class="slide" data-slide="4">
-  <div class="slide-label" id="activity-category">Today's pick</div>
+  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+    <div class="slide-label" id="activity-category">Today's pick</div>
+    <img id="activity-biz-logo" src="" style="max-height:80px; max-width:200px; object-fit:contain; opacity:0.85; display:none;" />
+  </div>
   <div id="fav-badge"></div>
   <h1 id="activity-name">—</h1>
   <p id="activity-blurb">—</p>
@@ -146,7 +172,7 @@
 </div>
 
 <!-- Slide 5: Food -->
-<div class="slide" data-slide="5">
+<div class="slide" data-slide="5" id="food-slide" style="position:relative;">
   <div class="slide-label">Local pick · Food</div>
   <div id="food-fav-badge"></div>
   <h1 id="food-name">—</h1>
@@ -242,7 +268,12 @@
     // Refresh quote every time the quote slide comes up
     if (current === getQuoteSlideIndex()) applyQuote();
   }
-  setInterval(goNext, 8000);
+  // Variable slide timing — webcam gets 30 seconds, everything else 8 seconds
+  function scheduleNext() {
+    const isWebcam = slides[current] && slides[current].dataset.slide === 'webcam';
+    setTimeout(() => { goNext(); scheduleNext(); }, isWebcam ? 30000 : 8000);
+  }
+  scheduleNext();
 
   // ── CLOCK ────────────────────────────────────────────────
   function tick() {
@@ -407,6 +438,16 @@
     if (a.elevation && a.elevation!=='—') add('Elevation', a.elevation);
     if (a.difficulty) add('Difficulty', a.difficulty);
     if (d) add('Drive from cabin', '~'+d+' min');
+    // Show HMA logo on their specific slide
+    const actLogoEl = document.getElementById('activity-biz-logo');
+    if (actLogoEl) {
+      if (a.name === 'High Mountain Adventures') {
+        actLogoEl.src = 'high-mountain-adv.png';
+        actLogoEl.style.display = 'block';
+      } else {
+        actLogoEl.style.display = 'none';
+      }
+    }
   }
 
   function applyFood() {
@@ -415,6 +456,24 @@
     document.getElementById('food-name').textContent = r.name;
     document.getElementById('food-blurb').textContent = r.blurb;
     document.getElementById('food-sub').textContent = r.subtype;
+    // Show business logo if available
+    const logoMap = {
+      'Café Sabor': 'cafe-sabor.png',
+      'Lakeside Lodge': 'ponds-lodge.png',
+      'Boondocks': 'boondocks.png',
+      "Pond's Lodge Pizza": 'ponds-lodge.png',
+      'Shotgun Bar': 'shotgun-bar.png'
+    };
+    const foodLogoEl = document.getElementById('food-biz-logo');
+    const logoFile = logoMap[r.name];
+    if (foodLogoEl) {
+      if (logoFile) {
+        foodLogoEl.src = logoFile;
+        foodLogoEl.style.display = 'block';
+      } else {
+        foodLogoEl.style.display = 'none';
+      }
+    }
   }
 
   function applyQuote() {
@@ -496,7 +555,7 @@
     const totalGuests = (guest.adults || 0) + (guest.children || 0);
     const parts = [];
     if (totalGuests) parts.push(totalGuests + (totalGuests === 1 ? ' guest' : ' guests'));
-    if (guest.pets) parts.push(guest.pets + (guest.pets === 1 ? ' pet welcome 🐾' : ' pets welcome 🐾'));
+    if (guest.pets) parts.push(guest.pets + (guest.pets === 1 ? ' pet welcome' : ' pets welcome'));
     const partyStr = parts.join(' · ');
 
     nameLine.textContent = `Welcome, ${guest.firstName}!`;
@@ -547,6 +606,13 @@
     applyTheme(theme);
 
     document.getElementById('cabin-tag').textContent = cabin.name;
+    // Show subtle cabin logo watermark on all slides
+    if (theme.logoUrl) {
+      const watermark = document.getElementById('slide-cabin-logo');
+      const watermarkImg = document.getElementById('slide-logo-img');
+      watermarkImg.src = theme.logoUrl;
+      watermark.style.display = 'block';
+    }
 
     // Welcome slide: logo or text
     const logoImg = document.getElementById('cabin-logo');
