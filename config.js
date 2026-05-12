@@ -65,7 +65,7 @@ const THEMES = {
     subtext: '#c4d4d8',
     muted: '#7a9aa5',
     border: 'rgba(95,168,184,0.2)',
-    logoUrl: 'visit-island-park-full.png',
+    logoUrl: 'dshouse-logo.png',
     logoStyle: 'max-width: 65%; max-height: 60%;'
   },
   rrl: {
@@ -76,7 +76,7 @@ const THEMES = {
     subtext: '#c4d4d8',
     muted: '#7a9aa5',
     border: 'rgba(95,168,184,0.2)',
-    logoUrl: 'visit-island-park-full.png',
+    logoUrl: 'rrl-logo.png',
     logoStyle: 'max-width: 65%; max-height: 60%;'
   },
   charming: {
@@ -99,7 +99,7 @@ const CABINS = {
   'big-chalet':   { name: 'Big Chalet',            lat: 44.4310, lon: -111.4010, wifi: 'BigChaletintheforest',  pw: 'Chalet4265',        checkout: '10:00 AM', wifiSet: true },
   caldera:        { name: 'Caldera Cottage',       lat: 44.4100, lon: -111.3900, wifi: 'Caldera Cottage',       pw: 'Lodgepole3795',     checkout: '10:00 AM', wifiSet: true },
   dshouse:        { name: "D'Shouse Haven",        lat: 44.4200, lon: -111.3750, wifi: 'DshouseHaven',          pw: 'MARK2021',          checkout: '10:00 AM', wifiSet: true },
-  rrl:            { name: 'River Rock Lodge',      lat: 44.4180, lon: -111.3820, wifi: 'RiverRockLodge',        pw: 'Cabin2018',         checkout: '10:00 AM', wifiSet: true },
+  rrl:            { name: 'RRL Sleeps 14',         lat: 44.4180, lon: -111.3820, wifi: 'RiverRockLodge',        pw: 'Cabin2018',         checkout: '10:00 AM', wifiSet: true },
   charming:       { name: 'Charming Log Home',     lat: 44.4350, lon: -111.3650, wifi: 'DodgeInn',             pw: 'Untracked21',       checkout: '10:00 AM', wifiSet: true }
 };
 
@@ -212,7 +212,7 @@ const RESTAURANTS = [
   { name: "Café Sabor", subtype: "Mexican · Island Park, Hwy 20", closedDays: [2],
     blurb: "Worth the wait. Try the ceviche, combos, chimichangas — and the caramel churros.", fav: true },
   { name: "Lakeside Lodge", subtype: "American steaks · local Miller Ag beef", closedDays: [],
-    blurb: "Finger steaks made with local Miller Ag beef.", fav: true },
+    blurb: "Finger steaks made with local Miller Ag beef. The Millers own Lakeside.", fav: true },
   { name: "Boondocks", subtype: "American · Hwy 20", closedDays: [],
     blurb: "Solid menu top to bottom. Campfire fries are the move.", fav: true },
   { name: "Pond's Lodge Pizza", subtype: "Pizza · classic Island Park spot", closedDays: [],
@@ -500,3 +500,115 @@ const QUOTES = [
   { text: "Go outside. We double dare you.", attr: "Unknown" },
   { text: "Relaxation level: expert.", attr: "Unknown" }
 ];
+
+// -------------------------------------------------------------------------
+// PHOTOGRAPHY — rotating local photographer spotlight slide
+// -------------------------------------------------------------------------
+const PHOTOGRAPHERS = [
+  {
+    name: "Lindsey Jones Photography",
+    tagline: "Capturing Island Park's wild beauty",
+    contact: "facebook.com/lindseyjonesphotographyidaho",
+    logo: "lindsey-jones.png",
+    photo: null
+  },
+  {
+    name: "Portraits By Teara",
+    tagline: "Family & portrait photography near Yellowstone",
+    contact: "PortraitsByTeara.com",
+    logo: null,
+    photo: "portraits-by-teara-photo.png"
+  }
+];
+
+// -------------------------------------------------------------------------
+// CLEANING CHECKLISTS — shown on checkout day 10:30 AM – 2:30 PM
+// Base tasks apply to ALL cabins. cabinTasks are cabin-specific additions.
+// -------------------------------------------------------------------------
+const CLEANING_BASE = [
+  "Strip all beds — start laundry or bag for laundromat",
+  "Sweep and vacuum all floors",
+  "Mop all hard floors",
+  "Dust all surfaces, ceiling fans, and blinds",
+  "Wipe kitchen counters, stovetop, microwave inside and out",
+  "Clean out silverware drawers — wipe cabinets inside",
+  "Empty and run dishwasher — put everything away",
+  "Wipe fridge inside and out",
+  "Clean all bathrooms — toilets, showers, sinks, mirrors",
+  "Empty all trash cans and replace liners",
+  "Clean grill — brush grates, wipe exterior",
+  "Sweep or blow off deck and outdoor furniture",
+  "Check fire pit — remove ash, check for damage",
+  "Check ALL remote control batteries",
+  "Check ALL door lock batteries",
+  "Restock supplies — toilet paper, paper towels, soap",
+  "Take photos of property — document condition",
+  "Check for damage and missing items",
+  "Ensure TV is on the Welcome Screen",
+  "Put out welcome gift for next guests"
+];
+
+const CABIN_CLEANING = {
+  huckleberry: {
+    name: "Huckleberry Hut",
+    extra: [
+      "NO washer/dryer — bag all laundry for laundromat (~2 blocks away)",
+      "No hot tub at this property"
+    ]
+  },
+  gathering: {
+    name: "The Gathering Place",
+    extra: [
+      "HOT TUB — check chemicals, clean filter, wipe exterior",
+      "Check Vestaboard is working (starting July)",
+      "Verify MOOSE ART is in place (upstairs)",
+      "Verify FISHBONE ART is in place (kids room, main level)",
+      "Check Pac-Man game is working",
+      "Check foosball game — all parts present",
+      "Check pool sticks, chalk, and pool balls are all accounted for",
+      "Wipe down game room chalkboard — leave clean",
+      "Turn on ice maker in kitchen if guests are arriving",
+      "Empty washer and dryer"
+    ]
+  },
+  'little-chalet': {
+    name: "Little Chalet",
+    extra: [
+      "HOT TUB — check chemicals, clean filter, wipe exterior",
+      "Check art hasn't fallen off walls",
+      "Empty washer and dryer"
+    ]
+  },
+  'big-chalet': {
+    name: "Big Chalet",
+    extra: [
+      "No hot tub at this property",
+      "Empty washer and dryer"
+    ]
+  },
+  caldera: {
+    name: "Caldera Cottage",
+    extra: [
+      "Empty washer and dryer"
+    ]
+  },
+  dshouse: {
+    name: "D'Shouse Haven",
+    extra: [
+      "HOT TUB — check chemicals, clean filter, wipe exterior",
+      "Empty washer and dryer"
+    ]
+  },
+  rrl: {
+    name: "River Rock Lodge",
+    extra: [
+      "Empty washer and dryer"
+    ]
+  },
+  charming: {
+    name: "Charming Log Home",
+    extra: [
+      "Empty washer and dryer"
+    ]
+  }
+};
