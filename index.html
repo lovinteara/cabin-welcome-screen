@@ -59,7 +59,7 @@
   .info-row .v { font-weight: 600; text-align: right; }
   .info-row .v.mono { font-family: ui-monospace, Menlo, monospace; font-size: 2.4vw; }
   .info-row .v.placeholder { color: #d85a30 !important; font-style: italic; font-weight: 400; }
-  .info-row .v.note { color: inherit; font-size: 2.2vw; }
+  .info-row .v.note { font-size: 2.2vw; opacity: 0.7; }
 
   /* Weather */
   .big-temp { font-size: 14vw; font-weight: 400; line-height: 1; font-family: Georgia, serif; }
@@ -156,7 +156,7 @@
     <div id="current-icon"></div>
     <div>
       <span class="big-temp" id="current-temp">—</span>
-      <p style="margin-top:8px;opacity:0.7;" id="current-cond">Loading…</p>
+      <p style="margin-top:8px;opacity:0.7;" id="current-cond">Fetching weather…</p>
     </div>
   </div>
   <div class="weather-row">
@@ -172,33 +172,43 @@
 <div class="slide" data-slide="3">
   <div class="slide-label">4-day forecast</div>
   <h1 style="font-size:48px;">What's coming up</h1>
-  <div class="weather-grid" id="forecast-grid"></div>
+  <div class="weather-grid" id="forecast-grid"><div class="weather-cell" style="opacity:0.4; grid-column:1/-1; font-size:2vw; padding:3vh;">Fetching forecast — check back in a moment…</div></div>
 </div>
 
 <!-- Slide 4: Regional weather -->
 <div class="slide" data-slide="4r" id="regional-slide">
   <div class="slide-label">Regional weather today</div>
   <h1 style="font-size:48px;">Nearby conditions</h1>
-  <div id="regional-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:28px; max-width:1100px;">
-    <div class="weather-cell" id="reg-yellowstone">
+  <div id="regional-grid" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:2vw; margin-top:2vh; width:100%;">
+    <div class="weather-cell">
       <div class="day">Yellowstone NP</div>
       <div class="temp" id="reg-ynp-temp">—</div>
-      <div class="cond" id="reg-ynp-cond">Loading…</div>
+      <div class="cond" id="reg-ynp-cond" style="opacity:0.4;">Fetching…</div>
     </div>
-    <div class="weather-cell" id="reg-gtnp">
+    <div class="weather-cell">
       <div class="day">Grand Teton NP</div>
       <div class="temp" id="reg-gtnp-temp">—</div>
-      <div class="cond" id="reg-gtnp-cond">Loading…</div>
+      <div class="cond" id="reg-gtnp-cond" style="opacity:0.4;">Fetching…</div>
     </div>
-    <div class="weather-cell" id="reg-slc">
+    <div class="weather-cell">
+      <div class="day">Jackson Hole, WY</div>
+      <div class="temp" id="reg-jh-temp">—</div>
+      <div class="cond" id="reg-jh-cond" style="opacity:0.4;">Fetching…</div>
+    </div>
+    <div class="weather-cell">
       <div class="day">Salt Lake City (SLC)</div>
       <div class="temp" id="reg-slc-temp">—</div>
-      <div class="cond" id="reg-slc-cond">Loading…</div>
+      <div class="cond" id="reg-slc-cond" style="opacity:0.4;">Fetching…</div>
     </div>
-    <div class="weather-cell" id="reg-bzn">
+    <div class="weather-cell">
       <div class="day">Bozeman (BZN)</div>
       <div class="temp" id="reg-bzn-temp">—</div>
-      <div class="cond" id="reg-bzn-cond">Loading…</div>
+      <div class="cond" id="reg-bzn-cond" style="opacity:0.4;">Fetching…</div>
+    </div>
+    <div class="weather-cell">
+      <div class="day">Idaho Falls, ID</div>
+      <div class="temp" id="reg-idf-temp">—</div>
+      <div class="cond" id="reg-idf-cond" style="opacity:0.4;">Fetching…</div>
     </div>
   </div>
 </div>
@@ -245,27 +255,24 @@
   <div id="food-fav-badge"></div>
   <h1 id="food-name">—</h1>
   <p id="food-blurb">—</p>
-  <p id="food-sub" style="margin-top:16px;font-size:20px;opacity:0.5;">—</p>
+  <p id="food-sub" style="margin-top:1.5vh; font-size:2vw; opacity:0.5;">—</p>
+  <img id="food-biz-logo" src="" style="position:absolute; bottom:8vh; right:4vw; max-height:16vh; max-width:22vw; object-fit:contain; opacity:0.85; display:none;" />
 </div>
 
 <!-- Slide 6: High Mountain Adventures promo — always shown -->
 <div class="slide" data-slide="6hma">
-  <div class="slide-label">Today's adventure · Local deal</div>
-  <h1 style="font-size:56px;">High Mountain Adventures</h1>
-  <p style="max-width: 860px;">ATV, UTV, and snowmobile rentals at the base of Sawtelle Peak. Open 7:30 AM – 5:30 PM daily.</p>
-  <div style="margin-top: 28px; max-width: 860px;">
-    <div class="info-row" style="border-color: inherit;">
-      <span class="k">Guest exclusive</span>
-      <span class="v" id="hma-deal" style="font-size:22px;">20% off — or full day for half-day price</span>
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:4vw; width:100%;">
+    <div style="flex:1;">
+      <div class="slide-label">Guest exclusive deal</div>
+      <h1>High Mountain Adventures</h1>
+      <p style="margin-top:1vh;">ATV, UTV &amp; snowmobile rentals · Base of Sawtelle Peak · 7:30 AM – 5:30 PM</p>
+      <div style="margin-top:2vh; max-width:80vw;">
+        <div class="info-row"><span class="k">Your deal</span><span class="v" style="color:#ffd700; font-weight:700; font-size:3vw;">20% off — or full day for half-day price</span></div>
+        <div class="info-row"><span class="k">How to claim</span><span class="v">Tell them you stay at Teara's cabins</span></div>
+        <div class="info-row"><span class="k">Call ahead</span><span class="v">(208) 558-9572</span></div>
+      </div>
     </div>
-    <div class="info-row" style="border-color: inherit;">
-      <span class="k">How to claim</span>
-      <span class="v">Tell them you're staying at one of Teara's cabins</span>
-    </div>
-    <div class="info-row" style="border-color: inherit;">
-      <span class="k">Call ahead</span>
-      <span class="v">(208) 558-9572</span>
-    </div>
+    <img src="high-mountain-adv.png" style="width:24vw; max-height:40vh; object-fit:contain; flex-shrink:0;" />
   </div>
 </div>
 
@@ -273,7 +280,7 @@
 <div class="slide" data-slide="6">
   <div class="slide-label">Good to know</div>
   <h1>Cabin essentials</h1>
-  <div style="margin-top:16px;">
+  <div style="margin-top:2vh;">
     <div class="info-row"><span class="k">Check-out</span><span class="v" id="checkout">—</span></div>
     <div class="info-row"><span class="k">Quiet hours</span><span class="v">10 PM – 8 AM</span></div>
     <div class="info-row"><span class="k">Coffee</span><span class="v note" id="coffee-note">Bring your favorite — hard to find here</span></div>
@@ -311,7 +318,7 @@
       <img id="photo-img" src="" style="max-width:28vw; max-height:40vh; object-fit:cover; border-radius:1.5vw; display:none;" />
     </div>
     <div style="flex:1;">
-      <h1 id="photo-name" style="font-size:5.5vw; font-family:Georgia,serif; font-weight:400;"></h1>
+      <h1 id="photo-name" style="font-size:5.5vw; font-family:Georgia,serif; font-weight:400;">Local Photography</h1>
       <p id="photo-tagline" style="margin-top:2vh; font-size:2.8vw;"></p>
       <p id="photo-contact" style="margin-top:1.5vh; font-size:2.2vw; opacity:0.5;"></p>
       <p style="margin-top:3vh; font-size:2vw; opacity:0.35;">Capture your Island Park memories</p>
@@ -339,6 +346,19 @@
   </div>
 </div>
 
+<!-- Gallery slide — full screen photo rotation -->
+<div class="slide" data-slide="gallery" style="padding:0; overflow:hidden;">
+  <img id="gallery-img" src="" alt="Island Park"
+    style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.2s ease;"
+    onload="this.style.opacity='1'"
+  />
+  <div style="position:absolute; bottom:0; left:0; right:0; padding:3vh 4vw; background:linear-gradient(transparent, rgba(0,0,0,0.6)); z-index:2;">
+    <div class="biz-logo" style="position:relative; bottom:auto; left:auto;">
+      <img src="visit-island-park-dark-bg.png" style="height:5vh; opacity:0.7;" />
+    </div>
+  </div>
+</div>
+
 <!-- Slide 8: Contact -->
 <div class="slide" data-slide="8">
   <div class="slide-label">If you need us</div>
@@ -353,6 +373,7 @@
 
 <div class="dots" id="dots"></div>
 <img class="biz-logo" id="biz-logo" src="visit-island-park-dark-bg.png" alt="Visit Island Park Idaho" />
+<img class="cabin-badge" id="cabin-badge" src="" alt="" />
 <div class="refresh-tag" id="refresh-tag">Updated —</div>
 
 </div>
@@ -395,6 +416,8 @@
       if (id === '4') { try { applyActivity(window._cabinRef, window._weatherRef); } catch(e) { console.error('activity err', e); } }
       if (id === '5') { try { applyFood(); } catch(e) { console.error('food err', e); } }
       if (id === 'photo') { try { applyPhotographer(); } catch(e) { console.error('photo err', e); } }
+      if (id === 'gallery') { try { nextGalleryImage(); } catch(e) {} }
+      if (id === '4r') { try { loadRegionalWeather(); } catch(e) {} }
     } catch(e) {
       console.error('goNext error:', e);
       current = (current + 1) % slides.length;
@@ -406,8 +429,9 @@
       const slide = slides[current];
       const sid = slide ? slide.dataset.slide : '';
       let duration = 8000;
-      if (sid === 'webcam') duration = 30000;
+      if (sid === 'webcam') duration = 8000;
       if (sid === 'ipvideo') duration = 65000;
+    if (sid === 'gallery') duration = 12000;
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -536,6 +560,7 @@
   function doy() { return Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/86400000); }
 
   function pickActivity(weather) {
+    try {
     const s = season();
     const hi = weather ? weather.daily.temperature_2m_max[0] : 60;
     const code = weather ? weather.daily.weather_code[0] : 1;
@@ -549,18 +574,28 @@
     const chosen = pick[Math.floor(Math.random() * pick.length)];
     window._lastActivity = chosen ? chosen.name : '';
     return chosen;
+    } catch(e) {
+      console.error('pickActivity error:', e);
+      return ACTIVITIES[0];
+    }
   }
 
   function pickRestaurant() {
-    const day = new Date().getDay();
-    const open = RESTAURANTS.filter(r => !r.closedDays.includes(day));
-    const pool = open.length ? open : RESTAURANTS;
-    // Avoid repeating last restaurant
-    const filtered = pool.filter(r => r.name !== (_lastRestaurant ? _lastRestaurant.name : ''));
-    const pick = filtered.length ? filtered : pool;
-    const chosen = pick[Math.floor(Math.random() * pick.length)];
-    _lastRestaurant = chosen;
-    return chosen;
+    try {
+      const day = new Date().getDay();
+      const open = RESTAURANTS.filter(r => !r.closedDays.includes(day));
+      const pool = open.length ? open : RESTAURANTS;
+      if (!pool.length) return RESTAURANTS[0];
+      const last = window._lastRestaurantName || '';
+      const filtered = pool.filter(r => r.name !== last);
+      const pick = filtered.length ? filtered : pool;
+      const chosen = pick[Math.floor(Math.random() * pick.length)];
+      window._lastRestaurantName = chosen.name;
+      return chosen;
+    } catch(e) {
+      console.error('pickRestaurant error:', e);
+      return RESTAURANTS[0];
+    }
   }
 
   // Pick a random quote each time the quote slide becomes active
@@ -734,8 +769,10 @@
   const REGIONAL_LOCATIONS = [
     { id: 'ynp',  label: 'Yellowstone NP',      lat: 44.4605, lon: -110.8281 },
     { id: 'gtnp', label: 'Grand Teton NP',       lat: 43.7904, lon: -110.6818 },
+    { id: 'jh',   label: 'Jackson Hole, WY',     lat: 43.4799, lon: -110.7624 },
     { id: 'slc',  label: 'Salt Lake City (SLC)', lat: 40.7899, lon: -111.9791 },
-    { id: 'bzn',  label: 'Bozeman (BZN)',         lat: 45.7777, lon: -111.1527 }
+    { id: 'bzn',  label: 'Bozeman (BZN)',         lat: 45.7777, lon: -111.1527 },
+    { id: 'idf',  label: 'Idaho Falls, ID',      lat: 43.4917, lon: -112.0339 }
   ];
 
   async function loadRegionalWeather() {
@@ -825,6 +862,39 @@
     if (p.photo) { imgEl.src = p.photo; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
   }
 
+  // ── GALLERY ──────────────────────────────────────────
+  const GALLERY_COUNT = 85;
+  const GALLERY_EXTENSIONS = ['jpg', 'jpeg', 'JPG', 'JPEG'];
+  let _galleryIndex = Math.floor(Math.random() * GALLERY_COUNT) + 1;
+  let _galleryAttempt = 0;
+
+  function loadGalleryImage() {
+    const img = document.getElementById('gallery-img');
+    if (!img) return;
+    img.style.opacity = '0';
+    const ext = GALLERY_EXTENSIONS[_galleryAttempt % GALLERY_EXTENSIONS.length];
+    img.src = `gallery-${_galleryIndex}.${ext}`;
+    img.onerror = function() {
+      _galleryAttempt++;
+      if (_galleryAttempt < GALLERY_EXTENSIONS.length) {
+        // Try next extension
+        const nextExt = GALLERY_EXTENSIONS[_galleryAttempt % GALLERY_EXTENSIONS.length];
+        img.src = `gallery-${_galleryIndex}.${nextExt}`;
+      } else {
+        // Skip this number, try next
+        _galleryAttempt = 0;
+        _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
+        loadGalleryImage();
+      }
+    };
+  }
+
+  function nextGalleryImage() {
+    _galleryAttempt = 0;
+    _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
+    loadGalleryImage();
+  }
+
   // ── INIT ─────────────────────────────────────────────────
   function getCabinKey() {
     const p = new URLSearchParams(window.location.search).get('cabin');
@@ -841,6 +911,12 @@
     applyTheme(theme);
 
     document.getElementById('cabin-tag').textContent = cabin.name;
+    // Show cabin logo badge on all slides
+    const badge = document.getElementById('cabin-badge');
+    if (badge && theme.logoUrl) {
+      badge.src = theme.logoUrl;
+      badge.style.display = 'block';
+    }
     // Show subtle cabin logo watermark on all slides
     if (theme.logoUrl) {
       const watermark = document.getElementById('slide-cabin-logo');
@@ -896,9 +972,10 @@
     applyFood();
     applyQuote();
     applyPhotographer();
+    loadGalleryImage();
     loadWeather(cabin);
     loadRegionalWeather();
-    setInterval(loadRegionalWeather, 30*60*1000);
+    setInterval(loadRegionalWeather, 15*60*1000); // refresh every 15min
 
     // Load guest name for personalized welcome
     loadGuest(key).then(guest => {
