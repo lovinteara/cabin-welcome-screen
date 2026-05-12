@@ -384,26 +384,35 @@
   }
 
   function goNext() {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-    const id = getSlideId(current);
-    // Refresh content every time these slides appear
-    if (current === getQuoteSlideIndex()) applyQuote();
-    if (id === '4') applyActivity(window._cabinRef, window._weatherRef);   // activity slide
-    if (id === '5') applyFood();                              // food slide
-    if (id === 'photo') applyPhotographer();                  // photography slide
+    try {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      const id = slides[current] ? slides[current].dataset.slide : '';
+      if (current === getQuoteSlideIndex()) applyQuote();
+      if (id === '4') { try { applyActivity(window._cabinRef, window._weatherRef); } catch(e) { console.error('activity err', e); } }
+      if (id === '5') { try { applyFood(); } catch(e) { console.error('food err', e); } }
+      if (id === 'photo') { try { applyPhotographer(); } catch(e) { console.error('photo err', e); } }
+    } catch(e) {
+      console.error('goNext error:', e);
+      current = (current + 1) % slides.length;
+    }
   }
   // Variable slide timing — webcam gets 30 seconds, everything else 8 seconds
   function scheduleNext() {
-    const slide = slides[current];
-    const id = slide ? slide.dataset.slide : '';
-    let duration = 8000;
-    if (id === 'webcam') duration = 30000;
-    if (id === 'ipvideo') duration = 65000;
-    setTimeout(() => { goNext(); scheduleNext(); }, duration);
+    try {
+      const slide = slides[current];
+      const sid = slide ? slide.dataset.slide : '';
+      let duration = 8000;
+      if (sid === 'webcam') duration = 30000;
+      if (sid === 'ipvideo') duration = 65000;
+      setTimeout(() => { goNext(); scheduleNext(); }, duration);
+    } catch(e) {
+      console.error('scheduleNext error:', e);
+      setTimeout(scheduleNext, 8000);
+    }
   }
   scheduleNext();
 
@@ -538,7 +547,7 @@
     const noRepeat = weighted.filter(a => a.name !== (window._lastActivity || ''));
     const pick = noRepeat.length ? noRepeat : weighted;
     const chosen = pick[Math.floor(Math.random() * pick.length)];
-    window._lastActivity = chosen.name;
+    window._lastActivity = chosen ? chosen.name : '';
     return chosen;
   }
 
