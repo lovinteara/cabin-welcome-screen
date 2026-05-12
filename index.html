@@ -9,15 +9,15 @@
   html, body { height: 100%; overflow: hidden; background: #1a1729; color: #f0e8f0; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
   #welcome-screen { position: fixed; inset: 0; color: #f0e8f0; }
-  .slide { position: absolute; inset: 0; padding: 60px 80px; box-sizing: border-box; opacity: 0; transition: opacity 0.8s ease; display: flex; flex-direction: column; justify-content: center; }
+  .slide { position: absolute; inset: 0; padding: 5% 7%; box-sizing: border-box; opacity: 0; transition: opacity 0.8s ease; display: flex; flex-direction: column; justify-content: center; }
   .slide.active { opacity: 1; }
   .slide.welcome-slide { align-items: center; justify-content: center; }
-  .slide-label { font-size: 18px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
-  .slide h1 { font-size: 72px; font-weight: 400; margin: 0 0 24px; line-height: 1.05; font-family: Georgia, serif; }
-  .slide p { font-size: 26px; line-height: 1.5; margin: 0; max-width: 900px; }
-  .big-temp { font-size: 120px; font-weight: 400; line-height: 1; font-family: Georgia, serif; }
-  .row-label { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-  .info-row { display: flex; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid; font-size: 28px; max-width: 900px; }
+  .slide-label { font-size: clamp(14px, 1.8vw, 22px); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2vh; font-weight: 500; }
+  .slide h1 { font-size: clamp(36px, 6vw, 80px); font-weight: 400; margin: 0 0 2vh; line-height: 1.05; font-family: Georgia, serif; }
+  .slide p { font-size: clamp(18px, 2.2vw, 30px); line-height: 1.5; margin: 0; max-width: 900px; }
+  .big-temp { font-size: clamp(60px, 10vw, 130px); font-weight: 400; line-height: 1; font-family: Georgia, serif; }
+  .row-label { font-size: clamp(11px, 1.2vw, 16px); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.6vh; }
+  .info-row { display: flex; justify-content: space-between; padding: 1.8vh 0; border-bottom: 1px solid; font-size: clamp(18px, 2.4vw, 32px); max-width: 900px; }
   .info-row .k { opacity: 0.5; }
   .info-row .v { font-weight: 500; }
   .info-row .v.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
@@ -25,33 +25,33 @@
   .info-row .v.note { font-size: 22px; }
   .dots { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
   .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background 0.3s; }
-  .clock-el { position: absolute; top: 40px; left: 56px; font-size: 22px; z-index: 5; font-variant-numeric: tabular-nums; font-weight: 500; }
-  .cabin-tag { position: absolute; top: 40px; right: 56px; font-size: 16px; letter-spacing: 3px; text-transform: uppercase; z-index: 5; opacity: 0.5; }
-  .weather-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 32px; max-width: 1100px; }
-  .weather-cell { padding: 24px; border-radius: 12px; }
-  .weather-cell .day { font-size: 16px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; opacity: 0.5; }
-  .weather-cell .temp { font-size: 36px; font-weight: 500; font-family: Georgia, serif; }
-  .weather-cell .cond { font-size: 18px; margin-top: 6px; opacity: 0.7; }
+  .clock-el { position: absolute; top: 3%; left: 5%; font-size: clamp(16px, 1.8vw, 24px); z-index: 5; font-variant-numeric: tabular-nums; font-weight: 500; }
+  .cabin-tag { position: absolute; top: 3%; right: 5%; font-size: clamp(12px, 1.4vw, 20px); letter-spacing: 3px; text-transform: uppercase; z-index: 5; opacity: 0.5; }
+  .weather-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2vw; margin-top: 3vh; max-width: 95%; }
+  .weather-cell { padding: 2vh 2vw; border-radius: 12px; }
+  .weather-cell .day { font-size: clamp(12px, 1.4vw, 18px); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1vh; opacity: 0.5; }
+  .weather-cell .temp { font-size: clamp(22px, 3vw, 42px); font-weight: 500; font-family: Georgia, serif; }
+  .weather-cell .cond { font-size: clamp(13px, 1.5vw, 20px); margin-top: 0.5vh; opacity: 0.7; }
   .alerts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-  .alert-pill { font-size: 18px; padding: 10px 18px; border-radius: 8px; }
+  .alert-pill { font-size: clamp(13px, 1.5vw, 20px); padding: 0.8vh 1.5vw; border-radius: 8px; }
   .alert-fire { background: rgba(228,75,74,0.15); color: #f0928f; }
   .alert-freeze { background: rgba(133,183,235,0.15); color: #b5d4f4; }
   .alert-snow { background: rgba(186,117,23,0.18); color: #f0c87a; }
   .alert-stars { background: rgba(127,119,221,0.18); color: #cecbf6; }
-  .weather-row { display: flex; gap: 36px; margin-top: 24px; font-size: 20px; flex-wrap: wrap; }
+  .weather-row { display: flex; gap: 3vw; margin-top: 2vh; font-size: clamp(14px, 1.8vw, 24px); flex-wrap: wrap; }
   .weather-row span { opacity: 0.5; }
   .weather-row span strong { opacity: 1; font-weight: 500; }
   .live-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #5cb874; margin-right: 10px; vertical-align: middle; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
-  .refresh-tag { position: absolute; bottom: 32px; right: 32px; font-size: 14px; opacity: 0.3; letter-spacing: 1.5px; text-transform: uppercase; z-index: 5; }
-  .quote-text { font-family: Georgia, serif; font-style: italic; font-size: 52px; line-height: 1.3; max-width: 1200px; }
-  .quote-attr { font-size: 22px; margin-top: 36px; letter-spacing: 1.5px; opacity: 0.5; }
-  .activity-stats { display: flex; gap: 48px; margin: 32px 0; flex-wrap: wrap; }
-  .activity-stats > div .stat-val { font-size: 36px; font-weight: 500; font-family: Georgia, serif; }
-  .fav-tag { display: inline-block; font-size: 16px; padding: 6px 14px; border-radius: 6px; letter-spacing: 1.5px; margin-bottom: 16px; }
+  .refresh-tag { position: absolute; bottom: 3%; right: 4%; font-size: clamp(10px, 1.2vw, 16px); opacity: 0.3; letter-spacing: 1.5px; text-transform: uppercase; z-index: 5; }
+  .quote-text { font-family: Georgia, serif; font-style: italic; font-size: clamp(28px, 4.5vw, 60px); line-height: 1.3; max-width: 1200px; }
+  .quote-attr { font-size: clamp(14px, 1.8vw, 26px); margin-top: 3vh; letter-spacing: 1.5px; opacity: 0.5; }
+  .activity-stats { display: flex; gap: 4vw; margin: 3vh 0; flex-wrap: wrap; }
+  .activity-stats > div .stat-val { font-size: clamp(22px, 3vw, 42px); font-weight: 500; font-family: Georgia, serif; }
+  .fav-tag { display: inline-block; font-size: clamp(12px, 1.4vw, 18px); padding: 0.5vh 1.2vw; border-radius: 6px; letter-spacing: 1.5px; margin-bottom: 1.5vh; }
   .welcome-logo-img { max-width: 68%; max-height: 68%; object-fit: contain; }
-  .biz-logo { position: absolute; bottom: 28px; left: 40px; z-index: 6; height: 52px; opacity: 0.8; }
-  .weather-icon-wrap { display: flex; align-items: center; gap: 36px; margin-top: 8px; }
+  .biz-logo { position: absolute; bottom: 3%; left: 4%; z-index: 6; height: clamp(36px, 4vh, 60px); opacity: 0.8; }
+  .weather-icon-wrap { display: flex; align-items: center; gap: 3vw; margin-top: 1vh; }
   .slide { z-index: 2; }
 </style>
 <!-- QR Code library -->
@@ -82,14 +82,14 @@
 <div class="slide" data-slide="1">
   <div class="slide-label">Connect</div>
   <h1>Wi-Fi</h1>
-  <div style="display:flex; gap:60px; align-items:center; margin-top:16px;">
+  <div style="display:flex; gap:5vw; align-items:center; margin-top:2vh;">
     <div style="flex:1;">
       <div class="info-row"><span class="k">Network</span><span class="v mono" id="wifi-net">—</span></div>
       <div class="info-row"><span class="k">Password</span><span class="v mono" id="wifi-pw">—</span></div>
       <p style="margin-top:28px; font-size:20px; opacity:0.5;">Scan the QR code with your phone camera to connect instantly — no typing needed.</p>
     </div>
     <div style="display:flex; flex-direction:column; align-items:center; gap:14px; flex-shrink:0;">
-      <div id="wifi-qr" style="background:#fff; padding:16px; border-radius:12px;"></div>
+      <div id="wifi-qr" style="background:#fff; padding:20px; border-radius:16px; box-shadow:0 4px 32px rgba(0,0,0,0.3);"></div>
       <p style="font-size:16px; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Scan to connect</p>
     </div>
   </div>
@@ -233,6 +233,36 @@
   <div class="quote-attr" id="quote-attr">—</div>
 </div>
 
+<!-- Cleaning mode overlay — shown on checkout day 10:30am-2:30pm -->
+<div id="cleaning-overlay" style="display:none; position:fixed; inset:0; z-index:100; padding:56px; box-sizing:border-box; overflow-y:auto; flex-direction:column;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-shrink:0;">
+    <div>
+      <div class="slide-label" style="font-size:16px; letter-spacing:3px;">Checkout Day Checklist</div>
+      <h1 id="cleaning-cabin-name" style="font-size:52px; font-family:Georgia,serif; font-weight:400; margin:8px 0 0;">—</h1>
+    </div>
+    <div style="text-align:right; opacity:0.5; font-size:16px;">
+      <div>Active 10:30 AM – 2:30 PM</div>
+      <div id="cleaning-time" style="font-size:24px; margin-top:4px; opacity:1;"></div>
+    </div>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px 40px;" id="cleaning-list"></div>
+</div>
+
+<!-- Photography slide -->
+<div class="slide" data-slide="photo">
+  <div class="slide-label">Local photography</div>
+  <div id="photo-content" style="display:flex; gap:48px; align-items:center; flex:1;">
+    <img id="photo-logo" src="" style="max-width:280px; max-height:280px; object-fit:contain; display:none;" />
+    <img id="photo-img" src="" style="max-width:480px; max-height:400px; object-fit:cover; border-radius:12px; display:none;" />
+    <div>
+      <h1 id="photo-name" style="font-family:Georgia,serif; font-weight:400; font-size:48px;"></h1>
+      <p id="photo-tagline" style="margin-top:12px; font-size:24px;"></p>
+      <p id="photo-contact" style="margin-top:16px; font-size:20px; opacity:0.5;"></p>
+      <p style="margin-top:28px; font-size:18px; opacity:0.4;">Capture your Island Park memories</p>
+    </div>
+  </div>
+</div>
+
 <!-- Slide 8: Contact -->
 <div class="slide" data-slide="8">
   <div class="slide-label">If you need us</div>
@@ -316,6 +346,9 @@
     ws.style.color = t.text;
     document.body.style.background = t.bg;
     document.body.style.color = t.text;
+    // Apply theme to cleaning overlay too
+    const co = document.getElementById('cleaning-overlay');
+    if (co) { co.style.background = t.bg; co.style.color = t.text; }
     const style = document.createElement('style');
     style.textContent = `
       .slide-label, .clock-el { color: ${t.accent}; }
@@ -615,6 +648,75 @@
     }
   }
 
+  // ── CLEANING MODE ────────────────────────────────────
+  function isCleaningTime(cabinKey) {
+    const now = new Date();
+    const h = now.getHours();
+    const m = now.getMinutes();
+    const totalMin = h * 60 + m;
+    const start = 10 * 60 + 30; // 10:30 AM
+    const end = 14 * 60 + 30;   // 2:30 PM
+    if (totalMin < start || totalMin > end) return false;
+
+    // Check if today is a checkout day for this cabin
+    // We use the guest departure date from the API result cached in window
+    if (window._guestDeparture) {
+      const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' });
+      return window._guestDeparture === today;
+    }
+    return false;
+  }
+
+  function buildCleaningList(cabinKey) {
+    const overlay = document.getElementById('cleaning-overlay');
+    const list = document.getElementById('cleaning-list');
+    const nameEl = document.getElementById('cleaning-cabin-name');
+    const timeEl = document.getElementById('cleaning-time');
+    if (!overlay || !list) return;
+
+    const cabinClean = typeof CABIN_CLEANING !== 'undefined' ? CABIN_CLEANING[cabinKey] : null;
+    const base = typeof CLEANING_BASE !== 'undefined' ? CLEANING_BASE : [];
+    const extra = cabinClean ? cabinClean.extra : [];
+    const allTasks = [...extra, ...base];
+
+    nameEl.textContent = (cabinClean ? cabinClean.name : cabinKey) + ' — Cleaning Checklist';
+    list.innerHTML = allTasks.map((task, i) => `
+      <div style="display:flex; align-items:flex-start; gap:14px; padding:10px 0; border-bottom:0.5px solid rgba(255,255,255,0.1);">
+        <div style="width:28px; height:28px; border-radius:50%; border:2px solid currentColor; opacity:0.4; flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center; font-size:14px;">${i+1}</div>
+        <span style="font-size:18px; line-height:1.4;">${task}</span>
+      </div>
+    `).join('');
+
+    // Update time
+    const n = new Date();
+    const h = n.getHours(), m = n.getMinutes();
+    timeEl.textContent = (h%12||12)+':'+(m<10?'0'+m:m)+' '+(h>=12?'PM':'AM');
+  }
+
+  function checkCleaningMode(cabinKey) {
+    const overlay = document.getElementById('cleaning-overlay');
+    if (!overlay) return;
+    if (isCleaningTime(cabinKey)) {
+      buildCleaningList(cabinKey);
+      overlay.style.display = 'flex';
+    } else {
+      overlay.style.display = 'none';
+    }
+  }
+
+  // ── PHOTOGRAPHER PICKER ───────────────────────────────
+  function applyPhotographer() {
+    if (typeof PHOTOGRAPHERS === 'undefined' || !PHOTOGRAPHERS.length) return;
+    const p = PHOTOGRAPHERS[Math.floor(Math.random() * PHOTOGRAPHERS.length)];
+    document.getElementById('photo-name').textContent = p.name;
+    document.getElementById('photo-tagline').textContent = p.tagline;
+    document.getElementById('photo-contact').textContent = p.contact;
+    const logoEl = document.getElementById('photo-logo');
+    const imgEl = document.getElementById('photo-img');
+    if (p.logo) { logoEl.src = p.logo; logoEl.style.display = 'block'; } else { logoEl.style.display = 'none'; }
+    if (p.photo) { imgEl.src = p.photo; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
+  }
+
   // ── INIT ─────────────────────────────────────────────────
   function getCabinKey() {
     const p = new URLSearchParams(window.location.search).get('cabin');
@@ -669,8 +771,8 @@
       const wifiString = `WIFI:T:WPA;S:${cabin.wifi};P:${cabin.pw};;`;
       new QRCode(qrContainer, {
         text: wifiString,
-        width: 200,
-        height: 200,
+        width: Math.min(280, Math.round(window.innerWidth * 0.18)),
+        height: Math.min(280, Math.round(window.innerWidth * 0.18)),
         colorDark: '#000000',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M
@@ -681,14 +783,34 @@
     applyContact();
     applyFood();
     applyQuote();
+    applyPhotographer();
     loadWeather(cabin);
     loadRegionalWeather();
     setInterval(loadRegionalWeather, 30*60*1000);
 
     // Load guest name for personalized welcome
-    loadGuest(key).then(guest => applyGuest(guest, theme));
+    loadGuest(key).then(guest => {
+      applyGuest(guest, theme);
+      // Cache departure for cleaning mode check
+      if (guest && guest.departure) {
+        // Convert "May 9" back to YYYY-MM-DD for comparison
+        const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        const parts = guest.departure.split(' ');
+        if (parts.length === 2) {
+          const mo = months.indexOf(parts[0]);
+          const dy = parseInt(parts[1]);
+          const yr = new Date().getFullYear();
+          if (mo >= 0 && !isNaN(dy)) {
+            window._guestDeparture = `${yr}-${String(mo+1).padStart(2,'0')}-${String(dy).padStart(2,'0')}`;
+          }
+        }
+      }
+      checkCleaningMode(key);
+    });
 
     setInterval(() => loadWeather(cabin), 30*60*1000);
+    // Check cleaning mode every minute
+    setInterval(() => checkCleaningMode(key), 60*1000);
 
     // Re-rotate at midnight
     const msTilMidnight = 864e5 - (Date.now() % 864e5);
