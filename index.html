@@ -305,14 +305,36 @@
 <!-- Photography slide -->
 <div class="slide" data-slide="photo">
   <div class="slide-label">Local photography</div>
-  <div id="photo-content" style="display:flex; gap:48px; align-items:center; flex:1;">
-    <img id="photo-logo" src="" style="max-width:280px; max-height:280px; object-fit:contain; display:none;" />
-    <img id="photo-img" src="" style="max-width:480px; max-height:400px; object-fit:cover; border-radius:12px; display:none;" />
-    <div>
-      <h1 id="photo-name" style="font-family:Georgia,serif; font-weight:400; font-size:48px;"></h1>
-      <p id="photo-tagline" style="margin-top:12px; font-size:24px;"></p>
-      <p id="photo-contact" style="margin-top:16px; font-size:20px; opacity:0.5;"></p>
-      <p style="margin-top:28px; font-size:18px; opacity:0.4;">Capture your Island Park memories</p>
+  <div style="display:flex; gap:5vw; align-items:center; flex:1; min-height:0;">
+    <div style="flex-shrink:0; display:flex; align-items:center; justify-content:center; width:30vw;">
+      <img id="photo-logo" src="" style="max-width:28vw; max-height:40vh; object-fit:contain; display:none;" />
+      <img id="photo-img" src="" style="max-width:28vw; max-height:40vh; object-fit:cover; border-radius:1.5vw; display:none;" />
+    </div>
+    <div style="flex:1;">
+      <h1 id="photo-name" style="font-size:5.5vw; font-family:Georgia,serif; font-weight:400;"></h1>
+      <p id="photo-tagline" style="margin-top:2vh; font-size:2.8vw;"></p>
+      <p id="photo-contact" style="margin-top:1.5vh; font-size:2.2vw; opacity:0.5;"></p>
+      <p style="margin-top:3vh; font-size:2vw; opacity:0.35;">Capture your Island Park memories</p>
+    </div>
+  </div>
+</div>
+
+<!-- Island Park video slide -->
+<div class="slide" data-slide="ipvideo" style="padding:0; overflow:hidden;">
+  <div style="position:absolute; inset:0; display:flex; flex-direction:column;">
+    <div style="padding:3vh 5vw 1.5vh; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
+      <div>
+        <div class="slide-label">A little bit of Island Park</div>
+        <h1 style="font-size:5vw; font-family:Georgia,serif; font-weight:400;">Welcome to Paradise</h1>
+      </div>
+    </div>
+    <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:0 5vw 3vh;">
+      <iframe 
+        src="https://www.youtube.com/embed/MwbJtuwAews?autoplay=1&mute=0&loop=1&playlist=MwbJtuwAews&controls=0&modestbranding=1"
+        style="width:100%; height:100%; border:none; border-radius:1.5vw; max-height:70vh;"
+        allow="autoplay; fullscreen"
+        title="A little bit of Island Park">
+      </iframe>
     </div>
   </div>
 </div>
@@ -357,19 +379,31 @@
     return -1;
   }
 
+  function getSlideId(index) {
+    return slides[index] ? slides[index].dataset.slide : '';
+  }
+
   function goNext() {
     slides[current].classList.remove('active');
     dots[current].classList.remove('active');
     current = (current + 1) % slides.length;
     slides[current].classList.add('active');
     dots[current].classList.add('active');
-    // Refresh quote every time the quote slide comes up
+    const id = getSlideId(current);
+    // Refresh content every time these slides appear
     if (current === getQuoteSlideIndex()) applyQuote();
+    if (id === '4') applyActivity(window._cabinRef, window._weatherRef);   // activity slide
+    if (id === '5') applyFood();                              // food slide
+    if (id === 'photo') applyPhotographer();                  // photography slide
   }
   // Variable slide timing — webcam gets 30 seconds, everything else 8 seconds
   function scheduleNext() {
-    const isWebcam = slides[current] && slides[current].dataset.slide === 'webcam';
-    setTimeout(() => { goNext(); scheduleNext(); }, isWebcam ? 30000 : 8000);
+    const slide = slides[current];
+    const id = slide ? slide.dataset.slide : '';
+    let duration = 8000;
+    if (id === 'webcam') duration = 30000;
+    if (id === 'ipvideo') duration = 65000;
+    setTimeout(() => { goNext(); scheduleNext(); }, duration);
   }
   scheduleNext();
 
@@ -500,14 +534,24 @@
     let pool = ACTIVITIES.filter(a => a.seasons.includes(s) && !(a.minTemp && hi < a.minTemp) && !(stormy && a.weatherSafe===false));
     if (!pool.length) pool = ACTIVITIES.filter(a => a.seasons.includes(s));
     const weighted = []; pool.forEach(a => { weighted.push(a); if (a.fav) weighted.push(a); });
-    return weighted[doy() % weighted.length];
+    // Pick randomly, avoid last shown
+    const noRepeat = weighted.filter(a => a.name !== (window._lastActivity || ''));
+    const pick = noRepeat.length ? noRepeat : weighted;
+    const chosen = pick[Math.floor(Math.random() * pick.length)];
+    window._lastActivity = chosen.name;
+    return chosen;
   }
 
   function pickRestaurant() {
     const day = new Date().getDay();
     const open = RESTAURANTS.filter(r => !r.closedDays.includes(day));
     const pool = open.length ? open : RESTAURANTS;
-    return pool[doy() % pool.length];
+    // Avoid repeating last restaurant
+    const filtered = pool.filter(r => r.name !== (_lastRestaurant ? _lastRestaurant.name : ''));
+    const pick = filtered.length ? filtered : pool;
+    const chosen = pick[Math.floor(Math.random() * pick.length)];
+    _lastRestaurant = chosen;
+    return chosen;
   }
 
   // Pick a random quote each time the quote slide becomes active
@@ -623,6 +667,7 @@
         const w = wDesc(data.daily.weather_code[i]);
         grid.innerHTML += `<div class="weather-cell"><div class="day">${dayShort(data.daily.time[i])}</div><div style="display:flex;align-items:center;gap:12px;">${iconSvg(w.i,36)}<div class="temp">${Math.round(data.daily.temperature_2m_max[i])}°</div></div><div class="cond">${w.t}</div></div>`;
       }
+      window._weatherRef = data;
       applyActivity(cabin, data);
       const n=new Date(), h=n.getHours(), m=n.getMinutes();
       document.getElementById('refresh-tag').textContent = 'Updated '+(h%12||12)+':'+(m<10?'0'+m:m)+' '+(h>=12?'PM':'AM');
@@ -834,6 +879,10 @@
     }
 
     document.getElementById('checkout').textContent = cabin.checkout;
+    window._cabinRef = cabin;
+    window._weatherRef = null;
+    window._cabinRef = cabin;
+    window._weatherRef = null;
     applyContact();
     applyFood();
     applyQuote();
