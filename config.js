@@ -509,6 +509,7 @@ const PHOTOGRAPHERS = [
     name: "Lindsey Jones Photography",
     tagline: "Capturing Island Park's wild beauty",
     contact: "facebook.com/lindseyjonesphotographyidaho",
+    phone: "+1 (208) 521-1936",
     logo: "lindsey-jones.png",
     photo: null
   },
@@ -611,4 +612,19 @@ const CABIN_CLEANING = {
       "Empty washer and dryer"
     ]
   }
+};
+
+// -------------------------------------------------------------------------
+// TRASH PICKUP SCHEDULE — per cabin
+// days: pickup days, cans: number of bear-resistant cans available
+// -------------------------------------------------------------------------
+const CABIN_TRASH = {
+  huckleberry:    { days: ['Tuesday'],            cans: 1, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
+  gathering:      { days: ['Tuesday', 'Friday'],  cans: 3, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
+  'little-chalet':{ days: ['Wednesday'],          cans: 2, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
+  'big-chalet':   { days: ['Wednesday'],          cans: 2, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
+  caldera:        { days: ['Wednesday'],          cans: 1, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
+  dshouse:        { days: ['Wednesday'],          cans: 3, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
+  rrl:            { days: ['Wednesday'],          cans: 2, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
+  charming:       { days: ['Tuesday'],            cans: 1, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' }
 };
