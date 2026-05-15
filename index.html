@@ -237,6 +237,28 @@
   </div>
 </div>
 
+<!-- Osborne Bridge highway cam -->
+<div class="slide" data-slide="osborne" style="justify-content:flex-start;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2vh;">
+    <div>
+      <div class="slide-label">Live snapshot · US-20 Osborne Bridge · Idaho 511</div>
+      <h1 style="font-size:5vw; font-family:Georgia,serif; font-weight:400;">Road Conditions</h1>
+    </div>
+  </div>
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; min-height:0; width:100%;">
+    <img id="osborne-snapshot"
+      src="https://511.idaho.gov/map/Cctv/186.C3--2"
+      style="max-width:100%; max-height:72vh; object-fit:contain; border-radius:1.5vw;"
+      alt="Osborne Bridge US-20 Road Conditions"
+      onerror="this.style.display='none'; document.getElementById('osborne-fallback').style.display='flex';"
+    />
+    <div id="osborne-fallback" style="display:none; flex-direction:column; align-items:center; gap:2vh; opacity:0.5;">
+      <p style="font-size:2.5vw;">Camera temporarily unavailable</p>
+      <p style="font-size:2vw;">Check 511.idaho.gov for road conditions</p>
+    </div>
+  </div>
+</div>
+
 <!-- Slide 4: Activity -->
 <div class="slide" data-slide="4">
   <div style="display:flex; justify-content:space-between; align-items:flex-start;">
@@ -256,7 +278,7 @@
   <h1 id="food-name">—</h1>
   <p id="food-blurb">—</p>
   <p id="food-sub" style="margin-top:1.5vh; font-size:2vw; opacity:0.5;">—</p>
-  <img id="food-biz-logo" src="" style="position:absolute; bottom:8vh; right:4vw; max-height:16vh; max-width:22vw; object-fit:contain; opacity:0.85; display:none;" />
+  <img id="food-biz-logo" src="" style="position:absolute; bottom:6vh; right:3vw; max-height:22vh; max-width:28vw; object-fit:contain; opacity:0.9; display:none;" />
 </div>
 
 <!-- Slide 6: High Mountain Adventures promo — always shown -->
@@ -264,11 +286,11 @@
   <div style="display:flex; justify-content:space-between; align-items:center; gap:4vw; width:100%;">
     <div style="flex:1;">
       <div class="slide-label">Guest exclusive deal</div>
-      <h1>High Mountain Adventures</h1>
-      <p style="margin-top:1vh;">ATV, UTV &amp; snowmobile rentals · Base of Sawtelle Peak · 7:30 AM – 5:30 PM</p>
+      <h1 style="font-size:5vw;">High Mountain Adventures</h1>
+      <p style="margin-top:1vh; font-size:1.8vw;">ATV, UTV &amp; snowmobile rentals · Base of Sawtelle Peak · 7:30 AM – 5:30 PM</p>
       <div style="margin-top:2vh; max-width:80vw;">
-        <div class="info-row"><span class="k">Your deal</span><span class="v" style="color:#ffd700; font-weight:700; font-size:3vw;">20% off — or full day for half-day price</span></div>
-        <div class="info-row"><span class="k">How to claim</span><span class="v">Tell them you stay at Teara's cabins</span></div>
+        <div class="info-row"><span class="k">Your deal</span><span class="v" style="color:#ffd700; font-weight:700; font-size:2.4vw;">20% off — or full day for half-day price</span></div>
+        <div class="info-row"><span class="k">How to claim</span><span class="v">Tell them you're staying at Teara's cabin</span></div>
         <div class="info-row"><span class="k">Call ahead</span><span class="v">(208) 558-9572</span></div>
       </div>
     </div>
@@ -314,47 +336,175 @@
   <div class="slide-label">Local photography</div>
   <div style="display:flex; gap:5vw; align-items:center; flex:1; min-height:0;">
     <div style="flex-shrink:0; display:flex; align-items:center; justify-content:center; width:30vw;">
-      <img id="photo-logo" src="" style="max-width:28vw; max-height:40vh; object-fit:contain; display:none;" />
+      <img id="photo-logo" src="" style="max-width:42vw; max-height:55vh; object-fit:contain; display:none;" />
       <img id="photo-img" src="" style="max-width:28vw; max-height:40vh; object-fit:cover; border-radius:1.5vw; display:none;" />
     </div>
     <div style="flex:1;">
       <h1 id="photo-name" style="font-size:5.5vw; font-family:Georgia,serif; font-weight:400;">Local Photography</h1>
       <p id="photo-tagline" style="margin-top:2vh; font-size:2.8vw;"></p>
       <p id="photo-contact" style="margin-top:1.5vh; font-size:2.2vw; opacity:0.5;"></p>
+    <p id="photo-phone" style="margin-top:0.8vh; font-size:2.2vw; opacity:0.5;"></p>
       <p style="margin-top:3vh; font-size:2vw; opacity:0.35;">Capture your Island Park memories</p>
     </div>
   </div>
 </div>
 
-<!-- Island Park video slide -->
-<div class="slide" data-slide="ipvideo" style="padding:0; overflow:hidden;">
-  <div style="position:absolute; inset:0; display:flex; flex-direction:column;">
-    <div style="padding:3vh 5vw 1.5vh; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
-      <div>
-        <div class="slide-label">A little bit of Island Park</div>
-        <h1 style="font-size:5vw; font-family:Georgia,serif; font-weight:400;">Welcome to Paradise</h1>
-      </div>
+<!-- Island Park video slide — local MP4 with soft background music -->
+<div class="slide" data-slide="ipvideo" style="padding:0; overflow:hidden; background:#000;">
+  <video id="island-park-video"
+    src="island-park-video.mp4"
+    style="position:absolute; inset:0; width:100%; height:100%; object-fit:contain;"
+    muted
+    playsinline
+    loop>
+  </video>
+  <div style="position:absolute; bottom:0; left:0; right:0; padding:3vh 5vw; background:linear-gradient(transparent, rgba(0,0,0,0.7)); z-index:2; display:flex; justify-content:space-between; align-items:flex-end;">
+    <div>
+      <div class="slide-label">A little bit of Island Park</div>
+      <h1 style="font-size:5vw; font-family:Georgia,serif; font-weight:400;">Welcome to Paradise</h1>
     </div>
-    <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:0 5vw 3vh;">
-      <iframe 
-        src="https://www.youtube.com/embed/MwbJtuwAews?autoplay=1&mute=0&loop=1&playlist=MwbJtuwAews&controls=0&modestbranding=1"
-        style="width:100%; height:100%; border:none; border-radius:1.5vw; max-height:70vh;"
-        allow="autoplay; fullscreen"
-        title="A little bit of Island Park">
-      </iframe>
-    </div>
+    <img src="visit-island-park-dark-bg.png" style="height:6vh; opacity:0.8;" />
   </div>
 </div>
 
 <!-- Gallery slide — full screen photo rotation -->
 <div class="slide" data-slide="gallery" style="padding:0; overflow:hidden;">
   <img id="gallery-img" src="" alt="Island Park"
-    style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.2s ease;"
+    style="position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#000; opacity:0; transition:opacity 1.2s ease;"
     onload="this.style.opacity='1'"
   />
   <div style="position:absolute; bottom:0; left:0; right:0; padding:3vh 4vw; background:linear-gradient(transparent, rgba(0,0,0,0.6)); z-index:2;">
     <div class="biz-logo" style="position:relative; bottom:auto; left:auto;">
       <img src="visit-island-park-dark-bg.png" style="height:5vh; opacity:0.7;" />
+    </div>
+  </div>
+</div>
+
+<!-- Fishing slide — Henry's Fork live data -->
+<div class="slide" data-slide="fishing">
+  <div class="slide-label">Tight lines · Local fishing</div>
+  <div style="display:flex; gap:5vw; align-items:flex-start;">
+    <div style="flex:1;">
+      <h1>Henry's Fork</h1>
+      <p style="margin-top:0.5vh; font-size:2vw; opacity:0.6;">The "Graduate School of Fly Fishing" — world class right outside your door</p>
+
+      <div style="margin-top:2vh;">
+        <div class="info-row">
+          <span class="k">Live flow</span>
+          <span class="v" id="fishing-flow">Loading…</span>
+        </div>
+        <div class="info-row">
+          <span class="k">Best right now</span>
+          <span class="v" id="fishing-season-tip">—</span>
+        </div>
+        <div class="info-row">
+          <span class="k">Top spots</span>
+          <span class="v" style="font-size:2vw;">Box Canyon · Railroad Ranch · Big Springs · Henry's Lake</span>
+        </div>
+        <div class="info-row">
+          <span class="k">Species</span>
+          <span class="v" style="font-size:2vw;">Rainbow · Brown · Cutthroat · Brook Trout</span>
+        </div>
+        <div class="info-row">
+          <span class="k">License</span>
+          <span class="v" style="font-size:2vw;">Idaho fishing license required · idfg.idaho.gov</span>
+        </div>
+      </div>
+    </div>
+    <div style="flex-shrink:0; width:30vw;">
+      <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2.5vh 2.5vw;">
+        <div style="font-size:1.6vw; opacity:0.5; letter-spacing:0.2vw; text-transform:uppercase; margin-bottom:1.5vh;">Fly shop reports</div>
+        <p style="font-size:1.9vw; line-height:1.5; opacity:0.8;">Henry's Fork Anglers<br><span style="opacity:0.5;">henrysforkanglers.com</span></p>
+        <p style="font-size:1.9vw; line-height:1.5; opacity:0.8; margin-top:1.5vh;">TroutHunter Lodge<br><span style="opacity:0.5;">trouthunt.com</span></p>
+        <p style="font-size:1.9vw; line-height:1.5; opacity:0.8; margin-top:1.5vh;">Drift Lodge Fly Shop<br><span style="opacity:0.5;">driftlodge.com</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Easy Tours Yellowstone slide -->
+<div class="slide" data-slide="easytours">
+  <div style="display:flex; gap:5vw; align-items:center;">
+    <div style="flex:1;">
+      <div class="slide-label">Teara's favorite tour guide</div>
+      <h1 style="font-size:6vw;">Easy Tours Yellowstone</h1>
+      <p style="margin-top:1vh; font-size:2.2vw; opacity:0.7;">Amy Beegel · Founder &amp; Lead Guide</p>
+      <p style="margin-top:2vh; font-size:2.4vw; line-height:1.4;">30+ years exploring every corner of Yellowstone. The best private tours in the park — personalized, unhurried, and unforgettable.</p>
+      <div style="margin-top:3vh;">
+        <div class="info-row"><span class="k">Website</span><span class="v">easytoursyellowstone.com</span></div>
+        <div class="info-row"><span class="k">Why Amy</span><span class="v" style="font-size:2vw;">3 decades of Yellowstone expertise — she knows where the wolves are</span></div>
+      </div>
+    </div>
+    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; align-items:center; gap:2vh;">
+      <img src="etys-logo_0.png" style="max-width:26vw; max-height:35vh; object-fit:contain;"
+           onerror="this.style.display='none'" />
+      <p style="font-size:1.8vw; opacity:0.5; text-align:center; margin-top:1vh;">Private &amp; small group tours</p>
+    </div>
+  </div>
+</div>
+
+<!-- Trash pickup slide — shown on pickup days only -->
+<div class="slide" data-slide="trash" id="trash-slide" style="display:none;">
+  <div class="slide-label">Today · Trash pickup day</div>
+  <h1>Rubbish Day!</h1>
+  <p style="margin-top:1vh;">Please put trash out before pickup — thank you for helping keep Island Park beautiful!</p>
+  <div style="margin-top:2.5vh; max-width:80vw;">
+    <div class="info-row">
+      <span class="k">Pickup day</span>
+      <span class="v" id="trash-days">—</span>
+    </div>
+    <div class="info-row">
+      <span class="k">Bear cans available</span>
+      <span class="v" id="trash-cans">—</span>
+    </div>
+    <div class="info-row">
+      <span class="k">Important</span>
+      <span class="v" id="trash-notes" style="font-size:2vw; max-width:55vw; text-align:right; line-height:1.4;">—</span>
+    </div>
+    <div class="info-row">
+      <span class="k">Recycling</span>
+      <span class="v">Place recyclables in marked bins if provided</span>
+    </div>
+  </div>
+</div>
+
+<!-- Bear Safety slide -->
+<div class="slide" data-slide="bearsafety">
+  <div class="slide-label">Wildlife safety · Important</div>
+  <div style="display:flex; gap:5vw; align-items:flex-start;">
+    <div style="flex:1;">
+      <h1>Always Carry Bear Spray</h1>
+      <p style="margin-top:1vh; font-size:2.4vw; line-height:1.4;">We are in bear country. Bear spray is your most effective defense — more reliable than a firearm at close range.</p>
+      <div style="margin-top:2.5vh;">
+        <div class="info-row">
+          <span class="k">Check the cabin</span>
+          <span class="v" style="font-size:2vw; text-align:right;">A previous guest may have left a can — check closets and entry areas</span>
+        </div>
+        <div class="info-row">
+          <span class="k">Buy locally</span>
+          <span class="v">Sam Patch Co. · Grocery &amp; Sundries</span>
+        </div>
+        <div class="info-row">
+          <span class="k">Also available</span>
+          <span class="v" style="font-size:2vw;">High Mountain Adventures · Most outdoor shops</span>
+        </div>
+        <div class="info-row">
+          <span class="k">How to use</span>
+          <span class="v" style="font-size:2vw;">Remove safety clip · Aim low · Spray when bear is within 60 feet</span>
+        </div>
+        <div class="info-row">
+          <span class="k">Bear encounter</span>
+          <span class="v" style="font-size:2vw;">Stay calm · Do not run · Make yourself large · Back away slowly</span>
+        </div>
+      </div>
+    </div>
+    <div style="flex-shrink:0; width:26vw; display:flex; flex-direction:column; align-items:center; gap:2vh; padding-top:1vh;">
+      <img src="bear-safety.png" style="max-width:26vw; max-height:38vh; object-fit:contain;" 
+     onerror="this.outerHTML='<div style=font-size:4vw;font-weight:700;color:#f0928f;font-family:Georgia,serif;>BEAR<br/>COUNTRY</div>'" />
+      <div style="background:rgba(228,75,74,0.15); border:1px solid rgba(228,75,74,0.3); border-radius:1.5vw; padding:2vh 2.5vw; text-align:center;">
+        <p style="font-size:2vw; color:#f0928f; font-weight:600; line-height:1.4;">Never hike alone<br/>without bear spray</p>
+      </div>
+      <p style="font-size:1.6vw; opacity:0.4; text-align:center;">Yellowstone averages<br/>1–3 bear encounters<br/>per week in season</p>
     </div>
   </div>
 </div>
@@ -372,9 +522,12 @@
 </div>
 
 <div class="dots" id="dots"></div>
+<audio id="bg-audio" src="Little_Bit_Island_Park.mp3" loop preload="auto" style="display:none;"></audio>
 <img class="biz-logo" id="biz-logo" src="visit-island-park-dark-bg.png" alt="Visit Island Park Idaho" />
-<img class="cabin-badge" id="cabin-badge" src="" alt="" />
-<div class="refresh-tag" id="refresh-tag">Updated —</div>
+<div style="position:absolute; bottom:2.5vh; right:3vw; z-index:6; display:flex; flex-direction:column; align-items:flex-end; gap:1.2vh;">
+  <img id="cabin-badge" src="" alt="" style="max-height:7vh; max-width:12vw; object-fit:contain; opacity:0.35; display:none;" />
+  <div style="font-size:clamp(10px,1.2vw,16px); opacity:0.3; letter-spacing:0.15vw; text-transform:uppercase;" id="refresh-tag">Updated —</div>
+</div>
 
 </div>
 <script src="config.js"></script>
@@ -417,6 +570,25 @@
       if (id === '5') { try { applyFood(); } catch(e) { console.error('food err', e); } }
       if (id === 'photo') { try { applyPhotographer(); } catch(e) { console.error('photo err', e); } }
       if (id === 'gallery') { try { nextGalleryImage(); } catch(e) {} }
+      if (id === 'fishing') { try { loadFishingData(); } catch(e) {} }
+      if (id === 'osborne') { const o = document.getElementById('osborne-snapshot'); if(o) o.src = 'https://511.idaho.gov/map/Cctv/186.C3--2?t=' + Date.now(); }
+      // Play music softly on video slide, manage video playback
+      const audio = document.getElementById('bg-audio');
+      const video = document.getElementById('island-park-video');
+      if (id === 'ipvideo') {
+        if (audio) {
+          audio.volume = 0.2; // 20% volume — gentle background
+          audio.currentTime = 0;
+          audio.play().catch(e => console.log('audio blocked:', e));
+        }
+        if (video) {
+          video.currentTime = 0;
+          video.play().catch(e => console.log('video blocked:', e));
+        }
+      } else {
+        if (audio) audio.pause();
+        if (video) video.pause();
+      }
       if (id === '4r') { try { loadRegionalWeather(); } catch(e) {} }
     } catch(e) {
       console.error('goNext error:', e);
@@ -440,12 +612,12 @@
   }
   scheduleNext();
 
-  // Refresh webcam snapshot every 2 minutes
+  // Refresh webcam snapshots every 2 minutes
   setInterval(() => {
     const snap = document.getElementById('webcam-snapshot');
-    if (snap) {
-      snap.src = 'https://g1.ipcamlive.com/player/snapshot.php?alias=highmtn&t=' + Date.now();
-    }
+    if (snap) snap.src = 'https://g1.ipcamlive.com/player/snapshot.php?alias=highmtn&t=' + Date.now();
+    const osborne = document.getElementById('osborne-snapshot');
+    if (osborne) osborne.src = 'https://511.idaho.gov/map/Cctv/186.C3--2?t=' + Date.now();
   }, 120000);
 
   // Also refresh when webcam slide becomes active
@@ -659,9 +831,9 @@
     // Show business logo if available
     const logoMap = {
       'Café Sabor': 'cafe-sabor.png',
-      'Lakeside Lodge': 'ponds-lodge.png',
+      'Lakeside Lodge': 'ponds-logo.png',
       'Boondocks': 'boondocks.png',
-      "Pond's Lodge Pizza": 'ponds-lodge.png',
+      "Pond's Lodge Pizza": 'ponds-logo.png',
       'Shotgun Bar': 'shotgun-bar.png'
     };
     const foodLogoEl = document.getElementById('food-biz-logo');
@@ -761,6 +933,7 @@
 
     nameLine.textContent = `Welcome, ${guest.firstName}!`;
     nameLine.style.color = theme.accent;
+    nameLine.style.fontSize = "5vw";
     detailsLine.textContent = [deptStr ? `Checking out ${deptStr}` : '', partyStr].filter(Boolean).join('  ·  ');
     greetingEl.style.display = 'block';
   }
@@ -850,12 +1023,22 @@
   }
 
   // ── PHOTOGRAPHER PICKER ───────────────────────────────
+  let _photoRotationCount = 0;
   function applyPhotographer() {
     if (typeof PHOTOGRAPHERS === 'undefined' || !PHOTOGRAPHERS.length) return;
-    const p = PHOTOGRAPHERS[Math.floor(Math.random() * PHOTOGRAPHERS.length)];
+    _photoRotationCount++;
+    // Portraits by Teara only shows every ~30 rotations, Lindsey Jones otherwise
+    let p;
+    if (_photoRotationCount % 30 === 0) {
+      p = PHOTOGRAPHERS.find(ph => ph.name.includes('Teara')) || PHOTOGRAPHERS[0];
+    } else {
+      p = PHOTOGRAPHERS.find(ph => ph.name.includes('Lindsey')) || PHOTOGRAPHERS[0];
+    }
     document.getElementById('photo-name').textContent = p.name;
     document.getElementById('photo-tagline').textContent = p.tagline;
     document.getElementById('photo-contact').textContent = p.contact;
+    const phoneEl = document.getElementById('photo-phone');
+    if (phoneEl) phoneEl.textContent = p.phone || '';
     const logoEl = document.getElementById('photo-logo');
     const imgEl = document.getElementById('photo-img');
     if (p.logo) { logoEl.src = p.logo; logoEl.style.display = 'block'; } else { logoEl.style.display = 'none'; }
@@ -893,6 +1076,80 @@
     _galleryAttempt = 0;
     _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
     loadGalleryImage();
+  }
+
+  // ── FISHING / USGS STREAM DATA ───────────────────────
+  async function loadFishingData() {
+    // USGS gauge 13042500 — Henry's Fork at Island Park
+    const url = 'https://waterservices.usgs.gov/nwis/iv/?sites=13042500&parameterCd=00060&format=json&siteStatus=active';
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      const series = data.value.timeSeries;
+      if (series && series.length > 0) {
+        const cfs = Math.round(parseFloat(series[0].values[0].value[0].value));
+        const flowEl = document.getElementById('fishing-flow');
+        if (flowEl) {
+          let condition = '';
+          if (cfs < 300) condition = '🟢 Low — great wading conditions';
+          else if (cfs < 800) condition = '🟡 Moderate — good fishing';
+          else if (cfs < 1500) condition = '🟠 Higher flows — use caution';
+          else condition = '🔴 High — drift boat recommended';
+          flowEl.textContent = cfs + ' CFS — ' + condition;
+        }
+      }
+    } catch(e) {
+      const flowEl = document.getElementById('fishing-flow');
+      if (flowEl) flowEl.textContent = 'Check henrysforkanglers.com for current conditions';
+    }
+
+    // Seasonal fishing tip
+    const tipEl = document.getElementById('fishing-season-tip');
+    if (tipEl) {
+      const mo = new Date().getMonth();
+      const tips = {
+        0: 'Winter midges #18-22 · Nymph deep slow pools',
+        1: 'Zebra midges · Look for rising fish midday',
+        2: 'Early caddis emerging · Dry-dropper rigs',
+        3: 'Blue-winged olives · PMDs starting late month',
+        4: 'Salmonflies in Box Canyon · Golden Stones',
+        5: 'PMD hatch peak · Caddis evenings · Best month!',
+        6: 'Terrestrials — hoppers, ants, beetles · Early mornings',
+        7: 'Hopper-dropper rigs · Trico mornings on Ranch section',
+        8: 'Fall baetis starting · Brown trout pre-spawn active',
+        9: 'Streamers for big browns · BWO afternoons',
+        10: 'Nymph deep runs · Streamer fishing stays good',
+        11: 'Winter midges returning · Slower but quality fish'
+      };
+      tipEl.textContent = tips[mo] || 'Check local fly shops for current hatch reports';
+    }
+  }
+
+  // ── TRASH PICKUP SLIDE ───────────────────────────────
+  function setupTrashSlide(cabinKey) {
+    const trash = typeof CABIN_TRASH !== 'undefined' ? CABIN_TRASH[cabinKey] : null;
+    const slide = document.getElementById('trash-slide');
+    if (!trash || !slide) return;
+
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const today = dayNames[new Date().getDay()];
+    const isPickupDay = trash.days.includes(today);
+
+    if (isPickupDay) {
+      // Show the slide in rotation
+      slide.style.display = '';
+      document.getElementById('trash-days').textContent = trash.days.join(' & ') + ' — Today!';
+      document.getElementById('trash-cans').textContent = trash.cans + ' bear-resistant container' + (trash.cans > 1 ? 's' : '') + ' outside';
+      document.getElementById('trash-notes').textContent = trash.notes;
+    } else {
+      // Hide the slide completely from rotation
+      slide.style.display = 'none';
+      // Remove from slides array so it doesn't show as a dot
+      const idx = Array.from(slides).indexOf(slide);
+      if (idx >= 0) {
+        slide.classList.remove('slide');
+      }
+    }
   }
 
   // ── INIT ─────────────────────────────────────────────────
@@ -975,6 +1232,9 @@
     loadGalleryImage();
     loadWeather(cabin);
     loadRegionalWeather();
+    loadFishingData();
+    setInterval(loadFishingData, 60*60*1000);
+    setupTrashSlide(key); // refresh hourly
     setInterval(loadRegionalWeather, 15*60*1000); // refresh every 15min
 
     // Load guest name for personalized welcome
