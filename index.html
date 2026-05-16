@@ -647,9 +647,13 @@
       let duration = 8000;
       if (sid === 'ipvideo') duration = 65000;
       if (sid === 'gallery') duration = 12000;
-      if (sid === '1') duration = 12000;
-      if (sid === 'trash') duration = 12000;
-      if (sid === 'trashday') duration = 12000;
+      if (sid === '1') duration = 12000;        // WiFi QR
+      if (sid === 'trash') duration = 12000;    // Trash info
+      if (sid === 'trashday') duration = 12000; // Trash day reminder
+      if (sid === 'fishing') duration = 12000;  // Fishing
+      if (sid === 'easytours') duration = 12000; // Easy Tours
+      if (sid === 'bearsafety') duration = 12000; // Bear safety
+      if (sid === 'firesafety') duration = 12000; // Fire safety
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -1093,7 +1097,7 @@
 
   // ── GALLERY ──────────────────────────────────────────
   const GALLERY_COUNT = 85;
-  const GALLERY_EXTENSIONS = ['jpg', 'jpeg', 'JPG', 'JPEG'];
+  const GALLERY_EXTENSIONS = ['jpeg', 'jpg', 'JPEG', 'JPG'];
   let _galleryIndex = Math.floor(Math.random() * GALLERY_COUNT) + 1;
   let _galleryAttempt = 0;
 
