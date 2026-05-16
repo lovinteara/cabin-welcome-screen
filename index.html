@@ -248,7 +248,7 @@
   <div style="flex:1; display:flex; align-items:center; justify-content:center; min-height:0; width:100%;">
     <img id="osborne-snapshot"
       src="https://511.idaho.gov/map/Cctv/186.C3--2"
-      style="max-width:100%; max-height:72vh; object-fit:contain; border-radius:1.5vw;"
+      style="width:100%; max-height:78vh; object-fit:cover; border-radius:1.5vw;"
       alt="Osborne Bridge US-20 Road Conditions"
       onerror="this.style.display='none'; document.getElementById('osborne-fallback').style.display='flex';"
     />
@@ -383,40 +383,36 @@
 <!-- Fishing slide — Henry's Fork live data -->
 <div class="slide" data-slide="fishing">
   <div class="slide-label">Tight lines · Local fishing</div>
-  <div style="display:flex; gap:5vw; align-items:flex-start;">
-    <div style="flex:1;">
-      <h1>Henry's Fork</h1>
-      <p style="margin-top:0.5vh; font-size:2vw; opacity:0.6;">The "Graduate School of Fly Fishing" — world class right outside your door</p>
-
-      <div style="margin-top:2vh;">
-        <div class="info-row">
+  <div style="display:flex; gap:4vw; align-items:flex-start; overflow:hidden;">
+    <div style="flex:1; min-width:0;">
+      <h1 style="font-size:5vw;">Henry's Fork</h1>
+      <p style="margin-top:0.5vh; font-size:1.6vw; opacity:0.6;">The "Graduate School of Fly Fishing" — world class right outside your door</p>
+      <div style="margin-top:1.5vh;">
+        <div class="info-row" style="padding:1.2vh 0;">
           <span class="k">Live flow</span>
-          <span class="v" id="fishing-flow">Loading…</span>
+          <span class="v" id="fishing-flow" style="font-size:1.9vw;">Loading…</span>
         </div>
-        <div class="info-row">
+        <div class="info-row" style="padding:1.2vh 0;">
           <span class="k">Best right now</span>
-          <span class="v" id="fishing-season-tip">—</span>
+          <span class="v" id="fishing-season-tip" style="font-size:1.8vw;">—</span>
         </div>
-        <div class="info-row">
+        <div class="info-row" style="padding:1.2vh 0;">
           <span class="k">Top spots</span>
-          <span class="v" style="font-size:2vw;">Box Canyon · Railroad Ranch · Big Springs · Henry's Lake</span>
+          <span class="v" style="font-size:1.6vw;">Box Canyon · Railroad Ranch · Big Springs · Henry's Lake</span>
         </div>
-        <div class="info-row">
+        <div class="info-row" style="padding:1.2vh 0;">
           <span class="k">Species</span>
-          <span class="v" style="font-size:2vw;">Rainbow · Brown · Cutthroat · Brook Trout</span>
-        </div>
-        <div class="info-row">
-          <span class="k">License</span>
-          <span class="v" style="font-size:2vw;">Idaho fishing license required · idfg.idaho.gov</span>
+          <span class="v" style="font-size:1.6vw;">Rainbow · Brown · Cutthroat · Brook Trout</span>
         </div>
       </div>
     </div>
-    <div style="flex-shrink:0; width:30vw;">
-      <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2.5vh 2.5vw;">
-        <div style="font-size:1.6vw; opacity:0.5; letter-spacing:0.2vw; text-transform:uppercase; margin-bottom:1.5vh;">Fly shop reports</div>
-        <p style="font-size:1.9vw; line-height:1.5; opacity:0.8;">Henry's Fork Anglers<br><span style="opacity:0.5;">henrysforkanglers.com</span></p>
-        <p style="font-size:1.9vw; line-height:1.5; opacity:0.8; margin-top:1.5vh;">TroutHunter Lodge<br><span style="opacity:0.5;">trouthunt.com</span></p>
-        <p style="font-size:1.9vw; line-height:1.5; opacity:0.8; margin-top:1.5vh;">Drift Lodge Fly Shop<br><span style="opacity:0.5;">driftlodge.com</span></p>
+    <div style="flex-shrink:0; width:26vw;">
+      <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2vh 2vw;">
+        <div style="font-size:1.4vw; opacity:0.5; letter-spacing:0.2vw; text-transform:uppercase; margin-bottom:1vh;">Fly shop reports</div>
+        <p style="font-size:1.5vw; line-height:1.4; opacity:0.8;">Henry's Fork Anglers<br><span style="opacity:0.5;">henrysforkanglers.com</span></p>
+        <p style="font-size:1.5vw; line-height:1.4; opacity:0.8; margin-top:1vh;">TroutHunter Lodge<br><span style="opacity:0.5;">trouthunt.com</span></p>
+        <p style="font-size:1.5vw; line-height:1.4; opacity:0.8; margin-top:1vh;">Drift Lodge Fly Shop<br><span style="opacity:0.5;">driftlodge.com</span></p>
+        <div style="margin-top:1.5vh; padding-top:1.5vh; border-top:0.5px solid rgba(255,255,255,0.1); font-size:1.5vw; opacity:0.5;">License: idfg.idaho.gov</div>
       </div>
     </div>
   </div>
@@ -443,27 +439,45 @@
   </div>
 </div>
 
-<!-- Trash pickup slide — shown on pickup days only -->
-<div class="slide" data-slide="trash" id="trash-slide" style="display:none;">
-  <div class="slide-label">Today · Trash pickup day</div>
-  <h1>Rubbish Day!</h1>
-  <p style="margin-top:1vh;">Please put trash out before pickup — thank you for helping keep Island Park beautiful!</p>
-  <div style="margin-top:2.5vh; max-width:80vw;">
-    <div class="info-row">
-      <span class="k">Pickup day</span>
-      <span class="v" id="trash-days">—</span>
+<!-- Trash info slide — always shown -->
+<div class="slide" data-slide="trash">
+  <div class="slide-label">Good to know · Trash</div>
+  <h1>Trash &amp; Recycling</h1>
+  <div style="display:flex; gap:5vw; align-items:flex-start; margin-top:1.5vh;">
+    <div style="flex:1;">
+      <div class="info-row">
+        <span class="k">Pickup days</span>
+        <span class="v" id="trash-days">—</span>
+      </div>
+      <div class="info-row">
+        <span class="k">Bear cans outside</span>
+        <span class="v" id="trash-cans">—</span>
+      </div>
+      <div class="info-row">
+        <span class="k">Bags</span>
+        <span class="v" style="font-size:2vw;">Black bags under kitchen sink</span>
+      </div>
+      <div class="info-row">
+        <span class="k">Important</span>
+        <span class="v" style="font-size:2vw;">Bagged trash only in bear-resistant containers — no loose garbage</span>
+      </div>
     </div>
-    <div class="info-row">
-      <span class="k">Bear cans available</span>
-      <span class="v" id="trash-cans">—</span>
+    <div style="flex-shrink:0; width:26vw; background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2.5vh 2.5vw;">
+      <div style="font-size:1.6vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:1.5vh;">Why bear-resistant?</div>
+      <p style="font-size:1.9vw; line-height:1.5; opacity:0.8;">Bears associate trash with food. Using the provided canisters protects both wildlife and guests.</p>
+      <p style="font-size:1.9vw; line-height:1.5; opacity:0.8; margin-top:1.5vh;">Thank you for helping keep Island Park wild and beautiful!</p>
     </div>
-    <div class="info-row">
-      <span class="k">Important</span>
-      <span class="v" id="trash-notes" style="font-size:2vw; max-width:55vw; text-align:right; line-height:1.4;">—</span>
-    </div>
-    <div class="info-row">
-      <span class="k">Recycling</span>
-      <span class="v">Place recyclables in marked bins if provided</span>
+  </div>
+</div>
+
+<!-- Trash pickup DAY reminder — only shown on pickup days -->
+<div class="slide" data-slide="trashday" id="trash-day-slide" style="display:none; align-items:center; justify-content:center; text-align:center;">
+  <div style="max-width:80vw;">
+    <div class="slide-label" style="text-align:center;">Today · Action needed</div>
+    <h1 style="font-size:9vw; font-family:Georgia,serif;">Trash Day!</h1>
+    <p style="font-size:3vw; margin-top:2vh; line-height:1.4;">Please place your bagged trash in the bear-resistant<br/>container outside before you head out today.</p>
+    <div style="margin-top:3vh; display:inline-block; background:rgba(255,255,255,0.08); border-radius:1.5vw; padding:2vh 4vw;">
+      <p style="font-size:2.2vw; opacity:0.7;">Black bags · Under the kitchen sink<br/>Pickup: <span id="trash-day-pickup" style="opacity:1; font-weight:600;">—</span></p>
     </div>
   </div>
 </div>
@@ -473,12 +487,12 @@
   <div class="slide-label">Wildlife safety · Important</div>
   <div style="display:flex; gap:5vw; align-items:flex-start;">
     <div style="flex:1;">
-      <h1>Always Carry Bear Spray</h1>
-      <p style="margin-top:1vh; font-size:2.4vw; line-height:1.4;">We are in bear country. Bear spray is your most effective defense — more reliable than a firearm at close range.</p>
+      <h1 style="font-size:5.5vw;">Always Carry Bear Spray</h1>
+      <p style="margin-top:0.8vh; font-size:1.9vw; line-height:1.4;">We are in bear country. Bear spray is your most effective defense — more reliable than a firearm at close range.</p>
       <div style="margin-top:2.5vh;">
         <div class="info-row">
           <span class="k">Check the cabin</span>
-          <span class="v" style="font-size:2vw; text-align:right;">A previous guest may have left a can — check closets and entry areas</span>
+          <span class="v" style="font-size:1.7vw; text-align:right;">A previous guest may have left a can — check closets and entry areas</span>
         </div>
         <div class="info-row">
           <span class="k">Buy locally</span>
@@ -486,15 +500,15 @@
         </div>
         <div class="info-row">
           <span class="k">Also available</span>
-          <span class="v" style="font-size:2vw;">High Mountain Adventures · Most outdoor shops</span>
+          <span class="v" style="font-size:1.7vw;">High Mountain Adventures · Most outdoor shops</span>
         </div>
         <div class="info-row">
           <span class="k">How to use</span>
-          <span class="v" style="font-size:2vw;">Remove safety clip · Aim low · Spray when bear is within 60 feet</span>
+          <span class="v" style="font-size:1.7vw;">Remove safety clip · Aim low · Spray when bear is within 60 feet</span>
         </div>
         <div class="info-row">
           <span class="k">Bear encounter</span>
-          <span class="v" style="font-size:2vw;">Stay calm · Do not run · Make yourself large · Back away slowly</span>
+          <span class="v" style="font-size:1.7vw;">Stay calm · Do not run · Make yourself large · Back away slowly</span>
         </div>
       </div>
     </div>
@@ -502,9 +516,9 @@
       <img src="bear-safety.png" style="max-width:26vw; max-height:38vh; object-fit:contain;" 
      onerror="this.outerHTML='<div style=font-size:4vw;font-weight:700;color:#f0928f;font-family:Georgia,serif;>BEAR<br/>COUNTRY</div>'" />
       <div style="background:rgba(228,75,74,0.15); border:1px solid rgba(228,75,74,0.3); border-radius:1.5vw; padding:2vh 2.5vw; text-align:center;">
-        <p style="font-size:2vw; color:#f0928f; font-weight:600; line-height:1.4;">Never hike alone<br/>without bear spray</p>
+        <p style="font-size:1.8vw; color:#f0928f; font-weight:600; line-height:1.4;">Never hike alone<br/>without bear spray</p>
       </div>
-      <p style="font-size:1.6vw; opacity:0.4; text-align:center;">Yellowstone averages<br/>1–3 bear encounters<br/>per week in season</p>
+      <p style="font-size:1.4vw; opacity:0.4; text-align:center;">Yellowstone averages<br/>1–3 bear encounters<br/>per week in season</p>
     </div>
   </div>
 </div>
@@ -524,8 +538,7 @@
 <div class="dots" id="dots"></div>
 <audio id="bg-audio" src="Little_Bit_Island_Park.mp3" loop preload="auto" style="display:none;"></audio>
 <img class="biz-logo" id="biz-logo" src="visit-island-park-dark-bg.png" alt="Visit Island Park Idaho" />
-<div style="position:absolute; bottom:2.5vh; right:3vw; z-index:6; display:flex; flex-direction:column; align-items:flex-end; gap:1.2vh;">
-  <img id="cabin-badge" src="" alt="" style="max-height:7vh; max-width:12vw; object-fit:contain; opacity:0.35; display:none;" />
+<div style="position:absolute; bottom:2.5vh; right:3vw; z-index:6;">
   <div style="font-size:clamp(10px,1.2vw,16px); opacity:0.3; letter-spacing:0.15vw; text-transform:uppercase;" id="refresh-tag">Updated —</div>
 </div>
 
@@ -1128,26 +1141,28 @@
   // ── TRASH PICKUP SLIDE ───────────────────────────────
   function setupTrashSlide(cabinKey) {
     const trash = typeof CABIN_TRASH !== 'undefined' ? CABIN_TRASH[cabinKey] : null;
-    const slide = document.getElementById('trash-slide');
-    if (!trash || !slide) return;
+    if (!trash) return;
 
     const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const today = dayNames[new Date().getDay()];
     const isPickupDay = trash.days.includes(today);
 
-    if (isPickupDay) {
-      // Show the slide in rotation
-      slide.style.display = '';
-      document.getElementById('trash-days').textContent = trash.days.join(' & ') + ' — Today!';
-      document.getElementById('trash-cans').textContent = trash.cans + ' bear-resistant container' + (trash.cans > 1 ? 's' : '') + ' outside';
-      document.getElementById('trash-notes').textContent = trash.notes;
-    } else {
-      // Hide the slide completely from rotation
-      slide.style.display = 'none';
-      // Remove from slides array so it doesn't show as a dot
-      const idx = Array.from(slides).indexOf(slide);
-      if (idx >= 0) {
-        slide.classList.remove('slide');
+    // Always populate the permanent trash info slide
+    const daysEl = document.getElementById('trash-days');
+    const cansEl = document.getElementById('trash-cans');
+    if (daysEl) daysEl.textContent = trash.days.join(' & ');
+    if (cansEl) cansEl.textContent = trash.cans + ' bear-resistant container' + (trash.cans > 1 ? 's' : '') + ' outside';
+
+    // Show pickup day reminder slide only on actual pickup days
+    const daySlide = document.getElementById('trash-day-slide');
+    if (daySlide) {
+      if (isPickupDay) {
+        daySlide.style.display = '';
+        const pickupEl = document.getElementById('trash-day-pickup');
+        if (pickupEl) pickupEl.textContent = trash.days.join(' & ');
+      } else {
+        daySlide.style.display = 'none';
+        daySlide.classList.remove('slide');
       }
     }
   }
