@@ -93,7 +93,7 @@ const THEMES = {
 };
 
 const CABINS = {
-  huckleberry:    { name: 'Huckleberry Hut',      lat: 44.4167, lon: -111.3833, wifi: 'Huckleberry Hut',        pw: 'Yellowst0neTrout!', checkout: '10:00 AM', wifiSet: true },
+  huckleberry:    { name: 'Huckleberry Hut',      lat: 44.4167, lon: -111.3833, wifi: 'The Huckleberry Hut',     pw: 'Y3llowst0neTrout!', checkout: '10:00 AM', wifiSet: true },
   gathering:      { name: 'Gathering Place',       lat: 44.4250, lon: -111.3700, wifi: 'The Gathering Place',    pw: 'Cascade4139',       checkout: '10:00 AM', wifiSet: true },
   'little-chalet':{ name: 'Little Chalet',         lat: 44.4300, lon: -111.4000, wifi: 'LittleChaletInTheForest',pw: 'Chalet42652',       checkout: '10:00 AM', wifiSet: true },
   'big-chalet':   { name: 'Big Chalet',            lat: 44.4310, lon: -111.4010, wifi: 'BigChaletintheforest',  pw: 'Chalet4265',        checkout: '10:00 AM', wifiSet: true },
