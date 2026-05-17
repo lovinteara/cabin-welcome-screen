@@ -555,6 +555,41 @@
   </div>
 </div>
 
+<!-- Watch TV slide -->
+<div class="slide" data-slide="watchtv">
+  <div class="slide-label">Entertainment · Watch TV</div>
+  <h1 style="font-size:5.5vw;">Watch Your Favorite Shows</h1>
+  <p style="margin-top:1vh; font-size:2vw; opacity:0.7;">This TV runs a welcome screen for guests — switching to streaming is easy!</p>
+  <div style="display:flex; gap:5vw; align-items:flex-start; margin-top:2vh;">
+    <div style="flex:1;">
+      <div class="info-row" style="padding:1.2vh 0;">
+        <span class="k">Step 1</span>
+        <span class="v" style="font-size:2vw;">Press the <strong>Home</strong> button on the TV remote</span>
+      </div>
+      <div class="info-row" style="padding:1.2vh 0;">
+        <span class="k">Step 2</span>
+        <span class="v" style="font-size:2vw;">Select your favorite streaming app — Netflix, Hulu, Disney+, YouTube</span>
+      </div>
+      <div class="info-row" style="padding:1.2vh 0;">
+        <span class="k">Step 3</span>
+        <span class="v" style="font-size:2vw;">Sign in with your own account or use any saved accounts</span>
+      </div>
+      <div class="info-row" style="padding:1.2vh 0;">
+        <span class="k">To return</span>
+        <span class="v" style="font-size:2vw;">Press <strong>Home</strong> again and select the HDMI input to bring back the welcome screen</span>
+      </div>
+      <div class="info-row" style="padding:1.2vh 0;">
+        <span class="k">WiFi</span>
+        <span class="v" id="tv-wifi-reminder" style="font-size:2vw;">See the WiFi slide for network &amp; password</span>
+      </div>
+    </div>
+    <div style="flex-shrink:0; width:24vw; background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2.5vh 2.5vw; text-align:center;">
+      <div style="font-size:1.6vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:2vh;">Quick tip</div>
+      <p style="font-size:2vw; line-height:1.5;">Sign out of your streaming accounts before you check out — just to keep things private!</p>
+    </div>
+  </div>
+</div>
+
 <!-- Slide 8: Contact -->
 <div class="slide" data-slide="8">
   <div class="slide-label">If you need us</div>
@@ -647,9 +682,13 @@
       let duration = 8000;
       if (sid === 'ipvideo') duration = 65000;
       if (sid === 'gallery') duration = 12000;
-      if (sid === '1') duration = 12000;
-      if (sid === 'trash') duration = 12000;
-      if (sid === 'trashday') duration = 12000;
+      if (sid === '1') duration = 12000;        // WiFi QR
+      if (sid === 'trash') duration = 12000;    // Trash info
+      if (sid === 'trashday') duration = 12000; // Trash day reminder
+      if (sid === 'fishing') duration = 12000;  // Fishing
+      if (sid === 'easytours') duration = 12000; // Easy Tours
+      if (sid === 'bearsafety') duration = 12000; // Bear safety
+      if (sid === 'firesafety') duration = 12000; // Fire safety
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -1093,7 +1132,7 @@
 
   // ── GALLERY ──────────────────────────────────────────
   const GALLERY_COUNT = 85;
-  const GALLERY_EXTENSIONS = ['jpg', 'jpeg', 'JPG', 'JPEG'];
+  const GALLERY_EXTENSIONS = ['jpeg', 'jpg', 'JPEG', 'JPG'];
   let _galleryIndex = Math.floor(Math.random() * GALLERY_COUNT) + 1;
   let _galleryAttempt = 0;
 

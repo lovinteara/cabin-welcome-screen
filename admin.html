@@ -9,7 +9,7 @@
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #f0f0f0; padding: 20px; }
   h1 { font-size: 24px; font-weight: 600; margin-bottom: 6px; }
   .subtitle { font-size: 14px; opacity: 0.5; margin-bottom: 24px; }
-  .cabin-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .cabin-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .cabin-tab { padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); font-size: 13px; cursor: pointer; background: transparent; color: #f0f0f0; transition: all 0.2s; }
   .cabin-tab.active { background: #5fa8b8; border-color: #5fa8b8; font-weight: 600; }
   .cabin-url { font-size: 12px; opacity: 0.4; margin-bottom: 24px; font-family: monospace; }
@@ -23,13 +23,14 @@
   .tag-conditional { background: rgba(255,193,7,0.2); color: #ffc107; }
   .tag-static { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
   .tag-long { background: rgba(95,168,184,0.2); color: #5fa8b8; }
-  .preview-btn { display: inline-block; margin-top: 10px; font-size: 12px; padding: 5px 12px; border-radius: 8px; background: rgba(255,255,255,0.08); color: #f0f0f0; text-decoration: none; border: none; cursor: pointer; }
-  .preview-btn:hover { background: rgba(255,255,255,0.15); }
+  .tag-12s { background: rgba(212,83,126,0.2); color: #d4537e; }
   .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
   .stat { background: #1a1f2e; border-radius: 10px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.08); }
   .stat-val { font-size: 22px; font-weight: 700; }
   .stat-lbl { font-size: 12px; opacity: 0.4; margin-top: 2px; }
   .section-header { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.3; margin: 20px 0 10px; }
+  a.preview-btn { display: inline-block; margin-top: 10px; font-size: 12px; padding: 5px 12px; border-radius: 8px; background: rgba(255,255,255,0.08); color: #f0f0f0; text-decoration: none; }
+  a.preview-btn:hover { background: rgba(255,255,255,0.15); }
 </style>
 </head>
 <body>
@@ -38,42 +39,43 @@
 <p class="subtitle">Visit Island Park Idaho · Cabin Welcome Screens · All 8 properties</p>
 
 <div class="cabin-tabs">
-  <button class="cabin-tab active" onclick="setCabin('huckleberry')">Huckleberry Hut</button>
-  <button class="cabin-tab" onclick="setCabin('gathering')">Gathering Place</button>
-  <button class="cabin-tab" onclick="setCabin('little-chalet')">Little Chalet</button>
-  <button class="cabin-tab" onclick="setCabin('big-chalet')">Big Chalet</button>
-  <button class="cabin-tab" onclick="setCabin('caldera')">Caldera Cottage</button>
-  <button class="cabin-tab" onclick="setCabin('dshouse')">D'Shouse Haven</button>
-  <button class="cabin-tab" onclick="setCabin('rrl')">River Rock Lodge</button>
-  <button class="cabin-tab" onclick="setCabin('charming')">Charming Log Home</button>
+  <button class="cabin-tab active" onclick="setCabin('huckleberry','The Huckleberry Hut','Y3llowst0neTrout!')">Huckleberry Hut</button>
+  <button class="cabin-tab" onclick="setCabin('gathering','The Gathering Place','Cascade4139')">Gathering Place</button>
+  <button class="cabin-tab" onclick="setCabin('little-chalet','LittleChaletInTheForest','Chalet42652')">Little Chalet</button>
+  <button class="cabin-tab" onclick="setCabin('big-chalet','Chalet in the forest','Chalet4265')">Big Chalet</button>
+  <button class="cabin-tab" onclick="setCabin('caldera','Caldera Cottage','Lodgepole3795')">Caldera Cottage</button>
+  <button class="cabin-tab" onclick="setCabin('dshouse','DshouseHaven','MARK2021')">D'Shouse Haven</button>
+  <button class="cabin-tab" onclick="setCabin('rrl','RiverRockLodge','Cabin2018')">River Rock Lodge</button>
+  <button class="cabin-tab" onclick="setCabin('charming','DodgeInn','Untracked21')">Charming Log Home</button>
 </div>
 
 <div class="cabin-url" id="cabin-url">https://cabin-welcome-screen.netlify.app/?cabin=huckleberry</div>
 
 <div class="stats">
-  <div class="stat"><div class="stat-val">21</div><div class="stat-lbl">Total slides</div></div>
-  <div class="stat"><div class="stat-val">~4 min</div><div class="stat-lbl">Full rotation</div></div>
+  <div class="stat"><div class="stat-val">23</div><div class="stat-lbl">Total slides</div></div>
+  <div class="stat"><div class="stat-val">~5 min</div><div class="stat-lbl">Full rotation</div></div>
   <div class="stat"><div class="stat-val">6</div><div class="stat-lbl">Live data sources</div></div>
   <div class="stat"><div class="stat-val">277</div><div class="stat-lbl">Quotes in rotation</div></div>
   <div class="stat"><div class="stat-val">85</div><div class="stat-lbl">Gallery photos</div></div>
+  <div class="stat"><div class="stat-val">8</div><div class="stat-lbl">Cabins</div></div>
 </div>
 
-<div class="section-header">All Slides in Order</div>
+<div class="section-header">All 23 Slides in Order</div>
 
 <div class="slides-grid">
 
   <div class="slide-card">
     <div class="slide-num">Slide 1</div>
     <div class="slide-name">Welcome</div>
-    <div class="slide-desc">Cabin logo, guest first name pulled from OwnerRez, checkout date, party size.</div>
+    <div class="slide-desc">Cabin logo, guest first name from OwnerRez, checkout date, party size.</div>
     <span class="slide-tag tag-live">Live — OwnerRez</span>
   </div>
 
   <div class="slide-card">
     <div class="slide-num">Slide 2</div>
     <div class="slide-name">Wi-Fi</div>
-    <div class="slide-desc">Network name, password, and scannable QR code for instant connection.</div>
-    <span class="slide-tag tag-static">Static per cabin</span>
+    <div class="slide-desc">Network name, password, and scannable QR code for instant connection. 12 seconds.</div>
+    <span class="slide-tag tag-12s">12 seconds</span>
   </div>
 
   <div class="slide-card">
@@ -86,7 +88,7 @@
   <div class="slide-card">
     <div class="slide-num">Slide 4</div>
     <div class="slide-name">4-Day Forecast</div>
-    <div class="slide-desc">4-day grid with icons, temps, and conditions for planning activities.</div>
+    <div class="slide-desc">4-day grid with icons, temps, and conditions.</div>
     <span class="slide-tag tag-live">Live — Open-Meteo</span>
   </div>
 
@@ -99,8 +101,8 @@
 
   <div class="slide-card">
     <div class="slide-num">Slide 6</div>
-    <div class="slide-name">HMA Live Webcam</div>
-    <div class="slide-desc">Sawtelle Peak snapshot from High Mountain Adventures. Updates every 2 min.</div>
+    <div class="slide-name">HMA Webcam</div>
+    <div class="slide-desc">Live snapshot of Sawtelle Peak from High Mountain Adventures. Updates every 2 min.</div>
     <span class="slide-tag tag-live">Live snapshot</span>
   </div>
 
@@ -121,7 +123,7 @@
   <div class="slide-card">
     <div class="slide-num">Slide 9</div>
     <div class="slide-name">Local Food Pick</div>
-    <div class="slide-desc">Random restaurant pick — skips closed days automatically. Restaurant logo shown.</div>
+    <div class="slide-desc">Random restaurant — skips closed days. Restaurant logo shown. New pick every rotation.</div>
     <span class="slide-tag tag-live">Smart rotation</span>
   </div>
 
@@ -142,7 +144,7 @@
   <div class="slide-card">
     <div class="slide-num">Slide 12</div>
     <div class="slide-name">Quote</div>
-    <div class="slide-desc">Random from 277 quotes — nature, humor, kid-friendly, cabin vibes. New every rotation.</div>
+    <div class="slide-desc">Random from 277 quotes — nature, humor, kid-friendly. New every rotation.</div>
     <span class="slide-tag tag-live">Random rotation</span>
   </div>
 
@@ -156,59 +158,85 @@
   <div class="slide-card">
     <div class="slide-num">Slide 14</div>
     <div class="slide-name">Island Park Video</div>
-    <div class="slide-desc">River video plays with Island Park song at 20% volume. 65 seconds.</div>
+    <div class="slide-desc">River video with Island Park song playing softly. 65 seconds.</div>
     <span class="slide-tag tag-long">65 seconds</span>
   </div>
 
   <div class="slide-card">
     <div class="slide-num">Slide 15</div>
     <div class="slide-name">Gallery Photo</div>
-    <div class="slide-desc">Full screen photo from 85-image gallery. New photo every rotation. 12 seconds.</div>
-    <span class="slide-tag tag-live">85 photos</span>
+    <div class="slide-desc">Full screen from 85-image gallery. New photo every rotation. 12 seconds.</div>
+    <span class="slide-tag tag-12s">12 seconds</span>
   </div>
 
   <div class="slide-card">
     <div class="slide-num">Slide 16</div>
     <div class="slide-name">Fishing — Henry's Fork</div>
-    <div class="slide-desc">Live CFS flow from USGS gauge, seasonal fly tip, top spots, fly shop links.</div>
-    <span class="slide-tag tag-live">Live — USGS</span>
+    <div class="slide-desc">Live CFS flow from USGS gauge, seasonal fly tip, top spots, fly shop links. 12 seconds.</div>
+    <span class="slide-tag tag-12s">12 seconds · Live USGS</span>
   </div>
 
   <div class="slide-card">
     <div class="slide-num">Slide 17</div>
     <div class="slide-name">Easy Tours Yellowstone</div>
-    <div class="slide-desc">Amy Beegel — Teara's favorite guide. 30+ years, private tours.</div>
-    <span class="slide-tag tag-static">Static</span>
+    <div class="slide-desc">Amy Beegel — Teara's favorite guide. 30+ years, private tours. 12 seconds.</div>
+    <span class="slide-tag tag-12s">12 seconds</span>
   </div>
 
   <div class="slide-card">
     <div class="slide-num">Slide 18</div>
     <div class="slide-name">Trash &amp; Recycling</div>
-    <div class="slide-desc">Pickup schedule, bear can info, bag instructions. Always shown.</div>
-    <span class="slide-tag tag-static">Always shown</span>
+    <div class="slide-desc">Per-cabin pickup schedule, bear can count, bag instructions. Always shown. 12 seconds.</div>
+    <span class="slide-tag tag-12s">12 seconds</span>
   </div>
 
   <div class="slide-card">
     <div class="slide-num">Slide 19</div>
     <div class="slide-name">Trash Day Reminder</div>
-    <div class="slide-desc">Bold reminder shown ONLY on actual pickup days for each cabin.</div>
+    <div class="slide-desc">Bold "Trash Day!" reminder shown ONLY on actual pickup days for each cabin. 12 seconds.</div>
     <span class="slide-tag tag-conditional">Pickup days only</span>
   </div>
 
   <div class="slide-card">
     <div class="slide-num">Slide 20</div>
     <div class="slide-name">Bear Safety</div>
-    <div class="slide-desc">Always carry bear spray. Where to get it locally. What to do in an encounter.</div>
-    <span class="slide-tag tag-static">Always shown</span>
+    <div class="slide-desc">Always carry bear spray. Where to get it locally. What to do in an encounter. 12 seconds.</div>
+    <span class="slide-tag tag-12s">12 seconds</span>
   </div>
 
   <div class="slide-card">
     <div class="slide-num">Slide 21</div>
-    <div class="slide-name">Contact</div>
-    <div class="slide-desc">Andy &amp; Teara, (385)685-0272, ipsouvenirsandgifts.com, 911, Madison Memorial.</div>
-    <span class="slide-tag tag-static">Static</span>
+    <div class="slide-name">Fire Safety</div>
+    <div class="slide-desc">Current fire restriction status (manually updated), fire pit rules, report number. 12 seconds.</div>
+    <span class="slide-tag tag-12s">12 seconds</span>
   </div>
 
+  <div class="slide-card">
+    <div class="slide-num">Slide 22</div>
+    <div class="slide-name">Watch TV</div>
+    <div class="slide-desc">How to switch from welcome screen to streaming — press Home button, select app, sign out before checkout.</div>
+    <span class="slide-tag tag-static">Always shown</span>
+  </div>
+
+  <div class="slide-card">
+    <div class="slide-num">Slide 23</div>
+    <div class="slide-name">Contact</div>
+    <div class="slide-desc">Andy & Teara (385)685-0272, ipsouvenirsandgifts.com, 911, Madison Memorial · Rexburg.</div>
+    <span class="slide-tag tag-static">Always shown</span>
+  </div>
+
+</div>
+
+<div class="section-header" style="margin-top:32px;">Pi Status</div>
+<div class="slides-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+  <div class="slide-card"><div class="slide-name">Huckleberry Hut</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running · WiFi fixed</div></div>
+  <div class="slide-card"><div class="slide-name">Gathering Place</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
+  <div class="slide-card"><div class="slide-name">Little Chalet</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
+  <div class="slide-card"><div class="slide-name">Big Chalet</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
+  <div class="slide-card"><div class="slide-name">Caldera Cottage</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
+  <div class="slide-card"><div class="slide-name">Charming Log Home</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
+  <div class="slide-card"><div class="slide-name">River Rock Lodge</div><div class="slide-desc" style="color:#ffc107;">⚠ Dead SD card — needs new SanDisk 32GB</div></div>
+  <div class="slide-card"><div class="slide-name">D'Shouse Haven</div><div class="slide-desc" style="color:#f0928f;">✗ Not set up yet</div></div>
 </div>
 
 <div class="section-header" style="margin-top:32px;">Quick Links</div>
@@ -223,13 +251,13 @@
   <a href="https://cabin-welcome-screen.netlify.app/?cabin=charming" target="_blank" class="preview-btn">Charming</a>
 </div>
 
-<div style="margin-top:40px; font-size:12px; opacity:0.3; text-align:center;">Visit Island Park Idaho · cabin-welcome-screen.netlify.app</div>
+<div style="margin-top:40px; font-size:12px; opacity:0.3; text-align:center;">Visit Island Park Idaho · cabin-welcome-screen.netlify.app · Updated May 2026</div>
 
 <script>
-function setCabin(key) {
+function setCabin(key, ssid, pw) {
   document.querySelectorAll('.cabin-tab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
-  document.getElementById('cabin-url').textContent = 'https://cabin-welcome-screen.netlify.app/?cabin=' + key;
+  document.getElementById('cabin-url').textContent = 'https://cabin-welcome-screen.netlify.app/?cabin=' + key + '  |  WiFi: ' + ssid + '  ·  PW: ' + pw;
 }
 </script>
 </body>

@@ -93,7 +93,7 @@ const THEMES = {
 };
 
 const CABINS = {
-  huckleberry:    { name: 'Huckleberry Hut',      lat: 44.4167, lon: -111.3833, wifi: 'The Huckleberry Hut',     pw: 'Y3llowst0neTrout!', checkout: '10:00 AM', wifiSet: true },
+  huckleberry:    { name: 'Huckleberry Hut',      lat: 44.4167, lon: -111.3833, wifi: 'The Huckleberry Hut',        pw: 'Y3llowst0neTrout!', checkout: '10:00 AM', wifiSet: true },
   gathering:      { name: 'Gathering Place',       lat: 44.4250, lon: -111.3700, wifi: 'The Gathering Place',    pw: 'Cascade4139',       checkout: '10:00 AM', wifiSet: true },
   'little-chalet':{ name: 'Little Chalet',         lat: 44.4300, lon: -111.4000, wifi: 'LittleChaletInTheForest',pw: 'Chalet42652',       checkout: '10:00 AM', wifiSet: true },
   'big-chalet':   { name: 'Big Chalet',            lat: 44.4310, lon: -111.4010, wifi: 'BigChaletintheforest',  pw: 'Chalet4265',        checkout: '10:00 AM', wifiSet: true },
@@ -619,12 +619,12 @@ const CABIN_CLEANING = {
 // days: pickup days, cans: number of bear-resistant cans available
 // -------------------------------------------------------------------------
 const CABIN_TRASH = {
-  huckleberry:    { days: ['Tuesday'],            cans: 1, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
-  gathering:      { days: ['Tuesday', 'Friday'],  cans: 3, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
-  'little-chalet':{ days: ['Wednesday'],          cans: 2, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
-  'big-chalet':   { days: ['Wednesday'],          cans: 2, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
-  caldera:        { days: ['Wednesday'],          cans: 1, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
-  dshouse:        { days: ['Wednesday'],          cans: 3, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
-  rrl:            { days: ['Wednesday'],          cans: 2, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' },
-  charming:       { days: ['Tuesday'],            cans: 1, notes: 'Black bags in kitchen. Bagged trash only in bear-resistant containers outside.' }
+  huckleberry:    { days: ['Tuesday'],            cans: 1, notes: 'Black bags under kitchen sink. Bagged trash only in bear-resistant containers outside.' },
+  gathering:      { days: ['Tuesday', 'Friday'],  cans: 3, notes: 'Black bags under kitchen sink. Bagged trash only in bear-resistant containers outside.' },
+  'little-chalet':{ days: ['Wednesday'],          cans: 2, notes: 'Black bags under kitchen sink. Bagged trash only in bear-resistant containers outside.' },
+  'big-chalet':   { days: ['Wednesday'],          cans: 2, notes: 'Black bags under kitchen sink. Bagged trash only in bear-resistant containers outside.' },
+  caldera:        { days: ['Wednesday'],          cans: 1, notes: 'Black bags under kitchen sink. Bagged trash only in bear-resistant containers outside.' },
+  dshouse:        { days: ['Wednesday'],          cans: 3, notes: 'Black bags under kitchen sink. Bagged trash only in bear-resistant containers outside.' },
+  rrl:            { days: ['Wednesday'],          cans: 2, notes: 'Black bags under kitchen sink. Bagged trash only in bear-resistant containers outside.' },
+  charming:       { days: ['Tuesday'],            cans: 1, notes: 'Black bags under kitchen sink. Bagged trash only in bear-resistant containers outside.' }
 };
