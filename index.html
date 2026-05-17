@@ -278,6 +278,15 @@
   <h1 id="food-name">—</h1>
   <p id="food-blurb">—</p>
   <p id="food-sub" style="margin-top:1.5vh; font-size:2vw; opacity:0.5;">—</p>
+  <div id="food-extras" style="display:none; margin-top:2vh; display:flex; gap:4vw; align-items:center;">
+    <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:1vh;">
+      <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw;"></div>
+      <p style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw;">Scan for menu</p>
+    </div>
+    <div id="food-phone-wrap" style="display:none;">
+      <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
+    </div>
+  </div>
   <img id="food-biz-logo" src="" style="position:absolute; bottom:6vh; right:3vw; max-height:22vh; max-width:28vw; object-fit:contain; opacity:0.9; display:none;" />
 </div>
 
@@ -931,6 +940,43 @@
         foodLogoEl.style.display = 'none';
       }
     }
+
+    // Restaurant-specific extras — QR code and phone
+    const restaurantExtras = {
+      "Pond's Lodge Pizza": { url: 'https://www.pondslodge.com/menus/',              phone: '(208) 558-7221' },
+      "Lakeside Lodge":     { url: 'https://www.lakesidelodgeandresort.com/restaurant', phone: '(208) 558-9770' },
+      "Café Sabor":         { url: 'https://www.cafesabor.com/index.php/services',   phone: '(208) 558-9300' },
+      "Boondocks":          { url: 'https://www.facebook.com/boondocksislandpark/',  phone: '(208) 716-3720' },
+      "Shotgun Bar":        { phone: '(208) 339-5929' },
+    };
+
+    const extras = restaurantExtras[r.name];
+    const qrWrap = document.getElementById('food-qr-wrap');
+    const phoneWrap = document.getElementById('food-phone-wrap');
+    const phoneEl = document.getElementById('food-phone');
+    const foodQrEl = document.getElementById('food-qr');
+
+    if (qrWrap) qrWrap.style.display = 'none';
+    if (phoneWrap) phoneWrap.style.display = 'none';
+
+    if (extras) {
+      if (extras.url && foodQrEl && typeof QRCode !== 'undefined') {
+        foodQrEl.innerHTML = '';
+        new QRCode(foodQrEl, {
+          text: extras.url,
+          width: Math.round(window.innerWidth * 0.1),
+          height: Math.round(window.innerWidth * 0.1),
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        if (qrWrap) qrWrap.style.display = 'flex';
+      }
+      if (extras.phone && phoneEl && phoneWrap) {
+        phoneEl.textContent = extras.phone;
+        phoneWrap.style.display = 'block';
+      }
+    }
   }
 
   function applyQuote() {
@@ -1018,7 +1064,21 @@
     nameLine.style.fontSize = "5vw";
     // Build details line
     const parts = [];
-    if (deptStr) parts.push(`Checking out ${deptStr}`);
+    // Clever checkout messages with time
+    if (deptStr) {
+      const checkoutTime = cabin ? cabin.checkout : '10:00 AM';
+      const checkoutPhrases = [
+        `Your mountain escape runs through ${deptStr} · Checkout ${checkoutTime}`,
+        `Relax — you're here until ${deptStr} at ${checkoutTime}`,
+        `Enjoy every moment — checkout ${deptStr} at ${checkoutTime}`,
+        `You've got until ${deptStr} at ${checkoutTime} — make it count!`,
+        `Yellowstone is yours through ${deptStr} · Out by ${checkoutTime}`,
+        `Island Park has you until ${deptStr} at ${checkoutTime}`,
+        `No rush — checkout is ${deptStr} at ${checkoutTime}`,
+      ];
+      const phrase = checkoutPhrases[Math.floor(Math.random() * checkoutPhrases.length)];
+      parts.push(phrase);
+    }
     if (partyStr) parts.push(partyStr);
 
     // Add pet info for pet-friendly cabins only
