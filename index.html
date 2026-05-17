@@ -128,7 +128,7 @@
   </div>
   <div id="guest-greeting" style="display:none; text-align:center; margin-top:28px;">
     <div id="guest-name-line" style="font-family:Georgia,serif; font-size:52px; font-weight:400; line-height:1.2;"></div>
-    <div id="guest-details-line" style="font-size:20px; letter-spacing:2px; margin-top:14px; opacity:0.6;"></div>
+    <div id="guest-details-line" style="font-size:2.2vw; letter-spacing:2px; margin-top:2vh; opacity:0.7;"></div>
   </div>
 </div>
 
@@ -1009,17 +1009,27 @@
       }
     }
 
-    // Build party string — combine adults + kids as total guests, pets separate
+    // Build party string — guests only, pets handled separately with paw icon
     const totalGuests = (guest.adults || 0) + (guest.children || 0);
-    const parts = [];
-    if (totalGuests) parts.push(totalGuests + (totalGuests === 1 ? ' guest' : ' guests'));
-    if (guest.pets) parts.push(guest.pets + (guest.pets === 1 ? ' pet welcome' : ' pets welcome'));
-    const partyStr = parts.join(' · ');
+    const partyStr = totalGuests ? (totalGuests + (totalGuests === 1 ? ' guest' : ' guests')) : '';
 
     nameLine.textContent = `Welcome, ${guest.firstName}!`;
     nameLine.style.color = theme.accent;
     nameLine.style.fontSize = "5vw";
-    detailsLine.textContent = [deptStr ? `Checking out ${deptStr}` : '', partyStr].filter(Boolean).join('  ·  ');
+    // Build details line
+    const parts = [];
+    if (deptStr) parts.push(`Checking out ${deptStr}`);
+    if (partyStr) parts.push(partyStr);
+
+    // Add pet info for pet-friendly cabins only
+    const petCabins = ['huckleberry', 'caldera'];
+    const cabinKey = new URLSearchParams(window.location.search).get('cabin') || '';
+    if (petCabins.includes(cabinKey) && guest.pets && guest.pets > 0) {
+      const petIcons = '<img src="pet-paw.png" style="height:2.2vw; vertical-align:middle; margin-right:0.4vw;">'.repeat(Math.min(guest.pets, 4));
+      parts.push(petIcons + ` ${guest.pets} pet${guest.pets > 1 ? 's' : ''} welcome`);
+    }
+
+    detailsLine.innerHTML = parts.filter(Boolean).join('  ·  ');
     greetingEl.style.display = 'block';
   }
 
