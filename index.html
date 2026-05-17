@@ -149,6 +149,15 @@
   </div>
 </div>
 
+<!-- Door Code: shown only when /api/lockcode returns a code for the current guest -->
+<div class="slide" data-slide="doorcode" id="doorcode-slide" style="display:none; align-items:center; justify-content:center; text-align:center;">
+  <div class="slide-label">Your door code</div>
+  <h1 style="font-size:4vw; font-weight:400; opacity:0.85;" id="doorcode-greeting">Welcome</h1>
+  <div id="doorcode-value" style="font-family:'SF Mono',Menlo,monospace; font-size:22vw; font-weight:700; letter-spacing:2.5vw; margin:3vh 0; line-height:1;">— — — —</div>
+  <p style="font-size:2.2vw; opacity:0.7; max-width:70vw;">Enter on the keypad and press the Schlage button. Code is active for your full stay.</p>
+  <p style="font-size:1.6vw; opacity:0.4; margin-top:2vh;" id="doorcode-expiry">&nbsp;</p>
+</div>
+
 <!-- Slide 2: Weather today -->
 <div class="slide" data-slide="2">
   <div class="slide-label"><span class="live-dot"></span>Live · <span id="weather-loc">Island Park</span></div>
@@ -990,6 +999,31 @@
     }
   }
 
+  // ── DOOR CODE SLIDE ──────────────────────────────────
+  async function setupDoorCodeSlide(cabinKey) {
+    const slide = document.getElementById('doorcode-slide');
+    if (!slide) return;
+    let data = null;
+    try {
+      const res = await fetch(`/api/lockcode?cabin=${cabinKey}`);
+      if (res.ok) data = await res.json();
+    } catch {}
+
+    if (!data || !data.code) {
+      slide.style.display = 'none';
+      slide.classList.remove('slide');
+      return;
+    }
+
+    const valueEl = document.getElementById('doorcode-value');
+    const greetEl = document.getElementById('doorcode-greeting');
+    const expEl   = document.getElementById('doorcode-expiry');
+    if (valueEl) valueEl.textContent = data.code;
+    if (greetEl && data.firstName) greetEl.textContent = `Welcome, ${data.firstName}`;
+    if (expEl && data.departure) expEl.textContent = `Active through checkout · ${data.departure}`;
+    slide.style.display = '';
+  }
+
   function applyGuest(guest, theme) {
     const greetingEl = document.getElementById('guest-greeting');
     const nameLine = document.getElementById('guest-name-line');
@@ -1374,6 +1408,7 @@
       bgAudio.play().catch(e => console.log('autoplay blocked:', e));
     }
     setupTrashSlide(key); // refresh hourly
+    setupDoorCodeSlide(key);
     setInterval(loadRegionalWeather, 15*60*1000); // refresh every 15min
 
     // Load guest name for personalized welcome

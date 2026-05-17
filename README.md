@@ -196,6 +196,90 @@ Change `8000` to whatever you want in milliseconds. `5000` = 5 seconds. `12000` 
 
 ---
 
+## Automatic door locks (Schlage via SmartThings)
+
+The welcome screen can show each guest their 4-digit door code, and the
+backend can push that code straight to the cabin's Schlage lock on a daily
+schedule — no manual code rotation between guests.
+
+### How it works
+
+1. A scheduled Netlify function (`lockcode-sync`) runs once a day at 11 AM
+   Mountain (after the 10 AM checkout window).
+2. For each cabin you've configured, it asks OwnerRez who's currently
+   booked, derives a 4-digit code from the booking, and calls the
+   SmartThings API to set that code in slot 1 of the lock.
+3. Between bookings (no guest in the cabin), it clears slot 1 so the
+   previous code stops working.
+4. The welcome screen's "Door Code" slide hits `/api/lockcode?cabin=…`
+   live, so the guest always sees the current active code.
+
+### Code derivation order
+
+For each booking the function picks the first option that succeeds:
+
+1. A booking field named `door_code` (manual override per booking in
+   OwnerRez)
+2. The last 4 digits of the guest's phone number
+3. The arrival date as MMDD (e.g. May 17 → `0517`)
+
+### What you need
+
+- **Schlage Z-Wave or Zigbee lock** paired to a SmartThings hub
+  (Connect, BE469, BE499, etc.). The all-WiFi Schlage Encode has no
+  public API, so it has to be on SmartThings for this to work.
+- **A SmartThings Personal Access Token** with the `r:devices:*` and
+  `x:devices:*` scopes. Generate one at
+  https://account.smartthings.com/tokens.
+- **Each lock's `deviceId`** — find it by calling
+  `GET https://api.smartthings.com/v1/devices` with your token and
+  looking for the lock entries. Copy the `deviceId` UUID for each.
+
+### Netlify environment variables to set
+
+In **Site settings → Environment variables** add:
+
+| Variable | Value |
+|---|---|
+| `OWNERREZ_API_USER` | Your OwnerRez API username (already set if guest names work) |
+| `OWNERREZ_API_KEY`  | Your OwnerRez API key (already set if guest names work) |
+| `SMARTTHINGS_TOKEN` | The Personal Access Token from the step above |
+| `SMARTTHINGS_DEVICES` | A JSON map of cabin → deviceId, see below |
+
+Example `SMARTTHINGS_DEVICES` value:
+
+```json
+{"huckleberry":"abc-123-uuid","gathering":"def-456-uuid","caldera":"ghi-789-uuid"}
+```
+
+Only cabins listed here get synced — roll out one lock at a time by
+adding them gradually.
+
+### Testing the sync manually
+
+After deploying, you can trigger the sync without waiting for the daily
+cron. From the Netlify dashboard go to **Functions → lockcode-sync →
+Trigger**, or hit it via the URL:
+
+```
+https://your-site.netlify.app/.netlify/functions/lockcode-sync
+```
+
+The response includes per-cabin status (`set` / `no-guest, slot cleared`
+/ `error`). Check Netlify function logs for details.
+
+### Limitations / gotchas
+
+- The cron runs in UTC, so the 17:00 UTC schedule lands at 11 AM
+  Mountain in winter and 10 AM Mountain in summer (DST). Both are after
+  checkout — fine for our use.
+- Only slot 1 is used. If you also program codes manually for cleaners
+  or yourself, put them in slots 2+ so the sync doesn't overwrite them.
+- The screen's "Door Code" slide only shows when there's an active
+  booking. Between guests the slide is hidden entirely.
+
+---
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -206,6 +290,9 @@ Change `8000` to whatever you want in milliseconds. `5000` = 5 seconds. `12000` 
 | Screen goes black after 10 min | See "Disabling screen blanking" above |
 | Edit not appearing on cabin TVs | Wait a few minutes (browser cache) or set up nightly auto-reload |
 | Pi shows "page not found" | Double-check the URL — case-sensitive on GitHub Pages |
+| Door code slide doesn't appear | No active booking, or `OWNERREZ_*` env vars missing — check `/api/lockcode?cabin=huckleberry` directly |
+| Lock isn't getting the new code | Check `SMARTTHINGS_TOKEN` and `SMARTTHINGS_DEVICES` are set, then trigger `lockcode-sync` manually and read its logs |
+| Code on the lock doesn't match the screen | Lock has codes in higher slots overriding slot 1, or the daily sync hasn't run yet — trigger manually |
 
 ---
 
