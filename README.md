@@ -223,30 +223,94 @@ For each booking the function picks the first option that succeeds:
 2. The last 4 digits of the guest's phone number
 3. The arrival date as MMDD (e.g. May 17 → `0517`)
 
+### Why this is more setup than you'd expect
+
+SmartThings recently changed their auth rules: Personal Access Tokens
+now expire after **24 hours** and are explicitly for "temporary
+development use." A daily cron can't survive on a token that dies every
+day, so we use the proper production path: a registered **OAuth
+SmartApp** with a long-lived refresh token (~30 days, auto-rotated on
+every use). The refresh token lives in Netlify Blobs so the function
+can mint fresh access tokens whenever it runs.
+
+You set this up **once**. After that it self-maintains as long as the
+sync runs at least once a month (the daily cron easily covers that).
+
 ### What you need
 
 - **Schlage Z-Wave or Zigbee lock** paired to a SmartThings hub
   (Connect, BE469, BE499, etc.). The all-WiFi Schlage Encode has no
-  public API, so it has to be on SmartThings for this to work.
-- **A SmartThings Personal Access Token** with the `r:devices:*` and
-  `x:devices:*` scopes. Generate one at
-  https://account.smartthings.com/tokens.
-- **Each lock's `deviceId`** — find it by calling
-  `GET https://api.smartthings.com/v1/devices` with your token and
-  looking for the lock entries. Copy the `deviceId` UUID for each.
+  public API, so it has to be paired with SmartThings for this to work.
+- A **Samsung / SmartThings developer account** (free) for registering
+  the SmartApp.
+- **Each lock's `deviceId`** — see "Find your device IDs" below.
 
-### Netlify environment variables to set
+### Step 1: Register a SmartApp
 
-In **Site settings → Environment variables** add:
+1. Go to https://smartthings.developer.samsung.com/workspace/ and sign
+   in with your Samsung account.
+2. Click **New Project → Automation for the SmartThings App → OAuth-In**
+   (or whichever option the workspace currently calls
+   "API-only / OAuth").
+3. Give it a name like "Cabin Lock Sync."
+4. **Redirect URI**: set this to your Netlify site's callback URL —
+   `https://YOUR-SITE.netlify.app/.netlify/functions/oauth-callback`
+5. **Scopes**: enable `r:devices:*` and `x:devices:*` (read devices,
+   execute device commands).
+6. Save / Deploy the app.
+7. From the project page, copy the **Client ID** and **Client Secret**
+   (the secret is shown once — save it now).
+
+### Step 2: Set Netlify environment variables
+
+In **Site settings → Environment variables**:
 
 | Variable | Value |
 |---|---|
 | `OWNERREZ_API_USER` | Your OwnerRez API username (already set if guest names work) |
 | `OWNERREZ_API_KEY`  | Your OwnerRez API key (already set if guest names work) |
-| `SMARTTHINGS_TOKEN` | The Personal Access Token from the step above |
-| `SMARTTHINGS_DEVICES` | A JSON map of cabin → deviceId, see below |
+| `SMARTTHINGS_CLIENT_ID` | From the SmartApp page |
+| `SMARTTHINGS_CLIENT_SECRET` | From the SmartApp page |
+| `SMARTTHINGS_REDIRECT_URI` | The same URL you put in step 1 (must match exactly) |
+| `SMARTTHINGS_DEVICES` | JSON map of cabin → deviceId — see step 4 |
 
-Example `SMARTTHINGS_DEVICES` value:
+Trigger a redeploy so the new env vars take effect.
+
+### Step 3: Do the one-time OAuth handshake
+
+In a browser, visit:
+
+```
+https://YOUR-SITE.netlify.app/api/oauth-start
+```
+
+You'll be redirected to a SmartThings approval page. Approve the app
+(it'll list the device-access scopes). SmartThings then redirects you
+back to `/api/oauth-callback`, which stores the refresh token in
+Netlify Blobs and shows a "SmartThings connected" page.
+
+That's it for auth. You don't have to redo this unless you delete the
+SmartApp, revoke access in your SmartThings account, or the sync stops
+running for 30+ days.
+
+### Step 4: Find your device IDs
+
+You can do this two ways:
+
+**A.** With `curl` and a *temporary* PAT (24h is plenty for this lookup —
+generate one at https://account.smartthings.com/tokens with `r:devices:*`,
+then run):
+
+```bash
+curl -H "Authorization: Bearer YOUR_PAT" \
+     https://api.smartthings.com/v1/devices | jq '.items[] | {name, deviceId, label}'
+```
+
+**B.** Or in the SmartThings app on your phone, open each lock and check
+the device details (sometimes the deviceId is buried in "Information").
+
+Copy each lock's `deviceId` UUID and build the `SMARTTHINGS_DEVICES`
+JSON map. Example:
 
 ```json
 {"huckleberry":"abc-123-uuid","gathering":"def-456-uuid","caldera":"ghi-789-uuid"}
@@ -255,28 +319,32 @@ Example `SMARTTHINGS_DEVICES` value:
 Only cabins listed here get synced — roll out one lock at a time by
 adding them gradually.
 
-### Testing the sync manually
+### Step 5: Test the sync
 
-After deploying, you can trigger the sync without waiting for the daily
-cron. From the Netlify dashboard go to **Functions → lockcode-sync →
-Trigger**, or hit it via the URL:
+From the Netlify dashboard go to **Functions → lockcode-sync → Trigger**,
+or hit it via the URL:
 
 ```
-https://your-site.netlify.app/.netlify/functions/lockcode-sync
+https://YOUR-SITE.netlify.app/.netlify/functions/lockcode-sync
 ```
 
 The response includes per-cabin status (`set` / `no-guest, slot cleared`
-/ `error`). Check Netlify function logs for details.
+/ `error`). Check the lock physically afterwards — slot 1 should have
+the new code. Function logs (Netlify → Functions → lockcode-sync → Logs)
+show details if anything fails.
 
 ### Limitations / gotchas
 
-- The cron runs in UTC, so the 17:00 UTC schedule lands at 11 AM
-  Mountain in winter and 10 AM Mountain in summer (DST). Both are after
-  checkout — fine for our use.
+- The cron runs in UTC, so the 17:00 UTC schedule lands at 10–11 AM
+  Mountain depending on DST. Both are after the 10 AM checkout — fine
+  for our use.
 - Only slot 1 is used. If you also program codes manually for cleaners
   or yourself, put them in slots 2+ so the sync doesn't overwrite them.
 - The screen's "Door Code" slide only shows when there's an active
   booking. Between guests the slide is hidden entirely.
+- If you revoke the SmartApp in your SmartThings account, or the sync
+  doesn't run for 30+ days, the refresh token expires — just visit
+  `/api/oauth-start` again to re-authorize.
 
 ---
 
@@ -291,7 +359,8 @@ The response includes per-cabin status (`set` / `no-guest, slot cleared`
 | Edit not appearing on cabin TVs | Wait a few minutes (browser cache) or set up nightly auto-reload |
 | Pi shows "page not found" | Double-check the URL — case-sensitive on GitHub Pages |
 | Door code slide doesn't appear | No active booking, or `OWNERREZ_*` env vars missing — check `/api/lockcode?cabin=huckleberry` directly |
-| Lock isn't getting the new code | Check `SMARTTHINGS_TOKEN` and `SMARTTHINGS_DEVICES` are set, then trigger `lockcode-sync` manually and read its logs |
+| Lock isn't getting the new code | Check `SMARTTHINGS_CLIENT_ID`/`CLIENT_SECRET`/`REDIRECT_URI`/`DEVICES` env vars are set, that you've done the `/api/oauth-start` handshake, then trigger `lockcode-sync` manually and read its logs |
+| `No refresh token stored` in logs | The one-time OAuth handshake was never done (or the SmartApp was revoked) — visit `/api/oauth-start` in a browser |
 | Code on the lock doesn't match the screen | Lock has codes in higher slots overriding slot 1, or the daily sync hasn't run yet — trigger manually |
 
 ---
