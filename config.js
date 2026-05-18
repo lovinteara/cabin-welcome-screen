@@ -210,15 +210,15 @@ const ACTIVITIES = [
 
 const RESTAURANTS = [
   { name: "Café Sabor", subtype: "Mexican · Island Park, Hwy 20", closedDays: [2],
-    blurb: "Worth the wait. Try the ceviche, combos, chimichangas — and the caramel churros.", fav: true },
+    blurb: "Worth the wait. Teara says: try the ceviche, chimichangas — and the caramel churros. Andy says: get the combo and add a chile relleno.", fav: true },
   { name: "Lakeside Lodge", subtype: "American steaks · local Miller Ag beef", closedDays: [],
-    blurb: "Finger steaks made with local Miller Ag beef. The Millers own Lakeside.", fav: true },
-  { name: "Boondocks", subtype: "American · Hwy 20", closedDays: [],
-    blurb: "Solid menu top to bottom. Campfire fries are the move.", fav: true },
+    blurb: "Teara says: finger steaks made with local Miller Ag beef — the Millers own Lakeside. Andy says: seared ahi tuna salad.", fav: true },
+  { name: "Boondocks", subtype: "American · Hwy 20", closedDays: [1, 2, 3],
+    blurb: "Solid menu top to bottom. Campfire fries are the move. Used to be known for cinnamon rolls — the new owner brought them back. If you try them, let us know how they are; we haven't had a chance yet.", fav: true },
   { name: "Pond's Lodge Pizza", subtype: "Pizza · classic Island Park spot", closedDays: [],
-    blurb: "We love the cheese breadsticks with ranch.", fav: true },
+    blurb: "Pizza here is pretty good — good variety. We ❤️ the cheese breadsticks with ranch or garlic sauce. The salads are popular too.", fav: true },
   { name: "Shotgun Bar", subtype: "Bar + food Wed–Sun", closedDays: [1, 2],
-    blurb: "Fun spot for beer and wine. Food served Wednesday through Sunday only.", fav: true }
+    blurb: "Fun spot for beer and wine. Food served Wednesday through Sunday only. A real local-local spot — almost always a local or two at the bar. Food is good and simple: breakfast burritos, sandwiches, even a $5 special.", fav: true }
 ];
 
 const QUOTES = [
