@@ -361,7 +361,8 @@
       <p id="photo-tagline" style="margin-top:2vh; font-size:2.8vw;"></p>
       <p id="photo-contact" style="margin-top:1.5vh; font-size:2.2vw; opacity:0.5;"></p>
     <p id="photo-phone" style="margin-top:0.8vh; font-size:2.2vw; opacity:0.5;"></p>
-      <p style="margin-top:3vh; font-size:2vw; opacity:0.35;">Capture your Island Park memories</p>
+      <p style="margin-top:2vh; font-size:1.9vw; color:#ffd700; font-weight:600;">Tell them Teara sent you!</p>
+      <p style="margin-top:1vh; font-size:2vw; opacity:0.35;">Capture your Island Park memories</p>
     </div>
   </div>
 </div>
@@ -446,6 +447,7 @@
       <div style="margin-top:3vh;">
         <div class="info-row"><span class="k">Website</span><span class="v">easytoursyellowstone.com</span></div>
         <div class="info-row"><span class="k">Why Amy</span><span class="v" style="font-size:2vw;">3 decades of Yellowstone expertise — she knows where the wolves are</span></div>
+        <div class="info-row"><span class="k">Referred by</span><span class="v" style="color:#ffd700; font-weight:600;">Tell Amy that Teara sent you!</span></div>
       </div>
     </div>
     <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; align-items:center; gap:2vh;">
@@ -493,15 +495,24 @@
   </div>
 </div>
 
-<!-- Trash pickup DAY reminder — only shown on pickup days -->
+<!-- Trash Day slide — pickup day msg OR bear can video -->
 <div class="slide" data-slide="trashday" id="trash-day-slide" style="display:none; align-items:center; justify-content:center; text-align:center;">
-  <div style="max-width:80vw;">
+  <div id="trash-day-msg" style="max-width:80vw;">
     <div class="slide-label" style="text-align:center;">Today · Action needed</div>
     <h1 style="font-size:9vw; font-family:Georgia,serif;">Trash Day!</h1>
     <p style="font-size:3vw; margin-top:2vh; line-height:1.4;">Please place your bagged trash in the bear-resistant<br/>container outside before you head out today.</p>
     <div style="margin-top:3vh; display:inline-block; background:rgba(255,255,255,0.08); border-radius:1.5vw; padding:2vh 4vw;">
       <p style="font-size:2.2vw; opacity:0.7;">Black bags · Under the kitchen sink<br/>Pickup: <span id="trash-day-pickup" style="opacity:1; font-weight:600;">—</span></p>
     </div>
+  </div>
+  <div id="trash-bearcan-video" style="display:none; flex-direction:column; align-items:center; gap:2vh; width:100%;">
+    <div class="slide-label" style="text-align:center;">Good to know · Bear Cans</div>
+    <h1 style="font-size:5vw; font-family:Georgia,serif;">How to Open Bear-Resistant Cans</h1>
+    <iframe src="https://www.youtube.com/embed/VpnU0Me8rSU?start=15&controls=1&modestbranding=1&rel=0"
+      style="width:55vw; aspect-ratio:16/9; border:none; border-radius:1.5vw;"
+      allow="autoplay; fullscreen" title="How to open bear resistant containers">
+    </iframe>
+    <p style="font-size:1.8vw; opacity:0.5;">Press both buttons on top simultaneously and lift the lid</p>
   </div>
 </div>
 
@@ -809,7 +820,7 @@
       const slide = slides[current];
       const sid = slide ? slide.dataset.slide : '';
       let duration = 8000;
-      if (sid === 'ipvideo') duration = 65000;
+      if (sid === 'ipvideo') duration = 8000;
       if (sid === 'gallery') duration = 12000;
       if (sid === '1') duration = 12000;        // WiFi QR
       if (sid === 'trash') duration = 12000;    // Trash info
@@ -1379,9 +1390,9 @@
       const fbEl = document.getElementById('qr-facebook');
       const ttEl = document.getElementById('qr-tiktok');
       const igEl = document.getElementById('qr-instagram');
-      if (fbEl) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
-      if (ttEl) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
-      if (igEl) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+      if (fbEl && !fbEl.hasChildNodes()) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl && !ttEl.hasChildNodes()) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl && !igEl.hasChildNodes()) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
     }
       }
     };
@@ -1398,9 +1409,9 @@
       const fbEl = document.getElementById('qr-facebook');
       const ttEl = document.getElementById('qr-tiktok');
       const igEl = document.getElementById('qr-instagram');
-      if (fbEl) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
-      if (ttEl) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
-      if (igEl) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+      if (fbEl && !fbEl.hasChildNodes()) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl && !ttEl.hasChildNodes()) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl && !igEl.hasChildNodes()) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
     }
   }
 
@@ -1467,16 +1478,20 @@
     if (daysEl) daysEl.textContent = trash.days.join(' & ');
     if (cansEl) cansEl.textContent = trash.cans + ' bear-resistant container' + (trash.cans > 1 ? 's' : '') + ' outside';
 
-    // Show pickup day reminder slide only on actual pickup days
+    // Show trash day slide always — pickup msg or bear can video
     const daySlide = document.getElementById('trash-day-slide');
+    const trashMsg = document.getElementById('trash-day-msg');
+    const bearCanVideo = document.getElementById('trash-bearcan-video');
     if (daySlide) {
+      daySlide.style.display = '';
       if (isPickupDay) {
-        daySlide.style.display = '';
+        if (trashMsg) trashMsg.style.display = 'block';
+        if (bearCanVideo) bearCanVideo.style.display = 'none';
         const pickupEl = document.getElementById('trash-day-pickup');
         if (pickupEl) pickupEl.textContent = trash.days.join(' & ');
       } else {
-        daySlide.style.display = 'none';
-        daySlide.classList.remove('slide');
+        if (trashMsg) trashMsg.style.display = 'none';
+        if (bearCanVideo) bearCanVideo.style.display = 'flex';
       }
     }
   }
@@ -1600,9 +1615,9 @@
       const fbEl = document.getElementById('qr-facebook');
       const ttEl = document.getElementById('qr-tiktok');
       const igEl = document.getElementById('qr-instagram');
-      if (fbEl) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
-      if (ttEl) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
-      if (igEl) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+      if (fbEl && !fbEl.hasChildNodes()) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl && !ttEl.hasChildNodes()) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl && !igEl.hasChildNodes()) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
     }
     loadWeather(cabin);
     loadRegionalWeather();

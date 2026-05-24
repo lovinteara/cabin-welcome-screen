@@ -205,7 +205,11 @@ const ACTIVITIES = [
   { name: "Jenny Lake (Tetons)", category: "Today's Teton trip",
     lat: 43.752, lon: -110.725, distance: "varies", elevation: "flat", difficulty: "Easy",
     seasons: ["spring","summer","fall"], minTemp: 35, weatherSafe: true,
-    blurb: "Boat shuttle to Hidden Falls and Inspiration Point. Iconic Teton experience." }
+    blurb: "Boat shuttle to Hidden Falls and Inspiration Point. Iconic Teton experience." },
+  { name: "Spencer Opal Fields", category: "Today's treasure hunt",
+    lat: 44.361, lon: -112.181, distance: "~1 hr drive", elevation: "flat", difficulty: "Easy",
+    seasons: ["spring","summer","fall"], minTemp: 40, weatherSafe: true,
+    blurb: "Dig for real opals at one of the only public opal mines in the US! Pay a small fee and keep what you find. Stop at the Spencer Grill after for a great local meal.", fav: true }
 ];
 
 const RESTAURANTS = [
@@ -219,6 +223,8 @@ const RESTAURANTS = [
     blurb: "We love the cheese breadsticks with ranch.", fav: true },
   { name: "Shotgun Bar", subtype: "Bar + food Wed–Sun · Kids welcome for breakfast", closedDays: [1, 2],
     blurb: "Fun spot with a great vibe. Food Wed–Sun only. Kids welcome for breakfast. Beautiful deck.", fav: true },
+  { name: "Spencer Grill", subtype: "American · Breakfast, Lunch & Dinner · Spencer, ID · (208) 374-5111", closedDays: [],
+    blurb: "Great local grill in Spencer — perfect stop on the way to the Opal Fields! Old-fashioned soda and ice cream too.", fav: true },
   { name: "The Happy Hour Bar", subtype: "Bar · West Yellowstone, MT · (406) 646-7281", closedDays: [],
     blurb: "Beautiful deck bar near Hebgen Lake just outside West Yellowstone. Great spot for a drink after a Yellowstone day. Adults preferred.", fav: false }
 ];
