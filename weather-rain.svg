@@ -1,13 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
-  <!-- Cloud -->
   <ellipse cx="60" cy="52" rx="30" ry="17" fill="#8a9aaa" opacity="0.95"/>
   <circle cx="42" cy="50" r="15" fill="#8a9aaa" opacity="0.95"/>
   <circle cx="60" cy="43" r="18" fill="#9aaabb" opacity="0.95"/>
   <circle cx="77" cy="50" r="13" fill="#8a9aaa" opacity="0.95"/>
   <ellipse cx="60" cy="62" rx="32" ry="11" fill="#8a9aaa" opacity="0.95"/>
-  <!-- Rain drops -->
   <g fill="#5fa8c8" opacity="0.9">
-    <ellipse cx="38" cy="82" rx="3" ry="6" rx="2.5"/>
+    <ellipse cx="38" cy="82" rx="3" ry="6"/>
     <ellipse cx="52" cy="88" rx="3" ry="6"/>
     <ellipse cx="66" cy="80" rx="3" ry="6"/>
     <ellipse cx="80" cy="86" rx="3" ry="6"/>

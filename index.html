@@ -283,19 +283,24 @@
 <div class="slide" data-slide="5" id="food-slide" style="position:relative;">
   <div class="slide-label">Local pick · Food</div>
   <div id="food-fav-badge"></div>
-  <h1 id="food-name">—</h1>
-  <p id="food-blurb">—</p>
-  <p id="food-sub" style="margin-top:1.5vh; font-size:2vw; opacity:0.5;">—</p>
-  <div id="food-extras" style="display:none; margin-top:2vh; display:flex; gap:4vw; align-items:center;">
-    <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:1vh;">
-      <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw;"></div>
-      <p style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw;">Scan for menu</p>
+  <div style="display:flex; gap:4vw; align-items:flex-start; margin-top:1vh;">
+    <div style="flex:1; min-width:0;">
+      <h1 id="food-name" style="margin:0;">—</h1>
+      <p id="food-blurb" style="margin-top:1.5vh;">—</p>
+      <p id="food-sub" style="margin-top:1vh; font-size:2vw; opacity:0.5;">—</p>
+      <div id="food-phone-wrap" style="display:none; margin-top:2vh;">
+        <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
+      </div>
     </div>
-    <div id="food-phone-wrap" style="display:none;">
-      <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
+    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; min-width:28vw;">
+      <img id="food-biz-logo" src="" style="max-height:22vh; max-width:26vw; object-fit:contain; opacity:0.95; display:none;" />
+      <img id="food-sec-img" src="" style="max-height:16vh; max-width:24vw; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
+      <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:0.8vh;">
+        <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw;"></div>
+        <p style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw;">Scan for menu</p>
+      </div>
     </div>
   </div>
-  <img id="food-biz-logo" src="" style="position:absolute; bottom:5vh; left:3vw; max-height:24vh; max-width:28vw; object-fit:contain; opacity:0.95; display:none;" />
 </div>
 
 <!-- Slide 6: High Mountain Adventures promo — always shown -->
@@ -450,7 +455,7 @@
 
       </div>
     </div>
-    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; align-items:center; gap:2vh;">
+    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:2vh;">
       <img src="etys-logo_0.png" style="max-width:26vw; max-height:35vh; object-fit:contain;"
            onerror="this.style.display='none'" />
       <p style="font-size:1.8vw; opacity:0.5; text-align:center; margin-top:1vh;">Private &amp; small group tours</p>
@@ -482,7 +487,7 @@
         <span class="v" style="font-size:2vw;">Bagged trash only in bear-resistant containers — no loose garbage</span>
       </div>
     </div>
-    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; gap:1.5vh;">
+    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; justify-content:center; gap:1.5vh;">
       <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:1.5vh 2vw;">
         <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:1vh;">How to open bear cans</div>
         <iframe
@@ -497,7 +502,7 @@
 </div>
 
 <!-- Trash Day slide — pickup day msg OR bear can video -->
-<div class="slide" data-slide="trashday" id="trash-day-slide" style="display:none; align-items:center; justify-content:center; text-align:center;">
+<div class="slide" data-slide="trashday" id="trash-day-slide" style="align-items:center; justify-content:center; text-align:center;">
   <div id="trash-day-msg" style="max-width:80vw;">
     <div class="slide-label" style="text-align:center;">Today · Action needed</div>
     <h1 style="font-size:9vw; font-family:Georgia,serif;">Trash Day!</h1>
@@ -540,7 +545,7 @@
         <div class="info-row" style="padding:1vh 0;"><span class="k">Bear encounter</span><span class="v" style="font-size:1.6vw;">Stay calm · Don't run · Back away slowly</span></div>
       </div>
     </div>
-    <div style="flex-shrink:0; width:22vw; display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+    <div style="flex-shrink:0; width:22vw; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1.5vh;">
       <img src="bear-safety.png" style="max-width:20vw; max-height:30vh; object-fit:contain;"
            onerror="this.outerHTML='<div style=font-size:3.5vw;font-weight:700;color:#f0928f;font-family:Georgia,serif;>BEAR COUNTRY</div>'" />
       <div style="background:rgba(228,75,74,0.15); border:1px solid rgba(228,75,74,0.3); border-radius:1.5vw; padding:1.5vh 2vw; text-align:center;">
@@ -585,7 +590,7 @@
         </div>
       </div>
     </div>
-    <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; gap:1.5vh;">
+    <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; justify-content:center; gap:1.5vh;">
       <div id="fire-status-box" style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2vh 2vw; text-align:center;">
         <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:1vh;">Current Status</div>
         <div id="fire-status-text" style="font-size:2.2vw; font-weight:700; line-height:1.3;">Checking…</div>
@@ -673,7 +678,7 @@
         <div class="info-row" style="padding:1vh 0;"><span class="k">Book with Teara</span><span class="v" style="color:#5cb874; font-weight:700;">(208) 589-0503 · Call or text</span></div>
       </div>
     </div>
-    <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; gap:2vh; align-items:center;">
+    <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; gap:2vh; align-items:center; justify-content:center;">
       <div style="background:rgba(95,168,184,0.15); border:1px solid rgba(95,168,184,0.3); border-radius:1.5vw; padding:2vh 2vw; text-align:center;">
         <img src="kwu.png" style="max-width:100%; max-height:20vh; object-fit:contain; border-radius:1vw;"
              onerror="this.src='kayak-fallback.svg'" />
@@ -760,7 +765,7 @@
            onerror="this.src='huckleberry-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1729'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Huckleberry Hut</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 4–6<br/>🐾 Pet friendly</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 4–6<br/><img src="pet-paw.png" style="height:1.4vw; vertical-align:middle; margin-right:0.3vw;" onerror="this.outerHTML='<span style=color:#5cb874;font-weight:600;font-size:1.2vw;>Pets OK</span>'"> Pet friendly</div>
       </div>
     </div>
 
@@ -770,7 +775,7 @@
            onerror="this.src='gathering-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1a24'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Gathering Place</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps up to 26!<br/>Hot tub · Game room</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps up to 26!<br/>Reunions · Hot tub · Games</div>
       </div>
     </div>
 
@@ -800,7 +805,7 @@
            onerror="this.src='caldera-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#201a1e'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Caldera Cottage</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 7–8<br/>🐾 Pet friendly</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 7–8<br/><img src="pet-paw.png" style="height:1.4vw; vertical-align:middle; margin-right:0.3vw;" onerror="this.outerHTML='<span style=color:#5cb874;font-weight:600;font-size:1.2vw;>Pets OK</span>'"> Pet friendly</div>
       </div>
     </div>
 
@@ -820,7 +825,7 @@
            onerror="this.src='rrl-logo.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">River Rock Lodge</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps up to 14!<br/>Best for reunions</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps up to 14!<br/>Biggest cabin · Groups</div>
       </div>
     </div>
 
@@ -881,21 +886,21 @@
 
     <!-- Conversation Starters -->
     <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(255,165,0,0.3);">
-      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#ff9500; margin-bottom:1.2vh; font-weight:600;">💬 Conversation Starters</div>
-      <div id="campfire-questions" style="font-size:1.6vw; line-height:1.8; opacity:0.85;"></div>
+      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#ff9500; margin-bottom:1.2vh; font-weight:600;">Conversation Starters</div>
+      <div id="campfire-questions" style="font-size:1.6vw; line-height:1.8; color:#f0e8f0;"></div>
     </div>
 
     <!-- Story Starters -->
     <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(255,100,50,0.3);">
-      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#ff6432; margin-bottom:1.2vh; font-weight:600;">📖 Start a Story</div>
-      <div id="campfire-story" style="font-size:1.7vw; line-height:1.6; opacity:0.85; font-style:italic;"></div>
+      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#ff6432; margin-bottom:1.2vh; font-weight:600;">Start a Story</div>
+      <div id="campfire-story" style="font-size:1.7vw; line-height:1.6; color:#f0e8f0; font-style:italic;"></div>
       <p style="font-size:1.4vw; opacity:0.4; margin-top:1.5vh;">Take turns adding to the story — keep it going!</p>
     </div>
 
     <!-- S'mores Ideas -->
     <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(200,151,58,0.3);">
-      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#c8973a; margin-bottom:1.2vh; font-weight:600;">🍫 S'mores Ideas</div>
-      <div id="campfire-smores" style="font-size:1.6vw; line-height:1.8; opacity:0.85;"></div>
+      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#c8973a; margin-bottom:1.2vh; font-weight:600;">S'mores Ideas</div>
+      <div id="campfire-smores" style="font-size:1.6vw; line-height:1.8; color:#f0e8f0;"></div>
     </div>
 
   </div>
@@ -1329,19 +1334,15 @@
     if (qrWrap) qrWrap.style.display = 'none';
     if (phoneWrap) phoneWrap.style.display = 'none';
     // Show secondary food image (e.g. Shotgun Bar breakfast hours)
-    let foodSecImg = document.getElementById('food-sec-img');
-    if (!foodSecImg) {
-      foodSecImg = document.createElement('img');
-      foodSecImg.id = 'food-sec-img';
-      foodSecImg.style.cssText = 'position:absolute; bottom:5vh; right:3vw; max-height:20vh; max-width:24vw; object-fit:contain; opacity:0.92; border-radius:1vw;';
-      document.getElementById('food-slide').appendChild(foodSecImg);
-    }
+    const foodSecImg = document.getElementById('food-sec-img');
     const secImgFile = foodImages[r.name];
-    if (secImgFile) {
-      foodSecImg.src = secImgFile;
-      foodSecImg.style.display = 'block';
-    } else {
-      foodSecImg.style.display = 'none';
+    if (foodSecImg) {
+      if (secImgFile) {
+        foodSecImg.src = secImgFile;
+        foodSecImg.style.display = 'block';
+      } else {
+        foodSecImg.style.display = 'none';
+      }
     }
 
     if (extras) {
@@ -1355,7 +1356,7 @@
           colorLight: '#ffffff',
           correctLevel: QRCode.CorrectLevel.M
         });
-        if (qrWrap) qrWrap.style.display = 'flex';
+        if (qrWrap) { qrWrap.style.display = 'flex'; qrWrap.style.flexDirection = 'column'; }
       }
       if (extras.phone && phoneEl && phoneWrap) {
         phoneEl.textContent = extras.phone;
@@ -1461,7 +1462,7 @@
       const t = wDesc(cur.weather_code);
       document.getElementById('current-temp').textContent = Math.round(cur.temperature_2m)+'°';
       document.getElementById('current-cond').textContent = t.t;
-      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 140);
+      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 180);
       document.getElementById('hi-temp').textContent = Math.round(data.daily.temperature_2m_max[0])+'°';
       document.getElementById('lo-temp').textContent = Math.round(data.daily.temperature_2m_min[0])+'°';
       document.getElementById('wind').textContent = Math.round(cur.wind_speed_10m)+' mph';
@@ -1471,7 +1472,7 @@
       grid.innerHTML = '';
       for (let i=1;i<=4;i++) {
         const w = wDesc(data.daily.weather_code[i]);
-        grid.innerHTML += `<div class="weather-cell"><div class="day">${dayShort(data.daily.time[i])}</div><div style="display:flex;align-items:center;gap:12px;">${iconSvg(w.i,36)}<div class="temp">${Math.round(data.daily.temperature_2m_max[i])}°</div></div><div class="cond">${w.t}</div></div>`;
+        grid.innerHTML += `<div class="weather-cell"><div class="day">${dayShort(data.daily.time[i])}</div><div style="display:flex;align-items:center;gap:12px;">${iconSvg(w.i,80)}<div class="temp">${Math.round(data.daily.temperature_2m_max[i])}°</div></div><div class="cond">${w.t}</div></div>`;
       }
       window._weatherRef = data;
       applyActivity(cabin, data);
@@ -1542,7 +1543,8 @@
     const petCabins = ['huckleberry', 'caldera'];
     const cabinKey = new URLSearchParams(window.location.search).get('cabin') || '';
     if (petCabins.includes(cabinKey) && guest.pets && guest.pets > 0) {
-      const petIcons = '<img src="pet-paw.png" style="height:2.2vw; vertical-align:middle; margin-right:0.4vw;">'.repeat(Math.min(guest.pets, 4));
+      const petImg = '<img src="pet-paw.png" style="height:2.2vw; vertical-align:middle; margin-right:0.4vw;" onerror="this.outerHTML=\'<span style=color:#5cb874;font-size:1.8vw;font-weight:600;>PAW</span>\'">';
+      const petIcons = petImg.repeat(Math.min(guest.pets, 4));
       parts.push(petIcons + ` ${guest.pets} pet${guest.pets > 1 ? 's' : ''} welcome`);
     }
 
@@ -1570,7 +1572,7 @@
         const tempEl = document.getElementById(`reg-${loc.id}-temp`);
         const condEl = document.getElementById(`reg-${loc.id}-cond`);
         if (tempEl) tempEl.textContent = temp + '°';
-        if (condEl) condEl.innerHTML = iconSvg(w.i, 28) + ' ' + w.t;
+        if (condEl) condEl.innerHTML = iconSvg(w.i, 60) + ' ' + w.t;
       } catch {
         const condEl = document.getElementById(`reg-${loc.id}-cond`);
         if (condEl) condEl.textContent = 'Unavailable';
@@ -1945,6 +1947,24 @@
           colorDark: '#000000', colorLight: '#ffffff',
           correctLevel: QRCode.CorrectLevel.M
         });
+      }
+    }
+        // Generate all cabins QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const allCabinsEl = document.getElementById('qr-allcabins');
+      if (allCabinsEl && !allCabinsEl.hasChildNodes()) {
+        new QRCode(allCabinsEl, { text: 'https://www.VisitIslandParkIdaho.com',
+          width: Math.round(window.innerWidth * 0.1), height: Math.round(window.innerWidth * 0.1),
+          colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+      }
+    }
+    // Generate bear can video QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const bearCanEl = document.getElementById('qr-bearcan');
+      if (bearCanEl && !bearCanEl.hasChildNodes()) {
+        new QRCode(bearCanEl, { text: 'https://youtu.be/VpnU0Me8rSU?t=15',
+          width: Math.round(window.innerWidth * 0.1), height: Math.round(window.innerWidth * 0.1),
+          colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
       }
     }
     // Generate social media QR codes

@@ -226,7 +226,7 @@ const RESTAURANTS = [
   { name: "Spencer Grill", subtype: "American · Breakfast, Lunch & Dinner · Spencer, ID · (208) 374-5111", closedDays: [],
     blurb: "Great local grill in Spencer — perfect stop on the way to the Opal Fields! Old-fashioned soda and ice cream too.", fav: true },
   { name: "The Happy Hour Bar", subtype: "Bar · West Yellowstone, MT · (406) 646-7281", closedDays: [],
-    blurb: "Beautiful deck bar near Hebgen Lake just outside West Yellowstone. Great spot for a drink after a Yellowstone day. Adults preferred.", fav: false }
+    blurb: "Beautiful deck bar near Hebgen Lake just outside West Yellowstone. Try their famous crab buckets for under $40 — a fantastic experience! Adults preferred. Tell them Teara sent you!", fav: true }
 ];
 
 const QUOTES = [
