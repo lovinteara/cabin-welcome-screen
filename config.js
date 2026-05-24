@@ -96,7 +96,7 @@ const CABINS = {
   huckleberry:    { name: 'Huckleberry Hut',      lat: 44.4167, lon: -111.3833, wifi: 'The Huckleberry Hut',        pw: 'Y3llowst0neTrout!', checkout: '10:00 AM', wifiSet: true },
   gathering:      { name: 'Gathering Place',       lat: 44.4250, lon: -111.3700, wifi: 'The Gathering Place',    pw: 'Cascade4139',       checkout: '10:00 AM', wifiSet: true },
   'little-chalet':{ name: 'Little Chalet',         lat: 44.4300, lon: -111.4000, wifi: 'LittleChaletInTheForest',pw: 'Chalet42652',       checkout: '10:00 AM', wifiSet: true },
-  'big-chalet':   { name: 'Big Chalet',            lat: 44.4310, lon: -111.4010, wifi: 'BigChaletintheforest',  pw: 'Chalet4265',        checkout: '10:00 AM', wifiSet: true },
+  'big-chalet':   { name: 'Big Chalet',            lat: 44.4310, lon: -111.4010, wifi: 'Chalet in the forest',  pw: 'Chalet4265',        checkout: '10:00 AM', wifiSet: true },
   caldera:        { name: 'Caldera Cottage',       lat: 44.4100, lon: -111.3900, wifi: 'Caldera Cottage',       pw: 'Lodgepole3795',     checkout: '10:00 AM', wifiSet: true },
   dshouse:        { name: "D'Shouse Haven",        lat: 44.4200, lon: -111.3750, wifi: 'DshouseHaven',          pw: 'MARK2021',          checkout: '10:00 AM', wifiSet: true },
   rrl:            { name: 'RRL Sleeps 14',         lat: 44.4180, lon: -111.3820, wifi: 'RiverRockLodge',        pw: 'Cabin2018',         checkout: '10:00 AM', wifiSet: true },
@@ -517,6 +517,7 @@ const PHOTOGRAPHERS = [
     name: "Portraits By Teara",
     tagline: "Family & portrait photography near Yellowstone",
     contact: "PortraitsByTeara.com",
+    phone: "+1 (208) 589-0503",
     logo: null,
     photo: "portraits-by-teara-photo.png"
   }
