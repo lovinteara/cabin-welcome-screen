@@ -447,13 +447,14 @@
       <div style="margin-top:3vh;">
         <div class="info-row"><span class="k">Website</span><span class="v">easytoursyellowstone.com</span></div>
         <div class="info-row"><span class="k">Why Amy</span><span class="v" style="font-size:2vw;">3 decades of Yellowstone expertise — she knows where the wolves are</span></div>
-        <div class="info-row"><span class="k">Referred by</span><span class="v" style="color:#ffd700; font-weight:600;">Tell Amy that Teara sent you!</span></div>
+
       </div>
     </div>
     <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; align-items:center; gap:2vh;">
       <img src="etys-logo_0.png" style="max-width:26vw; max-height:35vh; object-fit:contain;"
            onerror="this.style.display='none'" />
       <p style="font-size:1.8vw; opacity:0.5; text-align:center; margin-top:1vh;">Private &amp; small group tours</p>
+      <p style="font-size:1.8vw; color:#ffd700; font-weight:700; text-align:center; margin-top:1.5vh;">Tell Amy that Teara sent you!</p>
     </div>
   </div>
 </div>
@@ -513,6 +514,10 @@
       allow="autoplay; fullscreen" title="How to open bear resistant containers">
     </iframe>
     <p style="font-size:1.8vw; opacity:0.5;">Press both buttons on top simultaneously and lift the lid</p>
+    <div style="display:flex; align-items:center; gap:3vw; margin-top:1vh;">
+      <div style="background:#fff; padding:1vw; border-radius:1vw;" id="qr-bearcan"></div>
+      <p style="font-size:1.6vw; opacity:0.5;">Or scan to watch on your phone</p>
+    </div>
   </div>
 </div>
 
@@ -666,8 +671,9 @@
     </div>
     <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; gap:2vh; align-items:center;">
       <div style="background:rgba(95,168,184,0.15); border:1px solid rgba(95,168,184,0.3); border-radius:1.5vw; padding:2vh 2vw; text-align:center;">
-        <p style="font-size:5vw; margin-bottom:1vh;">🚣</p>
-        <p style="font-size:1.8vw; color:#5fa8b8; font-weight:600; line-height:1.4;">Float with us<br/>or on your own!</p>
+        <img src="kwu.png" style="max-width:100%; max-height:20vh; object-fit:contain; border-radius:1vw;"
+             onerror="this.src='kayak-fallback.svg'" />
+        <p style="font-size:1.8vw; color:#5fa8b8; font-weight:600; line-height:1.4; margin-top:1vh;">Float with us<br/>or on your own!</p>
       </div>
       <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:1.5vh 2vw; text-align:center; width:100%;">
         <p style="font-size:1.5vw; opacity:0.6; line-height:1.5;">Meet at Big Springs<br/>boat launch<br/>We take you back<br/>to your car after!</p>
@@ -730,6 +736,168 @@
   <p style="font-size:1.4vw; opacity:0.3; margin-top:1.5vh; text-align:center;">Drive times approximate · Check 511.idaho.gov for road conditions</p>
 </div>
 
+<!-- All Cabins Grid slide — one screen shows all 8 -->
+<div class="slide" data-slide="allcabins">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5vh;">
+    <div>
+      <div class="slide-label">Book Your Next Stay · Use code VIP5 for a discount</div>
+      <h1 style="font-size:4vw; font-family:Georgia,serif;">Our Cabins — Something for Everyone</h1>
+    </div>
+    <div style="text-align:right;">
+      <div style="background:#fff; padding:0.8vw; border-radius:1vw; display:inline-block;" id="qr-allcabins"></div>
+      <p style="font-size:1.4vw; opacity:0.5; margin-top:0.5vh;">VisitIslandParkIdaho.com</p>
+    </div>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1.2vw;">
+
+    <!-- Huckleberry Hut -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="huckleberry-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='huckleberry-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1729'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Huckleberry Hut</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Cozy · Sleeps 4<br/>🐾 Pet friendly</div>
+      </div>
+    </div>
+
+    <!-- Gathering Place -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="tgp-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='gathering-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1a24'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Gathering Place</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Large groups<br/>Hot tub · Game room</div>
+      </div>
+    </div>
+
+    <!-- Little Chalet -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="littlechalet-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='chalet-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#191e21'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Little Chalet</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Cozy retreat<br/>Hot tub · Forest</div>
+      </div>
+    </div>
+
+    <!-- Big Chalet -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="bigchalet-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='chalet-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#191e21'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Big Chalet</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Spacious · Groups<br/>Forest setting</div>
+      </div>
+    </div>
+
+    <!-- Caldera Cottage -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="caldera-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='caldera-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#201a1e'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Caldera Cottage</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Charming · Cozy<br/>🐾 Pet friendly</div>
+      </div>
+    </div>
+
+    <!-- D'Shouse Haven -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="ds-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='dshouse-logo.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">D'Shouse Haven</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Spacious · Groups<br/>Hot tub included</div>
+      </div>
+    </div>
+
+    <!-- River Rock Lodge -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="rrl-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='rrl-logo.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">River Rock Lodge</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 14!<br/>Best for reunions</div>
+      </div>
+    </div>
+
+    <!-- Charming Log Home -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="charming-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='visit-island-park-full.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Charming Log Home</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Authentic log cabin<br/>Near Yellowstone</div>
+      </div>
+    </div>
+
+  </div>
+  <p style="font-size:1.4vw; opacity:0.35; text-align:center; margin-top:1.5vh;">Use code <span style="color:#ffd700; font-weight:600; opacity:1;">VIP5</span> when booking for a returning guest discount · VisitIslandParkIdaho.com</p>
+</div>
+
+<!-- Book Again slide -->
+<div class="slide" data-slide="bookagain" style="align-items:center; justify-content:center; text-align:center;">
+  <div class="slide-label">Come Back Soon!</div>
+  <h1 style="font-size:6vw; font-family:Georgia,serif; margin-bottom:1vh;">We'd Love to Host You Again</h1>
+  <p style="font-size:2.2vw; opacity:0.7; margin-bottom:3vh;">Book your next stay directly and save!</p>
+  <div style="display:flex; gap:6vw; align-items:center; justify-content:center;">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+      <div style="background:#fff; padding:1.8vw; border-radius:1.5vw; box-shadow:0 4px 24px rgba(0,0,0,0.3);" id="qr-bookagain"></div>
+      <p style="font-size:1.8vw; opacity:0.6;">Scan to book</p>
+      <p style="font-size:1.6vw; opacity:0.5;">VisitIslandParkIdaho.com</p>
+    </div>
+    <div style="text-align:left;">
+      <div class="info-row" style="max-width:40vw;">
+        <span class="k">Website</span>
+        <span class="v">VisitIslandParkIdaho.com</span>
+      </div>
+      <div class="info-row" style="max-width:40vw;">
+        <span class="k">Discount code</span>
+        <span class="v" style="color:#ffd700; font-size:3vw; font-weight:700; font-family:Georgia,serif;">VIP5</span>
+      </div>
+      <div class="info-row" style="max-width:40vw;">
+        <span class="k">Your hosts</span>
+        <span class="v">Andy &amp; Teara · (385) 685-0272</span>
+      </div>
+      <p style="font-size:1.6vw; opacity:0.4; margin-top:2vh;">Thank you for staying with us — we hope to see you again!</p>
+    </div>
+  </div>
+  <img src="visit-island-park-dark-bg.png" style="height:5vh; opacity:0.5; margin-top:3vh;" />
+</div>
+
+<!-- Campfire Fun slide -->
+<div class="slide" data-slide="campfire" style="position:relative;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1vh;">
+    <div>
+      <div class="slide-label">Tonight Around the Fire</div>
+      <h1 style="font-size:5vw; font-family:Georgia,serif;">Campfire Time!</h1>
+    </div>
+    <img src="smore.svg" style="height:16vh; opacity:0.95;" onerror="this.style.display='none'" />
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:2vw; margin-top:1vh;">
+
+    <!-- Conversation Starters -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(255,165,0,0.3);">
+      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#ff9500; margin-bottom:1.2vh; font-weight:600;">💬 Conversation Starters</div>
+      <div id="campfire-questions" style="font-size:1.6vw; line-height:1.8; opacity:0.85;"></div>
+    </div>
+
+    <!-- Story Starters -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(255,100,50,0.3);">
+      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#ff6432; margin-bottom:1.2vh; font-weight:600;">📖 Start a Story</div>
+      <div id="campfire-story" style="font-size:1.7vw; line-height:1.6; opacity:0.85; font-style:italic;"></div>
+      <p style="font-size:1.4vw; opacity:0.4; margin-top:1.5vh;">Take turns adding to the story — keep it going!</p>
+    </div>
+
+    <!-- S'mores Ideas -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(200,151,58,0.3);">
+      <div style="font-size:1.6vw; letter-spacing:2px; text-transform:uppercase; color:#c8973a; margin-bottom:1.2vh; font-weight:600;">🍫 S'mores Ideas</div>
+      <div id="campfire-smores" style="font-size:1.6vw; line-height:1.8; opacity:0.85;"></div>
+    </div>
+
+  </div>
+  <p style="font-size:1.4vw; opacity:0.3; margin-top:2vh; text-align:center;">Slide changes every rotation — new ideas each time!</p>
+</div>
+
 <!-- Slide 8: Contact -->
 <div class="slide" data-slide="8">
   <div class="slide-label">If you need us</div>
@@ -789,6 +957,7 @@
       if (id === '4') { try { applyActivity(window._cabinRef, window._weatherRef); } catch(e) { console.error('activity err', e); } }
       if (id === '5') { try { applyFood(); } catch(e) { console.error('food err', e); } }
       if (id === 'photo') { try { applyPhotographer(); } catch(e) { console.error('photo err', e); } }
+      if (id === 'campfire') { try { applyCampfire(); } catch(e) {} }
       if (id === 'gallery') { try { nextGalleryImage(); } catch(e) {} }
       if (id === 'fishing') { try { loadFishingData(); } catch(e) {} }
       if (id === 'firesafety') { try { loadFireStatus(); } catch(e) {} }
@@ -832,6 +1001,9 @@
       if (sid === 'social') duration = 15000;    // Social media
       if (sid === 'kayak') duration = 12000;      // Kayak rental
       if (sid === 'drivetimes') duration = 12000; // Drive times
+      if (sid === 'bookagain') duration = 15000;  // Book again
+      if (sid === 'allcabins') duration = 20000; // All cabins grid
+      if (sid === 'campfire') duration = 20000; // Campfire — needs time to read
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -908,7 +1080,29 @@
     return m[code] || {t:'Unknown',i:'sun'};
   }
 
+  // Map weather codes to icon filenames
+  function weatherIconFile(type) {
+    const map = {
+      'sun': 'weather-sunny.svg',
+      'partly': 'weather-partly-cloudy.svg',
+      'cloud': 'weather-cloudy.svg',
+      'rain': 'weather-rain.svg',
+      'snow': 'weather-snow.svg',
+      'storm': 'weather-storm.svg',
+      'hail': 'weather-hail.svg',
+      'sleet': 'weather-sleet.svg',
+    };
+    return map[type] || 'weather-sunny.svg';
+  }
+  function iconImg(type, size) {
+    size = size || 56;
+    return `<img src="${weatherIconFile(type)}" width="${size}" height="${size}" style="object-fit:contain;" />`;
+  }
   function iconSvg(type, size) {
+    // Keep as fallback — also return img tag now
+    return iconImg(type, size);
+  }
+  function _iconSvgOld(type, size) {
     const s = window._iconStroke || '#c9a876';
     size = size || 56;
     if (type==='sun') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><circle cx="32" cy="32" r="12" stroke="${s}" stroke-width="2.5" fill="none"/><g stroke="${s}" stroke-width="2.5" stroke-linecap="round"><line x1="32" y1="6" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="58"/><line x1="6" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="58" y2="32"/><line x1="13" y1="13" x2="19" y2="19"/><line x1="45" y1="45" x2="51" y2="51"/><line x1="13" y1="51" x2="19" y2="45"/><line x1="45" y1="19" x2="51" y2="13"/></g></svg>`;
@@ -1033,10 +1227,24 @@
     const d = drive(cabin, a);
     const stats = document.getElementById('activity-stats');
     stats.innerHTML = '';
+    // Trail difficulty icon map
+    const difficultyIcon = {
+      'Easy': 'trail-easy.svg',
+      'Moderate': 'trail-moderate.svg',
+      'Strenuous': 'trail-hard.svg',
+      'Drive-up': 'trail-drive-up.svg',
+      'Varies': 'trail-moderate.svg',
+    };
     const add = (lbl, val) => { stats.innerHTML += `<div><div class="row-label">${lbl}</div><div class="stat-val">${val}</div></div>`; };
     if (a.distance && a.distance!=='—') add('Distance', a.distance);
     if (a.elevation && a.elevation!=='—') add('Elevation', a.elevation);
-    if (a.difficulty) add('Difficulty', a.difficulty);
+    if (a.difficulty) {
+      const iconFile = difficultyIcon[a.difficulty];
+      const diffVal = iconFile
+        ? `<img src="${iconFile}" style="height:4vh; vertical-align:middle; margin-right:0.5vw;"> ${a.difficulty}`
+        : a.difficulty;
+      add('Difficulty', diffVal);
+    }
     if (d) add('Drive from cabin', '~'+d+' min');
     // Show HMA logo on their specific slide
     const actLogoEl = document.getElementById('activity-biz-logo');
@@ -1051,6 +1259,7 @@
     // Show activity photo for specific activities
     const activityImages = {
       'Grand Prismatic Spring': 'grs.png',
+      'Upper Mesa Falls': 'mesa falls.svg',
     };
     const actImgWrap = document.getElementById('activity-img-wrap');
     const actImg = document.getElementById('activity-img');
@@ -1077,7 +1286,13 @@
       'Lakeside Lodge': 'lakeside-logo.png',
       'Boondocks': 'boondocks.png',
       "Pond's Lodge Pizza": 'ponds-logo.png',
-      'Shotgun Bar': 'shotgun-bar.png'
+      'Shotgun Bar': 'shotgun-bar.png',
+      'The Happy Hour Bar': null,
+      'Spencer Grill': null
+    };
+    // Secondary images shown on food slide for specific restaurants
+    const foodImages = {
+      'Shotgun Bar': '8tonoon.png',
     };
     const foodLogoEl = document.getElementById('food-biz-logo');
     const logoFile = logoMap[r.name];
@@ -1108,6 +1323,21 @@
 
     if (qrWrap) qrWrap.style.display = 'none';
     if (phoneWrap) phoneWrap.style.display = 'none';
+    // Show secondary food image (e.g. Shotgun Bar breakfast hours)
+    let foodSecImg = document.getElementById('food-sec-img');
+    if (!foodSecImg) {
+      foodSecImg = document.createElement('img');
+      foodSecImg.id = 'food-sec-img';
+      foodSecImg.style.cssText = 'position:absolute; bottom:6vh; left:3vw; max-height:20vh; max-width:25vw; object-fit:contain; opacity:0.92; border-radius:1vw;';
+      document.getElementById('food-slide').appendChild(foodSecImg);
+    }
+    const secImgFile = foodImages[r.name];
+    if (secImgFile) {
+      foodSecImg.src = secImgFile;
+      foodSecImg.style.display = 'block';
+    } else {
+      foodSecImg.style.display = 'none';
+    }
 
     if (extras) {
       if (extras.url && foodQrEl && typeof QRCode !== 'undefined') {
@@ -1133,6 +1363,80 @@
     const q = pickQuote();
     document.getElementById('quote').textContent = '"' + q.text + '"';
     document.getElementById('quote-attr').textContent = '— ' + q.attr;
+  }
+
+  // ── CAMPFIRE DATA ─────────────────────────────────────
+  const CAMPFIRE_QUESTIONS = [
+    "What's the best trip you've ever taken and why?",
+    "If you could live anywhere in the world for a year, where would it be?",
+    "What's something on your bucket list you haven't done yet?",
+    "What's the funniest thing that's happened to you on a trip?",
+    "If you could have dinner with anyone living or dead, who would it be?",
+    "What's your most memorable outdoor adventure?",
+    "What's a skill you wish you had learned earlier in life?",
+    "If you won the lottery tomorrow, what's the first thing you'd do?",
+    "What's the best piece of advice you've ever received?",
+    "Would you rather explore space or the bottom of the ocean?",
+    "What's your favorite childhood memory?",
+    "If you could time travel, would you go to the past or the future?",
+    "What animal would you be and why?",
+    "What's the most beautiful place you've ever seen?",
+    "If you had to eat one meal for the rest of your life, what would it be?",
+    "What's something that always makes you laugh?",
+    "What's a random talent or skill nobody knows you have?",
+    "Would you rather have no WiFi for a month or no coffee for a month?",
+    "What's one thing on your phone you couldn't live without?",
+    "What song best describes your life right now?",
+    "What's the weirdest food you've ever eaten?",
+    "If you could instantly master any instrument, which would you choose?",
+    "What's the most spontaneous thing you've ever done?",
+    "If your life was a movie, what genre would it be?",
+    "What's something you believed as a kid that turned out to be completely wrong?",
+  ];
+
+  const CAMPFIRE_STORIES = [
+    "It was a dark and stormy night in Yellowstone when the ranger's radio crackled with a strange message...",
+    "Nobody believed the old trapper when he said there was gold hidden somewhere near Big Springs — until the day we found the map...",
+    "The cabin had been empty for years, or so we thought, until we noticed the rocking chair moving on its own...",
+    "Three hikers set off for the summit at dawn. Only two returned — and they refused to talk about what happened up there...",
+    "The bear spray was missing from the hook by the door. So was Grandpa. And his fishing pole...",
+    "She found the note tucked inside the old fire pit. It was dated 1943 and read: 'If you find this, don't look under the bridge...'",
+    "The wolf howled just once, close enough to make the fire flicker. That's when we noticed the footprints in the ash...",
+    "Nobody knew why the old cabin always smelled like apple pie until the night we dug up the floorboards...",
+    "It started as a normal float down the Henry's Fork — until the kayak hit something solid in the middle of the river...",
+    "The moose had been following us for three miles. It wasn't until we reached camp that we realized it was trying to warn us...",
+  ];
+
+  const CAMPFIRE_SMORES = [
+    ["Classic S'more", "Graham cracker · Hershey's chocolate · marshmallow"],
+    ["Reese's S'more", "Graham cracker · Reese's peanut butter cup · marshmallow"],
+    ["Nutella S'more", "Graham cracker · Nutella · sliced banana · marshmallow"],
+    ["Mint Chocolate", "Thin Mint cookie · dark chocolate · marshmallow"],
+    ["Caramel Crunch", "Graham cracker · caramel squares · chocolate · crushed pretzels · marshmallow"],
+    ["Birthday Cake", "Golden Oreo · white chocolate · marshmallow · sprinkles"],
+    ["Rocky Road", "Graham cracker · dark chocolate · mini marshmallows · crushed almonds"],
+    ["S'mores Dip", "Melt chocolate chips in a cast iron pan · dip marshmallows and graham crackers"],
+    ["Campfire Banana", "Slice a banana · stuff with chocolate chips and marshmallows · wrap in foil · toss in coals 5 min"],
+    ["Brownie S'more", "Replace graham cracker with a brownie · add marshmallow and chocolate · pure indulgence"],
+  ];
+
+  function applyCampfire() {
+    // Pick 4 random questions
+    const shuffledQ = [...CAMPFIRE_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
+    const qEl = document.getElementById('campfire-questions');
+    if (qEl) qEl.innerHTML = shuffledQ.map(q => `<div style="margin-bottom:0.8vh; padding-left:1vw; border-left:2px solid rgba(255,149,0,0.4);">${q}</div>`).join('');
+
+    // Pick 1 random story starter
+    const story = CAMPFIRE_STORIES[Math.floor(Math.random() * CAMPFIRE_STORIES.length)];
+    const sEl = document.getElementById('campfire-story');
+    if (sEl) sEl.textContent = '"' + story + '"';
+
+    // Pick 4 random s'mores ideas
+    const shuffledS = [...CAMPFIRE_SMORES].sort(() => Math.random() - 0.5).slice(0, 4);
+    const smEl = document.getElementById('campfire-smores');
+    if (smEl) smEl.innerHTML = shuffledS.map(([name, desc]) =>
+      `<div style="margin-bottom:0.8vh;"><span style="font-weight:600; color:#e4b86a;">${name}</span><br/><span style="font-size:1.4vw; opacity:0.6;">${desc}</span></div>`
+    ).join('');
   }
 
   function applyContact() {
@@ -1605,6 +1909,7 @@
     window._weatherRef = null;
     applyContact();
     applyFood();
+    applyCampfire();
     applyQuote();
     applyPhotographer();
     loadGalleryImage();

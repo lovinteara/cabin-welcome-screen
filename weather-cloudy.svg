@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Back cloud -->
+  <ellipse cx="55" cy="52" rx="28" ry="16" fill="#a8b8c8" opacity="0.7"/>
+  <circle cx="38" cy="50" r="14" fill="#a8b8c8" opacity="0.7"/>
+  <circle cx="55" cy="44" r="16" fill="#b8c8d8" opacity="0.7"/>
+  <circle cx="70" cy="51" r="12" fill="#a8b8c8" opacity="0.7"/>
+  <!-- Front cloud -->
+  <ellipse cx="65" cy="72" rx="32" ry="18" fill="#c8d8e8" opacity="0.98"/>
+  <circle cx="45" cy="70" r="16" fill="#c8d8e8" opacity="0.98"/>
+  <circle cx="65" cy="62" r="20" fill="#dce8f0" opacity="0.98"/>
+  <circle cx="84" cy="70" r="14" fill="#c8d8e8" opacity="0.98"/>
+  <ellipse cx="65" cy="80" rx="34" ry="12" fill="#c8d8e8" opacity="0.98"/>
+</svg>

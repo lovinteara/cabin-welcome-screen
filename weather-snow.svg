@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Cloud -->
+  <ellipse cx="60" cy="48" rx="30" ry="16" fill="#9aaabb" opacity="0.9"/>
+  <circle cx="43" cy="47" r="14" fill="#9aaabb" opacity="0.9"/>
+  <circle cx="60" cy="40" r="17" fill="#aabbcc" opacity="0.9"/>
+  <circle cx="76" cy="47" r="13" fill="#9aaabb" opacity="0.9"/>
+  <ellipse cx="60" cy="57" rx="31" ry="10" fill="#9aaabb" opacity="0.9"/>
+  <!-- Snowflakes -->
+  <g stroke="#c8e0f0" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.95">
+    <!-- Flake 1 -->
+    <line x1="38" y1="72" x2="38" y2="86"/><line x1="31" y1="75" x2="45" y2="83"/><line x1="31" y1="83" x2="45" y2="75"/>
+    <!-- Flake 2 -->
+    <line x1="62" y1="76" x2="62" y2="90"/><line x1="55" y1="79" x2="69" y2="87"/><line x1="55" y1="87" x2="69" y2="79"/>
+    <!-- Flake 3 -->
+    <line x1="85" y1="72" x2="85" y2="86"/><line x1="78" y1="75" x2="92" y2="83"/><line x1="78" y1="83" x2="92" y2="75"/>
+    <!-- Flake 4 small -->
+    <line x1="50" y1="94" x2="50" y2="104"/><line x1="45" y1="97" x2="55" y2="101"/><line x1="45" y1="101" x2="55" y2="97"/>
+    <line x1="74" y1="96" x2="74" y2="106"/><line x1="69" y1="99" x2="79" y2="103"/><line x1="69" y1="103" x2="79" y2="99"/>
+  </g>
+</svg>
