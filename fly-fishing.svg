@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" width="400" height="280">
+  <defs>
+    <linearGradient id="ffsky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a90c8"/>
+      <stop offset="100%" style="stop-color:#90c0e0"/>
+    </linearGradient>
+    <linearGradient id="ffwater" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a7a9a"/>
+      <stop offset="100%" style="stop-color:#1a4a6a"/>
+    </linearGradient>
+    <clipPath id="clip-all">
+      <rect width="400" height="280" rx="12"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#clip-all)">
+    <!-- Sky -->
+    <rect width="400" height="280" fill="url(#ffsky)"/>
+
+    <!-- Mountains -->
+    <polygon points="0,158 55,75 110,158" fill="#b0bcd0"/>
+    <polygon points="48,158 115,52 182,158" fill="#c8d4e4"/>
+    <polygon points="108,158 172,62 236,158" fill="#b8c8dc"/>
+    <polygon points="268,158 328,58 388,158" fill="#c8d4e4"/>
+    <polygon points="318,158 368,75 418,158" fill="#b0bcd0"/>
+
+    <!-- Snow caps -->
+    <polygon points="108,88 120,52 132,88" fill="#fff" opacity="0.92"/>
+    <polygon points="58,92 68,58 78,92" fill="#fff" opacity="0.85"/>
+    <polygon points="318,85 328,58 338,83" fill="#fff" opacity="0.88"/>
+
+    <!-- Clouds -->
+    <ellipse cx="75" cy="28" rx="38" ry="13" fill="#fff" opacity="0.85"/>
+    <ellipse cx="58" cy="28" rx="18" ry="10" fill="#fff" opacity="0.85"/>
+    <ellipse cx="92" cy="28" rx="16" ry="9" fill="#fff" opacity="0.85"/>
+    <ellipse cx="295" cy="20" rx="32" ry="11" fill="#fff" opacity="0.7"/>
+    <ellipse cx="280" cy="20" rx="15" ry="8" fill="#fff" opacity="0.7"/>
+
+    <!-- River bank top -->
+    <rect x="0" y="155" width="400" height="10" fill="#5a7840"/>
+
+    <!-- River -->
+    <rect x="0" y="164" width="400" height="116" fill="url(#ffwater)"/>
+
+    <!-- Water movement -->
+    <path d="M20,180 Q80,175 140,182 Q200,188 260,180 Q320,174 380,180" stroke="#5a9ab8" stroke-width="1.5" fill="none" opacity="0.4"/>
+    <path d="M0,205 Q60,198 120,206 Q180,212 240,204 Q300,198 360,204 Q390,207 400,204" stroke="#4a8aaa" stroke-width="1" fill="none" opacity="0.3"/>
+    <path d="M30,228 Q90,222 150,229 Q210,235 270,227 Q330,221 390,227" stroke="#4a8aaa" stroke-width="1" fill="none" opacity="0.25"/>
+
+    <!-- Rocks -->
+    <ellipse cx="50" cy="200" rx="14" ry="7" fill="#4a5a68" opacity="0.75"/>
+    <ellipse cx="58" cy="197" rx="8" ry="5" fill="#5a6a78" opacity="0.6"/>
+    <ellipse cx="48" cy="194" rx="5" ry="3" fill="#6a7a88" opacity="0.5"/>
+    <ellipse cx="320" cy="195" rx="16" ry="7" fill="#4a5a68" opacity="0.7"/>
+    <ellipse cx="330" cy="192" rx="9" ry="5" fill="#5a6a78" opacity="0.6"/>
+
+    <!-- River bank bottom -->
+    <rect x="0" y="256" width="400" height="8" fill="#5a7840"/>
+    <rect x="0" y="262" width="400" height="18" fill="#4a6830"/>
+
+    <!-- ══ FISHER WOMAN (left side) ══ -->
+    <!-- Waders -->
+    <rect x="95" y="228" width="12" height="36" fill="#4a5a38" rx="4"/>
+    <rect x="110" y="228" width="12" height="36" fill="#3a4a28" rx="4"/>
+    <!-- Body -->
+    <rect x="86" y="182" width="38" height="50" fill="#8a7a9a" rx="6"/>
+    <rect x="88" y="184" width="34" height="46" fill="#9a8aaa" rx="5"/>
+    <!-- Vest pockets -->
+    <rect x="92" y="190" width="11" height="9" fill="#7a6a8a" rx="2" opacity="0.7"/>
+    <rect x="107" y="190" width="11" height="9" fill="#7a6a8a" rx="2" opacity="0.7"/>
+    <!-- Hair (ponytail out back of hat) -->
+    <path d="M104,161 Q118,158 122,168 Q124,175 118,178" stroke="#6a3a1a" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Head -->
+    <circle cx="104" cy="173" r="15" fill="#c8855a"/>
+    <!-- Hat brim -->
+    <ellipse cx="104" cy="161" rx="19" ry="4" fill="#7a5a38"/>
+    <!-- Hat crown -->
+    <rect x="93" y="149" width="22" height="14" fill="#8a6a48" rx="3"/>
+    <!-- Ponytail coming out back -->
+    <path d="M93,158 Q82,155 78,165 Q75,172 80,178" stroke="#6a3a1a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- Left arm raising rod -->
+    <line x1="86" y1="195" x2="52" y2="162" stroke="#9a8aaa" stroke-width="9" stroke-linecap="round"/>
+    <!-- Right arm out for balance -->
+    <line x1="124" y1="197" x2="152" y2="208" stroke="#9a8aaa" stroke-width="9" stroke-linecap="round"/>
+    <!-- Fishing rod -->
+    <line x1="52" y1="162" x2="18" y2="108" stroke="#3a2a14" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="18" y1="108" x2="8" y2="103" stroke="#4a3a1c" stroke-width="2" stroke-linecap="round"/>
+    <!-- Fly line arc left side -->
+    <path d="M8,103 C-10,88 0,128 22,192" stroke="#dde8f0" stroke-width="1.2" fill="none" opacity="0.85"/>
+    <!-- Fly -->
+    <circle cx="22" cy="192" r="3.5" fill="#c8973a"/>
+    <ellipse cx="22" cy="191" rx="7" ry="2.5" fill="none" stroke="#c8973a" stroke-width="1.2" opacity="0.7"/>
+    <!-- Surface rings -->
+    <ellipse cx="22" cy="194" rx="9" ry="3.5" fill="none" stroke="#90c0d8" stroke-width="1" opacity="0.6"/>
+    <ellipse cx="22" cy="194" rx="15" ry="5.5" fill="none" stroke="#90c0d8" stroke-width="0.8" opacity="0.35"/>
+
+    <!-- ══ FISHER MAN (right side) ══ -->
+    <!-- Waders -->
+    <rect x="264" y="228" width="12" height="36" fill="#4a5a38" rx="4"/>
+    <rect x="279" y="228" width="12" height="36" fill="#3a4a28" rx="4"/>
+    <!-- Body -->
+    <rect x="255" y="182" width="38" height="50" fill="#7a8a6a" rx="6"/>
+    <rect x="257" y="184" width="34" height="46" fill="#8a9a7a" rx="5"/>
+    <!-- Vest pockets -->
+    <rect x="261" y="190" width="11" height="9" fill="#6a7a5a" rx="2" opacity="0.7"/>
+    <rect x="276" y="190" width="11" height="9" fill="#6a7a5a" rx="2" opacity="0.7"/>
+    <!-- Head -->
+    <circle cx="274" cy="173" r="15" fill="#b87848"/>
+    <!-- Hat brim -->
+    <ellipse cx="274" cy="161" rx="18" ry="4" fill="#5a4228"/>
+    <!-- Hat crown -->
+    <rect x="263" y="149" width="22" height="14" fill="#6a5238" rx="3"/>
+    <!-- Right arm raising rod -->
+    <line x1="293" y1="195" x2="325" y2="162" stroke="#7a8a6a" stroke-width="9" stroke-linecap="round"/>
+    <!-- Left arm balance -->
+    <line x1="255" y1="197" x2="228" y2="208" stroke="#7a8a6a" stroke-width="9" stroke-linecap="round"/>
+    <!-- Fishing rod -->
+    <line x1="325" y1="162" x2="390" y2="108" stroke="#3a2a14" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="390" y1="108" x2="400" y2="103" stroke="#4a3a1c" stroke-width="2" stroke-linecap="round"/>
+    <!-- Fly line -->
+    <path d="M400,103 C420,88 415,135 388,192" stroke="#dde8f0" stroke-width="1.2" fill="none" opacity="0.85"/>
+    <!-- Fly -->
+    <circle cx="388" cy="192" r="3.5" fill="#c8973a"/>
+    <ellipse cx="388" cy="191" rx="7" ry="2.5" fill="none" stroke="#c8973a" stroke-width="1.2" opacity="0.7"/>
+    <!-- Surface rings -->
+    <ellipse cx="388" cy="194" rx="9" ry="3.5" fill="none" stroke="#90c0d8" stroke-width="1" opacity="0.6"/>
+    <ellipse cx="388" cy="194" rx="15" ry="5.5" fill="none" stroke="#90c0d8" stroke-width="0.8" opacity="0.35"/>
+
+    <!-- Trout between them -->
+    <ellipse cx="200" cy="220" rx="28" ry="10" fill="#5a9aaa" opacity="0.45"/>
+    <polygon points="228,220 242,212 242,228" fill="#5a9aaa" opacity="0.45"/>
+    <circle cx="193" cy="217" r="3" fill="#1a3a4a" opacity="0.4"/>
+    <circle cx="205" cy="218" r="2" fill="#3a7a8a" opacity="0.3"/>
+    <circle cx="214" cy="222" r="1.5" fill="#3a7a8a" opacity="0.3"/>
+
+    <!-- Sun glint -->
+    <ellipse cx="200" cy="170" rx="60" ry="4" fill="#f8e880" opacity="0.1"/>
+
+  </g>
+
+  <text x="200" y="273" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#90c8e0" opacity="0.85">Henry's Fork · Island Park, Idaho</text>
+</svg>

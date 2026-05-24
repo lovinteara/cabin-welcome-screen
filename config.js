@@ -122,11 +122,7 @@ const ACTIVITIES = [
     seasons: ["summer","fall"], minTemp: 50, weatherSafe: true,
     blurb: "Two teal-blue lakes side by side. No motorized boats — paddle, kayak, or float in peace.", fav: true },
 
-  { name: "High Mountain Adventures", category: "Today's adventure",
-    lat: 44.547, lon: -111.450, distance: "—", elevation: "—", difficulty: "Varies",
-    seasons: ["spring","summer","fall","winter"],
-    blurb: "ATV, UTV, snowmobile rentals at base of Sawtelle. Hours 7:30am-5:30pm — call: (208) 558-9572. Tell them you are staying at Teara's place and they will gift you 20% off or a FULL day rental for 1/2 day rental price.", fav: true },
-
+  
   { name: "Upper Mesa Falls", category: "Today's hike",
     lat: 44.184, lon: -111.32, distance: "0.6 mi", elevation: "minimal", difficulty: "Easy",
     seasons: ["spring","summer","fall"], minTemp: 35, weatherSafe: true,
@@ -213,19 +209,19 @@ const ACTIVITIES = [
 ];
 
 const RESTAURANTS = [
-  { name: "Café Sabor", subtype: "Mexican · Island Park, Hwy 20", closedDays: [2],
+  { name: "Café Sabor", lat: 44.428, lon: -111.381, subtype: "Mexican · Island Park, Hwy 20", closedDays: [2],
     blurb: "Worth the wait. Try the ceviche, combos, chimichangas — and the caramel churros.", fav: true },
-  { name: "Lakeside Lodge", subtype: "American steaks · local Miller Ag beef", closedDays: [],
+  { name: "Lakeside Lodge", lat: 44.435, lon: -111.389, subtype: "American steaks · local Miller Ag beef", closedDays: [],
     blurb: "Finger steaks made with local Miller Ag beef. The Millers own Lakeside.", fav: true },
-  { name: "Boondocks", subtype: "American · Yale-Kilgore Road · Open 3pm–9pm", closedDays: [],
+  { name: "Boondocks", lat: 44.462, lon: -111.298, subtype: "American · Yale-Kilgore Road · Open 3pm–9pm", closedDays: [],
     blurb: "Solid menu top to bottom. Campfire fries are the move.", fav: true },
-  { name: "Pond's Lodge Pizza", subtype: "Pizza · classic Island Park spot", closedDays: [],
+  { name: "Pond's Lodge Pizza", lat: 44.438, lon: -111.392, subtype: "Pizza · classic Island Park spot", closedDays: [],
     blurb: "We love the cheese breadsticks with ranch.", fav: true },
-  { name: "Shotgun Bar", subtype: "Bar + food Wed–Sun · Kids welcome for breakfast", closedDays: [1, 2],
+  { name: "Shotgun Bar", lat: 44.452, lon: -111.301, subtype: "Bar + food Wed–Sun · Kids welcome for breakfast", closedDays: [1, 2],
     blurb: "Fun spot with a great vibe. Food Wed–Sun only. Kids welcome for breakfast. Beautiful deck.", fav: true },
-  { name: "Spencer Grill", subtype: "American · Breakfast, Lunch & Dinner · Spencer, ID · (208) 374-5111", closedDays: [],
+  { name: "Spencer Grill", lat: 44.361, lon: -112.181, subtype: "American · Breakfast, Lunch & Dinner · Spencer, ID · (208) 374-5111", closedDays: [],
     blurb: "Great local grill in Spencer — perfect stop on the way to the Opal Fields! Old-fashioned soda and ice cream too.", fav: true },
-  { name: "The Happy Hour Bar", subtype: "Bar · West Yellowstone, MT · (406) 646-7281", closedDays: [],
+  { name: "The Happy Hour Bar", lat: 44.658, lon: -111.182, subtype: "Bar · West Yellowstone, MT · (406) 646-7281", closedDays: [],
     blurb: "Beautiful deck bar near Hebgen Lake just outside West Yellowstone. Try their famous crab buckets for under $40 — a fantastic experience! Adults preferred. Tell them Teara sent you!", fav: true }
 ];
 
