@@ -295,7 +295,7 @@
       <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
     </div>
   </div>
-  <img id="food-biz-logo" src="" style="position:absolute; bottom:6vh; right:3vw; max-height:22vh; max-width:28vw; object-fit:contain; opacity:0.9; display:none;" />
+  <img id="food-biz-logo" src="" style="position:absolute; bottom:5vh; left:3vw; max-height:24vh; max-width:28vw; object-fit:contain; opacity:0.95; display:none;" />
 </div>
 
 <!-- Slide 6: High Mountain Adventures promo — always shown -->
@@ -506,17 +506,21 @@
       <p style="font-size:2.2vw; opacity:0.7;">Black bags · Under the kitchen sink<br/>Pickup: <span id="trash-day-pickup" style="opacity:1; font-weight:600;">—</span></p>
     </div>
   </div>
-  <div id="trash-bearcan-video" style="display:none; flex-direction:column; align-items:center; gap:2vh; width:100%;">
+  <div id="trash-bearcan-video" style="display:none; flex-direction:column; align-items:center; gap:2vh; width:100%; text-align:center;">
     <div class="slide-label" style="text-align:center;">Good to know · Bear Cans</div>
     <h1 style="font-size:5vw; font-family:Georgia,serif;">How to Open Bear-Resistant Cans</h1>
-    <iframe src="https://www.youtube.com/embed/VpnU0Me8rSU?start=15&controls=1&modestbranding=1&rel=0"
-      style="width:55vw; aspect-ratio:16/9; border:none; border-radius:1.5vw;"
-      allow="autoplay; fullscreen" title="How to open bear resistant containers">
-    </iframe>
-    <p style="font-size:1.8vw; opacity:0.5;">Press both buttons on top simultaneously and lift the lid</p>
-    <div style="display:flex; align-items:center; gap:3vw; margin-top:1vh;">
-      <div style="background:#fff; padding:1vw; border-radius:1vw;" id="qr-bearcan"></div>
-      <p style="font-size:1.6vw; opacity:0.5;">Or scan to watch on your phone</p>
+    <div style="display:flex; gap:5vw; align-items:center; justify-content:center; margin-top:1vh;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+        <img src="bear-safety.png" style="max-height:28vh; object-fit:contain;" onerror="this.style.display='none'" />
+        <div style="background:rgba(228,75,74,0.15); border:1px solid rgba(228,75,74,0.3); border-radius:1.5vw; padding:1.5vh 2vw;">
+          <p style="font-size:1.8vw; color:#f0928f; line-height:1.5;">Press BOTH buttons on top<br/>simultaneously and lift the lid</p>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+        <div style="background:#fff; padding:1.5vw; border-radius:1.5vw; box-shadow:0 4px 24px rgba(0,0,0,0.3);" id="qr-bearcan"></div>
+        <p style="font-size:1.8vw; opacity:0.6;">Scan to watch video on your phone</p>
+        <p style="font-size:1.4vw; opacity:0.4;">youtube.com · "bear resistant can tutorial"</p>
+      </div>
     </div>
   </div>
 </div>
@@ -756,7 +760,7 @@
            onerror="this.src='huckleberry-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1729'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Huckleberry Hut</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Cozy · Sleeps 4<br/>🐾 Pet friendly</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 4–6<br/>🐾 Pet friendly</div>
       </div>
     </div>
 
@@ -766,7 +770,7 @@
            onerror="this.src='gathering-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1a24'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Gathering Place</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Large groups<br/>Hot tub · Game room</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps up to 26!<br/>Hot tub · Game room</div>
       </div>
     </div>
 
@@ -776,7 +780,7 @@
            onerror="this.src='chalet-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#191e21'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Little Chalet</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Cozy retreat<br/>Hot tub · Forest</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Best for 2–4<br/>Hot tub · Forest</div>
       </div>
     </div>
 
@@ -786,7 +790,7 @@
            onerror="this.src='chalet-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#191e21'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Big Chalet</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Spacious · Groups<br/>Forest setting</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 4–6<br/>Forest setting</div>
       </div>
     </div>
 
@@ -796,7 +800,7 @@
            onerror="this.src='caldera-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#201a1e'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Caldera Cottage</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Charming · Cozy<br/>🐾 Pet friendly</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 7–8<br/>🐾 Pet friendly</div>
       </div>
     </div>
 
@@ -806,7 +810,7 @@
            onerror="this.src='dshouse-logo.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">D'Shouse Haven</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Spacious · Groups<br/>Hot tub included</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps up to 10<br/>Hot tub included</div>
       </div>
     </div>
 
@@ -816,7 +820,7 @@
            onerror="this.src='rrl-logo.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">River Rock Lodge</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 14!<br/>Best for reunions</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps up to 14!<br/>Best for reunions</div>
       </div>
     </div>
 
@@ -826,7 +830,7 @@
            onerror="this.src='visit-island-park-full.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Charming Log Home</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Authentic log cabin<br/>Near Yellowstone</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps up to 8<br/>Near Yellowstone</div>
       </div>
     </div>
 
@@ -957,7 +961,7 @@
       if (id === '4') { try { applyActivity(window._cabinRef, window._weatherRef); } catch(e) { console.error('activity err', e); } }
       if (id === '5') { try { applyFood(); } catch(e) { console.error('food err', e); } }
       if (id === 'photo') { try { applyPhotographer(); } catch(e) { console.error('photo err', e); } }
-      if (id === 'campfire') { try { applyCampfire(); } catch(e) {} }
+      if (id === 'campfire') { try { applyCampfire(); } catch(e) { console.error('campfire err',e); } }
       if (id === 'gallery') { try { nextGalleryImage(); } catch(e) {} }
       if (id === 'fishing') { try { loadFishingData(); } catch(e) {} }
       if (id === 'firesafety') { try { loadFireStatus(); } catch(e) {} }
@@ -1313,6 +1317,7 @@
       "Boondocks":           { url: 'https://www.facebook.com/boondocksislandpark/',                              phone: '(208) 716-3720' },
       "Shotgun Bar":         { url: 'https://www.facebook.com/photo/?fbid=1350259620147882&set=pb.100054915714185.-2207520000', phone: '(208) 339-5929' },
       "The Happy Hour Bar":  { url: 'https://www.facebook.com/share/p/1CWKWaHbYc/',                              phone: '(406) 646-7281' },
+      "Spencer Grill":        { url: 'https://www.facebook.com/SpencerGrillIdaho/',                               phone: '(208) 374-5111' },
     };
 
     const extras = restaurantExtras[r.name];
@@ -1328,7 +1333,7 @@
     if (!foodSecImg) {
       foodSecImg = document.createElement('img');
       foodSecImg.id = 'food-sec-img';
-      foodSecImg.style.cssText = 'position:absolute; bottom:6vh; left:3vw; max-height:20vh; max-width:25vw; object-fit:contain; opacity:0.92; border-radius:1vw;';
+      foodSecImg.style.cssText = 'position:absolute; bottom:5vh; right:3vw; max-height:20vh; max-width:24vw; object-fit:contain; opacity:0.92; border-radius:1vw;';
       document.getElementById('food-slide').appendChild(foodSecImg);
     }
     const secImgFile = foodImages[r.name];
@@ -1424,7 +1429,7 @@
     // Pick 4 random questions
     const shuffledQ = [...CAMPFIRE_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
     const qEl = document.getElementById('campfire-questions');
-    if (qEl) qEl.innerHTML = shuffledQ.map(q => `<div style="margin-bottom:0.8vh; padding-left:1vw; border-left:2px solid rgba(255,149,0,0.4);">${q}</div>`).join('');
+    if (qEl) qEl.innerHTML = shuffledQ.map(q => `<div style="margin-bottom:0.8vh; padding-left:1vw; border-left:2px solid rgba(255,149,0,0.5); color:#f0e8f0;">${q}</div>`).join('');
 
     // Pick 1 random story starter
     const story = CAMPFIRE_STORIES[Math.floor(Math.random() * CAMPFIRE_STORIES.length)];
@@ -1490,7 +1495,7 @@
     }
   }
 
-  function applyGuest(guest, theme) {
+  function applyGuest(guest, theme, cabinObj) {
     const greetingEl = document.getElementById('guest-greeting');
     const nameLine = document.getElementById('guest-name-line');
     const detailsLine = document.getElementById('guest-details-line');
@@ -1504,18 +1509,8 @@
       return;
     }
 
-    // Format departure date — parse manually to avoid timezone/browser issues
-    let deptStr = '';
-    if (guest.departure && typeof guest.departure === 'string') {
-      const months = ['January','February','March','April','May','June',
-                      'July','August','September','October','November','December'];
-      const parts = guest.departure.split('-');
-      if (parts.length === 3) {
-        const mo = parseInt(parts[1], 10) - 1;
-        const dy = parseInt(parts[2], 10);
-        if (months[mo] && !isNaN(dy)) deptStr = months[mo] + ' ' + dy;
-      }
-    }
+    // departure comes pre-formatted from Netlify function as "May 24"
+    const deptStr = (guest.departure && typeof guest.departure === 'string') ? guest.departure : '';
 
     // Build party string — guests only, pets handled separately with paw icon
     const totalGuests = (guest.adults || 0) + (guest.children || 0);
@@ -1528,7 +1523,7 @@
     const parts = [];
     // Clever checkout messages with time — always show if we have departure
     if (deptStr) {
-      const checkoutTime = cabin ? cabin.checkout : '10:00 AM';
+      const checkoutTime = cabinObj ? cabinObj.checkout : '10:00 AM';
       const checkoutPhrases = [
         `Your mountain escape runs through ${deptStr} · Checkout ${checkoutTime}`,
         `Relax — you're here until ${deptStr} at ${checkoutTime}`,
@@ -1687,6 +1682,19 @@
         _galleryAttempt = 0;
         _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
         loadGalleryImage();
+    // Generate book again QR code ONCE
+    if (typeof QRCode !== 'undefined') {
+      const bookAgainEl = document.getElementById('qr-bookagain');
+      if (bookAgainEl && !bookAgainEl.hasChildNodes()) {
+        new QRCode(bookAgainEl, {
+          text: 'https://www.VisitIslandParkIdaho.com',
+          width: Math.round(window.innerWidth * 0.14),
+          height: Math.round(window.innerWidth * 0.14),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
     // Generate social media QR codes
     if (typeof QRCode !== 'undefined') {
       const qrSize = Math.round(window.innerWidth * 0.12);
@@ -1706,6 +1714,19 @@
     _galleryAttempt = 0;
     _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
     loadGalleryImage();
+    // Generate book again QR code ONCE
+    if (typeof QRCode !== 'undefined') {
+      const bookAgainEl = document.getElementById('qr-bookagain');
+      if (bookAgainEl && !bookAgainEl.hasChildNodes()) {
+        new QRCode(bookAgainEl, {
+          text: 'https://www.VisitIslandParkIdaho.com',
+          width: Math.round(window.innerWidth * 0.14),
+          height: Math.round(window.innerWidth * 0.14),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
     // Generate social media QR codes
     if (typeof QRCode !== 'undefined') {
       const qrSize = Math.round(window.innerWidth * 0.12);
@@ -1913,6 +1934,19 @@
     applyQuote();
     applyPhotographer();
     loadGalleryImage();
+    // Generate book again QR code ONCE
+    if (typeof QRCode !== 'undefined') {
+      const bookAgainEl = document.getElementById('qr-bookagain');
+      if (bookAgainEl && !bookAgainEl.hasChildNodes()) {
+        new QRCode(bookAgainEl, {
+          text: 'https://www.VisitIslandParkIdaho.com',
+          width: Math.round(window.innerWidth * 0.14),
+          height: Math.round(window.innerWidth * 0.14),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
     // Generate social media QR codes
     if (typeof QRCode !== 'undefined') {
       const qrSize = Math.round(window.innerWidth * 0.12);
@@ -1940,7 +1974,7 @@
 
     // Load guest name for personalized welcome
     loadGuest(key).then(guest => {
-      applyGuest(guest, theme);
+      applyGuest(guest, theme, cabin);
       // Cache departure for cleaning mode check
       if (guest && guest.departure) {
         // Convert "May 9" back to YYYY-MM-DD for comparison
@@ -1962,7 +1996,7 @@
     // Retry guest lookup every 30 min in case OwnerRez was down on page load
     setInterval(() => {
       loadGuest(key).then(guest => {
-        if (guest && guest.firstName) applyGuest(guest, theme);
+        if (guest && guest.firstName) applyGuest(guest, theme, cabin);
       });
     }, 30*60*1000);
     // Check cleaning mode every minute
