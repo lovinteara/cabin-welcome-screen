@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">
+  <!-- Bright blue sky with big mountains -->
+  <defs>
+    <linearGradient id="sky15" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2080c8"/>
+      <stop offset="100%" style="stop-color:#80c8f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="200" fill="url(#sky15)" rx="12"/>
+  <polygon points="80,145 130,40 180,145" fill="#e8e8f0"/>
+  <polygon points="80,145 130,40 180,145" fill="none" stroke="#c0c0d0" stroke-width="1"/>
+  <polygon points="50,145 90,60 130,145" fill="#d0d8e8"/>
+  <polygon points="170,145 210,55 250,145" fill="#d8e0f0"/>
+  <polygon points="200,145 240,45 280,145" fill="#e8e8f0"/>
+  <polygon points="0,145 30,75 60,145" fill="#d0d8e8"/>
+  <polygon points="250,145 278,68 305,145" fill="#e0e8f0"/>
+  <rect x="80" y="100" width="30" height="45" fill="#c8e8f0" opacity="0.3"/>
+  <ellipse cx="130" cy="40" rx="8" ry="6" fill="#fff" opacity="0.8"/>
+  <rect x="0" y="148" width="300" height="52" fill="#4a6a30"/>
+  <rect x="0" y="146" width="300" height="6" fill="#707030"/>
+  <rect x="10" y="153" width="22" height="4" fill="#f0f060" rx="2"/>
+  <rect x="52" y="153" width="22" height="4" fill="#f0f060" rx="2"/>
+  <rect x="94" y="153" width="22" height="4" fill="#f0f060" rx="2"/>
+  <rect x="136" y="153" width="22" height="4" fill="#f0f060" rx="2"/>
+  <rect x="178" y="153" width="22" height="4" fill="#f0f060" rx="2"/>
+  <rect x="220" y="153" width="22" height="4" fill="#f0f060" rx="2"/>
+  <rect x="262" y="153" width="22" height="4" fill="#f0f060" rx="2"/>
+  <ellipse cx="60" cy="50" rx="30" ry="12" fill="#fff" opacity="0.85"/>
+  <ellipse cx="48" cy="50" rx="16" ry="9" fill="#fff" opacity="0.85"/>
+  <ellipse cx="220" cy="35" rx="25" ry="9" fill="#fff" opacity="0.7"/>
+  <g transform="translate(88,103)">
+    <rect x="0" y="14" width="88" height="28" fill="#c84a8a" rx="6"/>
+    <rect x="10" y="3" width="65" height="20" fill="#d85a9a" rx="6"/>
+    <rect x="16" y="5" width="18" height="13" fill="#f0d0e8" rx="3" opacity="0.9"/>
+    <rect x="42" y="5" width="18" height="13" fill="#f0d0e8" rx="3" opacity="0.9"/>
+    <circle cx="13" cy="42" r="9" fill="#111"/>
+    <circle cx="13" cy="42" r="5" fill="#444"/>
+    <circle cx="75" cy="42" r="9" fill="#111"/>
+    <circle cx="75" cy="42" r="5" fill="#444"/>
+    <circle cx="22" cy="16" r="3" fill="#f0e8d0" opacity="0.9"/>
+    <circle cx="65" cy="16" r="3" fill="#f0a830" opacity="0.9"/>
+    <text x="44" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#fff" font-weight="bold">WOO HOO!</text>
+  </g>
+  <text x="150" y="14" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#fff" font-weight="bold">~1.5 HRS</text>
+  <text x="150" y="193" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#2a3a18" font-weight="bold">Grand Teton · Roosevelt Arch</text>
+</svg>
