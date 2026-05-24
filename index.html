@@ -261,14 +261,22 @@
 
 <!-- Slide 4: Activity -->
 <div class="slide" data-slide="4">
-  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-    <div class="slide-label" id="activity-category">Today's pick</div>
-    <img id="activity-biz-logo" src="" style="max-height:80px; max-width:200px; object-fit:contain; opacity:0.85; display:none;" />
+  <div style="display:flex; gap:4vw; align-items:flex-start;">
+    <div style="flex:1; min-width:0;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div class="slide-label" id="activity-category">Today's pick</div>
+        <img id="activity-biz-logo" src="" style="max-height:80px; max-width:200px; object-fit:contain; opacity:0.85; display:none;" />
+      </div>
+      <div id="fav-badge"></div>
+      <h1 id="activity-name">—</h1>
+      <p id="activity-blurb">—</p>
+      <div class="activity-stats" id="activity-stats"></div>
+    </div>
+    <div id="activity-img-wrap" style="display:none; flex-shrink:0; width:30vw;">
+      <img id="activity-img" src="" style="width:100%; max-height:55vh; object-fit:cover; border-radius:1.5vw; opacity:0.9;"
+           onerror="document.getElementById('activity-img-wrap').style.display='none'" />
+    </div>
   </div>
-  <div id="fav-badge"></div>
-  <h1 id="activity-name">—</h1>
-  <p id="activity-blurb">—</p>
-  <div class="activity-stats" id="activity-stats"></div>
 </div>
 
 <!-- Slide 5: Food -->
@@ -345,7 +353,7 @@
   <div class="slide-label">Local photography</div>
   <div style="display:flex; gap:5vw; align-items:center; flex:1; min-height:0;">
     <div style="flex-shrink:0; display:flex; align-items:center; justify-content:center; width:30vw;">
-      <img id="photo-logo" src="" style="max-width:42vw; max-height:55vh; object-fit:contain; display:none;" />
+      <img id="photo-logo" src="" style="max-width:60vw; max-height:65vh; object-fit:contain; display:none;" />
       <img id="photo-img" src="" style="max-width:28vw; max-height:40vh; object-fit:cover; border-radius:1.5vw; display:none;" />
     </div>
     <div style="flex:1;">
@@ -452,7 +460,7 @@
 <div class="slide" data-slide="trash">
   <div class="slide-label">Good to know · Trash</div>
   <h1>Trash &amp; Recycling</h1>
-  <div style="display:flex; gap:5vw; align-items:flex-start; margin-top:1.5vh;">
+  <div style="display:flex; gap:4vw; align-items:flex-start; margin-top:1.5vh;">
     <div style="flex:1;">
       <div class="info-row">
         <span class="k">Pickup days</span>
@@ -471,10 +479,16 @@
         <span class="v" style="font-size:2vw;">Bagged trash only in bear-resistant containers — no loose garbage</span>
       </div>
     </div>
-    <div style="flex-shrink:0; width:26vw; background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2.5vh 2.5vw;">
-      <div style="font-size:1.6vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:1.5vh;">Why bear-resistant?</div>
-      <p style="font-size:1.9vw; line-height:1.5; opacity:0.8;">Bears associate trash with food. Using the provided canisters protects both wildlife and guests.</p>
-      <p style="font-size:1.9vw; line-height:1.5; opacity:0.8; margin-top:1.5vh;">Thank you for helping keep Island Park wild and beautiful!</p>
+    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; gap:1.5vh;">
+      <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:1.5vh 2vw;">
+        <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:1vh;">How to open bear cans</div>
+        <iframe
+          src="https://www.youtube.com/embed/VpnU0Me8rSU?start=15&autoplay=0&controls=1&modestbranding=1"
+          style="width:100%; aspect-ratio:16/9; border:none; border-radius:1vw;"
+          allow="autoplay; fullscreen"
+          title="How to open bear resistant containers">
+        </iframe>
+      </div>
     </div>
   </div>
 </div>
@@ -501,7 +515,7 @@
       <div style="margin-top:1.5vh;">
         <div class="info-row" style="padding:1vh 0;"><span class="k">Check the cabin</span><span class="v" style="font-size:1.6vw; text-align:right;">Previous guest may have left a can — check closets &amp; entry</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">Buy locally</span><span class="v" style="font-size:1.6vw;">Sam Patch Co. · Grocery &amp; Sundries</span></div>
-        <div class="info-row" style="padding:1vh 0;"><span class="k">Also available</span><span class="v" style="font-size:1.6vw;">High Mountain Adventures · Most outdoor shops</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Also available</span><span class="v" style="font-size:1.6vw;">High Mountain Adventures · Yale Creek Gas Station (Hwy 20 & Yale-Kilgore) · Most outdoor shops</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">How to use</span><span class="v" style="font-size:1.6vw;">Remove safety clip · Aim low · Spray within 60 feet</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">Bear encounter</span><span class="v" style="font-size:1.6vw;">Stay calm · Don't run · Back away slowly</span></div>
       </div>
@@ -597,6 +611,112 @@
       <p style="font-size:2vw; line-height:1.5;">Sign out of your streaming accounts before you check out — just to keep things private!</p>
     </div>
   </div>
+</div>
+
+<!-- Social Media slide -->
+<div class="slide" data-slide="social" style="align-items:center; justify-content:center; text-align:center;">
+  <div class="slide-label">Follow Along</div>
+  <h1 style="font-size:5.5vw; margin-bottom:1vh;">Stay Connected</h1>
+  <p style="font-size:2vw; opacity:0.6; margin-bottom:3vh;">Follow Visit Island Park Idaho for trail updates, events, and local tips!</p>
+  <div style="display:flex; gap:6vw; justify-content:center; align-items:flex-start;">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+      <div style="background:#fff; padding:1.5vw; border-radius:1.5vw;" id="qr-facebook"></div>
+      <p style="font-size:1.8vw; opacity:0.7;">Facebook</p>
+      <p style="font-size:1.4vw; opacity:0.4;">@VisitIslandParkIdaho</p>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+      <div style="background:#fff; padding:1.5vw; border-radius:1.5vw;" id="qr-tiktok"></div>
+      <p style="font-size:1.8vw; opacity:0.7;">TikTok</p>
+      <p style="font-size:1.4vw; opacity:0.4;">@visitislandparkidaho</p>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+      <div style="background:#fff; padding:1.5vw; border-radius:1.5vw;" id="qr-instagram"></div>
+      <p style="font-size:1.8vw; opacity:0.7;">Instagram</p>
+      <p style="font-size:1.4vw; opacity:0.4;">@visitislandparkidaho</p>
+    </div>
+  </div>
+  <img src="visit-island-park-dark-bg.png" style="height:5vh; opacity:0.6; margin-top:3vh;" />
+</div>
+
+<!-- Kayak Rental slide -->
+<div class="slide" data-slide="kayak">
+  <div style="display:flex; gap:4vw; align-items:flex-start;">
+    <div style="flex:1;">
+      <div class="slide-label">Adventure · On the Water</div>
+      <h1 style="font-size:5.5vw;">Big Springs Kayak Rental</h1>
+      <p style="margin-top:0.8vh; font-size:1.8vw; opacity:0.7; font-style:italic;">I'd Rather Be Kayaking</p>
+      <p style="margin-top:1.5vh; font-size:1.8vw; line-height:1.5;">Float the Henry's Fork from Big Springs — one of the most scenic and peaceful floats in Idaho. We meet you at the boat launch, help you in, and pick you up at the end!</p>
+      <div style="margin-top:2vh;">
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Float time</span><span class="v">2.5–3 hours · Departs 8:30 AM daily</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Details</span><span class="v" style="font-size:1.6vw;">Single kayaks · Life jackets provided · Dogs welcome on owner's kayak</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">River</span><span class="v" style="font-size:1.6vw;">Shallow &amp; scenic — suitable for most skill levels</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Book with Teara</span><span class="v" style="color:#5cb874; font-weight:700;">(208) 589-0503 · Call or text</span></div>
+      </div>
+    </div>
+    <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; gap:2vh; align-items:center;">
+      <div style="background:rgba(95,168,184,0.15); border:1px solid rgba(95,168,184,0.3); border-radius:1.5vw; padding:2vh 2vw; text-align:center;">
+        <p style="font-size:5vw; margin-bottom:1vh;">🚣</p>
+        <p style="font-size:1.8vw; color:#5fa8b8; font-weight:600; line-height:1.4;">Float with us<br/>or on your own!</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:1.5vh 2vw; text-align:center; width:100%;">
+        <p style="font-size:1.5vw; opacity:0.6; line-height:1.5;">Meet at Big Springs<br/>boat launch<br/>We take you back<br/>to your car after!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Drive times slide -->
+<div class="slide" data-slide="drivetimes">
+  <div class="slide-label">Plan your trip · Drive times from Island Park</div>
+  <h1 style="font-size:5.5vw;">Getting Around</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5vw; margin-top:2vh;">
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">Old Faithful · YNP</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~1 hr</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">West entrance via Hwy 20</div>
+    </div>
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">Roosevelt Arch</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~1.5 hr</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">Gardiner, MT north entrance</div>
+    </div>
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">Grand Teton NP</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~1.5 hr</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">South via Hwy 20 to 191</div>
+    </div>
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">Cody, WY</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~2.5 hr</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">East entrance to Yellowstone</div>
+    </div>
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">Bozeman, MT</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~2 hr</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">North via Hwy 20 to I-90</div>
+    </div>
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">Idaho Falls</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~1 hr</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">South via Hwy 20</div>
+    </div>
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">Salt Lake City</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~4 hr</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">South via I-15</div>
+    </div>
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">Jackson Hole</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~2 hr</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">South via Hwy 20 to 191</div>
+    </div>
+    <div class="weather-cell" style="text-align:center;">
+      <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; margin-bottom:0.8vh;">West Yellowstone</div>
+      <div style="font-size:4vw; font-weight:700; font-family:Georgia,serif;">~30 min</div>
+      <div style="font-size:1.4vw; opacity:0.6; margin-top:0.5vh;">West on Hwy 20</div>
+    </div>
+  </div>
+  <p style="font-size:1.4vw; opacity:0.3; margin-top:1.5vh; text-align:center;">Drive times approximate · Check 511.idaho.gov for road conditions</p>
 </div>
 
 <!-- Slide 8: Contact -->
@@ -698,6 +818,9 @@
       if (sid === 'easytours') duration = 12000; // Easy Tours
       if (sid === 'bearsafety') duration = 12000; // Bear safety
       if (sid === 'firesafety') duration = 12000; // Fire safety
+      if (sid === 'social') duration = 15000;    // Social media
+      if (sid === 'kayak') duration = 12000;      // Kayak rental
+      if (sid === 'drivetimes') duration = 12000; // Drive times
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -914,6 +1037,21 @@
         actLogoEl.style.display = 'none';
       }
     }
+    // Show activity photo for specific activities
+    const activityImages = {
+      'Grand Prismatic Spring': 'grs.png',
+    };
+    const actImgWrap = document.getElementById('activity-img-wrap');
+    const actImg = document.getElementById('activity-img');
+    if (actImgWrap && actImg) {
+      const imgFile = activityImages[a.name];
+      if (imgFile) {
+        actImg.src = imgFile;
+        actImgWrap.style.display = 'block';
+      } else {
+        actImgWrap.style.display = 'none';
+      }
+    }
   }
 
   function applyFood() {
@@ -925,7 +1063,7 @@
     // Show business logo if available
     const logoMap = {
       'Café Sabor': 'cafe-sabor.png',
-      'Lakeside Lodge': 'ponds-logo.png',
+      'Lakeside Lodge': 'lakeside-logo.png',
       'Boondocks': 'boondocks.png',
       "Pond's Lodge Pizza": 'ponds-logo.png',
       'Shotgun Bar': 'shotgun-bar.png'
@@ -943,11 +1081,12 @@
 
     // Restaurant-specific extras — QR code and phone
     const restaurantExtras = {
-      "Pond's Lodge Pizza": { url: 'https://www.pondslodge.com/menus/',              phone: '(208) 558-7221' },
-      "Lakeside Lodge":     { url: 'https://www.lakesidelodgeandresort.com/restaurant', phone: '(208) 558-9770' },
-      "Café Sabor":         { url: 'https://www.cafesabor.com/index.php/services',   phone: '(208) 558-9300' },
-      "Boondocks":          { url: 'https://www.facebook.com/boondocksislandpark/',  phone: '(208) 716-3720' },
-      "Shotgun Bar":        { phone: '(208) 339-5929' },
+      "Pond's Lodge Pizza":  { url: 'https://www.pondslodge.com/menus/',                                          phone: '(208) 558-7221' },
+      "Lakeside Lodge":      { url: 'https://www.lakesidelodgeandresort.com/restaurant',                          phone: '(208) 558-9770' },
+      "Café Sabor":          { url: 'https://www.cafesabor.com/index.php/services',                               phone: '(208) 558-9300' },
+      "Boondocks":           { url: 'https://www.facebook.com/boondocksislandpark/',                              phone: '(208) 716-3720' },
+      "Shotgun Bar":         { url: 'https://www.facebook.com/photo/?fbid=1350259620147882&set=pb.100054915714185.-2207520000', phone: '(208) 339-5929' },
+      "The Happy Hour Bar":  { url: 'https://www.facebook.com/share/p/1CWKWaHbYc/',                              phone: '(406) 646-7281' },
     };
 
     const extras = restaurantExtras[r.name];
@@ -1040,7 +1179,15 @@
     const greetingEl = document.getElementById('guest-greeting');
     const nameLine = document.getElementById('guest-name-line');
     const detailsLine = document.getElementById('guest-details-line');
-    if (!guest || !guest.firstName) { greetingEl.style.display = 'none'; return; }
+    if (!guest || !guest.firstName) {
+      // No guest data — show generic welcome
+      greetingEl.style.display = 'block';
+      nameLine.textContent = 'Welcome!';
+      nameLine.style.color = theme.accent;
+      nameLine.style.fontSize = "6vw";
+      detailsLine.textContent = 'Enjoy your stay';
+      return;
+    }
 
     // Format departure date — parse manually to avoid timezone/browser issues
     let deptStr = '';
@@ -1064,7 +1211,7 @@
     nameLine.style.fontSize = "5vw";
     // Build details line
     const parts = [];
-    // Clever checkout messages with time
+    // Clever checkout messages with time — always show if we have departure
     if (deptStr) {
       const checkoutTime = cabin ? cabin.checkout : '10:00 AM';
       const checkoutPhrases = [
@@ -1123,6 +1270,8 @@
 
   // ── CLEANING MODE ────────────────────────────────────
   function isCleaningTime(cabinKey) {
+    // Force cleaning mode via URL param ?cleaning=true for testing
+    if (new URLSearchParams(window.location.search).get('cleaning') === 'true') return true;
     const now = new Date();
     const h = now.getHours();
     const m = now.getMinutes();
@@ -1223,6 +1372,17 @@
         _galleryAttempt = 0;
         _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
         loadGalleryImage();
+    // Generate social media QR codes
+    if (typeof QRCode !== 'undefined') {
+      const qrSize = Math.round(window.innerWidth * 0.12);
+      const qrOpts = { width: qrSize, height: qrSize, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M };
+      const fbEl = document.getElementById('qr-facebook');
+      const ttEl = document.getElementById('qr-tiktok');
+      const igEl = document.getElementById('qr-instagram');
+      if (fbEl) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+    }
       }
     };
   }
@@ -1231,6 +1391,17 @@
     _galleryAttempt = 0;
     _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
     loadGalleryImage();
+    // Generate social media QR codes
+    if (typeof QRCode !== 'undefined') {
+      const qrSize = Math.round(window.innerWidth * 0.12);
+      const qrOpts = { width: qrSize, height: qrSize, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M };
+      const fbEl = document.getElementById('qr-facebook');
+      const ttEl = document.getElementById('qr-tiktok');
+      const igEl = document.getElementById('qr-instagram');
+      if (fbEl) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+    }
   }
 
   // ── FISHING / USGS STREAM DATA ───────────────────────
@@ -1422,6 +1593,17 @@
     applyQuote();
     applyPhotographer();
     loadGalleryImage();
+    // Generate social media QR codes
+    if (typeof QRCode !== 'undefined') {
+      const qrSize = Math.round(window.innerWidth * 0.12);
+      const qrOpts = { width: qrSize, height: qrSize, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M };
+      const fbEl = document.getElementById('qr-facebook');
+      const ttEl = document.getElementById('qr-tiktok');
+      const igEl = document.getElementById('qr-instagram');
+      if (fbEl) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+    }
     loadWeather(cabin);
     loadRegionalWeather();
     loadFishingData();
@@ -1457,6 +1639,12 @@
     });
 
     setInterval(() => loadWeather(cabin), 30*60*1000);
+    // Retry guest lookup every 30 min in case OwnerRez was down on page load
+    setInterval(() => {
+      loadGuest(key).then(guest => {
+        if (guest && guest.firstName) applyGuest(guest, theme);
+      });
+    }, 30*60*1000);
     // Check cleaning mode every minute
     setInterval(() => checkCleaningMode(key), 60*1000);
 
