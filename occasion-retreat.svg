@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-ret" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#2e1a1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-ret)" rx="12"/>
+  <!-- Stars -->
+  <circle cx="40" cy="35" r="1.5" fill="#fff" opacity="0.7"/>
+  <circle cx="360" cy="25" r="2" fill="#fff" opacity="0.8"/>
+  <circle cx="200" cy="20" r="1.5" fill="#fff" opacity="0.6"/>
+  <circle cx="100" cy="50" r="1" fill="#fff" opacity="0.5"/>
+  <circle cx="300" cy="45" r="1.5" fill="#fff" opacity="0.7"/>
+  <!-- Cabin -->
+  <polygon points="100,160 200,100 300,160" fill="#6a4a2a"/>
+  <rect x="110" y="160" width="180" height="90" fill="#7a5a3a"/>
+  <rect x="170" y="195" width="60" height="55" fill="#4a3020"/>
+  <rect x="130" y="168" width="40" height="35" fill="#90c8e0" opacity="0.4" rx="2"/>
+  <rect x="230" y="168" width="40" height="35" fill="#90c8e0" opacity="0.4" rx="2"/>
+  <!-- Warm light from windows -->
+  <ellipse cx="150" cy="185" rx="25" ry="12" fill="#f8c040" opacity="0.15"/>
+  <ellipse cx="250" cy="185" rx="25" ry="12" fill="#f8c040" opacity="0.15"/>
+  <!-- Smoke from chimney -->
+  <rect x="195" y="95" width="15" height="20" fill="#5a3a18"/>
+  <path d="M202,95 Q195,78 205,65 Q215,52 205,38" stroke="#aaa" stroke-width="6" fill="none" opacity="0.4" stroke-linecap="round"/>
+  <!-- Trees -->
+  <polygon points="30,250 48,200 66,250" fill="#2a4a2a"/>
+  <polygon points="50,250 65,210 80,250" fill="#3a5a3a"/>
+  <polygon points="320,250 338,198 356,250" fill="#2a4a2a"/>
+  <polygon points="340,250 356,208 372,250" fill="#3a5a3a"/>
+  <!-- Snow ground -->
+  <rect x="0" y="252" width="400" height="48" fill="#d0e0f0"/>
+  <ellipse cx="200" cy="252" rx="200" ry="10" fill="#c0d0e0"/>
+  <!-- Banner -->
+  <rect x="60" y="35" width="280" height="52" fill="#2a1a3a" rx="8" opacity="0.95"/>
+  <text x="200" y="60" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#ffd700" font-weight="bold">Welcome Retreat!</text>
+  <text x="200" y="79" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c0a8f0" opacity="0.8">Unplug. Recharge. Reconnect.</text>
+</svg>

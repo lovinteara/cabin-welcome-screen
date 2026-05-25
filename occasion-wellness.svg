@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-well" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a2a1a"/>
+      <stop offset="100%" style="stop-color:#1a2a0a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-well)" rx="12"/>
+  <!-- Lotus / mandala center -->
+  <circle cx="200" cy="168" r="55" fill="none" stroke="#5cb874" stroke-width="1" opacity="0.3"/>
+  <circle cx="200" cy="168" r="40" fill="none" stroke="#5cb874" stroke-width="1" opacity="0.4"/>
+  <circle cx="200" cy="168" r="25" fill="#1a3a2a" opacity="0.8"/>
+  <!-- Lotus petals -->
+  <ellipse cx="200" cy="128" rx="12" ry="20" fill="#5cb874" opacity="0.5" transform="rotate(0,200,168)"/>
+  <ellipse cx="200" cy="128" rx="12" ry="20" fill="#5cb874" opacity="0.5" transform="rotate(45,200,168)"/>
+  <ellipse cx="200" cy="128" rx="12" ry="20" fill="#5cb874" opacity="0.5" transform="rotate(90,200,168)"/>
+  <ellipse cx="200" cy="128" rx="12" ry="20" fill="#5cb874" opacity="0.5" transform="rotate(135,200,168)"/>
+  <ellipse cx="200" cy="128" rx="12" ry="20" fill="#5cb874" opacity="0.5" transform="rotate(180,200,168)"/>
+  <ellipse cx="200" cy="128" rx="12" ry="20" fill="#5cb874" opacity="0.5" transform="rotate(225,200,168)"/>
+  <ellipse cx="200" cy="128" rx="12" ry="20" fill="#5cb874" opacity="0.5" transform="rotate(270,200,168)"/>
+  <ellipse cx="200" cy="128" rx="12" ry="20" fill="#5cb874" opacity="0.5" transform="rotate(315,200,168)"/>
+  <!-- Center -->
+  <circle cx="200" cy="168" r="18" fill="#5cb874" opacity="0.7"/>
+  <circle cx="200" cy="168" r="10" fill="#ffd700" opacity="0.8"/>
+  <!-- Person meditating silhouette -->
+  <circle cx="200" cy="148" r="12" fill="#2a4a3a"/>
+  <path d="M180,165 Q200,158 220,165 Q210,190 200,192 Q190,190 180,165Z" fill="#2a4a3a"/>
+  <line x1="175" y1="172" x2="155" y2="178" stroke="#2a4a3a" stroke-width="6" stroke-linecap="round"/>
+  <line x1="225" y1="172" x2="245" y2="178" stroke="#2a4a3a" stroke-width="6" stroke-linecap="round"/>
+  <!-- Floating dots -->
+  <circle cx="80" cy="100" r="4" fill="#5cb874" opacity="0.4"/>
+  <circle cx="320" cy="90" r="4" fill="#5cb874" opacity="0.4"/>
+  <circle cx="60" cy="200" r="3" fill="#ffd700" opacity="0.3"/>
+  <circle cx="340" cy="210" r="3" fill="#ffd700" opacity="0.3"/>
+  <!-- Banner -->
+  <rect x="55" y="35" width="290" height="55" fill="#0a2a1a" rx="8" opacity="0.95"/>
+  <text x="200" y="60" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#5cb874" font-weight="bold">Wellness Retreat</text>
+  <text x="200" y="81" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#a0d8b0" opacity="0.8">Breathe. Rest. Restore.</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#1a1008" rx="12"/>
+  <!-- Desert/pioneer landscape -->
+  <rect x="0" y="220" width="400" height="80" fill="#8a6a28"/>
+  <ellipse cx="200" cy="220" rx="200" ry="12" fill="#7a5a20"/>
+  <!-- Sun setting/rising behind mountains -->
+  <circle cx="200" cy="220" r="60" fill="#f8c040" opacity="0.3"/>
+  <circle cx="200" cy="220" r="40" fill="#f8c040" opacity="0.4"/>
+  <!-- Mountains -->
+  <polygon points="0,220 60,130 120,220" fill="#6a5020"/>
+  <polygon points="80,220 150,105 220,220" fill="#7a6030"/>
+  <polygon points="200,220 260,118 320,220" fill="#6a5020"/>
+  <polygon points="295,220 350,132 400,220" fill="#7a6030"/>
+  <!-- Covered wagon silhouette -->
+  <rect x="100" y="180" width="120" height="40" fill="#1a1008" rx="4"/>
+  <ellipse cx="160" cy="175" rx="65" ry="28" fill="#1a1008"/>
+  <ellipse cx="160" cy="175" rx="62" ry="25" fill="#2a2010"/>
+  <circle cx="118" cy="220" r="16" fill="#1a1008"/>
+  <circle cx="118" cy="220" r="10" fill="#2a2010"/>
+  <circle cx="202" cy="220" r="16" fill="#1a1008"/>
+  <circle cx="202" cy="220" r="10" fill="#2a2010"/>
+  <!-- Oxen hint -->
+  <rect x="45" y="192" width="60" height="22" fill="#1a1008" rx="4"/>
+  <ellipse cx="45" cy="198" rx="12" ry="10" fill="#1a1008"/>
+  <!-- Seagulls hint (Utah symbol) -->
+  <path d="M280,100 Q290,94 300,100" stroke="#e0d8c0" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M310,88 Q322,82 334,88" stroke="#e0d8c0" stroke-width="2" fill="none" opacity="0.5"/>
+  <!-- Stars -->
+  <circle cx="50" cy="40" r="1.5" fill="#fff" opacity="0.7"/>
+  <circle cx="340" cy="30" r="2" fill="#fff" opacity="0.8"/>
+  <circle cx="150" cy="55" r="1" fill="#fff" opacity="0.6"/>
+  <!-- Banner -->
+  <rect x="40" y="30" width="320" height="55" fill="#1a1008" rx="8" opacity="0.95"/>
+  <text x="200" y="55" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#f0c840" font-weight="bold">Utah Pioneer Day!</text>
+  <text x="200" y="76" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#d0a840" opacity="0.8">July 24 · This Is The Place</text>
+</svg>

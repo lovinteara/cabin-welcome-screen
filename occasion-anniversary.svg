@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-ann" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a0a"/>
+      <stop offset="100%" style="stop-color:#2e1a2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-ann)" rx="12"/>
+  <!-- Rose petals scattered -->
+  <ellipse cx="40" cy="40" rx="12" ry="8" fill="#c8303a" opacity="0.6" transform="rotate(20,40,40)"/>
+  <ellipse cx="360" cy="50" rx="10" ry="7" fill="#c8303a" opacity="0.5" transform="rotate(-15,360,50)"/>
+  <ellipse cx="30" cy="260" rx="11" ry="7" fill="#c8303a" opacity="0.5" transform="rotate(30,30,260)"/>
+  <ellipse cx="370" cy="270" rx="10" ry="7" fill="#c8303a" opacity="0.6" transform="rotate(-20,370,270)"/>
+  <ellipse cx="200" cy="20" rx="12" ry="8" fill="#e04050" opacity="0.4" transform="rotate(10,200,20)"/>
+  <!-- Two wine glasses clinking -->
+  <g transform="translate(110,100)">
+    <path d="M30,0 Q10,40 20,70 L10,70 L10,80 L50,80 L50,70 L40,70 Q50,40 30,0Z" fill="#c0d8e8" opacity="0.7"/>
+    <ellipse cx="30" cy="5" rx="25" ry="8" fill="#d0e8f0" opacity="0.5"/>
+    <rect x="28" y="80" width="4" height="20" fill="#c0d8e8" opacity="0.6"/>
+    <ellipse cx="30" cy="102" rx="15" ry="4" fill="#c0d8e8" opacity="0.5"/>
+  </g>
+  <g transform="translate(210,95)">
+    <path d="M30,0 Q50,40 40,70 L50,70 L50,80 L10,80 L10,70 L20,70 Q10,40 30,0Z" fill="#c0d8e8" opacity="0.7"/>
+    <ellipse cx="30" cy="5" rx="25" ry="8" fill="#d0e8f0" opacity="0.5"/>
+    <rect x="28" y="80" width="4" height="20" fill="#c0d8e8" opacity="0.6"/>
+    <ellipse cx="30" cy="102" rx="15" ry="4" fill="#c0d8e8" opacity="0.5"/>
+  </g>
+  <!-- Sparkle at clink point -->
+  <line x1="198" y1="98" x2="190" y2="88" stroke="#ffd700" stroke-width="2" opacity="0.9"/>
+  <line x1="202" y1="95" x2="210" y2="85" stroke="#ffd700" stroke-width="2" opacity="0.9"/>
+  <line x1="195" y1="92" x2="185" y2="95" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+  <line x1="205" y1="92" x2="215" y2="95" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="200" cy="95" r="5" fill="#ffd700" opacity="0.8"/>
+  <!-- Heart -->
+  <path d="M190,55 C190,40 170,35 165,50 C160,35 140,40 140,55 C140,70 165,85 165,85 C165,85 190,70 190,55Z" fill="#e04050" opacity="0.9"/>
+  <path d="M260,55 C260,40 240,35 235,50 C230,35 210,40 210,55 C210,70 235,85 235,85 C235,85 260,70 260,55Z" fill="#e04050" opacity="0.9"/>
+  <!-- Banner -->
+  <rect x="50" y="218" width="300" height="52" fill="#8a1a2e" rx="8"/>
+  <text x="200" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#ffd700" font-weight="bold">Happy Anniversary!</text>
+  <text x="200" y="268" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#f0c8c8" opacity="0.8">Cheers to love</text>
+</svg>

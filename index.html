@@ -132,6 +132,16 @@
   </div>
 </div>
 
+<!-- Celebration slide — shows when set via JotForm or on holidays -->
+<div class="slide" data-slide="celebration" id="celebration-slide" style="display:none; position:relative; align-items:center; justify-content:center;">
+  <img id="celebration-img" src="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit;" onerror="this.style.display='none'"/>
+  <div style="position:relative; z-index:2; text-align:center; background:rgba(0,0,0,0.45); border-radius:2vw; padding:3vh 4vw; max-width:70vw;">
+    <div id="celebration-guest" style="font-size:3.5vw; font-family:Georgia,serif; color:#ffd700; font-weight:bold; text-shadow:0 2px 8px rgba(0,0,0,0.8); margin-bottom:1vh;"></div>
+    <div id="celebration-message" style="font-size:2.2vw; color:#f0e8f0; text-shadow:0 2px 6px rgba(0,0,0,0.8); line-height:1.5;"></div>
+    <div style="font-size:1.4vw; color:#ffd700; opacity:0.7; margin-top:1.5vh;">From your hosts Andy &amp; Teara</div>
+  </div>
+</div>
+
 <!-- Slide 1: WiFi -->
 <div class="slide" data-slide="1">
   <div class="slide-label">Connect</div>
@@ -772,7 +782,7 @@
            onerror="this.src='gathering-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1a24'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Gathering Place</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 26 · 6+ bed · 6 bath · AC · EV<br/>Hot tub · Games</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 26 · 6+ bed · 5 bath · AC · EV<br/>Hot tub · Games</div>
       </div>
     </div>
 
@@ -812,7 +822,7 @@
            onerror="this.src='dshouse-logo.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">D'Shouse Haven</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 10 · 4 bed · 2 bath · AC<br/>Barndominium · Hot tub</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 10 · 3 bed · 2 bath · AC<br/>Barndominium · Hot tub</div>
       </div>
     </div>
 
@@ -871,14 +881,14 @@
 </div>
 
 <!-- Campfire Fun slide -->
-<div class="slide" data-slide="campfire">
+<div class="slide" data-slide="campfire" style="overflow:hidden;">
   <div class="slide-label">Tonight · Around the Fire</div>
   <div style="display:flex; gap:3vw; height:82vh; margin-top:1vh;">
 
     <!-- Left: Conversation Starters -->
     <div style="flex:1; background:rgba(255,149,0,0.08); border:1px solid rgba(255,149,0,0.3); border-radius:1.5vw; padding:2vh 2vw; overflow:hidden;">
       <div style="font-size:1.6vw; font-weight:700; color:#ff9500; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.5vh;">Conversation Starters</div>
-      <div id="campfire-questions" style="font-size:1.7vw; line-height:1.9; color:#f0e8f0;"></div>
+      <div id="campfire-questions" style="font-size:1.5vw; line-height:1.7; color:#f0e8f0;"></div>
     </div>
 
     <!-- Center: Story + Smores stacked -->
@@ -890,7 +900,7 @@
       </div>
       <div style="flex:1; background:rgba(200,151,58,0.08); border:1px solid rgba(200,151,58,0.3); border-radius:1.5vw; padding:2vh 2vw; overflow:hidden;">
         <div style="font-size:1.6vw; font-weight:700; color:#c8973a; text-transform:uppercase; letter-spacing:2px; margin-bottom:1vh;">Smore Ideas</div>
-        <div id="campfire-smores" style="font-size:1.6vw; line-height:1.8; color:#f0e8f0;"></div>
+        <div id="campfire-smores" style="font-size:1.5vw; line-height:1.7; color:#f0e8f0;"></div>
       </div>
     </div>
 
@@ -912,12 +922,57 @@
       <div class="slide-label"><span class="live-dot"></span>Live · National Park Service</div>
       <h1 style="font-size:4.5vw;">Yellowstone &amp; Grand Teton Alerts</h1>
     </div>
-    <div style="text-align:right; font-size:1.4vw; opacity:0.4;">nps.gov/yell · nps.gov/grte</div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:0.8vh;">
+      <div style="background:#fff; padding:0.8vw; border-radius:0.8vw;" id="qr-nps"></div>
+      <div style="font-size:1.2vw; opacity:0.5; text-align:center;">Scan for full alerts<br/>nps.gov/yell · nps.gov/grte</div>
+    </div>
   </div>
   <div id="nps-alerts-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5vw;">
     <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; padding:2vh 2vw; font-size:1.6vw; opacity:0.5; grid-column:1/-1; text-align:center;">
       Loading park alerts...
     </div>
+  </div>
+</div>
+
+<!-- Road Conditions slide -->
+<div class="slide" data-slide="roadconditions">
+  <div class="slide-label">Plan Your Drive · Road Conditions</div>
+  <h1 style="font-size:4.5vw; font-family:Georgia,serif; margin-bottom:2vh;">Road Conditions</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2vw; margin-top:1vh;">
+
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(95,168,184,0.3);">
+      <div style="font-size:1.5vw; font-weight:700; color:#5fa8b8; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Idaho Roads · 511.idaho.gov</div>
+      <div class="info-row"><span class="k">US-20</span><span class="v">Main route to Island Park</span></div>
+      <div class="info-row"><span class="k">Osborne Bridge</span><span class="v">See webcam on slide 7</span></div>
+      <div class="info-row"><span class="k">Live conditions</span><span class="v">511.idaho.gov</span></div>
+      <div class="info-row"><span class="k">Call</span><span class="v">511 from any phone</span></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-idaho511"></div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(240,146,143,0.3);">
+      <div style="font-size:1.5vw; font-weight:700; color:#f0928f; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Yellowstone Roads · nps.gov/yell</div>
+      <div class="info-row"><span class="k">Road info line</span><span class="v">(307) 344-2117</span></div>
+      <div class="info-row"><span class="k">Road updates</span><span class="v">Text 82190 to 888777</span></div>
+      <div class="info-row"><span class="k">Live report</span><span class="v">nps.gov/yell/roads</span></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-yellroads"></div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(200,151,58,0.3);">
+      <div style="font-size:1.5vw; font-weight:700; color:#c8973a; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Wyoming Roads · wyoroad.info</div>
+      <div class="info-row"><span class="k">WYDOT</span><span class="v">wyoroad.info</span></div>
+      <div class="info-row"><span class="k">Call</span><span class="v">(888) WYO-ROAD</span></div>
+      <div class="info-row"><span class="k">Cell</span><span class="v">511 from Wyoming</span></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-wyoroad"></div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(92,184,116,0.3);">
+      <div style="font-size:1.5vw; font-weight:700; color:#5cb874; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Montana Roads · mdt.mt.gov</div>
+      <div class="info-row"><span class="k">MDT</span><span class="v">mdt.mt.gov/travinfo</span></div>
+      <div class="info-row"><span class="k">Beartooth Pass</span><span class="v">Check before driving!</span></div>
+      <div class="info-row"><span class="k">Call</span><span class="v">511 from Montana</span></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-mtroads"></div>
+    </div>
+
   </div>
 </div>
 
@@ -981,6 +1036,7 @@
       if (id === '5') { try { applyFood(); } catch(e) { console.error('food err', e); } }
       if (id === 'photo') { try { applyPhotographer(); } catch(e) { console.error('photo err', e); } }
       if (id === 'campfire') { try { applyCampfire(); } catch(e) { console.error('campfire err',e); } }
+      if (id === 'celebration') { try { applyCelebration(); } catch(e) {} }
       if (id === 'parkalerts') { try { loadNPSAlerts(); } catch(e) {} }
       if (id === 'gallery') { try { nextGalleryImage(); } catch(e) {} }
       if (id === 'fishing') { try { loadFishingData(); } catch(e) {} }
@@ -1020,10 +1076,13 @@
       if (sid === 'social') duration = 15000;    // Social media
       if (sid === 'kayak') duration = 12000;      // Kayak rental
       if (sid === 'drivetimes') duration = 12000; // Drive times
-      if (sid === 'bookagain') duration = 15000;  // Book again
+      if (sid === 'bookagain') duration = 15000;
+      if (sid === '5' && window._currentRestaurant === 'The Happy Hour Bar') duration = 20000;  // Book again
       if (sid === 'allcabins') duration = 20000; // All cabins grid
-      if (sid === 'campfire') duration = 20000;
-      if (sid === 'parkalerts') duration = 15000; // Campfire — needs time to read
+      if (sid === 'campfire') duration = 35000;
+      if (sid === 'celebration') duration = 30000;
+      if (sid === 'parkalerts') duration = 30000;
+      if (sid === 'roadconditions') duration = 20000; // Campfire — needs time to read
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -1480,7 +1539,7 @@
       const t = wDesc(cur.weather_code);
       document.getElementById('current-temp').textContent = Math.round(cur.temperature_2m)+'°';
       document.getElementById('current-cond').textContent = t.t;
-      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 280);
+      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 380);
       document.getElementById('hi-temp').textContent = Math.round(data.daily.temperature_2m_max[0])+'°';
       document.getElementById('lo-temp').textContent = Math.round(data.daily.temperature_2m_min[0])+'°';
       document.getElementById('wind').textContent = Math.round(cur.wind_speed_10m)+' mph';
@@ -1492,7 +1551,7 @@
         const w = wDesc(data.daily.weather_code[i]);
         grid.innerHTML += `<div class="weather-cell" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:2vh 1vw;">
           <div class="day" style="font-size:1.8vw;letter-spacing:0.2vw;text-transform:uppercase;margin-bottom:1vh;">${dayShort(data.daily.time[i])}</div>
-          ${iconSvg(w.i, 200)}
+          ${iconSvg(w.i, 280)}
           <div class="temp" style="font-size:5vw;font-weight:600;font-family:Georgia,serif;margin-top:0.8vh;">${Math.round(data.daily.temperature_2m_max[i])}°</div>
           <div class="cond" style="font-size:1.6vw;margin-top:0.5vh;opacity:0.7;">${w.t}</div>
         </div>`;
@@ -1595,7 +1654,7 @@
         const tempEl = document.getElementById(`reg-${loc.id}-temp`);
         const condEl = document.getElementById(`reg-${loc.id}-cond`);
         if (tempEl) tempEl.textContent = temp + '°';
-        if (condEl) condEl.innerHTML = iconSvg(w.i, 160) + ' ' + w.t;
+        if (condEl) condEl.innerHTML = iconSvg(w.i, 200) + ' ' + w.t;
       } catch {
         const condEl = document.getElementById(`reg-${loc.id}-cond`);
         if (condEl) condEl.textContent = 'Unavailable';
@@ -1720,6 +1779,36 @@
         });
       }
     }
+    // Generate road conditions QR codes ONCE
+    if (typeof QRCode !== 'undefined') {
+      const roadQRs = [
+        { id: 'qr-idaho511', url: 'https://511.idaho.gov' },
+        { id: 'qr-yellroads', url: 'https://www.nps.gov/yell/planyourvisit/roadconditions.htm' },
+        { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
+        { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
+      ];
+      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      roadQRs.forEach(({id, url}) => {
+        const el = document.getElementById(id);
+        if (el && !el.hasChildNodes()) {
+          new QRCode(el, { text: url, width: roadQRSize, height: roadQRSize,
+            colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+        }
+      });
+    }
+    // Generate NPS alerts QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const npsEl = document.getElementById('qr-nps');
+      if (npsEl && !npsEl.hasChildNodes()) {
+        new QRCode(npsEl, {
+          text: 'https://www.nps.gov/yell/planyourvisit/conditions.htm',
+          width: Math.round(window.innerWidth * 0.08),
+          height: Math.round(window.innerWidth * 0.08),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
     // Generate social media QR codes
     if (typeof QRCode !== 'undefined') {
       const qrSize = Math.round(window.innerWidth * 0.12);
@@ -1747,6 +1836,36 @@
           text: 'https://www.VisitIslandParkIdaho.com',
           width: Math.round(window.innerWidth * 0.14),
           height: Math.round(window.innerWidth * 0.14),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
+    // Generate road conditions QR codes ONCE
+    if (typeof QRCode !== 'undefined') {
+      const roadQRs = [
+        { id: 'qr-idaho511', url: 'https://511.idaho.gov' },
+        { id: 'qr-yellroads', url: 'https://www.nps.gov/yell/planyourvisit/roadconditions.htm' },
+        { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
+        { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
+      ];
+      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      roadQRs.forEach(({id, url}) => {
+        const el = document.getElementById(id);
+        if (el && !el.hasChildNodes()) {
+          new QRCode(el, { text: url, width: roadQRSize, height: roadQRSize,
+            colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+        }
+      });
+    }
+    // Generate NPS alerts QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const npsEl = document.getElementById('qr-nps');
+      if (npsEl && !npsEl.hasChildNodes()) {
+        new QRCode(npsEl, {
+          text: 'https://www.nps.gov/yell/planyourvisit/conditions.htm',
+          width: Math.round(window.innerWidth * 0.08),
+          height: Math.round(window.innerWidth * 0.08),
           colorDark: '#000000', colorLight: '#ffffff',
           correctLevel: QRCode.CorrectLevel.M
         });
@@ -1869,6 +1988,94 @@
     } catch(e) {
       grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;opacity:0.5;font-size:1.6vw;padding:4vh;">Check nps.gov/yell and nps.gov/grte for current conditions.</div>';
     }
+  }
+
+  // ── CELEBRATION SYSTEM ─────────────────────────────────
+  const OCCASION_IMAGES = {
+    'birthday': 'occasions/occasion-birthday.svg',
+    'anniversary': 'occasions/occasion-anniversary.svg',
+    'honeymoon': 'occasions/occasion-honeymoon.svg',
+    'graduation': 'occasions/occasion-graduation.svg',
+    'reunion': 'occasions/occasion-reunion.svg',
+    'girls-trip': 'occasions/occasion-girls-trip.svg',
+    'guys-trip': 'occasions/occasion-guys-trip.svg',
+    'fishing-trip': 'occasions/occasion-fishing-trip.svg',
+    'river-float': 'occasions/occasion-river-float.svg',
+    'hunting-trip': 'occasions/occasion-hunting-trip.svg',
+    'snowmobile': 'occasions/occasion-snowmobile.svg',
+    'sled-trip': 'occasions/occasion-sled-trip.svg',
+    'retreat': 'occasions/occasion-retreat.svg',
+    'wellness': 'occasions/occasion-wellness.svg',
+    'rr': 'occasions/occasion-rr.svg',
+    'mom-and-me': 'occasions/occasion-mom-and-me.svg',
+    'dad-and-me': 'occasions/occasion-dad-and-me.svg',
+  };
+
+  const HOLIDAY_IMAGES = {
+    '01-01': 'occasions/holiday-newyears.svg',
+    '02-14': 'occasions/holiday-valentines.svg',
+    '05-26': 'occasions/holiday-memorial-day.svg',
+    '07-03': 'occasions/holiday-idaho-day.svg',
+    '07-04': 'occasions/holiday-july4.svg',
+    '07-24': 'occasions/holiday-pioneer-day.svg',
+    '09-01': 'occasions/holiday-labor-day.svg',
+    '10-31': 'occasions/holiday-halloween.svg',
+    '11-27': 'occasions/holiday-thanksgiving.svg',
+    '12-25': 'occasions/holiday-christmas.svg',
+  };
+
+  let _celebration = null;
+
+  function getTodayKey() {
+    const d = new Date();
+    const mo = String(d.getMonth()+1).padStart(2,'0');
+    const dy = String(d.getDate()).padStart(2,'0');
+    return mo + '-' + dy;
+  }
+
+  async function loadCelebration() {
+    const cabinKey = window._cabinKey || 'huckleberry';
+    try {
+      const res = await fetch(`/api/celebration?cabin=${cabinKey}`);
+      const data = await res.json();
+      if (data && data.active) {
+        _celebration = data;
+      } else {
+        _celebration = null;
+      }
+    } catch(e) {
+      _celebration = null;
+    }
+    applyCelebration();
+  }
+
+  function applyCelebration() {
+    const slide = document.getElementById('celebration-slide');
+    if (!slide) return;
+
+    // Check for JotForm-set celebration
+    if (_celebration && _celebration.active) {
+      const imgFile = OCCASION_IMAGES[_celebration.occasion] || 'occasions/occasion-birthday.svg';
+      document.getElementById('celebration-img').src = imgFile;
+      document.getElementById('celebration-guest').textContent = _celebration.guestName || '';
+      document.getElementById('celebration-message').textContent = _celebration.message || '';
+      slide.style.display = 'flex';
+      return;
+    }
+
+    // Check for auto holiday
+    const todayKey = getTodayKey();
+    const holidayImg = HOLIDAY_IMAGES[todayKey];
+    if (holidayImg) {
+      document.getElementById('celebration-img').src = holidayImg;
+      document.getElementById('celebration-guest').textContent = '';
+      document.getElementById('celebration-message').textContent = 'Happy Holidays from Andy & Teara!';
+      slide.style.display = 'flex';
+      return;
+    }
+
+    // No celebration — hide slide
+    slide.style.display = 'none';
   }
 
   // ── FIRE SAFETY STATUS ───────────────────────────────
@@ -2015,6 +2222,36 @@
           colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
       }
     }
+    // Generate road conditions QR codes ONCE
+    if (typeof QRCode !== 'undefined') {
+      const roadQRs = [
+        { id: 'qr-idaho511', url: 'https://511.idaho.gov' },
+        { id: 'qr-yellroads', url: 'https://www.nps.gov/yell/planyourvisit/roadconditions.htm' },
+        { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
+        { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
+      ];
+      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      roadQRs.forEach(({id, url}) => {
+        const el = document.getElementById(id);
+        if (el && !el.hasChildNodes()) {
+          new QRCode(el, { text: url, width: roadQRSize, height: roadQRSize,
+            colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+        }
+      });
+    }
+    // Generate NPS alerts QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const npsEl = document.getElementById('qr-nps');
+      if (npsEl && !npsEl.hasChildNodes()) {
+        new QRCode(npsEl, {
+          text: 'https://www.nps.gov/yell/planyourvisit/conditions.htm',
+          width: Math.round(window.innerWidth * 0.08),
+          height: Math.round(window.innerWidth * 0.08),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
     // Generate social media QR codes
     if (typeof QRCode !== 'undefined') {
       const qrSize = Math.round(window.innerWidth * 0.12);
@@ -2031,6 +2268,8 @@
     loadFishingData();
     setInterval(loadFishingData, 60*60*1000);
     loadFireStatus();
+    loadCelebration();
+    setInterval(loadCelebration, 5 * 60 * 1000); // refresh every 5 min
     loadNPSAlerts();
     setInterval(loadNPSAlerts, 60*60*1000); // refresh every hour
     // Intermittent music — play song once then wait 10 minutes and play again

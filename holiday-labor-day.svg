@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#1a1a0a" rx="12"/>
+  <!-- Fall foliage starting -->
+  <polygon points="0,200 50,120 100,200" fill="#3a5a28"/>
+  <polygon points="50,200 110,100 170,200" fill="#5a7a38" opacity="0.9"/>
+  <polygon points="150,200 210,110 270,200" fill="#c87030" opacity="0.8"/>
+  <polygon points="250,200 305,118 360,200" fill="#5a7a38" opacity="0.9"/>
+  <polygon points="330,200 375,128 420,200" fill="#3a5a28"/>
+  <!-- Sun -->
+  <circle cx="200" cy="65" r="40" fill="#f8c840" opacity="0.9"/>
+  <circle cx="200" cy="65" r="48" fill="#f8c840" opacity="0.2"/>
+  <!-- Grill/BBQ hint -->
+  <ellipse cx="200" cy="195" rx="50" ry="15" fill="#3a3a3a" opacity="0.9"/>
+  <rect x="155" y="170" width="90" height="28" fill="#4a4a4a" rx="4"/>
+  <rect x="172" y="155" width="8" height="18" fill="#3a3a3a"/>
+  <rect x="220" y="155" width="8" height="18" fill="#3a3a3a"/>
+  <!-- Smoke -->
+  <path d="M185,155 Q180,140 188,128" stroke="#aaa" stroke-width="4" fill="none" opacity="0.4" stroke-linecap="round"/>
+  <path d="M200,153 Q195,136 203,122" stroke="#aaa" stroke-width="3" fill="none" opacity="0.3" stroke-linecap="round"/>
+  <path d="M215,155 Q212,140 218,128" stroke="#aaa" stroke-width="3" fill="none" opacity="0.35" stroke-linecap="round"/>
+  <!-- Food on grill -->
+  <rect x="162" y="165" width="18" height="8" fill="#c87030" rx="2" opacity="0.9"/>
+  <rect x="185" y="165" width="18" height="8" fill="#c87030" rx="2" opacity="0.9"/>
+  <rect x="208" y="165" width="18" height="8" fill="#c87030" rx="2" opacity="0.9"/>
+  <!-- Picnic below -->
+  <rect x="60" y="240" width="280" height="16" fill="#8a6a28" rx="4"/>
+  <rect x="80" y="248" width="12" height="35" fill="#6a5020" rx="2"/>
+  <rect x="308" y="248" width="12" height="35" fill="#6a5020" rx="2"/>
+  <!-- Banner -->
+  <rect x="50" y="30" width="300" height="55" fill="#1a2a0a" rx="8" opacity="0.95"/>
+  <text x="200" y="57" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#ffd700" font-weight="bold">Happy Labor Day!</text>
+  <text x="200" y="76" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c8d890" opacity="0.8">Enjoy your well-earned rest</text>
+</svg>

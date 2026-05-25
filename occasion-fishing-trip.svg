@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-fish" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a5a8a"/>
+      <stop offset="100%" style="stop-color:#1a3a5a"/>
+    </linearGradient>
+    <linearGradient id="water-fish" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a6a8a"/>
+      <stop offset="100%" style="stop-color:#1a4a6a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-fish)" rx="12"/>
+  <!-- Sky to water -->
+  <rect x="0" y="160" width="400" height="140" fill="url(#water-fish)" rx="0"/>
+  <!-- Mountains -->
+  <polygon points="0,160 50,90 100,160" fill="#3a7a5a" opacity="0.7"/>
+  <polygon points="60,160 120,75 180,160" fill="#4a8a6a" opacity="0.8"/>
+  <polygon points="160,160 220,85 280,160" fill="#3a7a5a" opacity="0.7"/>
+  <polygon points="270,160 330,80 390,160" fill="#4a8a6a" opacity="0.8"/>
+  <!-- Sun -->
+  <circle cx="320" cy="60" r="30" fill="#f8e060" opacity="0.9"/>
+  <!-- Water ripples -->
+  <path d="M0,175 Q100,168 200,175 Q300,182 400,175" stroke="#5a9ab8" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M0,195 Q100,188 200,195 Q300,202 400,195" stroke="#5a9ab8" stroke-width="1" fill="none" opacity="0.3"/>
+  <!-- Big fish jumping -->
+  <ellipse cx="250" cy="148" rx="45" ry="16" fill="#5a9a7a" opacity="0.9" transform="rotate(-20,250,148)"/>
+  <polygon points="295,135 315,120 315,150" fill="#5a9a7a" opacity="0.9" transform="rotate(-20,305,135)"/>
+  <circle cx="238" cy="140" r="4" fill="#1a3a2a" opacity="0.8" transform="rotate(-20,238,140)"/>
+  <ellipse cx="258" cy="145" rx="5" ry="2" fill="#4a8a6a" opacity="0.6" transform="rotate(-20,258,145)"/>
+  <!-- Water splash -->
+  <ellipse cx="240" cy="162" rx="35" ry="8" fill="#80c0d8" opacity="0.4"/>
+  <line x1="220" y1="155" x2="210" y2="140" stroke="#a0d0e8" stroke-width="2" opacity="0.6"/>
+  <line x1="260" y1="153" x2="272" y2="138" stroke="#a0d0e8" stroke-width="2" opacity="0.6"/>
+  <!-- Fishing line from top -->
+  <line x1="130" y1="0" x2="250" y2="148" stroke="#e0e8f0" stroke-width="1" opacity="0.6"/>
+  <!-- Banner -->
+  <rect x="45" y="18" width="230" height="52" fill="#1a3a5a" rx="8" opacity="0.95"/>
+  <text x="160" y="42" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#ffd700" font-weight="bold">Fishing Trip!</text>
+  <text x="160" y="61" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#a0d8e0" opacity="0.8">Tight lines ahead!</text>
+</svg>

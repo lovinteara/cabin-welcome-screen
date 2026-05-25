@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-sled" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2a4a"/>
+      <stop offset="100%" style="stop-color:#2a3a5a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-sled)" rx="12"/>
+  <!-- Snowy hill -->
+  <path d="M0,180 Q100,130 200,160 Q300,190 400,150 L400,300 L0,300Z" fill="#d8e8f8"/>
+  <!-- Snowflakes -->
+  <circle cx="50" cy="40" r="3" fill="#fff" opacity="0.6"/>
+  <circle cx="150" cy="25" r="2" fill="#fff" opacity="0.5"/>
+  <circle cx="250" cy="35" r="3" fill="#fff" opacity="0.6"/>
+  <circle cx="350" cy="20" r="2" fill="#fff" opacity="0.5"/>
+  <circle cx="100" cy="65" r="2" fill="#fff" opacity="0.4"/>
+  <circle cx="300" cy="55" r="2" fill="#fff" opacity="0.4"/>
+  <!-- Sled going down hill -->
+  <g transform="translate(120,155) rotate(-12)">
+    <rect x="0" y="20" width="110" height="18" fill="#c8503a" rx="4"/>
+    <rect x="10" y="15" width="90" height="10" fill="#d86040" rx="3"/>
+    <line x1="10" y1="38" x2="10" y2="50" stroke="#8a4020" stroke-width="4"/>
+    <line x1="100" y1="38" x2="100" y2="50" stroke="#8a4020" stroke-width="4"/>
+    <line x1="5" y1="48" x2="105" y2="48" stroke="#8a4020" stroke-width="4" stroke-linecap="round"/>
+    <!-- Person 1 -->
+    <circle cx="35" cy="8" r="11" fill="#c8855a"/>
+    <rect x="26" y="18" width="18" height="12" fill="#3a6aaa" rx="3"/>
+    <!-- Person 2 -->
+    <circle cx="70" cy="6" r="11" fill="#b87848"/>
+    <rect x="61" y="16" width="18" height="12" fill="#c84a3a" rx="3"/>
+  </g>
+  <!-- Snow spray trail -->
+  <ellipse cx="240" cy="185" rx="30" ry="8" fill="#fff" opacity="0.5"/>
+  <ellipse cx="265" cy="180" rx="18" ry="5" fill="#fff" opacity="0.35"/>
+  <!-- Pine trees -->
+  <polygon points="30,180 45,145 60,180" fill="#2a5a2a"/>
+  <polygon points="48,180 60,152 72,180" fill="#3a6a3a"/>
+  <polygon points="330,175 345,140 360,175" fill="#2a5a2a"/>
+  <polygon points="348,175 362,148 376,175" fill="#3a6a3a"/>
+  <!-- Banner -->
+  <rect x="55" y="30" width="290" height="52" fill="#1a2a5a" rx="8" opacity="0.95"/>
+  <text x="200" y="57" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#ffd700" font-weight="bold">Sled Trip!</text>
+  <text x="200" y="76" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#a0c8e0" opacity="0.8">Hold on tight!</text>
+</svg>
