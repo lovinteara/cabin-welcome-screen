@@ -164,6 +164,7 @@
   <div class="slide-label"><span class="live-dot"></span>Live · <span id="weather-loc">Island Park</span></div>
   <div class="weather-icon-wrap">
     <div id="current-icon"></div>
+    <div style="display:flex; align-items:center; gap:1vw; margin-top:0.5vh;"><img id="moon-img" src="" style="height:4vh; object-fit:contain;" onerror="this.style.display='none'"/><div id="moon-phase" style="font-size:1.8vw; opacity:0.7;"></div></div>
     <div>
       <span class="big-temp" id="current-temp">—</span>
       <p style="margin-top:8px;opacity:0.7;" id="current-cond">Fetching weather…</p>
@@ -192,22 +193,22 @@
   <div id="regional-grid" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:2vw; margin-top:2vh; width:100%;">
     <div class="weather-cell">
       <div class="day">Yellowstone NP</div>
-      <div class="temp" id="reg-ynp-temp">—</div>
+      <div class="temp" id="reg-ynp-temp" style="display:flex;align-items:center;gap:1vw;justify-content:center;">—</div>
       <div class="cond" id="reg-ynp-cond" style="opacity:0.4;">Fetching…</div>
     </div>
     <div class="weather-cell">
       <div class="day">Grand Teton NP</div>
-      <div class="temp" id="reg-gtnp-temp">—</div>
+      <div class="temp" id="reg-gtnp-temp" style="display:flex;align-items:center;gap:1vw;justify-content:center;">—</div>
       <div class="cond" id="reg-gtnp-cond" style="opacity:0.4;">Fetching…</div>
     </div>
     <div class="weather-cell">
       <div class="day">Jackson Hole, WY</div>
-      <div class="temp" id="reg-jh-temp">—</div>
+      <div class="temp" id="reg-jh-temp" style="display:flex;align-items:center;gap:1vw;justify-content:center;">—</div>
       <div class="cond" id="reg-jh-cond" style="opacity:0.4;">Fetching…</div>
     </div>
     <div class="weather-cell">
       <div class="day">Salt Lake City (SLC)</div>
-      <div class="temp" id="reg-slc-temp">—</div>
+      <div class="temp" id="reg-slc-temp" style="display:flex;align-items:center;gap:1vw;justify-content:center;">—</div>
       <div class="cond" id="reg-slc-cond" style="opacity:0.4;">Fetching…</div>
     </div>
     <div class="weather-cell">
@@ -515,9 +516,9 @@
 <!-- Trash Day slide — pickup day msg OR bear can video -->
 <div class="slide" data-slide="trashday" id="trash-day-slide" style="align-items:center; justify-content:center; text-align:center;">
   <div id="trash-day-msg" style="max-width:80vw;">
-    <div class="slide-label" style="text-align:center;">Today · Action needed</div>
-    <h1 style="font-size:9vw; font-family:Georgia,serif;">Trash Day!</h1>
-    <p style="font-size:3vw; margin-top:2vh; line-height:1.4;">Please place your bagged trash in the bear-resistant<br/>container outside before you head out today.</p>
+    <div class="slide-label" style="text-align:center;" id="trash-label">Today · Action needed</div>
+    <h1 style="font-size:9vw; font-family:Georgia,serif;" id="trash-heading">Trash Day!</h1>
+    <p style="font-size:3vw; margin-top:2vh; line-height:1.4;" id="trash-body">Please place your bagged trash in the bear-resistant<br/>container outside before you head out today.</p>
     <div style="margin-top:3vh; display:inline-block; background:rgba(255,255,255,0.08); border-radius:1.5vw; padding:2vh 4vw;">
       <p style="font-size:2.2vw; opacity:0.7;">Black bags · Under the kitchen sink<br/>Pickup: <span id="trash-day-pickup" style="opacity:1; font-weight:600;">—</span></p>
     </div>
@@ -782,7 +783,7 @@
            onerror="this.src='gathering-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1a24'; this.style.padding='8px';"/>
       <div style="padding:0.8vh 0.8vw;">
         <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Gathering Place</div>
-        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 26 · 6+ bed · 5 bath · AC · EV<br/>Hot tub · Games</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 26 · 6 bed (14 beds) · 5 bath<br/>Billiards · Hot tub · 1.5 acres</div>
       </div>
     </div>
 
@@ -904,10 +905,10 @@
       </div>
     </div>
 
-    <!-- Right: Smore image -->
-    <div style="width:22vw; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh;">
-      <img src="smore.svg" style="width:100%; object-fit:contain;" onerror="this.style.display='none'"/>
-      <div style="font-size:1.4vw; color:#c8973a; text-align:center; opacity:0.7;">New ideas every rotation!</div>
+    <!-- Right: Smore image small at top -->
+    <div style="width:16vw; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:1vh; padding-top:1vh;">
+      <img src="smore.svg" style="width:90%; max-height:18vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <div style="font-size:1.3vw; color:#c8973a; text-align:center; opacity:0.7;">New ideas<br/>every rotation!</div>
     </div>
 
   </div>
@@ -1035,7 +1036,14 @@
       if (id === '4') { try { applyActivity(window._cabinRef, window._weatherRef); } catch(e) { console.error('activity err', e); } }
       if (id === '5') { try { applyFood(); } catch(e) { console.error('food err', e); } }
       if (id === 'photo') { try { applyPhotographer(); } catch(e) { console.error('photo err', e); } }
-      if (id === 'campfire') { try { applyCampfire(); } catch(e) { console.error('campfire err',e); } }
+      if (id === 'campfire') {
+        try {
+          window._campfireCount = (window._campfireCount || 0) + 1;
+          if (window._campfireCount === 1 || window._campfireCount % 4 === 1) {
+            applyCampfire(); // refresh every 4 rotations
+          }
+        } catch(e) { console.error('campfire err',e); }
+      }
       if (id === 'celebration') { try { applyCelebration(); } catch(e) {} }
       if (id === 'parkalerts') { try { loadNPSAlerts(); } catch(e) {} }
       if (id === 'gallery') { try { nextGalleryImage(); } catch(e) {} }
@@ -1375,6 +1383,8 @@
     const foodLogoEl = document.getElementById('food-biz-logo');
     const logoFile = logoMap[r.name];
     if (foodLogoEl) {
+      foodLogoEl.src = '';
+      foodLogoEl.style.display = 'none';
       if (logoFile) {
         foodLogoEl.src = logoFile;
         foodLogoEl.style.display = 'block';
@@ -1539,7 +1549,40 @@
       const t = wDesc(cur.weather_code);
       document.getElementById('current-temp').textContent = Math.round(cur.temperature_2m)+'°';
       document.getElementById('current-cond').textContent = t.t;
-      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 380);
+      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 500);
+      // Moon phase
+      const moonEl = document.getElementById('moon-phase');
+      if (moonEl) {
+        const synodicMonth = 29.53058867;
+        const known = new Date('2000-01-06');
+        const daysSince = (new Date() - known) / (1000*60*60*24);
+        const phase = ((daysSince % synodicMonth) + synodicMonth) % synodicMonth;
+        let moonName, moonIcon;
+        if (phase < 1.85) { moonName='New Moon'; moonIcon='●'; }
+        else if (phase < 7.38) { moonName='Waxing Crescent'; moonIcon='◑'; }
+        else if (phase < 9.22) { moonName='First Quarter'; moonIcon='◑'; }
+        else if (phase < 14.77) { moonName='Waxing Gibbous'; moonIcon='◕'; }
+        else if (phase < 16.61) { moonName='Full Moon'; moonIcon='○'; }
+        else if (phase < 22.15) { moonName='Waning Gibbous'; moonIcon='◔'; }
+        else if (phase < 23.99) { moonName='Last Quarter'; moonIcon='◐'; }
+        else { moonName='Waning Crescent'; moonIcon='◑'; }
+        moonEl.textContent = moonName;
+        const moonImg = document.getElementById('moon-img');
+        if (moonImg) {
+          const moonFiles = {
+            'New Moon': 'moon-new.svg',
+            'Waxing Crescent': 'moon-waxing-crescent.svg',
+            'First Quarter': 'moon-first-quarter.svg',
+            'Waxing Gibbous': 'moon-waxing-gibbous.svg',
+            'Full Moon': 'moon-full.svg',
+            'Waning Gibbous': 'moon-waning-gibbous.svg',
+            'Last Quarter': 'moon-last-quarter.svg',
+            'Waning Crescent': 'moon-waning-crescent.svg',
+          };
+          moonImg.src = moonFiles[moonName] || 'moon-full.svg';
+          moonImg.style.display = 'block';
+        }
+      }
       document.getElementById('hi-temp').textContent = Math.round(data.daily.temperature_2m_max[0])+'°';
       document.getElementById('lo-temp').textContent = Math.round(data.daily.temperature_2m_min[0])+'°';
       document.getElementById('wind').textContent = Math.round(cur.wind_speed_10m)+' mph';
@@ -1551,7 +1594,7 @@
         const w = wDesc(data.daily.weather_code[i]);
         grid.innerHTML += `<div class="weather-cell" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:2vh 1vw;">
           <div class="day" style="font-size:1.8vw;letter-spacing:0.2vw;text-transform:uppercase;margin-bottom:1vh;">${dayShort(data.daily.time[i])}</div>
-          ${iconSvg(w.i, 280)}
+          ${iconSvg(w.i, 360)}
           <div class="temp" style="font-size:5vw;font-weight:600;font-family:Georgia,serif;margin-top:0.8vh;">${Math.round(data.daily.temperature_2m_max[i])}°</div>
           <div class="cond" style="font-size:1.6vw;margin-top:0.5vh;opacity:0.7;">${w.t}</div>
         </div>`;
@@ -1653,8 +1696,8 @@
         const w = wDesc(data.current.weather_code);
         const tempEl = document.getElementById(`reg-${loc.id}-temp`);
         const condEl = document.getElementById(`reg-${loc.id}-cond`);
-        if (tempEl) tempEl.textContent = temp + '°';
-        if (condEl) condEl.innerHTML = iconSvg(w.i, 200) + ' ' + w.t;
+        if (tempEl) tempEl.innerHTML = temp + '° ' + iconSvg(w.i, 200);
+        if (condEl) condEl.textContent = w.t;
       } catch {
         const condEl = document.getElementById(`reg-${loc.id}-cond`);
         if (condEl) condEl.textContent = 'Unavailable';
@@ -1953,11 +1996,26 @@
     const bearCanVideo = document.getElementById('trash-bearcan-video');
     if (daySlide) {
       daySlide.style.display = '';
-      if (isPickupDay) {
+        const todayDay = new Date().getDay();
+      const tomorrowDay = (todayDay + 1) % 7;
+      const isTomorrow = cabin && cabin.trashDays && cabin.trashDays.includes(tomorrowDay);
+      if (isPickupDay || isTomorrow) {
         if (trashMsg) trashMsg.style.display = 'block';
         if (bearCanVideo) bearCanVideo.style.display = 'none';
         const pickupEl = document.getElementById('trash-day-pickup');
         if (pickupEl) pickupEl.textContent = trash.days.join(' & ');
+        const heading = document.getElementById('trash-heading');
+        const label = document.getElementById('trash-label');
+        const body = document.getElementById('trash-body');
+        if (isPickupDay) {
+          if (heading) heading.textContent = 'Trash Day!';
+          if (label) label.textContent = 'Today · Action Needed!';
+          if (body) body.innerHTML = 'Please place your bagged trash in the bear-resistant<br/>container outside before you head out today.';
+        } else {
+          if (heading) heading.textContent = 'Trash Tomorrow!';
+          if (label) label.textContent = 'Heads Up · Tomorrow is Trash Day!';
+          if (body) body.innerHTML = 'Roll the bear cans out tonight so they are<br/>ready for pickup in the morning!';
+        }
       } else {
         if (trashMsg) trashMsg.style.display = 'none';
         if (bearCanVideo) bearCanVideo.style.display = 'flex';
