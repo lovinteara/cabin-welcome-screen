@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <circle cx="60" cy="60" r="58" fill="#0a0a1a" stroke="#2a2a4a" stroke-width="1"/>
+  <clipPath id="half-right">
+    <rect x="60" y="14" width="46" height="92"/>
+  </clipPath>
+  <clipPath id="half-left">
+    <rect x="14" y="14" width="46" height="92"/>
+  </clipPath>
+  <!-- Dark left half -->
+  <circle cx="60" cy="60" r="46" fill="#111122"/>
+  <!-- Lit right half -->
+  <circle cx="60" cy="60" r="46" fill="#d8d0b8" clip-path="url(#half-right)"/>
+  <!-- Craters -->
+  <circle cx="75" cy="45" r="6" fill="#c8c0a8" opacity="0.4" clip-path="url(#half-right)"/>
+  <circle cx="82" cy="68" r="4" fill="#c0b8a0" opacity="0.3" clip-path="url(#half-right)"/>
+  <circle cx="68" cy="78" r="3" fill="#c8c0a8" opacity="0.35" clip-path="url(#half-right)"/>
+  <!-- Dividing line glow -->
+  <line x1="60" y1="14" x2="60" y2="106" stroke="#f0e8c0" stroke-width="0.5" opacity="0.3"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#f0e8c0" stroke-width="1" opacity="0.1"/>
+</svg>

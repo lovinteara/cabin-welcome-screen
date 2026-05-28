@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Dark cloud -->
+  <ellipse cx="60" cy="46" rx="30" ry="16" fill="#607080" opacity="0.95"/>
+  <circle cx="43" cy="45" r="14" fill="#607080" opacity="0.95"/>
+  <circle cx="60" cy="38" r="17" fill="#708090" opacity="0.95"/>
+  <circle cx="76" cy="45" r="13" fill="#607080" opacity="0.95"/>
+  <ellipse cx="60" cy="55" rx="31" ry="10" fill="#607080" opacity="0.95"/>
+  <!-- Hail stones -->
+  <g fill="#c8e0f0" stroke="#a0c0e0" stroke-width="1" opacity="0.95">
+    <circle cx="38" cy="74" r="5"/>
+    <circle cx="54" cy="80" r="4.5"/>
+    <circle cx="70" cy="72" r="5"/>
+    <circle cx="84" cy="78" r="4"/>
+    <circle cx="44" cy="93" r="4"/>
+    <circle cx="62" cy="96" r="4.5"/>
+    <circle cx="77" cy="91" r="4"/>
+  </g>
+</svg>

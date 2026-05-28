@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#1a0808" rx="12"/>
+  <!-- Hearts scattered -->
+  <path d="M55,60 C55,48 41,43 37,51 C33,43 19,48 19,60 C19,72 37,83 37,83 C37,83 55,72 55,60Z" fill="#e04050" opacity="0.6"/>
+  <path d="M385,50 C385,40 373,36 370,43 C367,36 355,40 355,50 C355,60 370,69 370,69 C370,69 385,60 385,50Z" fill="#e04050" opacity="0.5"/>
+  <path d="M210,25 C210,18 201,15 198,20 C195,15 186,18 186,25 C186,32 198,39 198,39 C198,39 210,32 210,25Z" fill="#ffd700" opacity="0.6"/>
+  <path d="M50,240 C50,232 40,228 37,234 C34,228 24,232 24,240 C24,248 37,255 37,255 C37,255 50,248 50,240Z" fill="#e04050" opacity="0.5"/>
+  <path d="M378,250 C378,242 368,238 365,244 C362,238 352,242 352,250 C352,258 365,265 365,265 C365,265 378,258 378,250Z" fill="#f0928f" opacity="0.5"/>
+  <!-- Big center heart -->
+  <path d="M250,120 C250,88 216,76 200,100 C184,76 150,88 150,120 C150,152 200,185 200,185 C200,185 250,152 250,120Z" fill="#c8303a" opacity="0.9"/>
+  <path d="M235,115 C235,95 218,87 205,104" stroke="#e04050" stroke-width="3" fill="none" opacity="0.5"/>
+  <!-- Arrow through heart -->
+  <line x1="100" y1="90" x2="300" y2="195" stroke="#f0e060" stroke-width="3" opacity="0.7"/>
+  <polygon points="300,195 285,182 310,182" fill="#f0e060" opacity="0.7"/>
+  <polygon points="100,90 98,106 112,98" fill="#f0e060" opacity="0.7"/>
+  <!-- Rose -->
+  <line x1="340" y1="210" x2="340" y2="280" stroke="#3a6a28" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="330" cy="248" rx="12" ry="6" fill="#3a6a28" transform="rotate(-30,330,248)"/>
+  <circle cx="340" cy="212" r="16" fill="#c8303a" opacity="0.9"/>
+  <circle cx="340" cy="205" r="12" fill="#d84050" opacity="0.8"/>
+  <circle cx="340" cy="200" r="8" fill="#e85060" opacity="0.7"/>
+  <circle cx="340" cy="197" r="4" fill="#f06070" opacity="0.6"/>
+  <!-- Banner -->
+  <rect x="50" y="35" width="280" height="52" fill="#2a0808" rx="8" opacity="0.95"/>
+  <text x="190" y="60" text-anchor="middle" font-family="Georgia,serif" font-size="19" fill="#ffd700" font-weight="bold">Happy Valentine's Day!</text>
+  <text x="190" y="79" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#f0c8c8" opacity="0.8">Love is in the mountains</text>
+</svg>

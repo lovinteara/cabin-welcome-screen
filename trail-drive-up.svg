@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 60" width="160" height="60">
+  <rect width="160" height="60" rx="30" fill="#1a2a4a" opacity="0.95"/>
+  <rect width="160" height="60" rx="30" fill="none" stroke="#5fa8b8" stroke-width="2" opacity="0.7"/>
+  <!-- Car icon -->
+  <rect x="12" y="30" width="36" height="16" rx="4" fill="#5fa8b8" opacity="0.9"/>
+  <rect x="17" y="22" width="26" height="12" rx="3" fill="#5fa8b8" opacity="0.7"/>
+  <rect x="19" y="24" width="10" height="8" rx="2" fill="#1a3a4a" opacity="0.8"/>
+  <rect x="32" y="24" width="10" height="8" rx="2" fill="#1a3a4a" opacity="0.8"/>
+  <circle cx="20" cy="46" r="5" fill="#1a2a4a" stroke="#5fa8b8" stroke-width="2"/>
+  <circle cx="40" cy="46" r="5" fill="#1a2a4a" stroke="#5fa8b8" stroke-width="2"/>
+  <!-- Road going up -->
+  <path d="M50,52 Q80,48 110,30 Q125,22 145,18" stroke="#5fa8b8" stroke-width="2.5" fill="none" opacity="0.5" stroke-linecap="round" stroke-dasharray="5,3"/>
+  <!-- Text -->
+  <text x="108" y="36" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="bold" fill="#5fa8b8">DRIVE-UP</text>
+  <text x="108" y="52" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#9dcbbf" opacity="0.8">scenic drive</text>
+</svg>

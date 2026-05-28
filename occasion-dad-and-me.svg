@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-dad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a2a"/>
+      <stop offset="100%" style="stop-color:#1a1a0a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-dad)" rx="12"/>
+  <!-- Mountains -->
+  <polygon points="0,220 60,140 120,220" fill="#2a3a4a"/>
+  <polygon points="50,220 120,115 190,220" fill="#3a4a5a"/>
+  <polygon points="160,220 230,125 300,220" fill="#2a3a4a"/>
+  <polygon points="270,220 335,138 400,220" fill="#3a4a5a"/>
+  <!-- Dad and kid fishing silhouettes -->
+  <!-- Dad -->
+  <circle cx="150" cy="165" r="18" fill="#1a2a3a"/>
+  <rect x="138" y="183" width="24" height="40" fill="#1a2a3a" rx="5"/>
+  <!-- Hat -->
+  <ellipse cx="150" cy="150" rx="22" ry="5" fill="#1a2a3a"/>
+  <rect x="138" y="140" width="24" height="12" fill="#1a2a3a" rx="3"/>
+  <!-- Fishing rod -->
+  <line x1="163" y1="175" x2="220" y2="130" stroke="#1a2a3a" stroke-width="4" stroke-linecap="round"/>
+  <line x1="220" y1="130" x2="340" y2="185" stroke="#d0d8e0" stroke-width="1.2" opacity="0.7"/>
+  <!-- Kid -->
+  <circle cx="192" cy="175" r="13" fill="#1a2a3a"/>
+  <rect x="182" y="188" width="20" height="32" fill="#1a2a3a" rx="4"/>
+  <!-- Holding hands -->
+  <line x1="162" y1="200" x2="182" y2="200" stroke="#1a2a3a" stroke-width="7" stroke-linecap="round"/>
+  <!-- Water -->
+  <rect x="0" y="222" width="400" height="78" fill="#1a3a5a"/>
+  <path d="M0,230 Q100,223 200,230 Q300,237 400,230" stroke="#3a6a8a" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <!-- Fish hint -->
+  <ellipse cx="310" cy="240" rx="20" ry="7" fill="#4a8a7a" opacity="0.4"/>
+  <!-- Sun -->
+  <circle cx="320" cy="55" r="28" fill="#f8c840" opacity="0.9"/>
+  <!-- Banner -->
+  <rect x="55" y="30" width="290" height="55" fill="#0a1a3a" rx="8" opacity="0.95"/>
+  <text x="200" y="57" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#ffd700" font-weight="bold">Dad and Me!</text>
+  <text x="200" y="76" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#a0c8e0" opacity="0.8">Making memories that last</text>
+</svg>

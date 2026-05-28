@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <circle cx="60" cy="60" r="58" fill="#0a0a1a" stroke="#2a2a4a" stroke-width="1"/>
+  <circle cx="60" cy="60" r="46" fill="#d8d0b8"/>
+  <!-- Dark crescent on right side -->
+  <clipPath id="gib-wan">
+    <circle cx="60" cy="60" r="46"/>
+  </clipPath>
+  <circle cx="78" cy="60" r="38" fill="#111122" clip-path="url(#gib-wan)"/>
+  <!-- Craters on lit left side -->
+  <circle cx="45" cy="42" r="7" fill="#c8c0a8" opacity="0.45"/>
+  <circle cx="38" cy="65" r="5" fill="#c0b8a0" opacity="0.35"/>
+  <circle cx="55" cy="75" r="4" fill="#c8c0a8" opacity="0.4"/>
+  <circle cx="32" cy="48" r="3" fill="#d0c8b0" opacity="0.3"/>
+  <circle cx="78" cy="60" r="38" fill="none" stroke="#f0e8c0" stroke-width="1" opacity="0.2" clip-path="url(#gib-wan)"/>
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#f0e8c0" stroke-width="1" opacity="0.1"/>
+</svg>

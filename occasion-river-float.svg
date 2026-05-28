@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-rf" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a90c8"/>
+      <stop offset="100%" style="stop-color:#90c0e0"/>
+    </linearGradient>
+    <linearGradient id="water-rf" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a7aaa"/>
+      <stop offset="100%" style="stop-color:#1a5a8a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-rf)" rx="12"/>
+  <!-- Clouds -->
+  <ellipse cx="80" cy="40" rx="45" ry="16" fill="#fff" opacity="0.8"/>
+  <ellipse cx="60" cy="40" rx="22" ry="13" fill="#fff" opacity="0.8"/>
+  <ellipse cx="300" cy="30" rx="38" ry="13" fill="#fff" opacity="0.7"/>
+  <!-- River banks -->
+  <rect x="0" y="140" width="400" height="160" fill="url(#water-rf)"/>
+  <rect x="0" y="255" width="400" height="45" fill="#4a7a30"/>
+  <rect x="0" y="138" width="400" height="8" fill="#5a8a40"/>
+  <!-- Trees on bank -->
+  <polygon points="30,140 45,100 60,140" fill="#3a6a28"/>
+  <polygon points="50,140 62,108 74,140" fill="#4a7a38"/>
+  <polygon points="330,140 345,98 360,140" fill="#3a6a28"/>
+  <polygon points="350,140 363,105 376,140" fill="#4a7a38"/>
+  <!-- Kayak / inner tube people -->
+  <ellipse cx="150" cy="195" rx="50" ry="22" fill="#f0928f" opacity="0.9"/>
+  <ellipse cx="150" cy="190" rx="40" ry="15" fill="#e07060" opacity="0.7"/>
+  <circle cx="140" cy="178" r="12" fill="#c8855a"/>
+  <circle cx="165" cy="176" r="12" fill="#b87848"/>
+  <!-- Paddles -->
+  <line x1="128" y1="182" x2="95" y2="165" stroke="#8a5a2a" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="92" cy="163" rx="8" ry="4" fill="#8a5a2a" transform="rotate(-30,92,163)"/>
+  <line x1="175" y1="180" x2="208" y2="163" stroke="#8a5a2a" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="211" cy="161" rx="8" ry="4" fill="#8a5a2a" transform="rotate(30,211,161)"/>
+  <!-- Second kayak -->
+  <ellipse cx="280" cy="210" rx="45" ry="20" fill="#5fa8b8" opacity="0.9"/>
+  <ellipse cx="280" cy="205" rx="36" ry="14" fill="#4a90a8" opacity="0.7"/>
+  <circle cx="272" cy="193" r="11" fill="#c8855a"/>
+  <!-- Water ripples -->
+  <path d="M50,220 Q120,213 190,220 Q260,227 330,220" stroke="#5a9ab8" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <!-- Banner -->
+  <rect x="60" y="45" width="280" height="52" fill="#1a4a6a" rx="8" opacity="0.9"/>
+  <text x="200" y="70" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#ffd700" font-weight="bold">River Float!</text>
+  <text x="200" y="89" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#a0d8e0" opacity="0.8">Go with the flow</text>
+</svg>

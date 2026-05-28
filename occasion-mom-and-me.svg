@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-mom" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2e0a2e"/>
+      <stop offset="100%" style="stop-color:#1a0a1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-mom)" rx="12"/>
+  <!-- Hearts floating -->
+  <path d="M60,60 C60,50 48,46 44,53 C40,46 28,50 28,60 C28,70 44,80 44,80 C44,80 60,70 60,60Z" fill="#e04050" opacity="0.6"/>
+  <path d="M375,80 C375,72 365,69 362,74 C359,69 349,72 349,80 C349,88 362,96 362,96 C362,96 375,88 375,80Z" fill="#e04050" opacity="0.5"/>
+  <path d="M200,30 C200,24 193,21 190,26 C187,21 180,24 180,30 C180,36 190,42 190,42 C190,42 200,36 200,30Z" fill="#ffd700" opacity="0.6"/>
+  <!-- Mom and child silhouettes holding hands -->
+  <circle cx="165" cy="145" r="20" fill="#8a5a9a"/>
+  <rect x="152" y="165" width="26" height="45" fill="#8a5a9a" rx="5"/>
+  <line x1="178" y1="185" x2="210" y2="190" stroke="#8a5a9a" stroke-width="8" stroke-linecap="round"/>
+  <!-- Child -->
+  <circle cx="225" cy="158" r="14" fill="#f0928f"/>
+  <rect x="215" y="172" width="20" height="35" fill="#f0928f" rx="4"/>
+  <!-- Flowers at feet -->
+  <circle cx="145" cy="215" r="8" fill="#e04050" opacity="0.6"/>
+  <circle cx="155" cy="212" r="6" fill="#ffd700" opacity="0.5"/>
+  <circle cx="240" cy="212" r="7" fill="#f0928f" opacity="0.6"/>
+  <line x1="145" y1="215" x2="145" y2="230" stroke="#5cb874" stroke-width="2"/>
+  <line x1="155" y1="212" x2="155" y2="228" stroke="#5cb874" stroke-width="2"/>
+  <line x1="240" y1="212" x2="240" y2="226" stroke="#5cb874" stroke-width="2"/>
+  <!-- Butterflies -->
+  <ellipse cx="310" cy="120" rx="12" ry="6" fill="#ffd700" opacity="0.5" transform="rotate(20,310,120)"/>
+  <ellipse cx="322" cy="118" rx="10" ry="5" fill="#ffd700" opacity="0.5" transform="rotate(-20,322,118)"/>
+  <circle cx="316" cy="119" r="3" fill="#c8973a" opacity="0.7"/>
+  <!-- Banner -->
+  <rect x="55" y="35" width="290" height="55" fill="#3a0a3a" rx="8" opacity="0.95"/>
+  <text x="200" y="62" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#ffd700" font-weight="bold">Mom and Me!</text>
+  <text x="200" y="82" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#f0c8f0" opacity="0.8">Special memories together</text>
+</svg>

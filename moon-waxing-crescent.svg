@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <circle cx="60" cy="60" r="58" fill="#0a0a1a" stroke="#2a2a4a" stroke-width="1"/>
+  <!-- Dark full circle -->
+  <circle cx="60" cy="60" r="46" fill="#111122"/>
+  <!-- Lit crescent - clip with offset circle -->
+  <clipPath id="cres-wax">
+    <circle cx="60" cy="60" r="46"/>
+  </clipPath>
+  <circle cx="60" cy="60" r="46" fill="#d8d0b8" clip-path="url(#cres-wax)"/>
+  <circle cx="40" cy="60" r="42" fill="#111122" clip-path="url(#cres-wax)"/>
+  <!-- Moon surface detail -->
+  <circle cx="72" cy="50" r="5" fill="#c8c0a8" opacity="0.4" clip-path="url(#cres-wax)"/>
+  <circle cx="78" cy="68" r="3" fill="#c0b8a0" opacity="0.3" clip-path="url(#cres-wax)"/>
+  <!-- Glow -->
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#f0e8c0" stroke-width="1" opacity="0.15"/>
+</svg>

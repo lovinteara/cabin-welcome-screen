@@ -3,269 +3,259 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome Screen — Admin</title>
+<title>WelcomeScreen Pro — Admin</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #f0f0f0; padding: 20px; }
-  h1 { font-size: 24px; font-weight: 600; margin-bottom: 6px; }
-  .subtitle { font-size: 14px; opacity: 0.5; margin-bottom: 24px; }
-  .cabin-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-  .cabin-tab { padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); font-size: 13px; cursor: pointer; background: transparent; color: #f0f0f0; transition: all 0.2s; }
-  .cabin-tab.active { background: #5fa8b8; border-color: #5fa8b8; font-weight: 600; }
-  .cabin-url { font-size: 12px; opacity: 0.4; margin-bottom: 24px; font-family: monospace; }
-  .slides-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-  .slide-card { background: #1a1f2e; border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,0.08); }
-  .slide-num { font-size: 11px; opacity: 0.3; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
-  .slide-name { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-  .slide-desc { font-size: 13px; opacity: 0.5; line-height: 1.4; }
-  .slide-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-top: 8px; }
-  .tag-live { background: rgba(92,184,116,0.2); color: #5cb874; }
-  .tag-conditional { background: rgba(255,193,7,0.2); color: #ffc107; }
-  .tag-static { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
-  .tag-long { background: rgba(95,168,184,0.2); color: #5fa8b8; }
-  .tag-12s { background: rgba(212,83,126,0.2); color: #d4537e; }
-  .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-  .stat { background: #1a1f2e; border-radius: 10px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.08); }
-  .stat-val { font-size: 22px; font-weight: 700; }
-  .stat-lbl { font-size: 12px; opacity: 0.4; margin-top: 2px; }
-  .section-header { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.3; margin: 20px 0 10px; }
-  a.preview-btn { display: inline-block; margin-top: 10px; font-size: 12px; padding: 5px 12px; border-radius: 8px; background: rgba(255,255,255,0.08); color: #f0f0f0; text-decoration: none; }
-  a.preview-btn:hover { background: rgba(255,255,255,0.15); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#0f1117; color:#f0f0f0; padding:20px; }
+  h1 { font-size:22px; font-weight:600; margin-bottom:4px; }
+  .subtitle { font-size:13px; opacity:0.4; margin-bottom:20px; }
+  .cabin-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  .cabin-tab { padding:7px 14px; border-radius:20px; border:1px solid rgba(255,255,255,0.15); font-size:12px; cursor:pointer; background:transparent; color:#f0f0f0; transition:all 0.2s; }
+  .cabin-tab.active { background:#5fa8b8; border-color:#5fa8b8; font-weight:600; }
+  .cabin-url { font-size:11px; opacity:0.35; margin-bottom:20px; font-family:monospace; background:#1a1f2e; padding:8px 12px; border-radius:6px; }
+  .stats { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+  .stat { background:#1a1f2e; border-radius:8px; padding:10px 14px; border:1px solid rgba(255,255,255,0.07); }
+  .stat-val { font-size:20px; font-weight:700; }
+  .stat-lbl { font-size:11px; opacity:0.4; margin-top:2px; }
+  .section-header { font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.3; margin:16px 0 10px; }
+  .slides-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; }
+  .cat-btn { padding:5px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.15); font-size:11px; cursor:pointer; background:transparent; color:#f0f0f0; transition:all 0.2s; }
+  .cat-btn.active { background:#5fa8b8; border-color:#5fa8b8; font-weight:600; }
+  .cat-btn:hover { background:rgba(255,255,255,0.1); }
+  .cat-label { font-size:10px; padding:2px 6px; border-radius:4px; margin-top:3px; display:inline-block; }
+  .cat-welcome { background:rgba(95,168,184,0.2); color:#5fa8b8; }
+  .cat-weather { background:rgba(255,215,0,0.2); color:#ffd700; }
+  .cat-cameras { background:rgba(92,184,116,0.15); color:#5cb874; }
+  .cat-activities { background:rgba(200,151,58,0.2); color:#c8973a; }
+  .cat-food { background:rgba(240,146,143,0.2); color:#f0928f; }
+  .cat-fishing { background:rgba(95,168,184,0.2); color:#5fa8b8; }
+  .cat-photography { background:rgba(180,100,180,0.2); color:#c070c0; }
+  .cat-safety { background:rgba(255,100,50,0.2); color:#ff6432; }
+  .cat-parks { background:rgba(92,184,116,0.2); color:#5cb874; }
+  .cat-booking { background:rgba(255,215,0,0.15); color:#ffd700; }
+  .cat-fun { background:rgba(200,151,58,0.15); color:#c8973a; }
+  .cat-special { background:rgba(212,83,126,0.2); color:#d4537e; }
+  .slide-card { background:#1a1f2e; border-radius:10px; border:1px solid rgba(255,255,255,0.07); cursor:pointer; transition:all 0.2s; overflow:hidden; }
+  .slide-card:hover { border-color:#5fa8b8; transform:translateY(-2px); }
+  .slide-preview { aspect-ratio:16/9; background:#1a1729; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:11px; }
+  .slide-info { padding:10px 12px; }
+  .slide-num { font-size:10px; opacity:0.3; letter-spacing:1px; margin-bottom:3px; }
+  .slide-name { font-size:13px; font-weight:600; margin-bottom:4px; }
+  .slide-tag { display:inline-block; font-size:10px; padding:2px 7px; border-radius:8px; }
+  .tag-live { background:rgba(92,184,116,0.2); color:#5cb874; }
+  .tag-conditional { background:rgba(255,193,7,0.2); color:#ffc107; }
+  .tag-static { background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.4); }
+  .tag-12s { background:rgba(212,83,126,0.2); color:#d4537e; }
+  .tag-long { background:rgba(95,168,184,0.2); color:#5fa8b8; }
+  .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:100; align-items:center; justify-content:center; }
+  .modal.open { display:flex; }
+  .modal-inner { background:#1a1f2e; border-radius:16px; border:1px solid rgba(255,255,255,0.1); width:90vw; max-width:900px; overflow:hidden; }
+  .modal-header { padding:16px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .modal-title { font-size:15px; font-weight:600; }
+  .modal-close { background:none; border:none; color:#f0f0f0; font-size:20px; cursor:pointer; opacity:0.5; }
+  .modal-close:hover { opacity:1; }
+  .modal-screen { aspect-ratio:16/9; background:#1a1729; overflow:hidden; }
+  .modal-desc { padding:16px 20px; font-size:13px; opacity:0.6; line-height:1.5; border-top:1px solid rgba(255,255,255,0.07); }
+  .prev-bg { width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding:8%; font-family:-apple-system,sans-serif; color:#f0e8f0; }
+  .prev-label { font-size:1.8vw; letter-spacing:2px; text-transform:uppercase; opacity:0.6; margin-bottom:4px; color:#d4537e; }
+  .prev-row { display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1); padding:4px 0; font-size:1.6vw; }
+  .prev-k { opacity:0.4; }
+  .prev-v { font-weight:600; }
+  .pi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px; }
+  .pi-card { background:#1a1f2e; border-radius:10px; padding:12px 14px; border:1px solid rgba(255,255,255,0.07); }
+  .pi-name { font-size:13px; font-weight:600; margin-bottom:4px; }
+  .pi-status { font-size:12px; }
+  .status-ok { color:#5cb874; }
+  .status-warn { color:#ffc107; }
+  .status-err { color:#f0928f; }
+  .links { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  a.link-btn { display:inline-block; font-size:11px; padding:5px 10px; border-radius:6px; background:rgba(255,255,255,0.07); color:#f0f0f0; text-decoration:none; }
+  a.link-btn:hover { background:rgba(255,255,255,0.14); }
 </style>
 </head>
 <body>
-
-<h1>Welcome Screen Admin</h1>
-<p class="subtitle">Visit Island Park Idaho · Cabin Welcome Screens · All 8 properties</p>
+<h1>WelcomeScreen Pro — Admin</h1>
+<p class="subtitle">Visit Island Park Idaho · 8 properties · Click any slide to preview</p>
 
 <div class="cabin-tabs">
-  <button class="cabin-tab active" onclick="setCabin('huckleberry','The Huckleberry Hut','Y3llowst0neTrout!')">Huckleberry Hut</button>
-  <button class="cabin-tab" onclick="setCabin('gathering','The Gathering Place','Cascade4139')">Gathering Place</button>
-  <button class="cabin-tab" onclick="setCabin('little-chalet','LittleChaletInTheForest','Chalet42652')">Little Chalet</button>
-  <button class="cabin-tab" onclick="setCabin('big-chalet','Chalet in the forest','Chalet4265')">Big Chalet</button>
-  <button class="cabin-tab" onclick="setCabin('caldera','Caldera Cottage','Lodgepole3795')">Caldera Cottage</button>
-  <button class="cabin-tab" onclick="setCabin('dshouse','DshouseHaven','MARK2021')">D'Shouse Haven</button>
-  <button class="cabin-tab" onclick="setCabin('rrl','RiverRockLodge','Cabin2018')">River Rock Lodge</button>
-  <button class="cabin-tab" onclick="setCabin('charming','DodgeInn','Untracked21')">Charming Log Home</button>
+  <button class="cabin-tab active" onclick="setCabin('huckleberry','The Huckleberry Hut','Y3llowst0neTrout!',this)">Huckleberry Hut</button>
+  <button class="cabin-tab" onclick="setCabin('gathering','The Gathering Place','Cascade4139',this)">Gathering Place</button>
+  <button class="cabin-tab" onclick="setCabin('little-chalet','LittleChaletInTheForest','Chalet42652',this)">Little Chalet</button>
+  <button class="cabin-tab" onclick="setCabin('big-chalet','Chalet in the forest','Chalet4265',this)">Big Chalet</button>
+  <button class="cabin-tab" onclick="setCabin('caldera','Caldera Cottage','Lodgepole3795',this)">Caldera Cottage</button>
+  <button class="cabin-tab" onclick="setCabin('dshouse','DshouseHaven','MARK2021',this)">D'Shouse Haven</button>
+  <button class="cabin-tab" onclick="setCabin('rrl','RiverRockLodge','Cabin2018',this)">River Rock Lodge</button>
+  <button class="cabin-tab" onclick="setCabin('charming','DodgeInn','Untracked21',this)">Charming Log Home</button>
 </div>
-
-<div class="cabin-url" id="cabin-url">https://cabin-welcome-screen.netlify.app/?cabin=huckleberry</div>
+<div class="cabin-url" id="cabin-url">https://cabin-welcome-screen.netlify.app/?cabin=huckleberry &nbsp;|&nbsp; WiFi: The Huckleberry Hut &nbsp;·&nbsp; PW: Y3llowst0neTrout!</div>
 
 <div class="stats">
-  <div class="stat"><div class="stat-val">24</div><div class="stat-lbl">Total slides</div></div>
-  <div class="stat"><div class="stat-val">~5 min</div><div class="stat-lbl">Full rotation</div></div>
+  <div class="stat"><div class="stat-val">32</div><div class="stat-lbl">Total slides</div></div>
+  <div class="stat"><div class="stat-val">~6 min</div><div class="stat-lbl">Full rotation</div></div>
   <div class="stat"><div class="stat-val">6</div><div class="stat-lbl">Live data sources</div></div>
-  <div class="stat"><div class="stat-val">277</div><div class="stat-lbl">Quotes in rotation</div></div>
+  <div class="stat"><div class="stat-val">277</div><div class="stat-lbl">Quotes</div></div>
   <div class="stat"><div class="stat-val">85</div><div class="stat-lbl">Gallery photos</div></div>
   <div class="stat"><div class="stat-val">8</div><div class="stat-lbl">Cabins</div></div>
 </div>
 
-<div class="section-header">All 23 Slides in Order</div>
+<div class="section-header">All 32 Slides — Click to Preview</div>
+<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;" id="category-filters">
+  <button class="cat-btn active" onclick="filterCat('all',this)">All</button>
+  <button class="cat-btn" onclick="filterCat('welcome',this)">Welcome & Info</button>
+  <button class="cat-btn" onclick="filterCat('weather',this)">Weather</button>
+  <button class="cat-btn" onclick="filterCat('cameras',this)">Cameras</button>
+  <button class="cat-btn" onclick="filterCat('activities',this)">Activities</button>
+  <button class="cat-btn" onclick="filterCat('food',this)">Food & Drink</button>
+  <button class="cat-btn" onclick="filterCat('fishing',this)">Fishing</button>
+  <button class="cat-btn" onclick="filterCat('photography',this)">Photography</button>
+  <button class="cat-btn" onclick="filterCat('safety',this)">Safety & Info</button>
+  <button class="cat-btn" onclick="filterCat('parks',this)">Park Info</button>
+  <button class="cat-btn" onclick="filterCat('booking',this)">Social & Booking</button>
+  <button class="cat-btn" onclick="filterCat('fun',this)">Fun Stuff</button>
+  <button class="cat-btn" onclick="filterCat('special',this)">Special</button>
+</div>
+<div class="slides-grid" id="slides-grid"></div>
 
-<div class="slides-grid">
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 1</div>
-    <div class="slide-name">Welcome</div>
-    <div class="slide-desc">Cabin logo, guest first name from OwnerRez, checkout date, party size.</div>
-    <span class="slide-tag tag-live">Live — OwnerRez</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 2</div>
-    <div class="slide-name">Wi-Fi</div>
-    <div class="slide-desc">Network name, password, and scannable QR code for instant connection. 12 seconds.</div>
-    <span class="slide-tag tag-12s">12 seconds</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 2.5</div>
-    <div class="slide-name">Door Code</div>
-    <div class="slide-desc">Current guest's 4-digit Schlage code, derived from OwnerRez booking. Auto-pushed daily via SmartThings. Hidden between bookings.</div>
-    <span class="slide-tag tag-conditional">During stay only</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 3</div>
-    <div class="slide-name">Today's Weather</div>
-    <div class="slide-desc">Live temp, conditions, high/low, wind, sunset. Smart alerts for freeze, fire, snow, stargazing.</div>
-    <span class="slide-tag tag-live">Live — Open-Meteo</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 4</div>
-    <div class="slide-name">4-Day Forecast</div>
-    <div class="slide-desc">4-day grid with icons, temps, and conditions.</div>
-    <span class="slide-tag tag-live">Live — Open-Meteo</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 5</div>
-    <div class="slide-name">Regional Weather</div>
-    <div class="slide-desc">Yellowstone NP, Grand Teton NP, Jackson Hole, SLC, Bozeman, Idaho Falls.</div>
-    <span class="slide-tag tag-live">Live — Open-Meteo</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 6</div>
-    <div class="slide-name">HMA Webcam</div>
-    <div class="slide-desc">Live snapshot of Sawtelle Peak from High Mountain Adventures. Updates every 2 min.</div>
-    <span class="slide-tag tag-live">Live snapshot</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 7</div>
-    <div class="slide-name">Osborne Bridge Cam</div>
-    <div class="slide-desc">US-20 road conditions via Idaho 511. Updates every 2 min.</div>
-    <span class="slide-tag tag-live">Live snapshot</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 8</div>
-    <div class="slide-name">Today's Activity</div>
-    <div class="slide-desc">Random pick from 19 activities — weather & season aware. New pick every rotation.</div>
-    <span class="slide-tag tag-live">Smart rotation</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 9</div>
-    <div class="slide-name">Local Food Pick</div>
-    <div class="slide-desc">Random restaurant — skips closed days. Restaurant logo shown. New pick every rotation.</div>
-    <span class="slide-tag tag-live">Smart rotation</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 10</div>
-    <div class="slide-name">HMA Guest Deal</div>
-    <div class="slide-desc">20% off or full day for half-day price. Tell them you're staying at Teara's cabin.</div>
-    <span class="slide-tag tag-static">Always shown</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 11</div>
-    <div class="slide-name">Cabin Essentials</div>
-    <div class="slide-desc">Checkout time, quiet hours, coffee note, Sam Patch grocery hours.</div>
-    <span class="slide-tag tag-static">Static per cabin</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 12</div>
-    <div class="slide-name">Quote</div>
-    <div class="slide-desc">Random from 277 quotes — nature, humor, kid-friendly. New every rotation.</div>
-    <span class="slide-tag tag-live">Random rotation</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 13</div>
-    <div class="slide-name">Local Photography</div>
-    <div class="slide-desc">Lindsey Jones Photography (most rotations) + Portraits by Teara (every ~30 rotations).</div>
-    <span class="slide-tag tag-live">Weighted rotation</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 14</div>
-    <div class="slide-name">Island Park Video</div>
-    <div class="slide-desc">River video with Island Park song playing softly. 65 seconds.</div>
-    <span class="slide-tag tag-long">65 seconds</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 15</div>
-    <div class="slide-name">Gallery Photo</div>
-    <div class="slide-desc">Full screen from 85-image gallery. New photo every rotation. 12 seconds.</div>
-    <span class="slide-tag tag-12s">12 seconds</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 16</div>
-    <div class="slide-name">Fishing — Henry's Fork</div>
-    <div class="slide-desc">Live CFS flow from USGS gauge, seasonal fly tip, top spots, fly shop links. 12 seconds.</div>
-    <span class="slide-tag tag-12s">12 seconds · Live USGS</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 17</div>
-    <div class="slide-name">Easy Tours Yellowstone</div>
-    <div class="slide-desc">Amy Beegel — Teara's favorite guide. 30+ years, private tours. 12 seconds.</div>
-    <span class="slide-tag tag-12s">12 seconds</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 18</div>
-    <div class="slide-name">Trash &amp; Recycling</div>
-    <div class="slide-desc">Per-cabin pickup schedule, bear can count, bag instructions. Always shown. 12 seconds.</div>
-    <span class="slide-tag tag-12s">12 seconds</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 19</div>
-    <div class="slide-name">Trash Day Reminder</div>
-    <div class="slide-desc">Bold "Trash Day!" reminder shown ONLY on actual pickup days for each cabin. 12 seconds.</div>
-    <span class="slide-tag tag-conditional">Pickup days only</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 20</div>
-    <div class="slide-name">Bear Safety</div>
-    <div class="slide-desc">Always carry bear spray. Where to get it locally. What to do in an encounter. 12 seconds.</div>
-    <span class="slide-tag tag-12s">12 seconds</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 21</div>
-    <div class="slide-name">Fire Safety</div>
-    <div class="slide-desc">Current fire restriction status (manually updated), fire pit rules, report number. 12 seconds.</div>
-    <span class="slide-tag tag-12s">12 seconds</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 22</div>
-    <div class="slide-name">Watch TV</div>
-    <div class="slide-desc">How to switch from welcome screen to streaming — press Home button, select app, sign out before checkout.</div>
-    <span class="slide-tag tag-static">Always shown</span>
-  </div>
-
-  <div class="slide-card">
-    <div class="slide-num">Slide 23</div>
-    <div class="slide-name">Contact</div>
-    <div class="slide-desc">Andy & Teara (385)685-0272, ipsouvenirsandgifts.com, 911, Madison Memorial · Rexburg.</div>
-    <span class="slide-tag tag-static">Always shown</span>
-  </div>
-
+<div class="section-header">Pi Status</div>
+<div class="pi-grid">
+  <div class="pi-card"><div class="pi-name">Huckleberry Hut</div><div class="pi-status status-ok">✓ Running</div></div>
+  <div class="pi-card"><div class="pi-name">Gathering Place</div><div class="pi-status status-ok">✓ Running</div></div>
+  <div class="pi-card"><div class="pi-name">Little Chalet</div><div class="pi-status status-ok">✓ Running</div></div>
+  <div class="pi-card"><div class="pi-name">Big Chalet</div><div class="pi-status status-ok">✓ Running</div></div>
+  <div class="pi-card"><div class="pi-name">Caldera Cottage</div><div class="pi-status status-ok">✓ Running</div></div>
+  <div class="pi-card"><div class="pi-name">Charming Log Home</div><div class="pi-status status-ok">✓ Running</div></div>
+  <div class="pi-card"><div class="pi-name">River Rock Lodge</div><div class="pi-status status-warn">⚠ Needs new SanDisk 32GB SD card</div></div>
+  <div class="pi-card"><div class="pi-name">D'Shouse Haven</div><div class="pi-status status-err">✗ Not set up yet</div></div>
 </div>
 
-<div class="section-header" style="margin-top:32px;">Pi Status</div>
-<div class="slides-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
-  <div class="slide-card"><div class="slide-name">Huckleberry Hut</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running · WiFi fixed</div></div>
-  <div class="slide-card"><div class="slide-name">Gathering Place</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
-  <div class="slide-card"><div class="slide-name">Little Chalet</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
-  <div class="slide-card"><div class="slide-name">Big Chalet</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
-  <div class="slide-card"><div class="slide-name">Caldera Cottage</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
-  <div class="slide-card"><div class="slide-name">Charming Log Home</div><div class="slide-desc" style="color:#5cb874;">✓ Pi running</div></div>
-  <div class="slide-card"><div class="slide-name">River Rock Lodge</div><div class="slide-desc" style="color:#ffc107;">⚠ Dead SD card — needs new SanDisk 32GB</div></div>
-  <div class="slide-card"><div class="slide-name">D'Shouse Haven</div><div class="slide-desc" style="color:#f0928f;">✗ Not set up yet</div></div>
+<div class="section-header">Quick Links</div>
+<div class="links">
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=huckleberry" target="_blank" class="link-btn">Huckleberry</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=gathering" target="_blank" class="link-btn">Gathering</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=little-chalet" target="_blank" class="link-btn">Little Chalet</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=big-chalet" target="_blank" class="link-btn">Big Chalet</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=caldera" target="_blank" class="link-btn">Caldera</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=dshouse" target="_blank" class="link-btn">D'Shouse</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=rrl" target="_blank" class="link-btn">RRL</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=charming" target="_blank" class="link-btn">Charming</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=huckleberry&cleaning=true" target="_blank" class="link-btn">🧹 Test Cleaning Mode</a>
 </div>
 
-<div class="section-header" style="margin-top:32px;">Quick Links</div>
-<div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=huckleberry" target="_blank" class="preview-btn">Huckleberry</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=gathering" target="_blank" class="preview-btn">Gathering</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=little-chalet" target="_blank" class="preview-btn">Little Chalet</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=big-chalet" target="_blank" class="preview-btn">Big Chalet</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=caldera" target="_blank" class="preview-btn">Caldera</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=dshouse" target="_blank" class="preview-btn">D'Shouse</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=rrl" target="_blank" class="preview-btn">RRL</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=charming" target="_blank" class="preview-btn">Charming</a>
+<div class="modal" id="modal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Slide Preview</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-screen" id="modal-screen"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+  </div>
 </div>
-
-<div style="margin-top:40px; font-size:12px; opacity:0.3; text-align:center;">Visit Island Park Idaho · cabin-welcome-screen.netlify.app · Updated May 2026</div>
 
 <script>
-function setCabin(key, ssid, pw) {
-  document.querySelectorAll('.cabin-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('cabin-url').textContent = 'https://cabin-welcome-screen.netlify.app/?cabin=' + key + '  |  WiFi: ' + ssid + '  ·  PW: ' + pw;
+const tagColors = {live:'tag-live','12s':'tag-12s',static:'tag-static',conditional:'tag-conditional',long:'tag-long'};
+
+const SLIDES = [
+  {num:0,name:'Celebration',cat:'special',hidden:true,tag:'conditional',tagLabel:'Shows when set via JotForm or on holidays',duration:'30s',
+    desc:'Full screen occasion or holiday graphic with personalized guest message. Set via JotForm from your phone. Auto-shows on major holidays. Hidden from rotation when not active. Occasions: birthday, anniversary, honeymoon, graduation, reunion, girls/guys/fishing/hunting trip, river float, snowmobile, sled, retreat, wellness, R&R, mom/dad & me.',
+    preview:`<div class="prev-bg" style="align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#1a0a2e,#2e0a1a);"><div class="prev-label" style="color:#d4537e;">SPECIAL · Set via JotForm</div><div style="font-size:5vw;font-family:Georgia,serif;color:#ffd700;margin-bottom:8px;">Happy Birthday!</div><div style="font-size:2vw;color:#f0e8f0;opacity:0.8;">Personalized message appears here</div><div style="font-size:1.4vw;opacity:0.5;margin-top:8px;">From your hosts Andy & Teara</div></div>`},
+  {num:1,name:'Welcome',cat:'welcome',tag:'live',tagLabel:'Live — OwnerRez',duration:'8s',desc:'Cabin logo full screen. When guest checked in shows Welcome [Name]!, checkout date & time with clever phrase, party size. Pet paw icons for Huckleberry and Caldera only. Generic welcome if no booking.',preview:`<div class="prev-bg" style="align-items:center;justify-content:center;text-align:center;"><div class="prev-label">WELCOME</div><div style="font-size:5vw;font-family:Georgia,serif;color:#d4537e;">Welcome, Sarah!</div><div style="font-size:1.8vw;opacity:0.6;margin-top:8px;">Relax — you're here until May 24 at 10:00 AM · 4 guests</div></div>`},
+  {num:2,name:'Wi-Fi',cat:'welcome',tag:'12s',tagLabel:'12 seconds',duration:'12s',desc:'Network name, password, and scannable QR code. Guests point phone camera at TV to connect instantly. No typing needed.',preview:`<div class="prev-bg"><div class="prev-label">Connect</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:8px;">Wi-Fi</div><div style="display:flex;gap:5%;align-items:center;"><div style="flex:1;"><div class="prev-row"><span class="prev-k">Network</span><span class="prev-v">Caldera Cottage</span></div><div class="prev-row"><span class="prev-k">Password</span><span class="prev-v">Lodgepole3795</span></div></div><div style="background:#fff;padding:10px;border-radius:8px;width:22%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.2vw;color:#000;">QR</div></div></div>`},
+  {num:2.5,name:'Door Code',cat:'welcome',hidden:true,tag:'conditional',tagLabel:'During stay only',duration:'8s',desc:"Current guest's 4-digit Schlage code, fetched live from /api/lockcode. Derived from the OwnerRez booking (manual door_code field → last 4 of guest phone → arrival MMDD). Pushed to the lock via SmartThings OAuth daily at 11 AM Mountain. Hidden between bookings.",preview:`<div class=\"prev-bg\" style=\"align-items:center;justify-content:center;text-align:center;\"><div class=\"prev-label\">Your Door Code</div><div style=\"font-size:3vw;font-family:Georgia,serif;opacity:0.85;\">Welcome, Sarah</div><div style=\"font-family:'SF Mono',Menlo,monospace;font-size:11vw;font-weight:700;letter-spacing:1.5vw;margin:1.5vh 0;line-height:1;color:#ffd700;\">4&nbsp;7&nbsp;2&nbsp;9</div><div style=\"font-size:1.6vw;opacity:0.7;\">Enter on the keypad and press the Schlage button</div><div style=\"font-size:1.3vw;opacity:0.4;margin-top:6px;\">Active through checkout · May 23</div></div>`},
+  {num:3,name:"Today's weather",cat:'weather',tag:'live',tagLabel:'Live — Open-Meteo',duration:'8s',desc:'Live temp, conditions, high/low, wind speed, sunset time. Smart alerts for freeze, fire danger, snow, stargazing. Custom cute weather icons.',preview:`<div class="prev-bg"><div class="prev-label" style="color:#5cb874;">● LIVE · ISLAND PARK</div><div style="font-size:10vw;font-family:Georgia,serif;line-height:1;">56°</div><div style="font-size:2vw;opacity:0.7;margin-top:4px;">Clear</div><div style="display:flex;gap:4%;margin-top:8px;font-size:1.6vw;opacity:0.6;"><span><b>75°</b> high</span><span><b>37°</b> low</span><span>Wind <b>6 mph</b></span><span>Sunset <b>8:42 PM</b></span></div></div>`},
+  {num:4,name:'4-Day forecast',cat:'weather',tag:'live',tagLabel:'Live — Open-Meteo',duration:'8s',desc:'4-day grid with weather icons, high/low temps, and conditions.',preview:`<div class="prev-bg"><div class="prev-label">4-Day Forecast</div><div style="font-size:4vw;font-family:Georgia,serif;margin-bottom:8px;">What's coming up</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;">${['Mon 72°','Tue 68°','Wed 61°','Thu 74°'].map(d=>`<div style="background:rgba(255,255,255,0.08);border-radius:4px;padding:4px 6px;font-size:1.4vw;text-align:center;">${d}</div>`).join('')}</div></div>`},
+  {num:5,name:'Regional weather',cat:'weather',tag:'live',tagLabel:'Live — Open-Meteo',duration:'8s',desc:'Live conditions for Yellowstone NP, Grand Teton NP, Jackson Hole, Salt Lake City, Bozeman MT, Idaho Falls.',preview:`<div class="prev-bg"><div class="prev-label">Regional Weather</div><div style="font-size:3.5vw;font-family:Georgia,serif;margin-bottom:8px;">Nearby conditions</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">${['Yellowstone 58°','Grand Teton 54°','Jackson 61°','Salt Lake 78°','Bozeman 65°','Idaho Falls 72°'].map(t=>`<div style="background:rgba(255,255,255,0.08);border-radius:4px;padding:4px 6px;font-size:1.4vw;">${t}</div>`).join('')}</div></div>`},
+  {num:6,name:'HMA webcam',cat:'cameras',tag:'live',tagLabel:'Live snapshot',duration:'8s',desc:'Live snapshot from High Mountain Adventures camera at Sawtelle Peak. Updates every 2 minutes.',preview:`<div class="prev-bg" style="padding:4%;"><div class="prev-label">Live Snapshot · Sawtelle Peak</div><div style="font-size:4vw;font-family:Georgia,serif;margin-bottom:8px;">Mountain Conditions</div><div style="background:rgba(255,255,255,0.06);border-radius:8px;flex:1;display:flex;align-items:center;justify-content:center;min-height:40%;font-size:1.6vw;opacity:0.4;">[Live camera]</div></div>`},
+  {num:7,name:'Osborne Bridge cam',cat:'cameras',tag:'live',tagLabel:'Live — Idaho 511',duration:'8s',desc:'Live US-20 road conditions at Osborne Bridge via Idaho 511.',preview:`<div class="prev-bg" style="padding:4%;"><div class="prev-label">Live · US-20 Osborne Bridge</div><div style="font-size:4vw;font-family:Georgia,serif;margin-bottom:8px;">Road Conditions</div><div style="background:rgba(255,255,255,0.06);border-radius:8px;flex:1;min-height:50%;display:flex;align-items:center;justify-content:center;font-size:1.6vw;opacity:0.4;">[Live highway cam]</div></div>`},
+  {num:8,name:"Today's activity",cat:'activities',tag:'live',tagLabel:'Smart rotation',duration:'8s',desc:'Weather & season aware pick from 20+ activities. Trail difficulty badge shown. Drive time from cabin. Photos for Grand Prismatic Spring and Mesa Falls.',preview:`<div class="prev-bg"><div class="prev-label">Today's Hike</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:6px;">Imperial Geyser</div><div style="font-size:1.8vw;opacity:0.7;margin-bottom:10px;">Best hike in Yellowstone. Mostly flat to a working geyser.</div><div style="display:flex;gap:5%;"><div><div style="opacity:0.5;font-size:1.2vw;">Distance</div><div style="font-size:2.5vw;font-weight:600;">5.6 mi</div></div><div><div style="opacity:0.5;font-size:1.2vw;">Drive</div><div style="font-size:2.5vw;font-weight:600;">~45 min</div></div></div></div>`},
+  {num:9,name:'Local food pick',cat:'food',tag:'live',tagLabel:'Smart rotation',duration:'8s',desc:'Random restaurant skipping closed days. Logo bottom LEFT (bigger), QR menu code, and phone number shown. 7 restaurants: Café Sabor, Lakeside, Boondocks, Pond\'s Lodge, Shotgun Bar (shows breakfast hours image + 8tonoon.png), Happy Hour Bar, Spencer Grill. All have QR codes except Spencer Grill uses Facebook page.',preview:`<div class="prev-bg"><div class="prev-label">Local Pick · Food</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:4px;">Café Sabor</div><div style="font-size:1.8vw;opacity:0.7;">Worth the wait. Try the ceviche and caramel churros.</div><div style="font-size:1.6vw;opacity:0.5;margin-top:6px;">Mexican · Hwy 20 · (208) 558-9300</div></div>`},
+  {num:10,name:'HMA guest deal',cat:'booking',tag:'static',tagLabel:'Always shown',duration:'8s',desc:'20% off or full day for half-day price at High Mountain Adventures. Tell them staying at Teara\'s cabin to claim.',preview:`<div class="prev-bg"><div class="prev-label">Guest Exclusive Deal</div><div style="font-size:4.5vw;font-family:Georgia,serif;margin-bottom:6px;">High Mountain Adventures</div><div class="prev-row"><span class="prev-k">Your deal</span><span class="prev-v" style="color:#ffd700;">20% off or full day half price</span></div><div class="prev-row"><span class="prev-k">Claim</span><span class="prev-v">Tell them you're at Teara's cabin</span></div></div>`},
+  {num:11,name:'Cabin essentials',cat:'welcome',tag:'static',tagLabel:'Static per cabin',duration:'8s',desc:'Checkout time, quiet hours 10PM-8AM, coffee note, Sam Patch grocery 8AM-8PM daily.',preview:`<div class="prev-bg"><div class="prev-label">Good to Know</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:8px;">Cabin essentials</div><div class="prev-row"><span class="prev-k">Check-out</span><span class="prev-v">10:00 AM</span></div><div class="prev-row"><span class="prev-k">Quiet hours</span><span class="prev-v">10 PM – 8 AM</span></div><div class="prev-row"><span class="prev-k">Groceries</span><span class="prev-v">Sam Patch · 8AM–8PM</span></div></div>`},
+  {num:12,name:'Quote',cat:'fun',tag:'live',tagLabel:'277 quotes',duration:'8s',desc:'Random from 277 quotes — nature, outdoor humor, kid-friendly, cabin vibes. New every rotation.',preview:`<div class="prev-bg" style="align-items:center;justify-content:center;text-align:center;"><div style="font-size:4vw;font-family:Georgia,serif;font-style:italic;max-width:85%;">"The mountains are calling and I must go."</div><div style="font-size:1.8vw;opacity:0.5;margin-top:16px;">— John Muir</div></div>`},
+  {num:13,name:'Local photography',cat:'photography',tag:'live',tagLabel:'Weighted rotation',duration:'8s',desc:'Lindsey Jones Photography most rotations. Portraits by Teara every ~30 rotations. "Tell them Teara sent you!" in gold.',preview:`<div class="prev-bg"><div class="prev-label">Local Photography</div><div style="display:flex;gap:5%;align-items:center;"><div style="width:35%;background:rgba(255,255,255,0.06);border-radius:8px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.4vw;opacity:0.4;">[Logo]</div><div style="flex:1;"><div style="font-size:4vw;font-family:Georgia,serif;">Lindsey Jones</div><div style="font-size:1.8vw;opacity:0.7;">+1 (208) 521-1936</div><div style="font-size:1.6vw;color:#ffd700;margin-top:4px;">Tell them Teara sent you!</div></div></div></div>`},
+  {num:14,name:'Local video',cat:'photography',tag:'long',tagLabel:'8 seconds',duration:'8s',desc:'Island Park river video full screen. Background music plays continuously through all slides.',preview:`<div class="prev-bg" style="padding:0;background:#000;align-items:flex-end;"><div style="padding:4% 5%;background:linear-gradient(transparent,rgba(0,0,0,0.8));width:100%;"><div style="font-size:1.6vw;letter-spacing:2px;text-transform:uppercase;color:#d4537e;">A Little Bit of Island Park</div><div style="font-size:4vw;font-family:Georgia,serif;">Welcome to Paradise</div></div></div>`},
+  {num:15,name:'Gallery photo',cat:'photography',tag:'12s',tagLabel:'12 seconds · 85 photos',duration:'12s',desc:'Full-screen from 85-image gallery. New photo every rotation.',preview:`<div class="prev-bg" style="padding:0;background:#111;align-items:center;justify-content:center;"><div style="font-size:1.8vw;opacity:0.3;text-align:center;">[Full screen gallery]<br/>85 photos rotating</div></div>`},
+  {num:16,name:"Fishing — Henry's Fork",cat:'fishing',tag:'12s',tagLabel:'12s · Live USGS',duration:'12s',desc:'Live CFS from USGS gauge 13042500. Color-coded circle indicator (green/yellow/orange/red). Monthly fly tip. Fly shop links.',preview:`<div class="prev-bg"><div class="prev-label">Tight Lines · Local Fishing</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:4px;">Henry's Fork</div><div class="prev-row"><span class="prev-k">Live flow</span><span class="prev-v" style="color:#5cb874;">● 285 CFS — Low, great wading</span></div><div class="prev-row"><span class="prev-k">Best now</span><span class="prev-v">Salmonflies · Golden Stones</span></div></div>`},
+  {num:17,name:'Easy Tours Yellowstone',cat:'activities',tag:'12s',tagLabel:'12 seconds',duration:'12s',desc:'Amy Beegel — 30+ years in Yellowstone. Private tours. "Tell Amy that Teara sent you!" shown under logo on right.',preview:`<div class="prev-bg"><div class="prev-label">Teara's Favorite Guide</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:4px;">Easy Tours Yellowstone</div><div style="font-size:1.8vw;opacity:0.7;">Amy Beegel · 30+ years</div><div class="prev-row" style="margin-top:8px;"><span class="prev-k">Website</span><span class="prev-v">easytoursyellowstone.com</span></div><div style="color:#ffd700;font-size:1.6vw;margin-top:8px;text-align:right;font-weight:600;">Tell Amy that Teara sent you!</div></div>`},
+  {num:18,name:'Trash & recycling',cat:'safety',tag:'12s',tagLabel:'12 seconds',duration:'12s',desc:'Per-cabin pickup schedule, bear can count, bag instructions. Always shown.',preview:`<div class="prev-bg"><div class="prev-label">Good to Know · Trash</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:8px;">Trash & Recycling</div><div class="prev-row"><span class="prev-k">Pickup days</span><span class="prev-v">Tuesday & Friday</span></div><div class="prev-row"><span class="prev-k">Bear cans</span><span class="prev-v">3 containers outside</span></div></div>`},
+  {num:19,name:'Bear can video / trash day',cat:'safety',hidden:true,tag:'conditional',tagLabel:'Content varies by day',duration:'12s',desc:'On pickup days: bold "Trash Day!" reminder with pickup time. All other days: bear safety image + instructions (press both buttons simultaneously) + QR code guests scan on their phone to watch the tutorial video.',preview:`<div class="prev-bg" style="align-items:center;justify-content:center;text-align:center;"><div style="font-size:1.4vw;opacity:0.5;margin-bottom:8px;">PICKUP DAYS → "Trash Day!" · OTHER DAYS →</div><div style="font-size:6vw;font-family:Georgia,serif;">Bear Can Tutorial</div><div style="font-size:2vw;opacity:0.6;margin-top:8px;">YouTube video + QR to watch on phone</div></div>`},
+  {num:20,name:'Bear safety',cat:'safety',tag:'12s',tagLabel:'12 seconds',duration:'12s',desc:'Bear spray info — find in cabin, buy at Sam Patch, HMA, or Yale Creek Gas Station on Hwy 20 & Yale-Kilgore. How to use, what to do in encounter.',preview:`<div class="prev-bg"><div class="prev-label">Wildlife Safety</div><div style="font-size:4.5vw;font-family:Georgia,serif;margin-bottom:6px;">Always Carry Bear Spray</div><div class="prev-row"><span class="prev-k">Buy locally</span><span class="prev-v" style="font-size:1.3vw;">Sam Patch · Yale Creek Gas Station · HMA</span></div><div class="prev-row"><span class="prev-k">How to use</span><span class="prev-v" style="font-size:1.3vw;">Remove clip · Aim low · Spray 60ft</span></div></div>`},
+  {num:21,name:'Fire safety',cat:'safety',tag:'12s',tagLabel:'12 seconds · Manual update',duration:'12s',desc:'Current fire restriction status (manually set in code: none/stage1/stage2/total). Rules per level. Report: 911 or 1-800-632-8000.',preview:`<div class="prev-bg"><div class="prev-label">Fire Safety</div><div style="font-size:4.5vw;font-family:Georgia,serif;margin-bottom:6px;">Fire Pit & Campfire Rules</div><div class="prev-row"><span class="prev-k">Current status</span><span class="prev-v" style="color:#ffc107;">Stage 1 Active</span></div><div class="prev-row"><span class="prev-k">Report a fire</span><span class="prev-v">911 · 1-800-632-8000</span></div></div>`},
+  {num:22,name:'Watch TV',cat:'welcome',tag:'static',tagLabel:'Always shown',duration:'8s',desc:'How to switch from welcome screen to streaming apps. Press Home, select app, sign in, sign out before checkout.',preview:`<div class="prev-bg"><div class="prev-label">Entertainment · Watch TV</div><div style="font-size:4.5vw;font-family:Georgia,serif;margin-bottom:6px;">Watch Your Favorite Shows</div><div class="prev-row"><span class="prev-k">Step 1</span><span class="prev-v">Press Home on remote</span></div><div class="prev-row"><span class="prev-k">Step 2</span><span class="prev-v">Select streaming app</span></div><div class="prev-row"><span class="prev-k">Tip</span><span class="prev-v" style="font-size:1.3vw;">Sign out before checkout!</span></div></div>`},
+  {num:23,name:'Social media',cat:'booking',tag:'static',tagLabel:'15 seconds',duration:'15s',desc:'QR codes for Visit Island Park Idaho on Facebook, TikTok, and Instagram. Generated once, no duplicates.',preview:`<div class="prev-bg" style="align-items:center;justify-content:center;text-align:center;"><div class="prev-label">Follow Along</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:8px;">Stay Connected</div><div style="display:flex;gap:4%;justify-content:center;">${['Facebook','TikTok','Instagram'].map(s=>`<div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="background:#fff;padding:8px;border-radius:6px;width:55px;height:55px;display:flex;align-items:center;justify-content:center;font-size:1.2vw;color:#000;">QR</div><div style="font-size:1.4vw;opacity:0.7;">${s}</div></div>`).join('')}</div></div>`},
+  {num:24,name:'Kayak rental',cat:'activities',tag:'static',tagLabel:'12 seconds',duration:'12s',desc:'Big Springs Kayak Rental — float Henry\'s Fork 8:30 AM daily, 2.5-3 hrs, single kayaks, dogs welcome. kwu.png image shown. Call/text Teara (208) 589-0503.',preview:`<div class="prev-bg"><div class="prev-label">Adventure · On the Water</div><div style="font-size:4.5vw;font-family:Georgia,serif;margin-bottom:4px;">Big Springs Kayak</div><div style="font-size:1.6vw;font-style:italic;opacity:0.7;margin-bottom:8px;">I'd Rather Be Kayaking</div><div class="prev-row"><span class="prev-k">Departs</span><span class="prev-v">8:30 AM daily · 2.5-3 hrs</span></div><div class="prev-row"><span class="prev-k">Book</span><span class="prev-v" style="color:#5cb874;">(208) 589-0503</span></div></div>`},
+  {num:25,name:'Drive times',cat:'activities',tag:'static',tagLabel:'12 seconds',duration:'12s',desc:'Approximate drive times from Island Park: Old Faithful ~1hr, Roosevelt Arch ~1.5hr, Grand Teton ~1.5hr, Cody ~2.5hr, Bozeman ~2hr, Idaho Falls ~1hr, Salt Lake ~4hr, Jackson Hole ~2hr, West Yellowstone ~30min.',preview:`<div class="prev-bg"><div class="prev-label">Drive Times from Island Park</div><div style="font-size:4.5vw;font-family:Georgia,serif;margin-bottom:8px;">Getting Around</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">${[['Old Faithful','~1 hr'],['Grand Teton','~1.5 hr'],['Bozeman','~2 hr']].map(([n,t])=>`<div style="background:rgba(255,255,255,0.08);border-radius:4px;padding:4px 6px;text-align:center;"><div style="font-size:1.2vw;opacity:0.5;">${n}</div><div style="font-size:2.5vw;font-weight:700;">${t}</div></div>`).join('')}</div></div>`},
+  {num:26,name:'All cabins grid',cat:'booking',tag:'static',tagLabel:'20 seconds',duration:'20s',desc:'All 8 cabins in 4x2 grid with hero photos, key features. VIP5 discount code. One QR to VisitIslandParkIdaho.com.',preview:`<div class="prev-bg"><div class="prev-label">Book Your Next Stay · VIP5</div><div style="font-size:4vw;font-family:Georgia,serif;margin-bottom:8px;">Our Cabins</div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;">${['Huckleberry','Gathering','Lil Chalet','Big Chalet','Caldera','D\'Shouse','River Rock','Charming'].map(n=>`<div style="background:rgba(255,255,255,0.08);border-radius:4px;padding:4px;font-size:1.1vw;text-align:center;">${n}</div>`).join('')}</div></div>`},
+  {num:27,name:'Book again',cat:'booking',tag:'static',tagLabel:'15 seconds',duration:'15s',desc:'QR to VisitIslandParkIdaho.com. VIP5 code in gold. Andy & Teara contact. "We\'d Love to Host You Again."',preview:`<div class="prev-bg" style="align-items:center;justify-content:center;text-align:center;"><div class="prev-label">Come Back Soon!</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:8px;">We'd Love to Host You Again</div><div class="prev-row" style="justify-content:center;gap:2vw;"><span class="prev-k">Code</span><span class="prev-v" style="color:#ffd700;font-size:3vw;">VIP5</span></div></div>`},
+  {num:28,name:'Campfire fun',cat:'fun',tag:'static',tagLabel:'20 seconds',duration:'20s',desc:'Random each rotation: 4 conversation starters (from 25), 1 story starter (from 10), 4 s\'mores recipes (from 10). S\'more illustration shown.',preview:`<div class="prev-bg"><div class="prev-label">Tonight Around the Fire</div><div style="font-size:5vw;font-family:Georgia,serif;margin-bottom:8px;">Campfire Time!</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;"><div style="background:rgba(255,149,0,0.15);border-radius:6px;padding:6px;font-size:1.3vw;"><div style="color:#ff9500;font-weight:600;margin-bottom:4px;">Conversation</div>Random questions to spark good talk</div><div style="background:rgba(255,100,50,0.15);border-radius:6px;padding:6px;font-size:1.3vw;"><div style="color:#ff6432;font-weight:600;margin-bottom:4px;">Story Starter</div>Take turns adding to the story</div><div style="background:rgba(200,151,58,0.15);border-radius:6px;padding:6px;font-size:1.3vw;"><div style="color:#c8973a;font-weight:600;margin-bottom:4px;">S'mores</div>Classic and creative recipes</div></div></div>`},
+  {num:29,name:'Park alerts',cat:'parks',tag:'live',tagLabel:'15 seconds · Live NPS API',duration:'15s',
+    desc:'Live alerts from Yellowstone and Grand Teton National Parks via NPS API. Shows up to 6 alerts color coded — red for Danger, yellow for Caution, teal for Info. Refreshes every hour. Covers road closures, wildlife areas, hazards, and conditions.',
+    preview:`<div class="prev-bg"><div class="prev-label" style="color:#5cb874;">● LIVE · NPS API</div><div style="font-size:4.5vw;font-family:Georgia,serif;margin-bottom:8px;">YNP &amp; GTNP Alerts</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">${[['Yellowstone','Danger','Road closure Dunraven Pass'],['Grand Teton','Caution','Wildlife viewing area closed'],['Yellowstone','Info','Geyser schedule update'],['Grand Teton','Info','Trail conditions advisory']].map(([p,c,t])=>`<div style="background:rgba(255,255,255,0.06);border-radius:4px;padding:4px 6px;border-left:3px solid ${c==='Danger'?'#f0928f':c==='Caution'?'#ffc107':'#5fa8b8'};"><div style="font-size:1.1vw;color:${c==='Danger'?'#f0928f':c==='Caution'?'#ffc107':'#5fa8b8'};">${p} · ${c}</div><div style="font-size:1.2vw;">${t}</div></div>`).join('')}</div></div>`},
+  {num:30,name:'Contact',cat:'welcome',tag:'static',tagLabel:'Always shown',duration:'8s',desc:'Andy & Teara (385)685-0272, ipsouvenirsandgifts.com, emergency 911, Madison Memorial Hospital Rexburg.',preview:`<div class="prev-bg"><div class="prev-label">If You Need Us</div><div style="font-size:6vw;font-family:Georgia,serif;margin-bottom:8px;">Contact</div><div class="prev-row"><span class="prev-k">Host</span><span class="prev-v">Andy & Teara · (385)685-0272</span></div><div class="prev-row"><span class="prev-k">Emergency</span><span class="prev-v">911</span></div><div class="prev-row"><span class="prev-k">Hospital</span><span class="prev-v">Madison Memorial · Rexburg</span></div></div>`}
+];
+
+const catColors = {
+  welcome:'cat-welcome', weather:'cat-weather', cameras:'cat-cameras',
+  activities:'cat-activities', food:'cat-food', fishing:'cat-fishing',
+  photography:'cat-photography', safety:'cat-safety', parks:'cat-parks',
+  booking:'cat-booking', fun:'cat-fun', special:'cat-special'
+};
+const catNames = {
+  welcome:'Welcome & Info', weather:'Live Weather', cameras:'Live Cameras',
+  activities:'Activities', food:'Food & Drink', fishing:'Fishing',
+  photography:'Photography', safety:'Safety & Info', parks:'Park Info',
+  booking:'Social & Booking', fun:'Fun Stuff', special:'Special'
+};
+
+let currentCat = 'all';
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildSlides();
 }
+
+function buildSlides() {
+  const grid = document.getElementById('slides-grid');
+  const filtered = currentCat === 'all' ? SLIDES : SLIDES.filter(s => s.cat === currentCat);
+  grid.innerHTML = filtered.map(s => `
+    <div class="slide-card" onclick="openModal(${s.num-1})" data-cat="${s.cat||''}">
+      <div class="slide-preview">${s.preview}</div>
+      <div class="slide-info">
+        <div class="slide-num">SLIDE ${s.num} · ${s.duration}</div>
+        <div class="slide-name">${s.name}</div>
+        <span class="slide-tag ${tagColors[s.tag]}">${s.tagLabel}</span>
+        ${s.cat ? `<span class="cat-label ${catColors[s.cat]||''}">${catNames[s.cat]||s.cat}</span>` : ''}
+        ${s.hidden ? '<span style="font-size:10px;color:#ffc107;margin-top:2px;display:block;">⚠ Hidden when inactive</span>' : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function openModal(idx) {
+  const s = SLIDES[idx];
+  document.getElementById('modal-title').textContent = `Slide ${s.num} — ${s.name}`;
+  document.getElementById('modal-screen').innerHTML = `<div style="width:100%;height:100%;background:#1a1729;color:#f0e8f0;">${s.preview}</div>`;
+  document.getElementById('modal-desc').textContent = s.desc;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+function setCabin(key, ssid, pw, btn) {
+  document.querySelectorAll('.cabin-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('cabin-url').innerHTML = `https://cabin-welcome-screen.netlify.app/?cabin=${key} &nbsp;|&nbsp; WiFi: ${ssid} &nbsp;·&nbsp; PW: ${pw}`;
+}
+
+buildSlides();
 </script>
 </body>
 </html>

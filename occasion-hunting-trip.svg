@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-hunt" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a0a"/>
+      <stop offset="100%" style="stop-color:#0a1a0a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-hunt)" rx="12"/>
+  <!-- Forest silhouette -->
+  <polygon points="0,200 20,140 40,200" fill="#1a2a10"/>
+  <polygon points="15,200 35,120 55,200" fill="#2a3a18"/>
+  <polygon points="45,200 68,130 90,200" fill="#1a2a10"/>
+  <polygon points="80,200 105,115 130,200" fill="#2a3a18"/>
+  <polygon points="280,200 305,118 330,200" fill="#2a3a18"/>
+  <polygon points="315,200 340,128 365,200" fill="#1a2a10"/>
+  <polygon points="350,200 372,138 394,200" fill="#2a3a18"/>
+  <!-- Dawn sky glow -->
+  <ellipse cx="200" cy="200" rx="200" ry="60" fill="#c87030" opacity="0.15"/>
+  <!-- Elk silhouette -->
+  <ellipse cx="200" cy="170" rx="50" ry="25" fill="#0a0a08"/>
+  <rect x="175" y="155" width="14" height="40" fill="#0a0a08" rx="4"/>
+  <rect x="210" y="158" width="14" height="38" fill="#0a0a08" rx="4"/>
+  <rect x="185" y="220" width="10" height="22" fill="#0a0a08" rx="3"/>
+  <rect x="200" y="220" width="10" height="22" fill="#0a0a08" rx="3"/>
+  <ellipse cx="240" cy="158" rx="20" ry="14" fill="#0a0a08"/>
+  <!-- Antlers -->
+  <path d="M248,148 L258,120 L268,105 M258,120 L272,112" stroke="#0a0a08" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M236,146 L242,118 L235,105 M242,118 L228,112" stroke="#0a0a08" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- Moon -->
+  <circle cx="320" cy="55" r="28" fill="#f8e060" opacity="0.9"/>
+  <circle cx="330" cy="48" r="22" fill="#0a1a0a"/>
+  <!-- Stars -->
+  <circle cx="60" cy="40" r="1.5" fill="#fff" opacity="0.8"/>
+  <circle cx="100" cy="25" r="1" fill="#fff" opacity="0.6"/>
+  <circle cx="150" cy="45" r="2" fill="#fff" opacity="0.7"/>
+  <circle cx="220" cy="30" r="1.5" fill="#fff" opacity="0.8"/>
+  <!-- Banner -->
+  <rect x="55" y="55" width="250" height="52" fill="#1a2a0a" rx="8" opacity="0.95"/>
+  <text x="180" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#ffd700" font-weight="bold">Hunting Trip!</text>
+  <text x="180" y="99" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c8d890" opacity="0.8">Good luck out there</text>
+</svg>

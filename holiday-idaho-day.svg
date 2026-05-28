@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#1a0a2a" rx="12"/>
+  <!-- Mountain silhouette Idaho style -->
+  <polygon points="0,200 50,110 100,200" fill="#2a1a4a"/>
+  <polygon points="40,200 100,80 160,200" fill="#3a2a5a"/>
+  <polygon points="120,200 185,65 250,200" fill="#2a1a4a"/>
+  <polygon points="215,200 270,90 325,200" fill="#3a2a5a"/>
+  <polygon points="295,200 350,105 400,200" fill="#2a1a4a"/>
+  <!-- Snow caps -->
+  <polygon points="95,100 100,80 105,100" fill="#e8e8f0" opacity="0.9"/>
+  <polygon points="180,85 185,65 190,85" fill="#e8e8f0" opacity="0.9"/>
+  <!-- Idaho state shape outline -->
+  <path d="M175,120 L185,100 L210,100 L215,115 L220,115 L225,140 L215,145 L210,165 L200,168 L192,155 L185,155 L180,140Z"
+    fill="#ffd700" opacity="0.8" stroke="#c8973a" stroke-width="1.5"/>
+  <!-- Star on Idaho -->
+  <circle cx="195" cy="125" r="5" fill="#c8303a" opacity="0.9"/>
+  <!-- Pine trees -->
+  <polygon points="50,200 60,168 70,200" fill="#2a5a28"/>
+  <polygon points="62,200 72,172 82,200" fill="#3a6a38"/>
+  <polygon points="320,200 330,165 340,200" fill="#2a5a28"/>
+  <polygon points="332,200 342,170 352,200" fill="#3a6a38"/>
+  <!-- Snake River hint -->
+  <path d="M0,230 Q80,220 160,235 Q240,250 320,235 Q370,225 400,240" stroke="#5fa8b8" stroke-width="3" fill="none" opacity="0.5"/>
+  <!-- Stars in sky -->
+  <circle cx="50" cy="40" r="1.5" fill="#fff" opacity="0.8"/>
+  <circle cx="300" cy="30" r="2" fill="#fff" opacity="0.7"/>
+  <circle cx="150" cy="25" r="1" fill="#fff" opacity="0.6"/>
+  <circle cx="350" cy="50" r="1.5" fill="#fff" opacity="0.7"/>
+  <!-- Banner -->
+  <rect x="50" y="38" width="300" height="55" fill="#1a0a3a" rx="8" opacity="0.95"/>
+  <text x="200" y="62" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#ffd700" font-weight="bold">Idaho Admission Day!</text>
+  <text x="200" y="83" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c0a8f0" opacity="0.8">July 3, 1890 · The Gem State</text>
+</svg>

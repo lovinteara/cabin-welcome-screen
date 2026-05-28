@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Sun behind cloud -->
+  <circle cx="42" cy="45" r="18" fill="#FFD700" opacity="0.9"/>
+  <g stroke="#FFD700" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+    <line x1="42" y1="16" x2="42" y2="22"/>
+    <line x1="42" y1="68" x2="42" y2="60"/>
+    <line x1="13" y1="45" x2="19" y2="45"/>
+    <line x1="65" y1="45" x2="71" y2="45"/>
+    <line x1="22" y1="25" x2="26" y2="29"/>
+    <line x1="58" y1="61" x2="62" y2="65"/>
+    <line x1="62" y1="25" x2="58" y2="29"/>
+    <line x1="26" y1="61" x2="22" y2="65"/>
+  </g>
+  <!-- Cloud -->
+  <ellipse cx="72" cy="70" rx="28" ry="16" fill="#c8d8e8" opacity="0.95"/>
+  <circle cx="55" cy="68" r="14" fill="#c8d8e8" opacity="0.95"/>
+  <circle cx="72" cy="62" r="16" fill="#dce8f0" opacity="0.95"/>
+  <circle cx="88" cy="68" r="12" fill="#c8d8e8" opacity="0.95"/>
+  <ellipse cx="72" cy="76" rx="30" ry="10" fill="#c8d8e8" opacity="0.95"/>
+</svg>

@@ -132,6 +132,16 @@
   </div>
 </div>
 
+<!-- Celebration slide — shows when set via JotForm or on holidays -->
+<div class="slide" data-slide="celebration" id="celebration-slide" style="display:none; position:relative; align-items:center; justify-content:center;">
+  <img id="celebration-img" src="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit;" onerror="this.style.display='none'"/>
+  <div style="position:relative; z-index:2; text-align:center; background:rgba(0,0,0,0.45); border-radius:2vw; padding:3vh 4vw; max-width:70vw;">
+    <div id="celebration-guest" style="font-size:3.5vw; font-family:Georgia,serif; color:#ffd700; font-weight:bold; text-shadow:0 2px 8px rgba(0,0,0,0.8); margin-bottom:1vh;"></div>
+    <div id="celebration-message" style="font-size:2.2vw; color:#f0e8f0; text-shadow:0 2px 6px rgba(0,0,0,0.8); line-height:1.5;"></div>
+    <div style="font-size:1.4vw; color:#ffd700; opacity:0.7; margin-top:1.5vh;">From your hosts Andy &amp; Teara</div>
+  </div>
+</div>
+
 <!-- Slide 1: WiFi -->
 <div class="slide" data-slide="1">
   <div class="slide-label">Connect</div>
@@ -163,6 +173,7 @@
   <div class="slide-label"><span class="live-dot"></span>Live · <span id="weather-loc">Island Park</span></div>
   <div class="weather-icon-wrap">
     <div id="current-icon"></div>
+    <div style="display:flex; align-items:center; gap:1vw; margin-top:0.5vh;"><img id="moon-img" src="" style="height:4vh; object-fit:contain;" onerror="this.style.display='none'"/><div id="moon-phase" style="font-size:1.8vw; opacity:0.7;"></div></div>
     <div>
       <span class="big-temp" id="current-temp">—</span>
       <p style="margin-top:8px;opacity:0.7;" id="current-cond">Fetching weather…</p>
@@ -191,22 +202,22 @@
   <div id="regional-grid" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:2vw; margin-top:2vh; width:100%;">
     <div class="weather-cell">
       <div class="day">Yellowstone NP</div>
-      <div class="temp" id="reg-ynp-temp">—</div>
+      <div class="temp" id="reg-ynp-temp" style="display:flex;align-items:center;gap:1vw;justify-content:center;">—</div>
       <div class="cond" id="reg-ynp-cond" style="opacity:0.4;">Fetching…</div>
     </div>
     <div class="weather-cell">
       <div class="day">Grand Teton NP</div>
-      <div class="temp" id="reg-gtnp-temp">—</div>
+      <div class="temp" id="reg-gtnp-temp" style="display:flex;align-items:center;gap:1vw;justify-content:center;">—</div>
       <div class="cond" id="reg-gtnp-cond" style="opacity:0.4;">Fetching…</div>
     </div>
     <div class="weather-cell">
       <div class="day">Jackson Hole, WY</div>
-      <div class="temp" id="reg-jh-temp">—</div>
+      <div class="temp" id="reg-jh-temp" style="display:flex;align-items:center;gap:1vw;justify-content:center;">—</div>
       <div class="cond" id="reg-jh-cond" style="opacity:0.4;">Fetching…</div>
     </div>
     <div class="weather-cell">
       <div class="day">Salt Lake City (SLC)</div>
-      <div class="temp" id="reg-slc-temp">—</div>
+      <div class="temp" id="reg-slc-temp" style="display:flex;align-items:center;gap:1vw;justify-content:center;">—</div>
       <div class="cond" id="reg-slc-cond" style="opacity:0.4;">Fetching…</div>
     </div>
     <div class="weather-cell">
@@ -270,24 +281,46 @@
 
 <!-- Slide 4: Activity -->
 <div class="slide" data-slide="4">
-  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-    <div class="slide-label" id="activity-category">Today's pick</div>
-    <img id="activity-biz-logo" src="" style="max-height:80px; max-width:200px; object-fit:contain; opacity:0.85; display:none;" />
+  <div style="display:flex; gap:4vw; align-items:flex-start;">
+    <div style="flex:1; min-width:0;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div class="slide-label" id="activity-category">Today's pick</div>
+        <img id="activity-biz-logo" src="" style="max-height:80px; max-width:200px; object-fit:contain; opacity:0.85; display:none;" />
+      </div>
+      <div id="fav-badge"></div>
+      <h1 id="activity-name">—</h1>
+      <p id="activity-blurb">—</p>
+      <div class="activity-stats" id="activity-stats"></div>
+    </div>
+    <div id="activity-img-wrap" style="display:none; flex-shrink:0; width:30vw;">
+      <img id="activity-img" src="" style="width:100%; max-height:55vh; object-fit:cover; border-radius:1.5vw; opacity:0.9;"
+           onerror="document.getElementById('activity-img-wrap').style.display='none'" />
+    </div>
   </div>
-  <div id="fav-badge"></div>
-  <h1 id="activity-name">—</h1>
-  <p id="activity-blurb">—</p>
-  <div class="activity-stats" id="activity-stats"></div>
 </div>
 
 <!-- Slide 5: Food -->
 <div class="slide" data-slide="5" id="food-slide" style="position:relative;">
   <div class="slide-label">Local pick · Food</div>
   <div id="food-fav-badge"></div>
-  <h1 id="food-name">—</h1>
-  <p id="food-blurb">—</p>
-  <p id="food-sub" style="margin-top:1.5vh; font-size:2vw; opacity:0.5;">—</p>
-  <img id="food-biz-logo" src="" style="position:absolute; bottom:6vh; right:3vw; max-height:22vh; max-width:28vw; object-fit:contain; opacity:0.9; display:none;" />
+  <div style="display:flex; gap:4vw; align-items:flex-start; margin-top:1vh;">
+    <div style="flex:1; min-width:0;">
+      <h1 id="food-name" style="margin:0;">—</h1>
+      <p id="food-blurb" style="margin-top:1.5vh;">—</p>
+      <p id="food-sub" style="margin-top:1vh; font-size:2vw; opacity:0.5;">—</p>
+      <div id="food-phone-wrap" style="display:none; margin-top:2vh;">
+        <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
+      </div>
+    </div>
+    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; min-width:28vw;">
+      <img id="food-biz-logo" src="" style="max-height:22vh; max-width:26vw; object-fit:contain; opacity:0.95; display:none;" />
+      <img id="food-sec-img" src="" style="max-height:16vh; max-width:24vw; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
+      <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:0.8vh;">
+        <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw;"></div>
+        <p style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw;">Scan for menu</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Slide 6: High Mountain Adventures promo — always shown -->
@@ -345,7 +378,7 @@
   <div class="slide-label">Local photography</div>
   <div style="display:flex; gap:5vw; align-items:center; flex:1; min-height:0;">
     <div style="flex-shrink:0; display:flex; align-items:center; justify-content:center; width:30vw;">
-      <img id="photo-logo" src="" style="max-width:42vw; max-height:55vh; object-fit:contain; display:none;" />
+      <img id="photo-logo" src="" style="max-width:60vw; max-height:65vh; object-fit:contain; display:none;" />
       <img id="photo-img" src="" style="max-width:28vw; max-height:40vh; object-fit:cover; border-radius:1.5vw; display:none;" />
     </div>
     <div style="flex:1;">
@@ -353,7 +386,8 @@
       <p id="photo-tagline" style="margin-top:2vh; font-size:2.8vw;"></p>
       <p id="photo-contact" style="margin-top:1.5vh; font-size:2.2vw; opacity:0.5;"></p>
     <p id="photo-phone" style="margin-top:0.8vh; font-size:2.2vw; opacity:0.5;"></p>
-      <p style="margin-top:3vh; font-size:2vw; opacity:0.35;">Capture your Island Park memories</p>
+      <p style="margin-top:2vh; font-size:1.9vw; color:#ffd700; font-weight:600;">Tell her Teara sent you!</p>
+      <p style="margin-top:1vh; font-size:2vw; opacity:0.35;">Capture your Island Park memories</p>
     </div>
   </div>
 </div>
@@ -415,7 +449,8 @@
         </div>
       </div>
     </div>
-    <div style="flex-shrink:0; width:26vw;">
+    <div style="flex-shrink:0; width:26vw; display:flex; flex-direction:column; justify-content:center; gap:1.5vh;">
+      <img src="fly-fishing.svg" style="width:100%; border-radius:1.5vw; opacity:0.92;" onerror="this.style.display='none'"/>
       <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2vh 2vw;">
         <div style="font-size:1.4vw; opacity:0.5; letter-spacing:0.2vw; text-transform:uppercase; margin-bottom:1vh;">Fly shop reports</div>
         <p style="font-size:1.5vw; line-height:1.4; opacity:0.8;">Henry's Fork Anglers<br><span style="opacity:0.5;">henrysforkanglers.com</span></p>
@@ -438,12 +473,14 @@
       <div style="margin-top:3vh;">
         <div class="info-row"><span class="k">Website</span><span class="v">easytoursyellowstone.com</span></div>
         <div class="info-row"><span class="k">Why Amy</span><span class="v" style="font-size:2vw;">3 decades of Yellowstone expertise — she knows where the wolves are</span></div>
+
       </div>
     </div>
-    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; align-items:center; gap:2vh;">
+    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:2vh;">
       <img src="etys-logo_0.png" style="max-width:26vw; max-height:35vh; object-fit:contain;"
            onerror="this.style.display='none'" />
       <p style="font-size:1.8vw; opacity:0.5; text-align:center; margin-top:1vh;">Private &amp; small group tours</p>
+      <p style="font-size:1.8vw; color:#ffd700; font-weight:700; text-align:center; margin-top:1.5vh;">Tell Amy that Teara sent you!</p>
     </div>
   </div>
 </div>
@@ -452,7 +489,7 @@
 <div class="slide" data-slide="trash">
   <div class="slide-label">Good to know · Trash</div>
   <h1>Trash &amp; Recycling</h1>
-  <div style="display:flex; gap:5vw; align-items:flex-start; margin-top:1.5vh;">
+  <div style="display:flex; gap:4vw; align-items:flex-start; margin-top:1.5vh;">
     <div style="flex:1;">
       <div class="info-row">
         <span class="k">Pickup days</span>
@@ -471,22 +508,45 @@
         <span class="v" style="font-size:2vw;">Bagged trash only in bear-resistant containers — no loose garbage</span>
       </div>
     </div>
-    <div style="flex-shrink:0; width:26vw; background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2.5vh 2.5vw;">
-      <div style="font-size:1.6vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:1.5vh;">Why bear-resistant?</div>
-      <p style="font-size:1.9vw; line-height:1.5; opacity:0.8;">Bears associate trash with food. Using the provided canisters protects both wildlife and guests.</p>
-      <p style="font-size:1.9vw; line-height:1.5; opacity:0.8; margin-top:1.5vh;">Thank you for helping keep Island Park wild and beautiful!</p>
+    <div style="flex-shrink:0; width:28vw; display:flex; flex-direction:column; justify-content:center; gap:1.5vh;">
+      <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:1.5vh 2vw;">
+        <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:1vh;">How to open bear cans</div>
+        <iframe
+          src="https://www.youtube.com/embed/VpnU0Me8rSU?start=15&autoplay=0&controls=1&modestbranding=1"
+          style="width:100%; aspect-ratio:16/9; border:none; border-radius:1vw;"
+          allow="autoplay; fullscreen"
+          title="How to open bear resistant containers">
+        </iframe>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Trash pickup DAY reminder — only shown on pickup days -->
-<div class="slide" data-slide="trashday" id="trash-day-slide" style="display:none; align-items:center; justify-content:center; text-align:center;">
-  <div style="max-width:80vw;">
-    <div class="slide-label" style="text-align:center;">Today · Action needed</div>
-    <h1 style="font-size:9vw; font-family:Georgia,serif;">Trash Day!</h1>
-    <p style="font-size:3vw; margin-top:2vh; line-height:1.4;">Please place your bagged trash in the bear-resistant<br/>container outside before you head out today.</p>
+<!-- Trash Day slide — pickup day msg OR bear can video -->
+<div class="slide" data-slide="trashday" id="trash-day-slide" style="align-items:center; justify-content:center; text-align:center;">
+  <div id="trash-day-msg" style="max-width:80vw;">
+    <div class="slide-label" style="text-align:center;" id="trash-label">Today · Action needed</div>
+    <h1 style="font-size:9vw; font-family:Georgia,serif;" id="trash-heading">Trash Day!</h1>
+    <p style="font-size:3vw; margin-top:2vh; line-height:1.4;" id="trash-body">Please place your bagged trash in the bear-resistant<br/>container outside before you head out today.</p>
     <div style="margin-top:3vh; display:inline-block; background:rgba(255,255,255,0.08); border-radius:1.5vw; padding:2vh 4vw;">
       <p style="font-size:2.2vw; opacity:0.7;">Black bags · Under the kitchen sink<br/>Pickup: <span id="trash-day-pickup" style="opacity:1; font-weight:600;">—</span></p>
+    </div>
+  </div>
+  <div id="trash-bearcan-video" style="display:none; flex-direction:column; align-items:center; gap:2vh; width:100%; text-align:center;">
+    <div class="slide-label" style="text-align:center;">Good to know · Bear Cans</div>
+    <h1 style="font-size:5vw; font-family:Georgia,serif;">How to Open Bear-Resistant Cans</h1>
+    <div style="display:flex; gap:5vw; align-items:center; justify-content:center; margin-top:1vh;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+        <img src="bear-safety.png" style="max-height:28vh; object-fit:contain;" onerror="this.style.display='none'" />
+        <div style="background:rgba(228,75,74,0.15); border:1px solid rgba(228,75,74,0.3); border-radius:1.5vw; padding:1.5vh 2vw;">
+          <p style="font-size:1.8vw; color:#f0928f; line-height:1.5;">Scan the QR code<br/>to watch how it opens</p>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+        <div style="background:#fff; padding:1.5vw; border-radius:1.5vw; box-shadow:0 4px 24px rgba(0,0,0,0.3);" id="qr-bearcan"></div>
+        <p style="font-size:1.8vw; opacity:0.6;">Scan to watch video on your phone</p>
+        <p style="font-size:1.4vw; opacity:0.4;">youtube.com · "bear resistant can tutorial"</p>
+      </div>
     </div>
   </div>
 </div>
@@ -501,12 +561,12 @@
       <div style="margin-top:1.5vh;">
         <div class="info-row" style="padding:1vh 0;"><span class="k">Check the cabin</span><span class="v" style="font-size:1.6vw; text-align:right;">Previous guest may have left a can — check closets &amp; entry</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">Buy locally</span><span class="v" style="font-size:1.6vw;">Sam Patch Co. · Grocery &amp; Sundries</span></div>
-        <div class="info-row" style="padding:1vh 0;"><span class="k">Also available</span><span class="v" style="font-size:1.6vw;">High Mountain Adventures · Most outdoor shops</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Also available</span><span class="v" style="font-size:1.6vw;">High Mountain Adventures · Yale Creek Gas Station (Hwy 20 & Yale-Kilgore) · Most outdoor shops</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">How to use</span><span class="v" style="font-size:1.6vw;">Remove safety clip · Aim low · Spray within 60 feet</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">Bear encounter</span><span class="v" style="font-size:1.6vw;">Stay calm · Don't run · Back away slowly</span></div>
       </div>
     </div>
-    <div style="flex-shrink:0; width:22vw; display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+    <div style="flex-shrink:0; width:22vw; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1.5vh;">
       <img src="bear-safety.png" style="max-width:20vw; max-height:30vh; object-fit:contain;"
            onerror="this.outerHTML='<div style=font-size:3.5vw;font-weight:700;color:#f0928f;font-family:Georgia,serif;>BEAR COUNTRY</div>'" />
       <div style="background:rgba(228,75,74,0.15); border:1px solid rgba(228,75,74,0.3); border-radius:1.5vw; padding:1.5vh 2vw; text-align:center;">
@@ -551,7 +611,7 @@
         </div>
       </div>
     </div>
-    <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; gap:1.5vh;">
+    <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; justify-content:center; gap:1.5vh;">
       <div id="fire-status-box" style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2vh 2vw; text-align:center;">
         <div style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:1vh;">Current Status</div>
         <div id="fire-status-text" style="font-size:2.2vw; font-weight:700; line-height:1.3;">Checking…</div>
@@ -599,6 +659,333 @@
   </div>
 </div>
 
+<!-- Social Media slide -->
+<div class="slide" data-slide="social" style="align-items:center; justify-content:center; text-align:center;">
+  <div class="slide-label">Follow Along</div>
+  <h1 style="font-size:5.5vw; margin-bottom:1vh;">Stay Connected</h1>
+  <p style="font-size:2vw; opacity:0.6; margin-bottom:3vh;">Follow Visit Island Park Idaho for trail updates, events, and local tips!</p>
+  <div style="display:flex; gap:6vw; justify-content:center; align-items:flex-start;">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+      <div style="background:#fff; padding:1.5vw; border-radius:1.5vw;" id="qr-facebook"></div>
+      <p style="font-size:1.8vw; opacity:0.7;">Facebook</p>
+      <p style="font-size:1.4vw; opacity:0.4;">@VisitIslandParkIdaho</p>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+      <div style="background:#fff; padding:1.5vw; border-radius:1.5vw;" id="qr-tiktok"></div>
+      <p style="font-size:1.8vw; opacity:0.7;">TikTok</p>
+      <p style="font-size:1.4vw; opacity:0.4;">@visitislandparkidaho</p>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+      <div style="background:#fff; padding:1.5vw; border-radius:1.5vw;" id="qr-instagram"></div>
+      <p style="font-size:1.8vw; opacity:0.7;">Instagram</p>
+      <p style="font-size:1.4vw; opacity:0.4;">@visitislandparkidaho</p>
+    </div>
+  </div>
+  <img src="visit-island-park-dark-bg.png" style="height:5vh; opacity:0.6; margin-top:3vh;" />
+</div>
+
+<!-- Kayak Rental slide -->
+<div class="slide" data-slide="kayak">
+  <div style="display:flex; gap:4vw; align-items:flex-start;">
+    <div style="flex:1;">
+      <div class="slide-label">Adventure · On the Water</div>
+      <h1 style="font-size:5.5vw;">Big Springs Kayak Rental</h1>
+      <p style="margin-top:0.8vh; font-size:1.8vw; opacity:0.7; font-style:italic;">I'd Rather Be Kayaking</p>
+      <p style="margin-top:1.5vh; font-size:1.8vw; line-height:1.5;">Float the Henry's Fork from Big Springs — one of the most scenic and peaceful floats in Idaho. We meet you at the boat launch, help you in, and pick you up at the end!</p>
+      <div style="margin-top:2vh;">
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Float time</span><span class="v">2.5–3 hours · Departs 8:30 AM daily</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Details</span><span class="v" style="font-size:1.6vw;">Single kayaks · Life jackets provided · Dogs welcome on owner's kayak</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">River</span><span class="v" style="font-size:1.6vw;">Shallow &amp; scenic — suitable for most skill levels</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Book with Teara</span><span class="v" style="color:#5cb874; font-weight:700;">(208) 589-0503 · Call or text</span></div>
+      </div>
+    </div>
+    <div style="flex-shrink:0; width:24vw; display:flex; flex-direction:column; gap:2vh; align-items:center; justify-content:center;">
+      <div style="background:rgba(95,168,184,0.15); border:1px solid rgba(95,168,184,0.3); border-radius:1.5vw; padding:2vh 2vw; text-align:center;">
+        <img src="kwu.png" style="max-width:100%; max-height:20vh; object-fit:contain; border-radius:1vw;"
+             onerror="this.src='kayak-fallback.svg'" />
+        <p style="font-size:1.8vw; color:#5fa8b8; font-weight:600; line-height:1.4; margin-top:1vh;">Float with us<br/>or on your own!</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:1.5vh 2vw; text-align:center; width:100%;">
+        <p style="font-size:1.5vw; opacity:0.6; line-height:1.5;">Meet at Big Springs<br/>boat launch<br/>We take you back<br/>to your car after!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Drive times slide -->
+<div class="slide" data-slide="drivetimes">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1vh;">
+    <div>
+      <div class="slide-label">Plan your trip · Drive times from Island Park</div>
+      <h1 style="font-size:4.5vw;">Getting Around</h1>
+    </div>
+    <p style="font-size:1.3vw; opacity:0.3;">Check 511.idaho.gov for road conditions</p>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1.2vw;">
+
+    <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
+      <img src="drive-30min.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~30 min</div>
+      <div style="font-size:1.3vw; opacity:0.7; text-align:center;">West Yellowstone</div>
+    </div>
+
+    <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
+      <img src="drive-1hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~1 hour</div>
+      <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Old Faithful · Idaho Falls</div>
+    </div>
+
+    <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
+      <img src="drive-1-5hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~1.5 hours</div>
+      <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Grand Teton · Roosevelt Arch</div>
+    </div>
+
+    <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
+      <img src="drive-2hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~2 hours</div>
+      <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Jackson Hole · Bozeman</div>
+    </div>
+
+    <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
+      <img src="drive-2-5hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~2.5 hours</div>
+      <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Cody, Wyoming</div>
+    </div>
+
+    <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
+      <img src="drive-4hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~4 hours</div>
+      <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Salt Lake City</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- All Cabins Grid slide — one screen shows all 8 -->
+<div class="slide" data-slide="allcabins">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5vh;">
+    <div>
+      <div class="slide-label">Book Your Next Stay · Use code VIP5 for a discount</div>
+      <h1 style="font-size:4vw; font-family:Georgia,serif;">Our Cabins — Something for Everyone</h1>
+    </div>
+    <div style="text-align:right;">
+      <div style="background:#fff; padding:0.8vw; border-radius:1vw; display:inline-block;" id="qr-allcabins"></div>
+      <p style="font-size:1.4vw; opacity:0.5; margin-top:0.5vh;">VisitIslandParkIdaho.com</p>
+    </div>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1.2vw;">
+
+    <!-- Huckleberry Hut -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="huckleberry-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='huckleberry-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1729'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Huckleberry Hut</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 4–6 · 2 bed · sofa · 1 bath<br/><img src="pet-paw.png" style="height:1.4vw; vertical-align:middle; margin-right:0.3vw;" onerror="this.outerHTML='<span style=color:#5cb874;font-weight:600;font-size:1.2vw;>Pets OK</span>'"> Pet friendly</div>
+      </div>
+    </div>
+
+    <!-- Gathering Place -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="tgp-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='gathering-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#1a1a24'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Gathering Place</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 26 · 6 bed (14 beds) · 5 bath<br/>Billiards · Hot tub · 1.5 acres</div>
+      </div>
+    </div>
+
+    <!-- Little Chalet -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="littlechalet-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='chalet-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#191e21'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Little Chalet</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 2–4 · 1 bed · sofa · 1 bath · AC<br/>Hot tub · Forest</div>
+      </div>
+    </div>
+
+    <!-- Big Chalet -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="bigchalet-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='chalet-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#191e21'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Big Chalet</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 4–6 · 2 bed · sofa · 1.5 bath · AC<br/>Forest setting</div>
+      </div>
+    </div>
+
+    <!-- Caldera Cottage -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="caldera-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='caldera-logo-dark-bg.png'; this.style.objectFit='contain'; this.style.background='#201a1e'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Caldera Cottage</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 6–8 · 3 bed · sofa · 1.5 bath · AC · EV<br/><img src="pet-paw.png" style="height:1.4vw; vertical-align:middle; margin-right:0.3vw;" onerror="this.outerHTML='<span style=color:#5cb874;font-weight:600;font-size:1.2vw;>Pets OK</span>'"> Pet friendly</div>
+      </div>
+    </div>
+
+    <!-- D'Shouse Haven -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="ds-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='dshouse-logo.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">D'Shouse Haven</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 10 · 3 bed · 2 bath · AC<br/>Barndominium · Hot tub</div>
+      </div>
+    </div>
+
+    <!-- River Rock Lodge -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="rrl-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='rrl-logo.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">River Rock Lodge</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 14 · 3 bed · 3 bath<br/>Great for groups</div>
+      </div>
+    </div>
+
+    <!-- Charming Log Home -->
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; overflow:hidden; border:1px solid rgba(255,255,255,0.08);">
+      <img src="charming-hero.jpg" style="width:100%; height:12vh; object-fit:cover;"
+           onerror="this.src='visit-island-park-full.png'; this.style.objectFit='contain'; this.style.background='#192028'; this.style.padding='8px';"/>
+      <div style="padding:0.8vh 0.8vw;">
+        <div style="font-size:1.5vw; font-weight:600; margin-bottom:0.3vh;">Charming Log Home</div>
+        <div style="font-size:1.2vw; opacity:0.6; line-height:1.4;">Sleeps 8 · 3 bed · 2 bath<br/>No dishwasher · Near Yellowstone</div>
+      </div>
+    </div>
+
+  </div>
+  <p style="font-size:1.4vw; opacity:0.35; text-align:center; margin-top:1.5vh;">Use code <span style="color:#ffd700; font-weight:600; opacity:1;">VIP5</span> when booking for a returning guest discount · VisitIslandParkIdaho.com</p>
+</div>
+
+<!-- Book Again slide -->
+<div class="slide" data-slide="bookagain" style="align-items:center; justify-content:center; text-align:center;">
+  <div class="slide-label">Come Back Soon!</div>
+  <h1 style="font-size:6vw; font-family:Georgia,serif; margin-bottom:1vh;">We'd Love to Host You Again</h1>
+  <p style="font-size:2.2vw; opacity:0.7; margin-bottom:3vh;">Book your next stay directly and save!</p>
+  <div style="display:flex; gap:6vw; align-items:center; justify-content:center;">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:1.5vh;">
+      <div style="background:#fff; padding:1.8vw; border-radius:1.5vw; box-shadow:0 4px 24px rgba(0,0,0,0.3);" id="qr-bookagain"></div>
+      <p style="font-size:1.8vw; opacity:0.6;">Scan to book</p>
+      <p style="font-size:1.6vw; opacity:0.5;">VisitIslandParkIdaho.com</p>
+    </div>
+    <div style="text-align:left;">
+      <div class="info-row" style="max-width:40vw;">
+        <span class="k">Website</span>
+        <span class="v">VisitIslandParkIdaho.com</span>
+      </div>
+      <div class="info-row" style="max-width:40vw;">
+        <span class="k">Discount code</span>
+        <span class="v" style="color:#ffd700; font-size:3vw; font-weight:700; font-family:Georgia,serif;">VIP5</span>
+      </div>
+      <div class="info-row" style="max-width:40vw;">
+        <span class="k">Your hosts</span>
+        <span class="v">Andy &amp; Teara · (385) 685-0272</span>
+      </div>
+      <p style="font-size:1.6vw; opacity:0.4; margin-top:2vh;">Thank you for staying with us — we hope to see you again!</p>
+    </div>
+  </div>
+  <img src="visit-island-park-dark-bg.png" style="height:5vh; opacity:0.5; margin-top:3vh;" />
+</div>
+
+<!-- Campfire Fun slide -->
+<div class="slide" data-slide="campfire" style="overflow:hidden;">
+  <div class="slide-label">Tonight · Around the Fire</div>
+  <div style="display:flex; gap:3vw; height:82vh; margin-top:1vh;">
+
+    <!-- Left: Conversation Starters -->
+    <div style="flex:1; background:rgba(255,149,0,0.08); border:1px solid rgba(255,149,0,0.3); border-radius:1.5vw; padding:2vh 2vw; overflow:hidden;">
+      <div style="font-size:1.6vw; font-weight:700; color:#ff9500; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.5vh;">Conversation Starters</div>
+      <div id="campfire-questions" style="font-size:1.5vw; line-height:1.7; color:#f0e8f0;"></div>
+    </div>
+
+    <!-- Center: Story + Smores stacked -->
+    <div style="flex:1; display:flex; flex-direction:column; gap:2vh;">
+      <div style="flex:1; background:rgba(255,100,50,0.08); border:1px solid rgba(255,100,50,0.3); border-radius:1.5vw; padding:2vh 2vw; overflow:hidden;">
+        <div style="font-size:1.6vw; font-weight:700; color:#ff6432; text-transform:uppercase; letter-spacing:2px; margin-bottom:1vh;">Start a Story</div>
+        <div id="campfire-story" style="font-size:1.7vw; line-height:1.6; color:#f0e8f0; font-style:italic;"></div>
+        <div style="font-size:1.3vw; color:#f0e8f0; opacity:0.4; margin-top:1vh;">Take turns adding on!</div>
+      </div>
+      <div style="flex:1; background:rgba(200,151,58,0.08); border:1px solid rgba(200,151,58,0.3); border-radius:1.5vw; padding:2vh 2vw; overflow:hidden;">
+        <div style="font-size:1.6vw; font-weight:700; color:#c8973a; text-transform:uppercase; letter-spacing:2px; margin-bottom:1vh;">Smore Ideas</div>
+        <div id="campfire-smores" style="font-size:1.5vw; line-height:1.7; color:#f0e8f0;"></div>
+      </div>
+    </div>
+
+    <!-- Right: Smore image small at top -->
+    <div style="width:16vw; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:1vh; padding-top:1vh;">
+      <img src="smore.svg" style="width:90%; max-height:18vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <div style="font-size:1.3vw; color:#c8973a; text-align:center; opacity:0.7;">New ideas<br/>every rotation!</div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- Park Alerts slide -->
+<div class="slide" data-slide="parkalerts">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5vh;">
+    <div>
+      <div class="slide-label"><span class="live-dot"></span>Live · National Park Service</div>
+      <h1 style="font-size:4.5vw;">Yellowstone &amp; Grand Teton Alerts</h1>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:0.8vh;">
+      <div style="background:#fff; padding:0.8vw; border-radius:0.8vw;" id="qr-nps"></div>
+      <div style="font-size:1.2vw; opacity:0.5; text-align:center;">Scan for full alerts<br/>nps.gov/yell · nps.gov/grte</div>
+    </div>
+  </div>
+  <div id="nps-alerts-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5vw;">
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; padding:2vh 2vw; font-size:1.6vw; opacity:0.5; grid-column:1/-1; text-align:center;">
+      Loading park alerts...
+    </div>
+  </div>
+</div>
+
+<!-- Road Conditions slide -->
+<div class="slide" data-slide="roadconditions">
+  <div class="slide-label">Plan Your Drive · Road Conditions</div>
+  <h1 style="font-size:4.5vw; font-family:Georgia,serif; margin-bottom:2vh;">Road Conditions</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2vw; margin-top:1vh;">
+
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(95,168,184,0.3);">
+      <div style="font-size:1.5vw; font-weight:700; color:#5fa8b8; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Idaho Roads · 511.idaho.gov</div>
+      <div class="info-row"><span class="k">US-20</span><span class="v">Main route to Island Park</span></div>
+      <div class="info-row"><span class="k">Osborne Bridge</span><span class="v">See webcam on slide 7</span></div>
+      <div class="info-row"><span class="k">Live conditions</span><span class="v">511.idaho.gov</span></div>
+      <div class="info-row"><span class="k">Call</span><span class="v">511 from any phone</span></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-idaho511"></div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(240,146,143,0.3);">
+      <div style="font-size:1.5vw; font-weight:700; color:#f0928f; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Yellowstone Roads · nps.gov/yell</div>
+      <div class="info-row"><span class="k">Road info line</span><span class="v">(307) 344-2117</span></div>
+      <div class="info-row"><span class="k">Road updates</span><span class="v">Text 82190 to 888777</span></div>
+      <div class="info-row"><span class="k">Live report</span><span class="v">nps.gov/yell/roads</span></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-yellroads"></div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(200,151,58,0.3);">
+      <div style="font-size:1.5vw; font-weight:700; color:#c8973a; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Wyoming Roads · wyoroad.info</div>
+      <div class="info-row"><span class="k">WYDOT</span><span class="v">wyoroad.info</span></div>
+      <div class="info-row"><span class="k">Call</span><span class="v">(888) WYO-ROAD</span></div>
+      <div class="info-row"><span class="k">Cell</span><span class="v">511 from Wyoming</span></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-wyoroad"></div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(92,184,116,0.3);">
+      <div style="font-size:1.5vw; font-weight:700; color:#5cb874; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Montana Roads · mdt.mt.gov</div>
+      <div class="info-row"><span class="k">MDT</span><span class="v">mdt.mt.gov/travinfo</span></div>
+      <div class="info-row"><span class="k">Beartooth Pass</span><span class="v">Check before driving!</span></div>
+      <div class="info-row"><span class="k">Call</span><span class="v">511 from Montana</span></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-mtroads"></div>
+    </div>
+
+  </div>
+</div>
+
 <!-- Slide 8: Contact -->
 <div class="slide" data-slide="8">
   <div class="slide-label">If you need us</div>
@@ -612,7 +999,7 @@
 </div>
 
 <div class="dots" id="dots"></div>
-<audio id="bg-audio" src="Little_Bit_Island_Park.mp3" loop preload="auto" style="display:none;" autoplay></audio>
+<audio id="bg-audio" src="Little_Bit_Island_Park.mp3" preload="auto" style="display:none;"></audio>
 <img class="biz-logo" id="biz-logo" src="visit-island-park-dark-bg.png" alt="Visit Island Park Idaho" />
 <div style="position:absolute; bottom:2.5vh; right:3vw; z-index:6;">
   <div style="font-size:clamp(10px,1.2vw,16px); opacity:0.3; letter-spacing:0.15vw; text-transform:uppercase;" id="refresh-tag">Updated —</div>
@@ -658,17 +1045,22 @@
       if (id === '4') { try { applyActivity(window._cabinRef, window._weatherRef); } catch(e) { console.error('activity err', e); } }
       if (id === '5') { try { applyFood(); } catch(e) { console.error('food err', e); } }
       if (id === 'photo') { try { applyPhotographer(); } catch(e) { console.error('photo err', e); } }
+      if (id === 'campfire') {
+        try {
+          window._campfireCount = (window._campfireCount || 0) + 1;
+          if (window._campfireCount === 1 || window._campfireCount % 4 === 1) {
+            applyCampfire(); // refresh every 4 rotations
+          }
+        } catch(e) { console.error('campfire err',e); }
+      }
+      if (id === 'celebration') { try { applyCelebration(); } catch(e) {} }
+      if (id === 'parkalerts') { try { loadNPSAlerts(); } catch(e) {} }
       if (id === 'gallery') { try { nextGalleryImage(); } catch(e) {} }
       if (id === 'fishing') { try { loadFishingData(); } catch(e) {} }
       if (id === 'firesafety') { try { loadFireStatus(); } catch(e) {} }
       if (id === 'osborne') { const o = document.getElementById('osborne-snapshot'); if(o) o.src = 'https://511.idaho.gov/map/Cctv/186.C3--2?t=' + Date.now(); }
-      // Music plays through ALL slides — video plays on video slide
-      const audio = document.getElementById('bg-audio');
+      // Video plays on video slide only
       const video = document.getElementById('island-park-video');
-      if (audio) {
-        audio.volume = 0.15; // soft background through all slides
-        audio.play().catch(e => console.log('audio blocked:', e));
-      }
       if (id === 'ipvideo') {
         if (video) {
           video.currentTime = 0;
@@ -689,7 +1081,7 @@
       const slide = slides[current];
       const sid = slide ? slide.dataset.slide : '';
       let duration = 8000;
-      if (sid === 'ipvideo') duration = 65000;
+      if (sid === 'ipvideo') duration = 8000;
       if (sid === 'gallery') duration = 12000;
       if (sid === '1') duration = 12000;        // WiFi QR
       if (sid === 'trash') duration = 12000;    // Trash info
@@ -698,6 +1090,16 @@
       if (sid === 'easytours') duration = 12000; // Easy Tours
       if (sid === 'bearsafety') duration = 12000; // Bear safety
       if (sid === 'firesafety') duration = 12000; // Fire safety
+      if (sid === 'social') duration = 15000;    // Social media
+      if (sid === 'kayak') duration = 12000;      // Kayak rental
+      if (sid === 'drivetimes') duration = 12000; // Drive times
+      if (sid === 'bookagain') duration = 15000;
+      if (sid === '5' && window._currentRestaurant === 'The Happy Hour Bar') duration = 20000;  // Book again
+      if (sid === 'allcabins') duration = 20000; // All cabins grid
+      if (sid === 'campfire') duration = 35000;
+      if (sid === 'celebration') duration = 30000;
+      if (sid === 'parkalerts') duration = 30000;
+      if (sid === 'roadconditions') duration = 20000; // Campfire — needs time to read
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -774,7 +1176,29 @@
     return m[code] || {t:'Unknown',i:'sun'};
   }
 
+  // Map weather codes to icon filenames
+  function weatherIconFile(type) {
+    const map = {
+      'sun': 'weather-sunny.svg',
+      'partly': 'weather-partly-cloudy.svg',
+      'cloud': 'weather-cloudy.svg',
+      'rain': 'weather-rain.svg',
+      'snow': 'weather-snow.svg',
+      'storm': 'weather-storm.svg',
+      'hail': 'weather-hail.svg',
+      'sleet': 'weather-sleet.svg',
+    };
+    return map[type] || 'weather-sunny.svg';
+  }
+  function iconImg(type, size) {
+    size = size || 56;
+    return `<img src="${weatherIconFile(type)}" width="${size}" height="${size}" style="object-fit:contain;" />`;
+  }
   function iconSvg(type, size) {
+    // Keep as fallback — also return img tag now
+    return iconImg(type, size);
+  }
+  function _iconSvgOld(type, size) {
     const s = window._iconStroke || '#c9a876';
     size = size || 56;
     if (type==='sun') return `<svg width="${size}" height="${size}" viewBox="0 0 64 64"><circle cx="32" cy="32" r="12" stroke="${s}" stroke-width="2.5" fill="none"/><g stroke="${s}" stroke-width="2.5" stroke-linecap="round"><line x1="32" y1="6" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="58"/><line x1="6" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="58" y2="32"/><line x1="13" y1="13" x2="19" y2="19"/><line x1="45" y1="45" x2="51" y2="51"/><line x1="13" y1="51" x2="19" y2="45"/><line x1="45" y1="19" x2="51" y2="13"/></g></svg>`;
@@ -899,19 +1323,42 @@
     const d = drive(cabin, a);
     const stats = document.getElementById('activity-stats');
     stats.innerHTML = '';
+    // Trail difficulty icon map
+    const difficultyIcon = {
+      'Easy': 'trail-easy.svg',
+      'Moderate': 'trail-moderate.svg',
+      'Strenuous': 'trail-hard.svg',
+      'Drive-up': 'trail-drive-up.svg',
+      'Varies': 'trail-moderate.svg',
+    };
     const add = (lbl, val) => { stats.innerHTML += `<div><div class="row-label">${lbl}</div><div class="stat-val">${val}</div></div>`; };
     if (a.distance && a.distance!=='—') add('Distance', a.distance);
     if (a.elevation && a.elevation!=='—') add('Elevation', a.elevation);
-    if (a.difficulty) add('Difficulty', a.difficulty);
+    if (a.difficulty) {
+      const iconFile = difficultyIcon[a.difficulty];
+      const diffVal = iconFile
+        ? `<img src="${iconFile}" style="height:4vh; vertical-align:middle; margin-right:0.5vw;"> ${a.difficulty}`
+        : a.difficulty;
+      add('Difficulty', diffVal);
+    }
     if (d) add('Drive from cabin', '~'+d+' min');
-    // Show HMA logo on their specific slide
+    // Hide activity logo (HMA moved to its own slide)
     const actLogoEl = document.getElementById('activity-biz-logo');
-    if (actLogoEl) {
-      if (a.name === 'High Mountain Adventures') {
-        actLogoEl.src = 'high-mountain-adv.png';
-        actLogoEl.style.display = 'block';
+    if (actLogoEl) actLogoEl.style.display = 'none';
+    // Show activity photo for specific activities
+    const activityImages = {
+      'Grand Prismatic Spring': 'grs.png',
+      'Upper Mesa Falls': 'mesa falls.svg',
+    };
+    const actImgWrap = document.getElementById('activity-img-wrap');
+    const actImg = document.getElementById('activity-img');
+    if (actImgWrap && actImg) {
+      const imgFile = activityImages[a.name];
+      if (imgFile) {
+        actImg.src = imgFile;
+        actImgWrap.style.display = 'block';
       } else {
-        actLogoEl.style.display = 'none';
+        actImgWrap.style.display = 'none';
       }
     }
   }
@@ -921,23 +1368,95 @@
     document.getElementById('food-fav-badge').innerHTML = r.fav ? '<span class="fav-tag">★ Local favorite</span>' : '';
     document.getElementById('food-name').textContent = r.name;
     document.getElementById('food-blurb').textContent = r.blurb;
-    document.getElementById('food-sub').textContent = r.subtype;
+    // Add drive time to subtype if restaurant has coords
+    let subText = r.subtype;
+    if (r.lat && r.lon && window._cabinRef) {
+      const mins = drive(window._cabinRef, r);
+      if (mins) subText += ' · ~' + mins + ' min drive';
+    }
+    document.getElementById('food-sub').textContent = subText;
     // Show business logo if available
     const logoMap = {
       'Café Sabor': 'cafe-sabor.png',
-      'Lakeside Lodge': 'ponds-logo.png',
+      'Lakeside Lodge': 'lakeside-logo.png',
       'Boondocks': 'boondocks.png',
       "Pond's Lodge Pizza": 'ponds-logo.png',
-      'Shotgun Bar': 'shotgun-bar.png'
+      'Shotgun Bar': 'shotgun-bar.png',
+      'The Happy Hour Bar': null,
+      'Spencer Grill': null
+    };
+    // Secondary images shown on food slide for specific restaurants
+    const foodImages = {
+      'Shotgun Bar': '8tonoon.png',
     };
     const foodLogoEl = document.getElementById('food-biz-logo');
     const logoFile = logoMap[r.name];
     if (foodLogoEl) {
+      foodLogoEl.src = '';
+      foodLogoEl.style.display = 'none';
       if (logoFile) {
         foodLogoEl.src = logoFile;
         foodLogoEl.style.display = 'block';
+        // Per-restaurant logo size overrides
+        const logoSizes = {
+          'Café Sabor': 'max-height:44vh; max-width:50vw;',
+        };
+        const sizeOverride = logoSizes[r.name];
+        foodLogoEl.style.cssText = sizeOverride
+          ? sizeOverride + ' object-fit:contain; opacity:0.95;'
+          : 'max-height:22vh; max-width:26vw; object-fit:contain; opacity:0.95;';
       } else {
         foodLogoEl.style.display = 'none';
+      }
+    }
+
+    // Restaurant-specific extras — QR code and phone
+    const restaurantExtras = {
+      "Pond's Lodge Pizza":  { url: 'https://www.pondslodge.com/menus/',                                          phone: '(208) 558-7221' },
+      "Lakeside Lodge":      { url: 'https://www.lakesidelodgeandresort.com/restaurant',                          phone: '(208) 558-9770' },
+      "Café Sabor":          { url: 'https://www.cafesabor.com/index.php/services',                               phone: '(208) 558-9300' },
+      "Boondocks":           { url: 'https://www.facebook.com/boondocksislandpark/',                              phone: '(208) 716-3720' },
+      "Shotgun Bar":         { url: 'https://www.facebook.com/photo/?fbid=1350259620147882&set=pb.100054915714185.-2207520000', phone: '(208) 339-5929' },
+      "The Happy Hour Bar":  { url: 'https://www.facebook.com/share/p/1CWKWaHbYc/',                              phone: '(406) 646-7281' },
+      "Spencer Grill":        { url: 'https://www.facebook.com/SpencerGrillIdaho/',                               phone: '(208) 374-5111' },
+    };
+
+    const extras = restaurantExtras[r.name];
+    const qrWrap = document.getElementById('food-qr-wrap');
+    const phoneWrap = document.getElementById('food-phone-wrap');
+    const phoneEl = document.getElementById('food-phone');
+    const foodQrEl = document.getElementById('food-qr');
+
+    if (qrWrap) qrWrap.style.display = 'none';
+    if (phoneWrap) phoneWrap.style.display = 'none';
+    // Show secondary food image (e.g. Shotgun Bar breakfast hours)
+    const foodSecImg = document.getElementById('food-sec-img');
+    const secImgFile = foodImages[r.name];
+    if (foodSecImg) {
+      if (secImgFile) {
+        foodSecImg.src = secImgFile;
+        foodSecImg.style.display = 'block';
+      } else {
+        foodSecImg.style.display = 'none';
+      }
+    }
+
+    if (extras) {
+      if (extras.url && foodQrEl && typeof QRCode !== 'undefined') {
+        foodQrEl.innerHTML = '';
+        new QRCode(foodQrEl, {
+          text: extras.url,
+          width: Math.round(window.innerWidth * 0.1),
+          height: Math.round(window.innerWidth * 0.1),
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        if (qrWrap) { qrWrap.style.display = 'flex'; qrWrap.style.flexDirection = 'column'; }
+      }
+      if (extras.phone && phoneEl && phoneWrap) {
+        phoneEl.textContent = extras.phone;
+        phoneWrap.style.display = 'block';
       }
     }
   }
@@ -946,6 +1465,80 @@
     const q = pickQuote();
     document.getElementById('quote').textContent = '"' + q.text + '"';
     document.getElementById('quote-attr').textContent = '— ' + q.attr;
+  }
+
+  // ── CAMPFIRE DATA ─────────────────────────────────────
+  const CAMPFIRE_QUESTIONS = [
+    "What's the best trip you've ever taken and why?",
+    "If you could live anywhere in the world for a year, where would it be?",
+    "What's something on your bucket list you haven't done yet?",
+    "What's the funniest thing that's happened to you on a trip?",
+    "If you could have dinner with anyone living or dead, who would it be?",
+    "What's your most memorable outdoor adventure?",
+    "What's a skill you wish you had learned earlier in life?",
+    "If you won the lottery tomorrow, what's the first thing you'd do?",
+    "What's the best piece of advice you've ever received?",
+    "Would you rather explore space or the bottom of the ocean?",
+    "What's your favorite childhood memory?",
+    "If you could time travel, would you go to the past or the future?",
+    "What animal would you be and why?",
+    "What's the most beautiful place you've ever seen?",
+    "If you had to eat one meal for the rest of your life, what would it be?",
+    "What's something that always makes you laugh?",
+    "What's a random talent or skill nobody knows you have?",
+    "Would you rather have no WiFi for a month or no coffee for a month?",
+    "What's one thing on your phone you couldn't live without?",
+    "What song best describes your life right now?",
+    "What's the weirdest food you've ever eaten?",
+    "If you could instantly master any instrument, which would you choose?",
+    "What's the most spontaneous thing you've ever done?",
+    "If your life was a movie, what genre would it be?",
+    "What's something you believed as a kid that turned out to be completely wrong?",
+  ];
+
+  const CAMPFIRE_STORIES = [
+    "It was a dark and stormy night in Yellowstone when the ranger's radio crackled with a strange message...",
+    "Nobody believed the old trapper when he said there was gold hidden somewhere near Big Springs — until the day we found the map...",
+    "The cabin had been empty for years, or so we thought, until we noticed the rocking chair moving on its own...",
+    "Three hikers set off for the summit at dawn. Only two returned — and they refused to talk about what happened up there...",
+    "The bear spray was missing from the hook by the door. So was Grandpa. And his fishing pole...",
+    "She found the note tucked inside the old fire pit. It was dated 1943 and read: 'If you find this, don't look under the bridge...'",
+    "The wolf howled just once, close enough to make the fire flicker. That's when we noticed the footprints in the ash...",
+    "Nobody knew why the old cabin always smelled like apple pie until the night we dug up the floorboards...",
+    "It started as a normal float down the Henry's Fork — until the kayak hit something solid in the middle of the river...",
+    "The moose had been following us for three miles. It wasn't until we reached camp that we realized it was trying to warn us...",
+  ];
+
+  const CAMPFIRE_SMORES = [
+    ["Classic S'more", "Graham cracker · Hershey's chocolate · marshmallow"],
+    ["Reese's S'more", "Graham cracker · Reese's peanut butter cup · marshmallow"],
+    ["Nutella S'more", "Graham cracker · Nutella · sliced banana · marshmallow"],
+    ["Mint Chocolate", "Thin Mint cookie · dark chocolate · marshmallow"],
+    ["Caramel Crunch", "Graham cracker · caramel squares · chocolate · crushed pretzels · marshmallow"],
+    ["Birthday Cake", "Golden Oreo · white chocolate · marshmallow · sprinkles"],
+    ["Rocky Road", "Graham cracker · dark chocolate · mini marshmallows · crushed almonds"],
+    ["S'mores Dip", "Melt chocolate chips in a cast iron pan · dip marshmallows and graham crackers"],
+    ["Campfire Banana", "Slice a banana · stuff with chocolate chips and marshmallows · wrap in foil · toss in coals 5 min"],
+    ["Brownie S'more", "Replace graham cracker with a brownie · add marshmallow and chocolate · pure indulgence"],
+  ];
+
+  function applyCampfire() {
+    // Pick 4 random questions
+    const shuffledQ = [...CAMPFIRE_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
+    const qEl = document.getElementById('campfire-questions');
+    if (qEl) qEl.innerHTML = shuffledQ.map(q => `<div style="margin-bottom:0.8vh; padding-left:1vw; border-left:2px solid rgba(255,149,0,0.5); color:#f0e8f0;">${q}</div>`).join('');
+
+    // Pick 1 random story starter
+    const story = CAMPFIRE_STORIES[Math.floor(Math.random() * CAMPFIRE_STORIES.length)];
+    const sEl = document.getElementById('campfire-story');
+    if (sEl) sEl.textContent = '"' + story + '"';
+
+    // Pick 4 random s'mores ideas
+    const shuffledS = [...CAMPFIRE_SMORES].sort(() => Math.random() - 0.5).slice(0, 4);
+    const smEl = document.getElementById('campfire-smores');
+    if (smEl) smEl.innerHTML = shuffledS.map(([name, desc]) =>
+      `<div style="margin-bottom:0.8vh;"><span style="font-weight:600; color:#e4b86a;">${name}</span><br/><span style="font-size:1.4vw; opacity:0.6;">${desc}</span></div>`
+    ).join('');
   }
 
   function applyContact() {
@@ -965,7 +1558,40 @@
       const t = wDesc(cur.weather_code);
       document.getElementById('current-temp').textContent = Math.round(cur.temperature_2m)+'°';
       document.getElementById('current-cond').textContent = t.t;
-      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 140);
+      document.getElementById('current-icon').innerHTML = iconSvg(t.i, 500);
+      // Moon phase
+      const moonEl = document.getElementById('moon-phase');
+      if (moonEl) {
+        const synodicMonth = 29.53058867;
+        const known = new Date('2000-01-06');
+        const daysSince = (new Date() - known) / (1000*60*60*24);
+        const phase = ((daysSince % synodicMonth) + synodicMonth) % synodicMonth;
+        let moonName, moonIcon;
+        if (phase < 1.85) { moonName='New Moon'; moonIcon='●'; }
+        else if (phase < 7.38) { moonName='Waxing Crescent'; moonIcon='◑'; }
+        else if (phase < 9.22) { moonName='First Quarter'; moonIcon='◑'; }
+        else if (phase < 14.77) { moonName='Waxing Gibbous'; moonIcon='◕'; }
+        else if (phase < 16.61) { moonName='Full Moon'; moonIcon='○'; }
+        else if (phase < 22.15) { moonName='Waning Gibbous'; moonIcon='◔'; }
+        else if (phase < 23.99) { moonName='Last Quarter'; moonIcon='◐'; }
+        else { moonName='Waning Crescent'; moonIcon='◑'; }
+        moonEl.textContent = moonName;
+        const moonImg = document.getElementById('moon-img');
+        if (moonImg) {
+          const moonFiles = {
+            'New Moon': 'moon-new.svg',
+            'Waxing Crescent': 'moon-waxing-crescent.svg',
+            'First Quarter': 'moon-first-quarter.svg',
+            'Waxing Gibbous': 'moon-waxing-gibbous.svg',
+            'Full Moon': 'moon-full.svg',
+            'Waning Gibbous': 'moon-waning-gibbous.svg',
+            'Last Quarter': 'moon-last-quarter.svg',
+            'Waning Crescent': 'moon-waning-crescent.svg',
+          };
+          moonImg.src = moonFiles[moonName] || 'moon-full.svg';
+          moonImg.style.display = 'block';
+        }
+      }
       document.getElementById('hi-temp').textContent = Math.round(data.daily.temperature_2m_max[0])+'°';
       document.getElementById('lo-temp').textContent = Math.round(data.daily.temperature_2m_min[0])+'°';
       document.getElementById('wind').textContent = Math.round(cur.wind_speed_10m)+' mph';
@@ -975,7 +1601,12 @@
       grid.innerHTML = '';
       for (let i=1;i<=4;i++) {
         const w = wDesc(data.daily.weather_code[i]);
-        grid.innerHTML += `<div class="weather-cell"><div class="day">${dayShort(data.daily.time[i])}</div><div style="display:flex;align-items:center;gap:12px;">${iconSvg(w.i,36)}<div class="temp">${Math.round(data.daily.temperature_2m_max[i])}°</div></div><div class="cond">${w.t}</div></div>`;
+        grid.innerHTML += `<div class="weather-cell" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:2vh 1vw;">
+          <div class="day" style="font-size:1.8vw;letter-spacing:0.2vw;text-transform:uppercase;margin-bottom:1vh;">${dayShort(data.daily.time[i])}</div>
+          ${iconSvg(w.i, 360)}
+          <div class="temp" style="font-size:5vw;font-weight:600;font-family:Georgia,serif;margin-top:0.8vh;">${Math.round(data.daily.temperature_2m_max[i])}°</div>
+          <div class="cond" style="font-size:1.6vw;margin-top:0.5vh;opacity:0.7;">${w.t}</div>
+        </div>`;
       }
       window._weatherRef = data;
       applyActivity(cabin, data);
@@ -1024,24 +1655,22 @@
     slide.style.display = '';
   }
 
-  function applyGuest(guest, theme) {
+  function applyGuest(guest, theme, cabinObj) {
     const greetingEl = document.getElementById('guest-greeting');
     const nameLine = document.getElementById('guest-name-line');
     const detailsLine = document.getElementById('guest-details-line');
-    if (!guest || !guest.firstName) { greetingEl.style.display = 'none'; return; }
-
-    // Format departure date — parse manually to avoid timezone/browser issues
-    let deptStr = '';
-    if (guest.departure && typeof guest.departure === 'string') {
-      const months = ['January','February','March','April','May','June',
-                      'July','August','September','October','November','December'];
-      const parts = guest.departure.split('-');
-      if (parts.length === 3) {
-        const mo = parseInt(parts[1], 10) - 1;
-        const dy = parseInt(parts[2], 10);
-        if (months[mo] && !isNaN(dy)) deptStr = months[mo] + ' ' + dy;
-      }
+    if (!guest || !guest.firstName) {
+      // No guest data — show generic welcome
+      greetingEl.style.display = 'block';
+      nameLine.textContent = 'Welcome!';
+      nameLine.style.color = theme.accent;
+      nameLine.style.fontSize = "6vw";
+      detailsLine.textContent = 'Enjoy your stay';
+      return;
     }
+
+    // departure comes pre-formatted from Netlify function as "May 24"
+    const deptStr = (guest.departure && typeof guest.departure === 'string') ? guest.departure : '';
 
     // Build party string — guests only, pets handled separately with paw icon
     const totalGuests = (guest.adults || 0) + (guest.children || 0);
@@ -1052,14 +1681,29 @@
     nameLine.style.fontSize = "5vw";
     // Build details line
     const parts = [];
-    if (deptStr) parts.push(`Checking out ${deptStr}`);
+    // Clever checkout messages with time — always show if we have departure
+    if (deptStr) {
+      const checkoutTime = cabinObj ? cabinObj.checkout : '10:00 AM';
+      const checkoutPhrases = [
+        `Your mountain escape runs through ${deptStr} · Checkout ${checkoutTime}`,
+        `Relax — you're here until ${deptStr} at ${checkoutTime}`,
+        `Enjoy every moment — checkout ${deptStr} at ${checkoutTime}`,
+        `You've got until ${deptStr} at ${checkoutTime} — make it count!`,
+        `Yellowstone is yours through ${deptStr} · Out by ${checkoutTime}`,
+        `Island Park has you until ${deptStr} at ${checkoutTime}`,
+        `No rush — checkout is ${deptStr} at ${checkoutTime}`,
+      ];
+      const phrase = checkoutPhrases[Math.floor(Math.random() * checkoutPhrases.length)];
+      parts.push(phrase);
+    }
     if (partyStr) parts.push(partyStr);
 
     // Add pet info for pet-friendly cabins only
     const petCabins = ['huckleberry', 'caldera'];
     const cabinKey = new URLSearchParams(window.location.search).get('cabin') || '';
     if (petCabins.includes(cabinKey) && guest.pets && guest.pets > 0) {
-      const petIcons = '<img src="pet-paw.png" style="height:2.2vw; vertical-align:middle; margin-right:0.4vw;">'.repeat(Math.min(guest.pets, 4));
+      const petImg = '<img src="pet-paw.png" style="height:2.2vw; vertical-align:middle; margin-right:0.4vw;" onerror="this.outerHTML=\'<span style=color:#5cb874;font-size:1.8vw;font-weight:600;>PAW</span>\'">';
+      const petIcons = petImg.repeat(Math.min(guest.pets, 4));
       parts.push(petIcons + ` ${guest.pets} pet${guest.pets > 1 ? 's' : ''} welcome`);
     }
 
@@ -1086,8 +1730,8 @@
         const w = wDesc(data.current.weather_code);
         const tempEl = document.getElementById(`reg-${loc.id}-temp`);
         const condEl = document.getElementById(`reg-${loc.id}-cond`);
-        if (tempEl) tempEl.textContent = temp + '°';
-        if (condEl) condEl.innerHTML = iconSvg(w.i, 28) + ' ' + w.t;
+        if (tempEl) tempEl.innerHTML = temp + '° ' + iconSvg(w.i, 200);
+        if (condEl) condEl.textContent = w.t;
       } catch {
         const condEl = document.getElementById(`reg-${loc.id}-cond`);
         if (condEl) condEl.textContent = 'Unavailable';
@@ -1097,6 +1741,8 @@
 
   // ── CLEANING MODE ────────────────────────────────────
   function isCleaningTime(cabinKey) {
+    // Force cleaning mode via URL param ?cleaning=true for testing
+    if (new URLSearchParams(window.location.search).get('cleaning') === 'true') return true;
     const now = new Date();
     const h = now.getHours();
     const m = now.getMinutes();
@@ -1197,6 +1843,60 @@
         _galleryAttempt = 0;
         _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
         loadGalleryImage();
+    // Generate book again QR code ONCE
+    if (typeof QRCode !== 'undefined') {
+      const bookAgainEl = document.getElementById('qr-bookagain');
+      if (bookAgainEl && !bookAgainEl.hasChildNodes()) {
+        new QRCode(bookAgainEl, {
+          text: 'https://www.VisitIslandParkIdaho.com',
+          width: Math.round(window.innerWidth * 0.14),
+          height: Math.round(window.innerWidth * 0.14),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
+    // Generate road conditions QR codes ONCE
+    if (typeof QRCode !== 'undefined') {
+      const roadQRs = [
+        { id: 'qr-idaho511', url: 'https://511.idaho.gov' },
+        { id: 'qr-yellroads', url: 'https://www.nps.gov/yell/planyourvisit/roadconditions.htm' },
+        { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
+        { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
+      ];
+      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      roadQRs.forEach(({id, url}) => {
+        const el = document.getElementById(id);
+        if (el && !el.hasChildNodes()) {
+          new QRCode(el, { text: url, width: roadQRSize, height: roadQRSize,
+            colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+        }
+      });
+    }
+    // Generate NPS alerts QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const npsEl = document.getElementById('qr-nps');
+      if (npsEl && !npsEl.hasChildNodes()) {
+        new QRCode(npsEl, {
+          text: 'https://www.nps.gov/yell/planyourvisit/conditions.htm',
+          width: Math.round(window.innerWidth * 0.08),
+          height: Math.round(window.innerWidth * 0.08),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
+    // Generate social media QR codes
+    if (typeof QRCode !== 'undefined') {
+      const qrSize = Math.round(window.innerWidth * 0.12);
+      const qrOpts = { width: qrSize, height: qrSize, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M };
+      const fbEl = document.getElementById('qr-facebook');
+      const ttEl = document.getElementById('qr-tiktok');
+      const igEl = document.getElementById('qr-instagram');
+      if (fbEl && !fbEl.hasChildNodes()) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl && !ttEl.hasChildNodes()) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl && !igEl.hasChildNodes()) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+    }
       }
     };
   }
@@ -1205,6 +1905,60 @@
     _galleryAttempt = 0;
     _galleryIndex = (_galleryIndex % GALLERY_COUNT) + 1;
     loadGalleryImage();
+    // Generate book again QR code ONCE
+    if (typeof QRCode !== 'undefined') {
+      const bookAgainEl = document.getElementById('qr-bookagain');
+      if (bookAgainEl && !bookAgainEl.hasChildNodes()) {
+        new QRCode(bookAgainEl, {
+          text: 'https://www.VisitIslandParkIdaho.com',
+          width: Math.round(window.innerWidth * 0.14),
+          height: Math.round(window.innerWidth * 0.14),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
+    // Generate road conditions QR codes ONCE
+    if (typeof QRCode !== 'undefined') {
+      const roadQRs = [
+        { id: 'qr-idaho511', url: 'https://511.idaho.gov' },
+        { id: 'qr-yellroads', url: 'https://www.nps.gov/yell/planyourvisit/roadconditions.htm' },
+        { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
+        { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
+      ];
+      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      roadQRs.forEach(({id, url}) => {
+        const el = document.getElementById(id);
+        if (el && !el.hasChildNodes()) {
+          new QRCode(el, { text: url, width: roadQRSize, height: roadQRSize,
+            colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+        }
+      });
+    }
+    // Generate NPS alerts QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const npsEl = document.getElementById('qr-nps');
+      if (npsEl && !npsEl.hasChildNodes()) {
+        new QRCode(npsEl, {
+          text: 'https://www.nps.gov/yell/planyourvisit/conditions.htm',
+          width: Math.round(window.innerWidth * 0.08),
+          height: Math.round(window.innerWidth * 0.08),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
+    // Generate social media QR codes
+    if (typeof QRCode !== 'undefined') {
+      const qrSize = Math.round(window.innerWidth * 0.12);
+      const qrOpts = { width: qrSize, height: qrSize, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M };
+      const fbEl = document.getElementById('qr-facebook');
+      const ttEl = document.getElementById('qr-tiktok');
+      const igEl = document.getElementById('qr-instagram');
+      if (fbEl && !fbEl.hasChildNodes()) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl && !ttEl.hasChildNodes()) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl && !igEl.hasChildNodes()) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+    }
   }
 
   // ── FISHING / USGS STREAM DATA ───────────────────────
@@ -1270,18 +2024,150 @@
     if (daysEl) daysEl.textContent = trash.days.join(' & ');
     if (cansEl) cansEl.textContent = trash.cans + ' bear-resistant container' + (trash.cans > 1 ? 's' : '') + ' outside';
 
-    // Show pickup day reminder slide only on actual pickup days
+    // Show trash day slide always — pickup msg or bear can video
     const daySlide = document.getElementById('trash-day-slide');
+    const trashMsg = document.getElementById('trash-day-msg');
+    const bearCanVideo = document.getElementById('trash-bearcan-video');
     if (daySlide) {
-      if (isPickupDay) {
-        daySlide.style.display = '';
+      daySlide.style.display = '';
+        const todayDay = new Date().getDay();
+      const tomorrowDay = (todayDay + 1) % 7;
+      const isTomorrow = cabin && cabin.trashDays && cabin.trashDays.includes(tomorrowDay);
+      if (isPickupDay || isTomorrow) {
+        if (trashMsg) trashMsg.style.display = 'block';
+        if (bearCanVideo) bearCanVideo.style.display = 'none';
         const pickupEl = document.getElementById('trash-day-pickup');
         if (pickupEl) pickupEl.textContent = trash.days.join(' & ');
+        const heading = document.getElementById('trash-heading');
+        const label = document.getElementById('trash-label');
+        const body = document.getElementById('trash-body');
+        if (isPickupDay) {
+          if (heading) heading.textContent = 'Trash Day!';
+          if (label) label.textContent = 'Today · Action Needed!';
+          if (body) body.innerHTML = 'Please place your bagged trash in the bear-resistant<br/>container outside before you head out today.';
+        } else {
+          if (heading) heading.textContent = 'Trash Tomorrow!';
+          if (label) label.textContent = 'Heads Up · Tomorrow is Trash Day!';
+          if (body) body.innerHTML = 'Roll the bear cans out tonight so they are<br/>ready for pickup in the morning!';
+        }
       } else {
-        daySlide.style.display = 'none';
-        daySlide.classList.remove('slide');
+        if (trashMsg) trashMsg.style.display = 'none';
+        if (bearCanVideo) bearCanVideo.style.display = 'flex';
       }
     }
+  }
+
+  // ── NPS PARK ALERTS ─────────────────────────────────
+  async function loadNPSAlerts() {
+    const grid = document.getElementById('nps-alerts-grid');
+    if (!grid) return;
+    try {
+      const res = await fetch('/api/npsalerts');
+      if (!res.ok) throw new Error('fetch failed');
+      const data = await res.json();
+      const alerts = data.alerts || [];
+      if (!alerts.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;opacity:0.5;font-size:1.6vw;padding:4vh;">No active alerts for Yellowstone or Grand Teton.</div>';
+        return;
+      }
+      grid.innerHTML = alerts.slice(0,6).map(a => `
+        <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; padding:1.5vh 1.8vw; border-left:4px solid ${a.category === 'Danger' ? '#f0928f' : a.category === 'Caution' ? '#ffc107' : '#5fa8b8'};">
+          <div style="font-size:1.2vw; font-weight:700; color:${a.category === 'Danger' ? '#f0928f' : a.category === 'Caution' ? '#ffc107' : '#5fa8b8'}; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5vh;">${a.park} · ${a.category || 'Alert'}</div>
+          <div style="font-size:1.5vw; font-weight:600; color:#f0e8f0; margin-bottom:0.5vh;">${a.title}</div>
+          <div style="font-size:1.3vw; opacity:0.65; line-height:1.4;">${a.description}</div>
+        </div>
+      `).join('');
+    } catch(e) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;opacity:0.5;font-size:1.6vw;padding:4vh;">Check nps.gov/yell and nps.gov/grte for current conditions.</div>';
+    }
+  }
+
+  // ── CELEBRATION SYSTEM ─────────────────────────────────
+  const OCCASION_IMAGES = {
+    'birthday': 'occasions/occasion-birthday.svg',
+    'anniversary': 'occasions/occasion-anniversary.svg',
+    'honeymoon': 'occasions/occasion-honeymoon.svg',
+    'graduation': 'occasions/occasion-graduation.svg',
+    'reunion': 'occasions/occasion-reunion.svg',
+    'girls-trip': 'occasions/occasion-girls-trip.svg',
+    'guys-trip': 'occasions/occasion-guys-trip.svg',
+    'fishing-trip': 'occasions/occasion-fishing-trip.svg',
+    'river-float': 'occasions/occasion-river-float.svg',
+    'hunting-trip': 'occasions/occasion-hunting-trip.svg',
+    'snowmobile': 'occasions/occasion-snowmobile.svg',
+    'sled-trip': 'occasions/occasion-sled-trip.svg',
+    'retreat': 'occasions/occasion-retreat.svg',
+    'wellness': 'occasions/occasion-wellness.svg',
+    'rr': 'occasions/occasion-rr.svg',
+    'mom-and-me': 'occasions/occasion-mom-and-me.svg',
+    'dad-and-me': 'occasions/occasion-dad-and-me.svg',
+  };
+
+  const HOLIDAY_IMAGES = {
+    '01-01': 'occasions/holiday-newyears.svg',
+    '02-14': 'occasions/holiday-valentines.svg',
+    '05-26': 'occasions/holiday-memorial-day.svg',
+    '07-03': 'occasions/holiday-idaho-day.svg',
+    '07-04': 'occasions/holiday-july4.svg',
+    '07-24': 'occasions/holiday-pioneer-day.svg',
+    '09-01': 'occasions/holiday-labor-day.svg',
+    '10-31': 'occasions/holiday-halloween.svg',
+    '11-27': 'occasions/holiday-thanksgiving.svg',
+    '12-25': 'occasions/holiday-christmas.svg',
+  };
+
+  let _celebration = null;
+
+  function getTodayKey() {
+    const d = new Date();
+    const mo = String(d.getMonth()+1).padStart(2,'0');
+    const dy = String(d.getDate()).padStart(2,'0');
+    return mo + '-' + dy;
+  }
+
+  async function loadCelebration() {
+    const cabinKey = window._cabinKey || 'huckleberry';
+    try {
+      const res = await fetch(`/api/celebration?cabin=${cabinKey}`);
+      const data = await res.json();
+      if (data && data.active) {
+        _celebration = data;
+      } else {
+        _celebration = null;
+      }
+    } catch(e) {
+      _celebration = null;
+    }
+    applyCelebration();
+  }
+
+  function applyCelebration() {
+    const slide = document.getElementById('celebration-slide');
+    if (!slide) return;
+
+    // Check for JotForm-set celebration
+    if (_celebration && _celebration.active) {
+      const imgFile = OCCASION_IMAGES[_celebration.occasion] || 'occasions/occasion-birthday.svg';
+      document.getElementById('celebration-img').src = imgFile;
+      document.getElementById('celebration-guest').textContent = _celebration.guestName || '';
+      document.getElementById('celebration-message').textContent = _celebration.message || '';
+      slide.style.display = 'flex';
+      return;
+    }
+
+    // Check for auto holiday
+    const todayKey = getTodayKey();
+    const holidayImg = HOLIDAY_IMAGES[todayKey];
+    if (holidayImg) {
+      document.getElementById('celebration-img').src = holidayImg;
+      document.getElementById('celebration-guest').textContent = '';
+      document.getElementById('celebration-message').textContent = 'Happy Holidays from Andy & Teara!';
+      slide.style.display = 'flex';
+      return;
+    }
+
+    // No celebration — hide slide
+    slide.style.display = 'none';
   }
 
   // ── FIRE SAFETY STATUS ───────────────────────────────
@@ -1393,27 +2279,111 @@
     window._weatherRef = null;
     applyContact();
     applyFood();
+    applyCampfire();
     applyQuote();
     applyPhotographer();
     loadGalleryImage();
+    // Generate book again QR code ONCE
+    if (typeof QRCode !== 'undefined') {
+      const bookAgainEl = document.getElementById('qr-bookagain');
+      if (bookAgainEl && !bookAgainEl.hasChildNodes()) {
+        new QRCode(bookAgainEl, {
+          text: 'https://www.VisitIslandParkIdaho.com',
+          width: Math.round(window.innerWidth * 0.14),
+          height: Math.round(window.innerWidth * 0.14),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
+        // Generate all cabins QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const allCabinsEl = document.getElementById('qr-allcabins');
+      if (allCabinsEl && !allCabinsEl.hasChildNodes()) {
+        new QRCode(allCabinsEl, { text: 'https://www.VisitIslandParkIdaho.com',
+          width: Math.round(window.innerWidth * 0.1), height: Math.round(window.innerWidth * 0.1),
+          colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+      }
+    }
+    // Generate bear can video QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const bearCanEl = document.getElementById('qr-bearcan');
+      if (bearCanEl && !bearCanEl.hasChildNodes()) {
+        new QRCode(bearCanEl, { text: 'https://youtu.be/VpnU0Me8rSU?t=15',
+          width: Math.round(window.innerWidth * 0.1), height: Math.round(window.innerWidth * 0.1),
+          colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+      }
+    }
+    // Generate road conditions QR codes ONCE
+    if (typeof QRCode !== 'undefined') {
+      const roadQRs = [
+        { id: 'qr-idaho511', url: 'https://511.idaho.gov' },
+        { id: 'qr-yellroads', url: 'https://www.nps.gov/yell/planyourvisit/roadconditions.htm' },
+        { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
+        { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
+      ];
+      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      roadQRs.forEach(({id, url}) => {
+        const el = document.getElementById(id);
+        if (el && !el.hasChildNodes()) {
+          new QRCode(el, { text: url, width: roadQRSize, height: roadQRSize,
+            colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+        }
+      });
+    }
+    // Generate NPS alerts QR ONCE
+    if (typeof QRCode !== 'undefined') {
+      const npsEl = document.getElementById('qr-nps');
+      if (npsEl && !npsEl.hasChildNodes()) {
+        new QRCode(npsEl, {
+          text: 'https://www.nps.gov/yell/planyourvisit/conditions.htm',
+          width: Math.round(window.innerWidth * 0.08),
+          height: Math.round(window.innerWidth * 0.08),
+          colorDark: '#000000', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }
+    // Generate social media QR codes
+    if (typeof QRCode !== 'undefined') {
+      const qrSize = Math.round(window.innerWidth * 0.12);
+      const qrOpts = { width: qrSize, height: qrSize, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M };
+      const fbEl = document.getElementById('qr-facebook');
+      const ttEl = document.getElementById('qr-tiktok');
+      const igEl = document.getElementById('qr-instagram');
+      if (fbEl && !fbEl.hasChildNodes()) new QRCode(fbEl, { ...qrOpts, text: 'https://www.facebook.com/VisitIslandParkIdaho' });
+      if (ttEl && !ttEl.hasChildNodes()) new QRCode(ttEl, { ...qrOpts, text: 'https://www.tiktok.com/@visitislandparkidaho' });
+      if (igEl && !igEl.hasChildNodes()) new QRCode(igEl, { ...qrOpts, text: 'https://www.instagram.com/visitislandparkidaho/' });
+    }
     loadWeather(cabin);
     loadRegionalWeather();
     loadFishingData();
     setInterval(loadFishingData, 60*60*1000);
     loadFireStatus();
-    // Start background music
+    loadCelebration();
+    setInterval(loadCelebration, 5 * 60 * 1000); // refresh every 5 min
+    loadNPSAlerts();
+    setInterval(loadNPSAlerts, 60*60*1000); // refresh every hour
+    // Intermittent music — play song once then wait 10 minutes and play again
     const bgAudio = document.getElementById('bg-audio');
-    if (bgAudio) {
-      bgAudio.volume = 0.15;
+    function playMusicCycle() {
+      if (!bgAudio) return;
+      bgAudio.volume = 0.20;
+      bgAudio.currentTime = 0;
       bgAudio.play().catch(e => console.log('autoplay blocked:', e));
+      // When song ends, wait 10 minutes then play again
+      bgAudio.onended = function() {
+        setTimeout(playMusicCycle, 10 * 60 * 1000); // 10 minutes
+      };
     }
+    playMusicCycle();
     setupTrashSlide(key); // refresh hourly
     setupDoorCodeSlide(key);
     setInterval(loadRegionalWeather, 15*60*1000); // refresh every 15min
 
     // Load guest name for personalized welcome
     loadGuest(key).then(guest => {
-      applyGuest(guest, theme);
+      applyGuest(guest, theme, cabin);
       // Cache departure for cleaning mode check
       if (guest && guest.departure) {
         // Convert "May 9" back to YYYY-MM-DD for comparison
@@ -1432,6 +2402,12 @@
     });
 
     setInterval(() => loadWeather(cabin), 30*60*1000);
+    // Retry guest lookup every 30 min in case OwnerRez was down on page load
+    setInterval(() => {
+      loadGuest(key).then(guest => {
+        if (guest && guest.firstName) applyGuest(guest, theme, cabin);
+      });
+    }, 30*60*1000);
     // Check cleaning mode every minute
     setInterval(() => checkCleaningMode(key), 60*1000);
 

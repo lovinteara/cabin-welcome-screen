@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-rr" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2a"/>
+      <stop offset="100%" style="stop-color:#0a1a2a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-rr)" rx="12"/>
+  <!-- Stars -->
+  <circle cx="50" cy="30" r="1.5" fill="#fff" opacity="0.8"/>
+  <circle cx="150" cy="20" r="1" fill="#fff" opacity="0.6"/>
+  <circle cx="250" cy="35" r="2" fill="#fff" opacity="0.7"/>
+  <circle cx="350" cy="25" r="1.5" fill="#fff" opacity="0.8"/>
+  <circle cx="100" cy="55" r="1" fill="#fff" opacity="0.5"/>
+  <circle cx="300" cy="50" r="1" fill="#fff" opacity="0.5"/>
+  <!-- Hammock between trees -->
+  <rect x="60" y="120" width="16" height="100" fill="#5a3a18" rx="4"/>
+  <rect x="324" y="120" width="16" height="100" fill="#5a3a18" rx="4"/>
+  <!-- Hammock rope lines -->
+  <line x1="76" y1="140" x2="150" y2="170" stroke="#c8973a" stroke-width="2" opacity="0.7"/>
+  <line x1="250" y1="170" x2="324" y2="140" stroke="#c8973a" stroke-width="2" opacity="0.7"/>
+  <!-- Hammock body -->
+  <path d="M76,140 Q200,195 324,140" stroke="#c8973a" stroke-width="3" fill="none" opacity="0.8"/>
+  <ellipse cx="200" cy="175" rx="80" ry="22" fill="#d4a454" opacity="0.8"/>
+  <!-- Stripes on hammock -->
+  <ellipse cx="200" cy="175" rx="80" ry="22" fill="none" stroke="#b88434" stroke-width="2" stroke-dasharray="8,6" opacity="0.5"/>
+  <!-- Person in hammock silhouette -->
+  <ellipse cx="200" cy="168" rx="45" ry="12" fill="#1a1a0a" opacity="0.8"/>
+  <circle cx="245" cy="162" r="12" fill="#1a1a0a"/>
+  <!-- Book in hand -->
+  <rect x="218" y="158" width="16" height="12" fill="#3a3a5a" rx="2" opacity="0.8" transform="rotate(15,226,164)"/>
+  <!-- Moon -->
+  <circle cx="320" cy="55" r="25" fill="#f8e060" opacity="0.9"/>
+  <circle cx="330" cy="48" r="20" fill="#1a0a2a"/>
+  <!-- Trees -->
+  <polygon points="42,120 60,70 78,120" fill="#1a4a1a"/>
+  <polygon points="55,120 70,80 85,120" fill="#2a5a2a"/>
+  <polygon points="315,120 330,68 345,120" fill="#1a4a1a"/>
+  <polygon points="328,120 344,78 360,120" fill="#2a5a2a"/>
+  <!-- Banner -->
+  <rect x="60" y="32" width="280" height="52" fill="#1a0a3a" rx="8" opacity="0.95"/>
+  <text x="200" y="57" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#ffd700" font-weight="bold">Rest and Relaxation</text>
+  <text x="200" y="76" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c0a8f0" opacity="0.8">You have earned this</text>
+</svg>

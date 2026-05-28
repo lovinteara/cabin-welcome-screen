@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Cloud -->
+  <ellipse cx="60" cy="46" rx="30" ry="16" fill="#708090" opacity="0.92"/>
+  <circle cx="43" cy="45" r="14" fill="#708090" opacity="0.92"/>
+  <circle cx="60" cy="38" r="17" fill="#8090a0" opacity="0.92"/>
+  <circle cx="76" cy="45" r="13" fill="#708090" opacity="0.92"/>
+  <ellipse cx="60" cy="55" rx="31" ry="10" fill="#708090" opacity="0.92"/>
+  <!-- Mix of rain and snow -->
+  <!-- Rain drops -->
+  <g fill="#5fa8c8" opacity="0.9">
+    <ellipse cx="40" cy="80" rx="2.5" ry="5.5"/>
+    <ellipse cx="68" cy="78" rx="2.5" ry="5.5"/>
+    <ellipse cx="50" cy="96" rx="2" ry="5"/>
+    <ellipse cx="78" cy="92" rx="2" ry="5"/>
+  </g>
+  <!-- Snow flakes -->
+  <g stroke="#c8e0f0" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.95">
+    <line x1="56" y1="74" x2="56" y2="84"/><line x1="51" y1="77" x2="61" y2="81"/><line x1="51" y1="81" x2="61" y2="77"/>
+    <line x1="82" y1="76" x2="82" y2="86"/><line x1="77" y1="79" x2="87" y2="83"/><line x1="77" y1="83" x2="87" y2="79"/>
+    <line x1="38" y1="94" x2="38" y2="102"/><line x1="34" y1="96" x2="42" y2="100"/><line x1="34" y1="100" x2="42" y2="96"/>
+  </g>
+</svg>

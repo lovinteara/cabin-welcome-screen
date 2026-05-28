@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#050510" rx="12"/>
+  <!-- Many fireworks -->
+  <g transform="translate(80,90)">
+    <line x1="0" y1="0" x2="0" y2="-38" stroke="#ffd700" stroke-width="1.5" opacity="0.9"/>
+    <line x1="0" y1="0" x2="27" y2="-27" stroke="#ffd700" stroke-width="1.5" opacity="0.9"/>
+    <line x1="0" y1="0" x2="38" y2="0" stroke="#ffd700" stroke-width="1.5" opacity="0.9"/>
+    <line x1="0" y1="0" x2="27" y2="27" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+    <line x1="0" y1="0" x2="0" y2="38" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+    <line x1="0" y1="0" x2="-27" y2="27" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+    <line x1="0" y1="0" x2="-38" y2="0" stroke="#ffd700" stroke-width="1.5" opacity="0.9"/>
+    <line x1="0" y1="0" x2="-27" y2="-27" stroke="#ffd700" stroke-width="1.5" opacity="0.9"/>
+    <circle cx="0" cy="-38" r="3" fill="#ffd700"/>
+    <circle cx="38" cy="0" r="3" fill="#ffd700"/>
+    <circle cx="-38" cy="0" r="3" fill="#ffd700"/>
+  </g>
+  <g transform="translate(200,75)">
+    <line x1="0" y1="0" x2="0" y2="-45" stroke="#f0928f" stroke-width="2" opacity="0.9"/>
+    <line x1="0" y1="0" x2="32" y2="-32" stroke="#f0928f" stroke-width="2" opacity="0.9"/>
+    <line x1="0" y1="0" x2="45" y2="0" stroke="#f0928f" stroke-width="2" opacity="0.9"/>
+    <line x1="0" y1="0" x2="32" y2="32" stroke="#f0928f" stroke-width="2" opacity="0.8"/>
+    <line x1="0" y1="0" x2="0" y2="45" stroke="#f0928f" stroke-width="2" opacity="0.8"/>
+    <line x1="0" y1="0" x2="-32" y2="32" stroke="#f0928f" stroke-width="2" opacity="0.8"/>
+    <line x1="0" y1="0" x2="-45" y2="0" stroke="#f0928f" stroke-width="2" opacity="0.9"/>
+    <line x1="0" y1="0" x2="-32" y2="-32" stroke="#f0928f" stroke-width="2" opacity="0.9"/>
+    <circle cx="0" cy="-45" r="4" fill="#f0928f"/>
+    <circle cx="45" cy="0" r="4" fill="#fff"/>
+    <circle cx="-45" cy="0" r="4" fill="#f0928f"/>
+    <circle cx="0" cy="45" r="3" fill="#fff"/>
+  </g>
+  <g transform="translate(320,95)">
+    <line x1="0" y1="0" x2="0" y2="-35" stroke="#5cb874" stroke-width="1.5" opacity="0.9"/>
+    <line x1="0" y1="0" x2="25" y2="-25" stroke="#5cb874" stroke-width="1.5" opacity="0.9"/>
+    <line x1="0" y1="0" x2="35" y2="0" stroke="#5cb874" stroke-width="1.5" opacity="0.9"/>
+    <line x1="0" y1="0" x2="25" y2="25" stroke="#5cb874" stroke-width="1.5" opacity="0.8"/>
+    <line x1="0" y1="0" x2="-35" y2="0" stroke="#5cb874" stroke-width="1.5" opacity="0.9"/>
+    <line x1="0" y1="0" x2="-25" y2="-25" stroke="#5cb874" stroke-width="1.5" opacity="0.9"/>
+    <circle cx="35" cy="0" r="3" fill="#5cb874"/>
+    <circle cx="-35" cy="0" r="3" fill="#5cb874"/>
+  </g>
+  <!-- City skyline silhouette -->
+  <rect x="0" y="220" width="30" height="80" fill="#1a1a2a"/>
+  <rect x="35" y="200" width="25" height="100" fill="#1a1a2a"/>
+  <rect x="65" y="215" width="20" height="85" fill="#1a1a2a"/>
+  <rect x="290" y="210" width="25" height="90" fill="#1a1a2a"/>
+  <rect x="320" y="195" width="30" height="105" fill="#1a1a2a"/>
+  <rect x="355" y="218" width="25" height="82" fill="#1a1a2a"/>
+  <!-- Champagne glasses -->
+  <g transform="translate(162,165)">
+    <path d="M18,0 Q5,28 11,50 L5,50 L5,58 L31,58 L31,50 L25,50 Q31,28 18,0Z" fill="#c0d8f0" opacity="0.6"/>
+    <ellipse cx="18" cy="3" rx="16" ry="5" fill="#d0e8f8" opacity="0.5"/>
+    <ellipse cx="18" cy="35" rx="7" ry="3" fill="#f8e060" opacity="0.3"/>
+  </g>
+  <g transform="translate(210,160)">
+    <path d="M18,0 Q5,28 11,50 L5,50 L5,58 L31,58 L31,50 L25,50 Q31,28 18,0Z" fill="#c0d8f0" opacity="0.6"/>
+    <ellipse cx="18" cy="3" rx="16" ry="5" fill="#d0e8f8" opacity="0.5"/>
+  </g>
+  <circle cx="200" cy="163" r="6" fill="#ffd700" opacity="0.7"/>
+  <!-- Banner -->
+  <rect x="50" y="118" width="300" height="52" fill="#1a1a3a" rx="8" opacity="0.95"/>
+  <text x="200" y="143" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#ffd700" font-weight="bold">Happy New Year!</text>
+  <text x="200" y="162" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#c0d0f0" opacity="0.8">Cheers to new adventures</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#0a1a0a" rx="12"/>
+  <!-- Snow -->
+  <rect x="0" y="255" width="400" height="45" fill="#d8e8f0"/>
+  <ellipse cx="200" cy="255" rx="200" ry="10" fill="#c8d8e8"/>
+  <!-- Snowflakes -->
+  <circle cx="40" cy="40" r="2" fill="#fff" opacity="0.7"/>
+  <circle cx="120" cy="20" r="1.5" fill="#fff" opacity="0.6"/>
+  <circle cx="280" cy="30" r="2" fill="#fff" opacity="0.7"/>
+  <circle cx="360" cy="45" r="1.5" fill="#fff" opacity="0.6"/>
+  <circle cx="200" cy="15" r="2.5" fill="#fff" opacity="0.8"/>
+  <!-- Christmas tree -->
+  <polygon points="200,50 130,180 270,180" fill="#2a6a2a"/>
+  <polygon points="200,85 145,190 255,190" fill="#3a7a3a"/>
+  <polygon points="200,115 155,200 245,200" fill="#2a6a2a"/>
+  <rect x="185" y="200" width="30" height="25" fill="#6a3a18"/>
+  <!-- Tree star -->
+  <polygon points="200,45 203,55 213,55 205,61 208,71 200,65 192,71 195,61 187,55 197,55" fill="#ffd700" opacity="0.95"/>
+  <!-- Ornaments -->
+  <circle cx="165" cy="130" r="8" fill="#c8303a" opacity="0.9"/>
+  <circle cx="235" cy="120" r="8" fill="#ffd700" opacity="0.9"/>
+  <circle cx="180" cy="160" r="8" fill="#5fa8b8" opacity="0.9"/>
+  <circle cx="220" cy="155" r="8" fill="#c8303a" opacity="0.9"/>
+  <circle cx="200" cy="140" r="7" fill="#ffd700" opacity="0.8"/>
+  <!-- Lights string hint -->
+  <path d="M155,108 Q175,103 195,108 Q215,113 235,108 Q252,104 260,110" stroke="#ffd700" stroke-width="1" fill="none" opacity="0.5"/>
+  <!-- Presents -->
+  <rect x="80" y="225" width="45" height="35" fill="#c8303a" rx="3"/>
+  <line x1="80" y1="242" x2="125" y2="242" stroke="#ffd700" stroke-width="2"/>
+  <line x1="102" y1="225" x2="102" y2="260" stroke="#ffd700" stroke-width="2"/>
+  <rect x="275" y="228" width="40" height="32" fill="#5fa8b8" rx="3"/>
+  <line x1="275" y1="244" x2="315" y2="244" stroke="#ffd700" stroke-width="2"/>
+  <line x1="295" y1="228" x2="295" y2="260" stroke="#ffd700" stroke-width="2"/>
+  <!-- Banner -->
+  <rect x="50" y="215" width="300" height="40" fill="#1a0a0a" rx="8" opacity="0.9"/>
+  <text x="200" y="240" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#ffd700" font-weight="bold">Merry Christmas!</text>
+</svg>

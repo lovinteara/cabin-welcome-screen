@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#1a0a08" rx="12"/>
+  <!-- Fall leaves -->
+  <ellipse cx="45" cy="35" rx="18" ry="12" fill="#c87030" opacity="0.7" transform="rotate(20,45,35)"/>
+  <ellipse cx="355" cy="40" rx="16" ry="10" fill="#d84020" opacity="0.6" transform="rotate(-15,355,40)"/>
+  <ellipse cx="200" cy="20" rx="14" ry="9" fill="#e8a030" opacity="0.6" transform="rotate(10,200,20)"/>
+  <ellipse cx="80" cy="260" rx="15" ry="10" fill="#c87030" opacity="0.5" transform="rotate(30,80,260)"/>
+  <ellipse cx="320" cy="270" rx="14" ry="9" fill="#d84020" opacity="0.5" transform="rotate(-25,320,270)"/>
+  <!-- Turkey -->
+  <ellipse cx="200" cy="190" rx="55" ry="45" fill="#8a4a18"/>
+  <circle cx="200" cy="148" r="25" fill="#8a4a18"/>
+  <!-- Turkey features -->
+  <ellipse cx="192" cy="140" rx="5" ry="5" fill="#f0e8d0"/>
+  <ellipse cx="208" cy="140" rx="5" ry="5" fill="#f0e8d0"/>
+  <circle cx="192" cy="140" r="2" fill="#1a1a1a"/>
+  <circle cx="208" cy="140" r="2" fill="#1a1a1a"/>
+  <ellipse cx="200" cy="150" rx="8" ry="6" fill="#c84030" opacity="0.8"/>
+  <ellipse cx="200" cy="158" rx="5" ry="8" fill="#c84030" opacity="0.7"/>
+  <!-- Tail feathers fan -->
+  <ellipse cx="200" cy="175" rx="18" ry="45" fill="#c87030" transform="rotate(-35,200,175)"/>
+  <ellipse cx="200" cy="175" rx="16" ry="42" fill="#e8a030" transform="rotate(-20,200,175)"/>
+  <ellipse cx="200" cy="175" rx="15" ry="40" fill="#d84020" transform="rotate(-5,200,175)"/>
+  <ellipse cx="200" cy="175" rx="15" ry="40" fill="#c87030" transform="rotate(10,200,175)"/>
+  <ellipse cx="200" cy="175" rx="16" ry="42" fill="#e8a030" transform="rotate(25,200,175)"/>
+  <ellipse cx="200" cy="175" rx="14" ry="38" fill="#d84020" transform="rotate(40,200,175)"/>
+  <!-- Legs -->
+  <line x1="190" y1="228" x2="178" y2="255" stroke="#6a3a10" stroke-width="6" stroke-linecap="round"/>
+  <line x1="210" y1="228" x2="222" y2="255" stroke="#6a3a10" stroke-width="6" stroke-linecap="round"/>
+  <!-- Banner -->
+  <rect x="50" y="38" width="300" height="55" fill="#2a1008" rx="8" opacity="0.95"/>
+  <text x="200" y="65" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#f0c860" font-weight="bold">Happy Thanksgiving!</text>
+  <text x="200" y="85" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#d09050" opacity="0.8">So grateful you are here</text>
+</svg>

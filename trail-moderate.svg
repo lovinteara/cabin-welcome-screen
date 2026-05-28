@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 60" width="160" height="60">
+  <rect width="160" height="60" rx="30" fill="#5a4a1a" opacity="0.95"/>
+  <rect width="160" height="60" rx="30" fill="none" stroke="#ffc107" stroke-width="2" opacity="0.7"/>
+  <!-- Hiker icon -->
+  <circle cx="28" cy="18" r="7" fill="#ffc107"/>
+  <line x1="28" y1="25" x2="26" y2="42" stroke="#ffc107" stroke-width="3" stroke-linecap="round"/>
+  <line x1="26" y1="32" x2="18" y2="36" stroke="#ffc107" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="26" y1="32" x2="34" y2="36" stroke="#ffc107" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="26" y1="42" x2="20" y2="52" stroke="#ffc107" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="26" y1="42" x2="32" y2="52" stroke="#ffc107" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Trekking pole -->
+  <line x1="36" y1="30" x2="40" y2="52" stroke="#ffc107" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <!-- Rolling hills -->
+  <path d="M46,50 Q62,28 76,38 Q90,20 110,36 Q125,44 145,40" stroke="#ffc107" stroke-width="2.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+  <!-- Text -->
+  <text x="100" y="26" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="bold" fill="#ffc107">MODERATE</text>
+  <text x="100" y="44" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#e4c870" opacity="0.8">some elevation</text>
+</svg>
