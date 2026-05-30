@@ -44,9 +44,7 @@ async function fetchBookings(propertyId, fromDate, toDate) {
   const headers = orHeaders();
   if (!headers) return null;
 
-  // include_fields=true returns each booking's custom field values inline,
-  // which we need to read BXDOORCODE without a second round-trip per booking.
-  const url = `https://api.ownerreservations.com/v2/bookings?property_ids=${propertyId}&from_date=${fromDate}&to_date=${toDate}&status=active&include_guest=true&include_fields=true`;
+  const url = `https://api.ownerreservations.com/v2/bookings?property_ids=${propertyId}&from_date=${fromDate}&to_date=${toDate}&status=active&include_guest=true`;
   const res = await fetch(url, { headers });
   if (!res.ok) {
     console.error('OwnerRez bookings error:', res.status, await res.text());
@@ -62,14 +60,23 @@ async function fetchPropertyBackupCode(propertyId) {
   const headers = orHeaders();
   if (!headers) return null;
 
-  const url = `https://api.ownerreservations.com/v2/properties/${propertyId}?include_fields=true`;
+  // OwnerRez v2 exposes property custom fields via a dedicated endpoint,
+  // not via include params on /v2/properties.
+  const url = `https://api.ownerreservations.com/v2/propertyfieldvalues?property_ids=${propertyId}`;
   const res = await fetch(url, { headers });
   if (!res.ok) {
-    console.error('OwnerRez property error:', res.status, await res.text());
+    console.error('OwnerRez property fields error:', res.status, await res.text());
     return null;
   }
   const data = await res.json();
-  return getFieldValue(data, PROPERTY_FIELD_DOOR_BACKUP);
+  const items = Array.isArray(data.items) ? data.items : [];
+  const match = items.find(f =>
+    f.field_definition_id === PROPERTY_FIELD_DOOR_BACKUP ||
+    f.fieldDefinitionId   === PROPERTY_FIELD_DOOR_BACKUP ||
+    f.field_id            === PROPERTY_FIELD_DOOR_BACKUP ||
+    f.id                  === PROPERTY_FIELD_DOOR_BACKUP
+  );
+  return match && match.value != null && match.value !== '' ? match.value : null;
 }
 
 // Generic custom-field reader. OwnerRez surfaces field values on bookings and
