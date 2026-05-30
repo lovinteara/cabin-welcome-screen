@@ -90,7 +90,14 @@ function getFieldValue(obj, fieldDefinitionId) {
 
 function currentBooking(bookings, today) {
   if (!bookings) return null;
-  return bookings.find(b => b.arrival <= today && b.departure > today) || null;
+  // Inclusive of departure day so a checkout-day booking still counts as
+  // current — guests are typically in the cabin until ~10 AM and need the
+  // door code in that window. Same-day turnover: if both the departing and
+  // the arriving booking match, prefer the later arrival (next guest).
+  const matches = bookings.filter(b => b.arrival <= today && b.departure >= today);
+  if (matches.length === 0) return null;
+  matches.sort((a, b) => (b.arrival || '').localeCompare(a.arrival || ''));
+  return matches[0];
 }
 
 // Returns 4–8 digit code, or null if input has fewer than 4 digits.
