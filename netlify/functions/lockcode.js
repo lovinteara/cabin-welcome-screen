@@ -64,23 +64,48 @@ exports.handler = async function(event) {
     const booking = currentBooking(bookings, today);
 
     if (bypassSwitch) {
+      let fieldValuesProbe = null;
+      if (booking && booking.id) {
+        try {
+          const apiKey  = process.env.OWNERREZ_API_KEY;
+          const apiUser = process.env.OWNERREZ_API_USER;
+          if (apiKey && apiUser) {
+            const creds = Buffer.from(`${apiUser}:${apiKey}`).toString('base64');
+            const url = `https://api.ownerreservations.com/v2/bookingfieldvalues?booking_ids=${booking.id}`;
+            const r = await fetch(url, {
+              headers: { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/json' }
+            });
+            if (r.ok) {
+              const j = await r.json();
+              fieldValuesProbe = {
+                ok: true,
+                count: Array.isArray(j.items) ? j.items.length : null,
+                items: Array.isArray(j.items) ? j.items.map(it => ({
+                  keys: Object.keys(it),
+                  field_definition_id: it.field_definition_id || it.fieldDefinitionId,
+                  name: it.name || it.field_name,
+                  value: it.value ? '[set]' : '[empty]'
+                })) : null
+              };
+            } else {
+              fieldValuesProbe = { ok: false, status: r.status };
+            }
+          }
+        } catch (err) {
+          fieldValuesProbe = { ok: false, error: err.message };
+        }
+      }
+
       console.log('lockcode debug:', JSON.stringify({
         cabin,
         propertyId,
         today,
         bookingCount: bookings ? bookings.length : null,
         currentBookingId: booking && booking.id,
-        bookingsSummary: (bookings || []).map(b => ({
-          id: b.id,
-          arrival: b.arrival,
-          departure: b.departure,
-          status: b.status,
-          hasGuest: !!b.guest,
-          guestPhoneSet: !!(b.guest && (b.guest.phone || b.guest.cell_phone || b.guest.home_phone)),
-          guestPhoneFields: b.guest ? Object.keys(b.guest).filter(k => /phone/i.test(k)) : [],
-          doorCodeSet: !!b.door_code,
-          topLevelKeys: Object.keys(b).filter(k => /code|phone|door/i.test(k))
-        }))
+        currentBookingAllKeys: booking ? Object.keys(booking) : null,
+        currentBookingGuestKeys: booking && booking.guest ? Object.keys(booking.guest) : null,
+        currentBookingDoorCode: booking ? booking.door_code : null,
+        fieldValuesProbe
       }));
     }
 
