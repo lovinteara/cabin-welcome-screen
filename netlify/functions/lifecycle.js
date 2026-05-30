@@ -5,9 +5,12 @@
 // (mapped to this function by the /api/* rewrite in netlify.toml).
 //
 // Lifecycle events we handle:
-//   PING          → echo back the challenge value so SmartThings can verify
-//                   the webhook is reachable. Required before the SmartApp
-//                   will accept any other events.
+//   CONFIRMATION  → WebHook SmartApp one-time registration check. SmartThings
+//                   POSTs a confirmationUrl that we must GET within ~90s to
+//                   prove we own the endpoint. Lambda-hosted apps see PING
+//                   instead; we handle both.
+//   PING          → echo back the challenge value (Lambda-hosted variant of
+//                   the registration check).
 //   CONFIGURATION → tell SmartThings what scopes we need and present an empty
 //                   "Done" page (no per-user config to collect).
 //   INSTALL       → user just installed the SmartApp from the SmartThings
@@ -42,6 +45,9 @@ exports.handler = async function(event) {
   console.log('lifecycle event:', lifecycle);
 
   switch (lifecycle) {
+    case 'CONFIRMATION':
+      return handleConfirmation(body);
+
     case 'PING':
       return jsonResponse({
         pingData: { challenge: body.pingData && body.pingData.challenge }
@@ -65,6 +71,27 @@ exports.handler = async function(event) {
       return jsonResponse({});
   }
 };
+
+async function handleConfirmation(body) {
+  const confirmationUrl = body.confirmationData && body.confirmationData.confirmationUrl;
+  if (!confirmationUrl) {
+    console.error('CONFIRMATION arrived without confirmationUrl');
+    return { statusCode: 400, body: 'no confirmationUrl in body' };
+  }
+  try {
+    const res = await fetch(confirmationUrl);
+    if (!res.ok) {
+      const text = await res.text();
+      console.error('CONFIRMATION GET non-2xx:', res.status, text);
+    } else {
+      console.log('CONFIRMATION GET ok');
+    }
+  } catch (err) {
+    console.error('CONFIRMATION GET threw:', err.message);
+    // Still respond 200 — SmartThings cares about the GET, not our POST body.
+  }
+  return jsonResponse({ targetUrl: 'https://cabin-welcome-screen.netlify.app/api/lifecycle' });
+}
 
 function handleConfiguration(body) {
   const phase = body.configurationData && body.configurationData.phase;
