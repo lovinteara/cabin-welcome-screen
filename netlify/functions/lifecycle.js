@@ -28,10 +28,7 @@
 // loud failure at the next sync rather than silent data exfiltration. If we
 // publish this SmartApp later, signature verification goes here.
 
-const { getStore } = require('@netlify/blobs');
-
-const STORE_NAME  = 'lockcode';
-const REFRESH_KEY = 'refresh_token';
+const { setRefreshToken } = require('./_smartthings');
 
 exports.handler = async function(event) {
   let body;
@@ -130,16 +127,47 @@ function handleConfiguration(body) {
 async function handleInstallOrUpdate(lifecycle, body) {
   const data = body.installData || body.updateData || {};
   const refreshToken = data.refreshToken;
+  const installedApp = data.installedApp || {};
+  const locationId = installedApp.locationId;
+  const installedAppId = installedApp.installedAppId;
+
+  if (!refreshToken) {
+    console.warn(`${lifecycle} arrived without a refreshToken`);
+  }
+  if (!locationId) {
+    console.warn(`${lifecycle} arrived without installedApp.locationId`);
+  }
+
   if (refreshToken) {
     try {
-      await getStore(STORE_NAME).set(REFRESH_KEY, refreshToken);
-      console.log(`Stored refresh token from ${lifecycle}`);
+      await setRefreshToken(locationId, refreshToken);
+      console.log(
+        `Stored refresh token: lifecycle=${lifecycle} locationId=${locationId || '(none)'} ` +
+        `installedAppId=${installedAppId || '(none)'}`
+      );
     } catch (err) {
       console.error('Failed to persist refresh token:', err.message);
     }
-  } else {
-    console.warn(`${lifecycle} arrived without a refreshToken`);
   }
+
+  // Best-effort: log the location's human-readable name so the user can map
+  // locationIds to cabins from the Netlify function logs.
+  if (data.authToken && locationId) {
+    try {
+      const res = await fetch(`https://api.smartthings.com/v1/locations/${locationId}`, {
+        headers: { Authorization: `Bearer ${data.authToken}` }
+      });
+      if (res.ok) {
+        const loc = await res.json();
+        console.log(`Location: ${JSON.stringify({ id: locationId, name: loc.name, countryCode: loc.countryCode })}`);
+      } else {
+        console.warn(`Could not look up location ${locationId}: ${res.status}`);
+      }
+    } catch (err) {
+      console.warn(`Location lookup threw: ${err.message}`);
+    }
+  }
+
   const replyKey = lifecycle === 'INSTALL' ? 'installData' : 'updateData';
   return jsonResponse({ [replyKey]: {} });
 }

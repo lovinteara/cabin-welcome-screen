@@ -20,11 +20,23 @@
 // Required env vars:
 //   - OWNERREZ_API_USER, OWNERREZ_API_KEY
 //   - SMARTTHINGS_CLIENT_ID, SMARTTHINGS_CLIENT_SECRET, SMARTTHINGS_REDIRECT_URI
-//   - SMARTTHINGS_DEVICES   JSON map of cabinKey -> deviceId OR array of deviceIds:
+//   - SMARTTHINGS_DEVICES   JSON map. Each SmartThings Location holds its own
+//                           OAuth refresh token (one per SmartApp install), so
+//                           each cabin entry needs the locationId it was
+//                           installed in plus the lock UUIDs in that location:
 //                           {
-//                             "huckleberry": ["uuid-1", "uuid-2"],
-//                             "little-chalet": "single-uuid"
+//                             "huckleberry": {
+//                               "locationId": "abc-...",
+//                               "deviceIds": ["uuid-1", "uuid-2"]
+//                             },
+//                             "little-chalet": {
+//                               "locationId": "def-...",
+//                               "deviceIds": ["uuid"]
+//                             }
 //                           }
+//                           Legacy single-location formats (bare array or
+//                           single UUID string) are still accepted and fall
+//                           back to the un-keyed refresh token.
 const {
   PROPERTY_IDS,
   todayDenver,
@@ -38,9 +50,31 @@ const { newAccessToken, setCode, deleteCode } = require('./_smartthings');
 
 const CODE_SLOT = 10;
 
-async function syncOneCabin(accessToken, cabinKey, deviceIds, today) {
+function parseCabinConfig(value) {
+  if (Array.isArray(value)) return { locationId: null, deviceIds: value.filter(Boolean) };
+  if (typeof value === 'string') return { locationId: null, deviceIds: [value] };
+  if (value && typeof value === 'object') {
+    const deviceIds = Array.isArray(value.deviceIds)
+      ? value.deviceIds.filter(Boolean)
+      : [value.deviceIds].filter(Boolean);
+    return { locationId: value.locationId || null, deviceIds };
+  }
+  return { locationId: null, deviceIds: [] };
+}
+
+async function syncOneCabin(cabinKey, cabinConfig, today) {
   const propertyId = PROPERTY_IDS[cabinKey];
   if (!propertyId) return { cabin: cabinKey, status: 'no-property-id' };
+
+  const { locationId, deviceIds } = cabinConfig;
+  if (deviceIds.length === 0) return { cabin: cabinKey, status: 'no-devices' };
+
+  let accessToken;
+  try {
+    accessToken = await newAccessToken(locationId);
+  } catch (err) {
+    return { cabin: cabinKey, status: 'auth-failed', error: err.message };
+  }
 
   const [bookings, propertyBackupCode] = await Promise.all([
     fetchBookings(propertyId, daysAgoDenver(60), today),
@@ -91,21 +125,13 @@ exports.handler = async function() {
     return { statusCode: 500, body: 'SMARTTHINGS_DEVICES is not valid JSON: ' + err.message };
   }
 
-  let accessToken;
-  try {
-    accessToken = await newAccessToken();
-  } catch (err) {
-    console.error('Could not mint access token:', err.message);
-    return { statusCode: 500, body: 'Auth failed: ' + err.message };
-  }
-
   const today = todayDenver();
   const results = [];
   for (const [cabin, value] of Object.entries(devices)) {
-    const deviceIds = (Array.isArray(value) ? value : [value]).filter(Boolean);
-    if (deviceIds.length === 0) continue;
+    const cabinConfig = parseCabinConfig(value);
+    if (cabinConfig.deviceIds.length === 0) continue;
     try {
-      results.push(await syncOneCabin(accessToken, cabin, deviceIds, today));
+      results.push(await syncOneCabin(cabin, cabinConfig, today));
     } catch (err) {
       console.error(`sync error for ${cabin}:`, err.message);
       results.push({ cabin, status: 'error', error: err.message });
