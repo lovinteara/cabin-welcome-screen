@@ -35,16 +35,21 @@ exports.handler = async function(event) {
     'Cache-Control': 'public, max-age=300'
   };
 
+  const qs = event.queryStringParameters || {};
+
   // Kill switch — return null until we've confirmed the lock-sync writes the
   // same code to the physical Schlage. Set LOCKCODE_SHOW=true in Netlify env
   // vars after running lockcode-sync and verifying setCode landed on each
   // cabin's lock. Default off keeps the TV slide blank so guests never see a
-  // code that doesn't match the keypad.
-  if (process.env.LOCKCODE_SHOW !== 'true') {
+  // code that doesn't match the keypad. The TV front-end never sends ?show=,
+  // so adding it to a URL in a browser bypasses the switch for testing
+  // without affecting any guest's TV.
+  const bypassSwitch = qs.show === 'true';
+  if (process.env.LOCKCODE_SHOW !== 'true' && !bypassSwitch) {
     return { statusCode: 200, headers, body: JSON.stringify({ code: null }) };
   }
 
-  const cabin = event.queryStringParameters && event.queryStringParameters.cabin;
+  const cabin = qs.cabin;
   const propertyId = PROPERTY_IDS[cabin];
   if (!propertyId) {
     return { statusCode: 400, headers, body: JSON.stringify({ code: null }) };
