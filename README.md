@@ -99,7 +99,16 @@ Most browsers cache the page for ~10 minutes. To force a fresh load on a Pi, you
 
 1. **Flash the SD card** with Raspberry Pi OS (the kit's preloaded card works)
 2. **Boot the Pi**, connect WiFi, finish initial setup
-3. **Set the Pi to launch the browser in kiosk mode on boot.** Open a terminal and run:
+3. **Install the emoji font.** Raspberry Pi OS ships without one, so without this the celebration, campfire, and other slides show emoji as empty boxes (☐). In a terminal:
+
+   ```bash
+   sudo apt update
+   sudo apt install fonts-noto-color-emoji -y
+   ```
+
+   Reboot (or restart Chromium) afterward and emoji will render everywhere. **Do this on every Pi** — including any SD card you reflash.
+
+4. **Set the Pi to launch the browser in kiosk mode on boot.** Open a terminal and run:
 
    ```bash
    mkdir -p ~/.config/autostart
@@ -119,7 +128,7 @@ Most browsers cache the page for ~10 minutes. To force a fresh load on a Pi, you
 
    Save (Ctrl+O, Enter, Ctrl+X) and reboot.
 
-4. **Plug Pi into the TV**, set TV to that HDMI input, and you're done.
+5. **Plug Pi into the TV**, set TV to that HDMI input, and you're done.
 
 ### Disabling screen blanking on the Pi
 
@@ -358,6 +367,7 @@ show details if anything fails.
 | Problem | Fix |
 |---------|-----|
 | Weather shows "unavailable" | No internet at the cabin. Check WiFi. |
+| Emoji show as empty boxes (☐) | Emoji font not installed on the Pi. Run `sudo apt install fonts-noto-color-emoji -y` then reboot |
 | Wrong cabin name showing | Check the `?cabin=` part of the URL is correct |
 | Pi reboots randomly | Buy a real 5V/3A power supply, not a phone charger |
 | Screen goes black after 10 min | See "Disabling screen blanking" above |
