@@ -55,28 +55,14 @@ async function fetchBookings(propertyId, fromDate, toDate) {
 }
 
 // Looks up the property's PXDOORBACKUP value (per-cabin fallback code).
-// Returns the raw string or null. Caller normalizes via deriveCode.
-async function fetchPropertyBackupCode(propertyId) {
-  const headers = orHeaders();
-  if (!headers) return null;
-
-  // OwnerRez v2 exposes property custom fields via a dedicated endpoint,
-  // not via include params on /v2/properties.
-  const url = `https://api.ownerreservations.com/v2/propertyfieldvalues?property_ids=${propertyId}`;
-  const res = await fetch(url, { headers });
-  if (!res.ok) {
-    console.error('OwnerRez property fields error:', res.status, await res.text());
-    return null;
-  }
-  const data = await res.json();
-  const items = Array.isArray(data.items) ? data.items : [];
-  const match = items.find(f =>
-    f.field_definition_id === PROPERTY_FIELD_DOOR_BACKUP ||
-    f.fieldDefinitionId   === PROPERTY_FIELD_DOOR_BACKUP ||
-    f.field_id            === PROPERTY_FIELD_DOOR_BACKUP ||
-    f.id                  === PROPERTY_FIELD_DOOR_BACKUP
-  );
-  return match && match.value != null && match.value !== '' ? match.value : null;
+// TODO: the OwnerRez v2 endpoint for property custom field values is not
+// yet known — /v2/propertyfieldvalues 404s and the earlier
+// /v2/properties/{id}?include_fields=true was silently ignored. Disabled
+// until we have a working endpoint so we stop logging 404s on every call.
+// deriveCode falls back through booking.door_code → BXDOORCODE in the
+// meantime; PXDOORBACKUP just won't contribute until this is wired up.
+async function fetchPropertyBackupCode(_propertyId) {
+  return null;
 }
 
 // Generic custom-field reader. OwnerRez surfaces field values on bookings and
