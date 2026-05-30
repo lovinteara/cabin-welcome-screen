@@ -95,7 +95,7 @@
   .dots { position: absolute; bottom: 2.5vh; left: 50%; transform: translateX(-50%); display: flex; gap: 1.2vw; z-index: 10; }
   .dot { width: 1vw; height: 1vw; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background 0.3s; }
   .dot.active { background: currentColor; }
-  .biz-logo { position: absolute; bottom: 2.5vh; left: 3vw; z-index: 6; height: 6vh; opacity: 0.8; }
+  .biz-logo { position: absolute; bottom: 2.5vh; left: 3vw; z-index: 6; height: 9vh; opacity: 0.9; }
   .refresh-tag { position: absolute; bottom: 2.5vh; right: 3vw; font-size: 1.4vw; opacity: 0.3; letter-spacing: 0.15vw; text-transform: uppercase; z-index: 5; }
   .live-dot { display: inline-block; width: 1vw; height: 1vw; border-radius: 50%; background: #5cb874; margin-right: 0.8vw; vertical-align: middle; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
@@ -159,13 +159,16 @@
   </div>
 </div>
 
-<!-- Door Code: shown only when /api/lockcode returns a code for the current guest -->
-<div class="slide" data-slide="doorcode" id="doorcode-slide" style="display:none; align-items:center; justify-content:center; text-align:center;">
-  <div class="slide-label">Your door code</div>
-  <h1 style="font-size:4vw; font-weight:400; opacity:0.85;" id="doorcode-greeting">Welcome</h1>
-  <div id="doorcode-value" style="font-family:'SF Mono',Menlo,monospace; font-size:22vw; font-weight:700; letter-spacing:2.5vw; margin:3vh 0; line-height:1;">— — — —</div>
-  <p style="font-size:2.2vw; opacity:0.7; max-width:70vw;">Enter on the keypad and press the Schlage button. Code is active for your full stay.</p>
-  <p style="font-size:1.6vw; opacity:0.4; margin-top:2vh;" id="doorcode-expiry">&nbsp;</p>
+<!-- Door Code: shows code when /api/lockcode returns one, else a gallery photo -->
+<div class="slide" data-slide="doorcode" id="doorcode-slide" style="align-items:center; justify-content:center; text-align:center;">
+  <img id="doorcode-fallback-img" src="" alt="Island Park" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;" onerror="this.style.display='none'"/>
+  <div id="doorcode-content" style="position:relative; z-index:1;">
+    <div class="slide-label">Your door code</div>
+    <h1 style="font-size:4vw; font-weight:400; opacity:0.85;" id="doorcode-greeting">Welcome</h1>
+    <div id="doorcode-value" style="font-family:'SF Mono',Menlo,monospace; font-size:22vw; font-weight:700; letter-spacing:2.5vw; margin:3vh 0; line-height:1;">— — — —</div>
+    <p style="font-size:2.2vw; opacity:0.7; max-width:70vw;">Enter on the keypad and press the Schlage button. Code is active for your full stay.</p>
+    <p style="font-size:1.6vw; opacity:0.4; margin-top:2vh;" id="doorcode-expiry">&nbsp;</p>
+  </div>
 </div>
 
 <!-- Slide 2: Weather today -->
@@ -173,7 +176,7 @@
   <div class="slide-label"><span class="live-dot"></span>Live · <span id="weather-loc">Island Park</span></div>
   <div class="weather-icon-wrap">
     <div id="current-icon"></div>
-    <div style="display:flex; align-items:center; gap:1vw; margin-top:0.5vh;"><img id="moon-img" src="" style="height:4vh; object-fit:contain;" onerror="this.style.display='none'"/><div id="moon-phase" style="font-size:1.8vw; opacity:0.7;"></div></div>
+    <div style="display:flex; align-items:center; gap:1.2vw; margin-top:0.8vh;"><img id="moon-img" src="" style="height:9vh; object-fit:contain;" onerror="this.style.display='none'"/><div id="moon-phase" style="font-size:2.6vw; opacity:0.85; font-weight:600;"></div></div>
     <div>
       <span class="big-temp" id="current-temp">—</span>
       <p style="margin-top:8px;opacity:0.7;" id="current-cond">Fetching weather…</p>
@@ -304,16 +307,17 @@
   <div class="slide-label">Local pick · Food</div>
   <div id="food-fav-badge"></div>
   <div style="display:flex; gap:4vw; align-items:flex-start; margin-top:1vh;">
-    <div style="flex:1; min-width:0;">
+    <div style="flex:1.4; min-width:0;">
       <h1 id="food-name" style="margin:0;">—</h1>
       <p id="food-blurb" style="margin-top:1.5vh;">—</p>
+      <p id="food-tip" style="display:none; margin-top:1.5vh; font-size:1.9vw; color:#ffd700; font-weight:600;"></p>
       <p id="food-sub" style="margin-top:1vh; font-size:2vw; opacity:0.5;">—</p>
       <div id="food-phone-wrap" style="display:none; margin-top:2vh;">
         <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
       </div>
     </div>
-    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; min-width:28vw;">
-      <img id="food-biz-logo" src="" style="max-height:22vh; max-width:26vw; object-fit:contain; opacity:0.95; display:none;" />
+    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; min-width:22vw;">
+      <img id="food-biz-logo" src="" style="max-height:30vh; max-width:28vw; object-fit:contain; opacity:0.97; display:none;" />
       <img id="food-sec-img" src="" style="max-height:16vh; max-width:24vw; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
       <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:0.8vh;">
         <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw;"></div>
@@ -628,33 +632,46 @@
 <div class="slide" data-slide="watchtv">
   <div class="slide-label">Entertainment · Watch TV</div>
   <h1 style="font-size:5.5vw;">Watch Your Favorite Shows</h1>
-  <p style="margin-top:1vh; font-size:2vw; opacity:0.7;">This TV runs a welcome screen for guests — switching to streaming is easy!</p>
-  <div style="display:flex; gap:5vw; align-items:flex-start; margin-top:2vh;">
+  <p style="margin-top:1vh; font-size:2vw; opacity:0.7;">This TV shows our welcome screen on the <strong>PC input</strong> &mdash; switching to streaming is easy!</p>
+
+  <div style="display:flex; flex-wrap:wrap; gap:1.2vw; margin-top:2.5vh;">
+    <span style="background:#E50914; color:#fff; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw;">Netflix</span>
+    <span style="background:#1CE783; color:#000; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw;">Hulu</span>
+    <span style="background:#0063E5; color:#fff; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw;">Disney+</span>
+    <span style="background:#0064FF; color:#fff; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw;">Paramount+</span>
+    <span style="background:#00A8E1; color:#fff; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw;">Prime Video</span>
+    <span style="background:#FF0000; color:#fff; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw;">YouTube</span>
+    <span style="background:#000; color:#fff; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw; border:1px solid rgba(255,255,255,0.3);">Apple TV+</span>
+    <span style="background:#1A98FF; color:#fff; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw;">Max</span>
+    <span style="background:#FF6C2C; color:#fff; font-weight:700; font-size:1.7vw; padding:0.8vh 1.6vw; border-radius:1vw;">Peacock</span>
+  </div>
+
+  <div style="display:flex; gap:5vw; align-items:flex-start; margin-top:2.5vh;">
     <div style="flex:1;">
-      <div class="info-row" style="padding:1.2vh 0;">
+      <div class="info-row" style="padding:1.1vh 0;">
         <span class="k">Step 1</span>
-        <span class="v" style="font-size:2vw;">Press the <strong>Home</strong> button on the TV remote</span>
+        <span class="v" style="font-size:2vw;">Press <strong>Home</strong> (or <strong>Input / Source</strong>) on the TV remote</span>
       </div>
-      <div class="info-row" style="padding:1.2vh 0;">
+      <div class="info-row" style="padding:1.1vh 0;">
         <span class="k">Step 2</span>
-        <span class="v" style="font-size:2vw;">Select your favorite streaming app — Netflix, Hulu, Disney+, YouTube</span>
+        <span class="v" style="font-size:2vw;">Pick a streaming app from the colored options above</span>
       </div>
-      <div class="info-row" style="padding:1.2vh 0;">
+      <div class="info-row" style="padding:1.1vh 0;">
         <span class="k">Step 3</span>
-        <span class="v" style="font-size:2vw;">Sign in with your own account or use any saved accounts</span>
+        <span class="v" style="font-size:2vw;">Sign in with your own account, then sign out before checkout</span>
       </div>
-      <div class="info-row" style="padding:1.2vh 0;">
-        <span class="k">To return</span>
-        <span class="v" style="font-size:2vw;">Press <strong>Home</strong> again and select the HDMI input to bring back the welcome screen</span>
+      <div class="info-row" style="padding:1.1vh 0;">
+        <span class="k">Back to this screen</span>
+        <span class="v" style="font-size:2vw;">Press <strong>Input / Source</strong> and choose <strong>PC</strong> to bring the welcome screen back</span>
       </div>
-      <div class="info-row" style="padding:1.2vh 0;">
+      <div class="info-row" style="padding:1.1vh 0;">
         <span class="k">WiFi</span>
         <span class="v" id="tv-wifi-reminder" style="font-size:2vw;">See the WiFi slide for network &amp; password</span>
       </div>
     </div>
     <div style="flex-shrink:0; width:24vw; background:rgba(255,255,255,0.06); border-radius:1.5vw; padding:2.5vh 2.5vw; text-align:center;">
       <div style="font-size:1.6vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw; margin-bottom:2vh;">Quick tip</div>
-      <p style="font-size:2vw; line-height:1.5;">Sign out of your streaming accounts before you check out — just to keep things private!</p>
+      <p style="font-size:2vw; line-height:1.5;">The welcome screen lives on the <strong>PC</strong> input. If the TV ever looks &ldquo;stuck,&rdquo; press <strong>Input / Source</strong> and select <strong>PC</strong>.</p>
     </div>
   </div>
 </div>
@@ -693,7 +710,7 @@
       <p style="margin-top:0.8vh; font-size:1.8vw; opacity:0.7; font-style:italic;">I'd Rather Be Kayaking</p>
       <p style="margin-top:1.5vh; font-size:1.8vw; line-height:1.5;">Float the Henry's Fork from Big Springs — one of the most scenic and peaceful floats in Idaho. We meet you at the boat launch, help you in, and pick you up at the end!</p>
       <div style="margin-top:2vh;">
-        <div class="info-row" style="padding:1vh 0;"><span class="k">Float time</span><span class="v">2.5–3 hours · Departs 8:30 AM daily</span></div>
+        <div class="info-row" style="padding:1vh 0;"><span class="k">Float time</span><span class="v">2.5–3 hours · Departs 8:30 AM · By availability</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">Details</span><span class="v" style="font-size:1.6vw;">Single kayaks · Life jackets provided · Dogs welcome on owner's kayak</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">River</span><span class="v" style="font-size:1.6vw;">Shallow &amp; scenic — suitable for most skill levels</span></div>
         <div class="info-row" style="padding:1vh 0;"><span class="k">Book with Teara</span><span class="v" style="color:#5cb874; font-weight:700;">(208) 589-0503 · Call or text</span></div>
@@ -724,37 +741,37 @@
   <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1.2vw;">
 
     <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
-      <img src="drive-30min.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <img src="drive-30min.svg" style="width:100%; max-height:22vh; object-fit:contain;" onerror="this.style.display='none'"/>
       <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~30 min</div>
       <div style="font-size:1.3vw; opacity:0.7; text-align:center;">West Yellowstone</div>
     </div>
 
     <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
-      <img src="drive-1hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <img src="drive-1hr.svg" style="width:100%; max-height:22vh; object-fit:contain;" onerror="this.style.display='none'"/>
       <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~1 hour</div>
       <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Old Faithful · Idaho Falls</div>
     </div>
 
     <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
-      <img src="drive-1-5hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <img src="drive-1-5hr.svg" style="width:100%; max-height:22vh; object-fit:contain;" onerror="this.style.display='none'"/>
       <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~1.5 hours</div>
       <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Grand Teton · Roosevelt Arch</div>
     </div>
 
     <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
-      <img src="drive-2hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <img src="drive-2hr.svg" style="width:100%; max-height:22vh; object-fit:contain;" onerror="this.style.display='none'"/>
       <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~2 hours</div>
       <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Jackson Hole · Bozeman</div>
     </div>
 
     <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
-      <img src="drive-2-5hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <img src="drive-2-5hr.svg" style="width:100%; max-height:22vh; object-fit:contain;" onerror="this.style.display='none'"/>
       <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~2.5 hours</div>
       <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Cody, Wyoming</div>
     </div>
 
     <div class="weather-cell" style="display:flex; flex-direction:column; align-items:center; padding:1vh 1vw;">
-      <img src="drive-4hr.svg" style="width:100%; max-height:14vh; object-fit:contain;" onerror="this.style.display='none'"/>
+      <img src="drive-4hr.svg" style="width:100%; max-height:22vh; object-fit:contain;" onerror="this.style.display='none'"/>
       <div style="font-size:2.8vw; font-weight:700; font-family:Georgia,serif; color:#ffd700; margin-top:0.5vh;">~4 hours</div>
       <div style="font-size:1.3vw; opacity:0.7; text-align:center;">Salt Lake City</div>
     </div>
@@ -887,37 +904,44 @@
       <p style="font-size:1.6vw; opacity:0.4; margin-top:2vh;">Thank you for staying with us — we hope to see you again!</p>
     </div>
   </div>
-  <img src="visit-island-park-dark-bg.png" style="height:5vh; opacity:0.5; margin-top:3vh;" />
+  <img src="visit-island-park-dark-bg.png" style="height:8vh; opacity:0.6; margin-top:3vh;" />
 </div>
 
 <!-- Campfire Fun slide -->
 <div class="slide" data-slide="campfire" style="overflow:hidden;">
   <div class="slide-label">Tonight · Around the Fire</div>
-  <div style="display:flex; gap:3vw; height:82vh; margin-top:1vh;">
+  <h1 style="font-size:3.6vw; font-family:Georgia,serif; margin-bottom:1.5vh;">Gather Around the Fire</h1>
+  <div style="display:grid; grid-template-columns:1.1fr 1fr 0.7fr; gap:2.5vw; height:74vh;">
 
     <!-- Left: Conversation Starters -->
-    <div style="flex:1; background:rgba(255,149,0,0.08); border:1px solid rgba(255,149,0,0.3); border-radius:1.5vw; padding:2vh 2vw; overflow:hidden;">
-      <div style="font-size:1.6vw; font-weight:700; color:#ff9500; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.5vh;">Conversation Starters</div>
-      <div id="campfire-questions" style="font-size:1.5vw; line-height:1.7; color:#f0e8f0;"></div>
+    <div style="background:linear-gradient(160deg, rgba(255,149,0,0.14), rgba(255,149,0,0.05)); border:1px solid rgba(255,149,0,0.35); border-radius:1.8vw; padding:3vh 2.2vw; display:flex; flex-direction:column;">
+      <div style="font-size:1.7vw; font-weight:700; color:#ff9500; text-transform:uppercase; letter-spacing:2px; margin-bottom:2vh; display:flex; align-items:center; gap:0.8vw;"><span style="font-size:2.2vw;">&#128172;</span>Conversation Starters</div>
+      <div id="campfire-questions" style="font-size:1.65vw; line-height:1.5; color:#f0e8f0; display:flex; flex-direction:column; justify-content:space-evenly; flex:1;"></div>
     </div>
 
     <!-- Center: Story + Smores stacked -->
-    <div style="flex:1; display:flex; flex-direction:column; gap:2vh;">
-      <div style="flex:1; background:rgba(255,100,50,0.08); border:1px solid rgba(255,100,50,0.3); border-radius:1.5vw; padding:2vh 2vw; overflow:hidden;">
-        <div style="font-size:1.6vw; font-weight:700; color:#ff6432; text-transform:uppercase; letter-spacing:2px; margin-bottom:1vh;">Start a Story</div>
-        <div id="campfire-story" style="font-size:1.7vw; line-height:1.6; color:#f0e8f0; font-style:italic;"></div>
-        <div style="font-size:1.3vw; color:#f0e8f0; opacity:0.4; margin-top:1vh;">Take turns adding on!</div>
+    <div style="display:flex; flex-direction:column; gap:2.5vh;">
+      <div style="flex:1; background:linear-gradient(160deg, rgba(255,100,50,0.16), rgba(255,100,50,0.05)); border:1px solid rgba(255,100,50,0.35); border-radius:1.8vw; padding:2.5vh 2vw; display:flex; flex-direction:column;">
+        <div style="font-size:1.7vw; font-weight:700; color:#ff6432; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.5vh; display:flex; align-items:center; gap:0.8vw;"><span style="font-size:2.2vw;">&#128218;</span>Start a Story</div>
+        <div id="campfire-story" style="font-size:1.8vw; line-height:1.55; color:#f0e8f0; font-style:italic; flex:1;"></div>
+        <div style="font-size:1.4vw; color:#ffb38a; opacity:0.85; margin-top:1.5vh; font-weight:600;">&#10024; Take turns adding the next line!</div>
       </div>
-      <div style="flex:1; background:rgba(200,151,58,0.08); border:1px solid rgba(200,151,58,0.3); border-radius:1.5vw; padding:2vh 2vw; overflow:hidden;">
-        <div style="font-size:1.6vw; font-weight:700; color:#c8973a; text-transform:uppercase; letter-spacing:2px; margin-bottom:1vh;">Smore Ideas</div>
-        <div id="campfire-smores" style="font-size:1.5vw; line-height:1.7; color:#f0e8f0;"></div>
+      <div style="flex:1; background:linear-gradient(160deg, rgba(200,151,58,0.16), rgba(200,151,58,0.05)); border:1px solid rgba(200,151,58,0.35); border-radius:1.8vw; padding:2.5vh 2vw; display:flex; flex-direction:column; min-height:0;">
+        <div style="font-size:1.7vw; font-weight:700; color:#c8973a; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.5vh; display:flex; align-items:center; gap:0.8vw;"><span style="font-size:2.2vw;">&#127852;</span>S'more Ideas</div>
+        <div id="campfire-smores" style="font-size:1.55vw; line-height:1.45; color:#f0e8f0; flex:1; overflow:hidden;"></div>
       </div>
     </div>
 
-    <!-- Right: Smore image small at top -->
-    <div style="width:16vw; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:1vh; padding-top:1vh;">
-      <img src="smore.svg" style="width:90%; max-height:18vh; object-fit:contain;" onerror="this.style.display='none'"/>
-      <div style="font-size:1.3vw; color:#c8973a; text-align:center; opacity:0.7;">New ideas<br/>every rotation!</div>
+    <!-- Right: Smore image + story prompt graphic -->
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:space-between; gap:2vh; padding:1vh 0;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:1vh;">
+        <img src="smore.svg" style="width:100%; max-height:26vh; object-fit:contain;" onerror="this.style.display='none'"/>
+        <div style="font-size:1.35vw; color:#c8973a; text-align:center; opacity:0.8; font-weight:600;">New ideas<br/>every rotation!</div>
+      </div>
+      <div style="width:100%; background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2.5vh 1.5vw; text-align:center;">
+        <div style="font-size:4vw; margin-bottom:1vh;">&#127755;</div>
+        <div style="font-size:1.35vw; color:#f0e8f0; opacity:0.75; line-height:1.4;">No screens needed&mdash;<br/>just good company<br/>under the stars.</div>
+      </div>
     </div>
 
   </div>
@@ -947,40 +971,44 @@
 <!-- Road Conditions slide -->
 <div class="slide" data-slide="roadconditions">
   <div class="slide-label">Plan Your Drive · Road Conditions</div>
-  <h1 style="font-size:4.5vw; font-family:Georgia,serif; margin-bottom:2vh;">Road Conditions</h1>
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2vw; margin-top:1vh;">
+  <h1 style="font-size:3.8vw; font-family:Georgia,serif; margin-bottom:1.5vh;">Road Conditions</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.6vw; margin-top:0.5vh;">
 
-    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(95,168,184,0.3);">
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 1.8vw; border:1px solid rgba(95,168,184,0.3); display:flex; flex-direction:column;">
       <div style="font-size:1.5vw; font-weight:700; color:#5fa8b8; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Idaho Roads · 511.idaho.gov</div>
       <div class="info-row"><span class="k">US-20</span><span class="v">Main route to Island Park</span></div>
       <div class="info-row"><span class="k">Osborne Bridge</span><span class="v">See webcam on slide 7</span></div>
       <div class="info-row"><span class="k">Live conditions</span><span class="v">511.idaho.gov</span></div>
       <div class="info-row"><span class="k">Call</span><span class="v">511 from any phone</span></div>
-      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-idaho511"></div>
+      <div style="flex:1;"></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; align-self:flex-start;" id="qr-idaho511"></div>
     </div>
 
-    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(240,146,143,0.3);">
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 1.8vw; border:1px solid rgba(240,146,143,0.3); display:flex; flex-direction:column;">
       <div style="font-size:1.5vw; font-weight:700; color:#f0928f; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Yellowstone Roads · nps.gov/yell</div>
       <div class="info-row"><span class="k">Road info line</span><span class="v">(307) 344-2117</span></div>
       <div class="info-row"><span class="k">Road updates</span><span class="v">Text 82190 to 888777</span></div>
       <div class="info-row"><span class="k">Live report</span><span class="v">nps.gov/yell/roads</span></div>
-      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-yellroads"></div>
+      <div style="flex:1;"></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; align-self:flex-start;" id="qr-yellroads"></div>
     </div>
 
-    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(200,151,58,0.3);">
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 1.8vw; border:1px solid rgba(200,151,58,0.3); display:flex; flex-direction:column;">
       <div style="font-size:1.5vw; font-weight:700; color:#c8973a; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Wyoming Roads · wyoroad.info</div>
       <div class="info-row"><span class="k">WYDOT</span><span class="v">wyoroad.info</span></div>
       <div class="info-row"><span class="k">Call</span><span class="v">(888) WYO-ROAD</span></div>
       <div class="info-row"><span class="k">Cell</span><span class="v">511 from Wyoming</span></div>
-      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-wyoroad"></div>
+      <div style="flex:1;"></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; align-self:flex-start;" id="qr-wyoroad"></div>
     </div>
 
-    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 2vw; border:1px solid rgba(92,184,116,0.3);">
+    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 1.8vw; border:1px solid rgba(92,184,116,0.3); display:flex; flex-direction:column;">
       <div style="font-size:1.5vw; font-weight:700; color:#5cb874; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Montana Roads · mdt.mt.gov</div>
       <div class="info-row"><span class="k">MDT</span><span class="v">mdt.mt.gov/travinfo</span></div>
       <div class="info-row"><span class="k">Beartooth Pass</span><span class="v">Check before driving!</span></div>
       <div class="info-row"><span class="k">Call</span><span class="v">511 from Montana</span></div>
-      <div style="background:#fff; padding:1vw; border-radius:1vw; display:inline-block; margin-top:1.5vh;" id="qr-mtroads"></div>
+      <div style="flex:1;"></div>
+      <div style="background:#fff; padding:1vw; border-radius:1vw; align-self:flex-start;" id="qr-mtroads"></div>
     </div>
 
   </div>
@@ -1091,6 +1119,7 @@
       if (sid === 'bearsafety') duration = 12000; // Bear safety
       if (sid === 'firesafety') duration = 12000; // Fire safety
       if (sid === 'social') duration = 15000;    // Social media
+      if (sid === 'watchtv') duration = 18000;   // Watch TV — more to read now
       if (sid === 'kayak') duration = 12000;      // Kayak rental
       if (sid === 'drivetimes') duration = 12000; // Drive times
       if (sid === 'bookagain') duration = 15000;
@@ -1365,9 +1394,23 @@
 
   function applyFood() {
     const r = pickRestaurant();
+    window._currentRestaurant = r.name;
     document.getElementById('food-fav-badge').innerHTML = r.fav ? '<span class="fav-tag">★ Local favorite</span>' : '';
     document.getElementById('food-name').textContent = r.name;
-    document.getElementById('food-blurb').textContent = r.blurb;
+    // Pull any "Tell them ... sent you!" tagline out of the blurb into its own highlighted line
+    let blurbText = r.blurb;
+    const tipEl = document.getElementById('food-tip');
+    if (tipEl) {
+      const m = blurbText.match(/(Tell [^.!]*sent you!?)/i);
+      if (m) {
+        tipEl.textContent = m[1];
+        tipEl.style.display = 'block';
+        blurbText = blurbText.replace(m[0], '').replace(/\s+$/,'').trim();
+      } else {
+        tipEl.style.display = 'none';
+      }
+    }
+    document.getElementById('food-blurb').textContent = blurbText;
     // Add drive time to subtype if restaurant has coords
     let subText = r.subtype;
     if (r.lat && r.lon && window._cabinRef) {
@@ -1404,7 +1447,7 @@
         const sizeOverride = logoSizes[r.name];
         foodLogoEl.style.cssText = sizeOverride
           ? sizeOverride + ' object-fit:contain; opacity:0.95;'
-          : 'max-height:22vh; max-width:26vw; object-fit:contain; opacity:0.95;';
+          : 'max-height:30vh; max-width:28vw; object-fit:contain; opacity:0.97;';
       } else {
         foodLogoEl.style.display = 'none';
       }
@@ -1526,18 +1569,18 @@
     // Pick 4 random questions
     const shuffledQ = [...CAMPFIRE_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
     const qEl = document.getElementById('campfire-questions');
-    if (qEl) qEl.innerHTML = shuffledQ.map(q => `<div style="margin-bottom:0.8vh; padding-left:1vw; border-left:2px solid rgba(255,149,0,0.5); color:#f0e8f0;">${q}</div>`).join('');
+    if (qEl) qEl.innerHTML = shuffledQ.map(q => `<div style="padding:1.2vh 0 1.2vh 1.2vw; border-left:3px solid rgba(255,149,0,0.6); color:#f0e8f0;">${q}</div>`).join('');
 
     // Pick 1 random story starter
     const story = CAMPFIRE_STORIES[Math.floor(Math.random() * CAMPFIRE_STORIES.length)];
     const sEl = document.getElementById('campfire-story');
     if (sEl) sEl.textContent = '"' + story + '"';
 
-    // Pick 4 random s'mores ideas
-    const shuffledS = [...CAMPFIRE_SMORES].sort(() => Math.random() - 0.5).slice(0, 4);
+    // Pick 3 random s'mores ideas (3 fits full instructions without clipping)
+    const shuffledS = [...CAMPFIRE_SMORES].sort(() => Math.random() - 0.5).slice(0, 3);
     const smEl = document.getElementById('campfire-smores');
     if (smEl) smEl.innerHTML = shuffledS.map(([name, desc]) =>
-      `<div style="margin-bottom:0.8vh;"><span style="font-weight:600; color:#e4b86a;">${name}</span><br/><span style="font-size:1.4vw; opacity:0.6;">${desc}</span></div>`
+      `<div style="margin-bottom:1.4vh;"><span style="font-weight:700; color:#e4b86a;">${name}</span><br/><span style="font-size:1.35vw; opacity:0.75; line-height:1.35;">${desc}</span></div>`
     ).join('');
   }
 
@@ -1640,12 +1683,33 @@
       if (res.ok) data = await res.json();
     } catch {}
 
+    const content = document.getElementById('doorcode-content');
+    const fallbackImg = document.getElementById('doorcode-fallback-img');
+
     if (!data || !data.code) {
-      slide.style.display = 'none';
-      slide.classList.remove('slide');
+      // No active code — show a gallery photo instead of hiding the slide
+      if (content) content.style.display = 'none';
+      if (fallbackImg) {
+        const idx = Math.floor(Math.random() * GALLERY_COUNT) + 1;
+        let attempt = 0;
+        const exts = GALLERY_EXTENSIONS;
+        fallbackImg.onerror = function() {
+          attempt++;
+          if (attempt < exts.length) {
+            fallbackImg.src = `gallery-${idx}.${exts[attempt]}`;
+          } else {
+            fallbackImg.style.display = 'none';
+          }
+        };
+        fallbackImg.src = `gallery-${idx}.${exts[0]}`;
+        fallbackImg.style.display = 'block';
+      }
       return;
     }
 
+    // Active code — show the code, hide the fallback image
+    if (fallbackImg) fallbackImg.style.display = 'none';
+    if (content) content.style.display = '';
     const valueEl = document.getElementById('doorcode-value');
     const greetEl = document.getElementById('doorcode-greeting');
     const expEl   = document.getElementById('doorcode-expiry');
@@ -1864,7 +1928,7 @@
         { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
         { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
       ];
-      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      const roadQRSize = Math.round(window.innerWidth * 0.055);
       roadQRs.forEach(({id, url}) => {
         const el = document.getElementById(id);
         if (el && !el.hasChildNodes()) {
@@ -1926,7 +1990,7 @@
         { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
         { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
       ];
-      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      const roadQRSize = Math.round(window.innerWidth * 0.055);
       roadQRs.forEach(({id, url}) => {
         const el = document.getElementById(id);
         if (el && !el.hasChildNodes()) {
@@ -2030,9 +2094,8 @@
     const bearCanVideo = document.getElementById('trash-bearcan-video');
     if (daySlide) {
       daySlide.style.display = '';
-        const todayDay = new Date().getDay();
-      const tomorrowDay = (todayDay + 1) % 7;
-      const isTomorrow = cabin && cabin.trashDays && cabin.trashDays.includes(tomorrowDay);
+      const tomorrowName = dayNames[(new Date().getDay() + 1) % 7];
+      const isTomorrow = trash.days.includes(tomorrowName);
       if (isPickupDay || isTomorrow) {
         if (trashMsg) trashMsg.style.display = 'block';
         if (bearCanVideo) bearCanVideo.style.display = 'none';
@@ -2061,6 +2124,16 @@
   async function loadNPSAlerts() {
     const grid = document.getElementById('nps-alerts-grid');
     if (!grid) return;
+    // Truncate at a word boundary and add an ellipsis (no mid-word chops)
+    const clip = (str, max) => {
+      if (!str) return '';
+      str = String(str).trim();
+      if (str.length <= max) return str;
+      let cut = str.slice(0, max);
+      const lastSpace = cut.lastIndexOf(' ');
+      if (lastSpace > 0) cut = cut.slice(0, lastSpace);
+      return cut.replace(/[.,;:!?\-\s]+$/, '') + '…';
+    };
     try {
       const res = await fetch('/api/npsalerts');
       if (!res.ok) throw new Error('fetch failed');
@@ -2073,8 +2146,8 @@
       grid.innerHTML = alerts.slice(0,6).map(a => `
         <div style="background:rgba(255,255,255,0.05); border-radius:1.2vw; padding:1.5vh 1.8vw; border-left:4px solid ${a.category === 'Danger' ? '#f0928f' : a.category === 'Caution' ? '#ffc107' : '#5fa8b8'};">
           <div style="font-size:1.2vw; font-weight:700; color:${a.category === 'Danger' ? '#f0928f' : a.category === 'Caution' ? '#ffc107' : '#5fa8b8'}; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5vh;">${a.park} · ${a.category || 'Alert'}</div>
-          <div style="font-size:1.5vw; font-weight:600; color:#f0e8f0; margin-bottom:0.5vh;">${a.title}</div>
-          <div style="font-size:1.3vw; opacity:0.65; line-height:1.4;">${a.description}</div>
+          <div style="font-size:1.5vw; font-weight:600; color:#f0e8f0; margin-bottom:0.5vh;">${clip(a.title, 90)}</div>
+          <div style="font-size:1.3vw; opacity:0.65; line-height:1.4;">${clip(a.description, 240)}</div>
         </div>
       `).join('');
     } catch(e) {
@@ -2322,7 +2395,7 @@
         { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
         { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
       ];
-      const roadQRSize = Math.round(window.innerWidth * 0.07);
+      const roadQRSize = Math.round(window.innerWidth * 0.055);
       roadQRs.forEach(({id, url}) => {
         const el = document.getElementById(id);
         if (el && !el.hasChildNodes()) {

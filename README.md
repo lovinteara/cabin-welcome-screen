@@ -8,6 +8,7 @@ A digital welcome screen for short-term rentals — rotates through cabin info, 
 
 - **`index.html`** — the slideshow itself. Don't edit unless changing the design.
 - **`config.js`** — your cabins, activities, restaurants, and quotes. **This is where you make edits.**
+- **`admin.html`** — a reference dashboard. Open it in a browser to preview every slide, see each slide's duration, the cabin URLs/WiFi, and Pi status. It's documentation only — editing it does NOT change what the cabins display.
 - **`README.md`** — this file.
 
 ---
@@ -186,13 +187,16 @@ Delete the entire `{ ... }` block including the trailing comma.
 
 ### Changing slide duration
 
-In `index.html`, find this line near the top of the script:
+In `index.html`, find the `scheduleNext()` function. The base duration is 8 seconds, with per-slide overrides below it:
 
 ```javascript
-setInterval(next, 8000);
+let duration = 8000;              // default — 8 seconds
+if (sid === 'campfire') duration = 35000;   // 35 seconds
+if (sid === 'watchtv')  duration = 18000;   // 18 seconds
+// ...etc
 ```
 
-Change `8000` to whatever you want in milliseconds. `5000` = 5 seconds. `12000` = 12 seconds.
+To change how long a slide stays up, edit its line (milliseconds: `5000` = 5 sec, `12000` = 12 sec). To change the default for every slide that has no override, change the `let duration = 8000;` line. Each slide's current duration is listed in `admin.html`.
 
 ---
 
@@ -340,8 +344,9 @@ show details if anything fails.
   for our use.
 - Only slot 1 is used. If you also program codes manually for cleaners
   or yourself, put them in slots 2+ so the sync doesn't overwrite them.
-- The screen's "Door Code" slide only shows when there's an active
-  booking. Between guests the slide is hidden entirely.
+- The screen's "Door Code" slide shows the 4-digit code when there's an
+  active booking. Between guests (no active code) it shows a full-screen
+  gallery photo instead, so the slide is never blank or skipped.
 - If you revoke the SmartApp in your SmartThings account, or the sync
   doesn't run for 30+ days, the refresh token expires — just visit
   `/api/oauth-start` again to re-authorize.
@@ -358,7 +363,7 @@ show details if anything fails.
 | Screen goes black after 10 min | See "Disabling screen blanking" above |
 | Edit not appearing on cabin TVs | Wait a few minutes (browser cache) or set up nightly auto-reload |
 | Pi shows "page not found" | Double-check the URL — case-sensitive on GitHub Pages |
-| Door code slide doesn't appear | No active booking, or `OWNERREZ_*` env vars missing — check `/api/lockcode?cabin=huckleberry` directly |
+| Door code shows a photo instead of a code | Expected between bookings — no active code means it shows a gallery photo. If you expect a code, check `/api/lockcode?cabin=huckleberry` directly and the `OWNERREZ_*` env vars |
 | Lock isn't getting the new code | Check `SMARTTHINGS_CLIENT_ID`/`CLIENT_SECRET`/`REDIRECT_URI`/`DEVICES` env vars are set, that you've done the `/api/oauth-start` handshake, then trigger `lockcode-sync` manually and read its logs |
 | `No refresh token stored` in logs | The one-time OAuth handshake was never done (or the SmartApp was revoked) — visit `/api/oauth-start` in a browser |
 | Code on the lock doesn't match the screen | Lock has codes in higher slots overriding slot 1, or the daily sync hasn't run yet — trigger manually |
@@ -367,9 +372,15 @@ show details if anything fails.
 
 ## Summary of what you have
 
+- 33 rotating slides (~6.3 min full loop) — preview them all in `admin.html`
 - Live weather pulled per-cabin from Open-Meteo (free, no API key)
 - Smart activity rotation that respects season, weather, and your local favorites
-- Restaurant rotation that hides closed days (Café Sabor on Tuesdays, Shotgun Bar Mon/Tue)
-- Drive times calculated from each cabin's coordinates
+- Restaurant rotation that hides closed days (Café Sabor on Tuesdays, Shotgun Bar Mon/Tue); "Tell them Teara sent you!" taglines auto-highlighted
+- Drive times calculated from each cabin's coordinates, plus a 4-state road conditions board (ID / YNP / WY / MT) with QR codes
 - Four alert pills: snow forecast, freeze warning, fire danger, stargazing nights
+- Day-aware trash slide: "Trash Day!" on pickup day, "Trash Tomorrow!" the day before, bear-can tutorial video otherwise
+- Door code slide pulls the live Schlage code during a stay, shows a gallery photo between bookings
+- Campfire slide with rotating conversation starters, story prompts, and s'more recipes
+- Watch TV slide with brand-colored streaming apps and "Input/Source → PC" return steps
+- Live Yellowstone & Grand Teton park alerts (NPS API)
 - One repo, eight URLs, edit-once deploy-everywhere
