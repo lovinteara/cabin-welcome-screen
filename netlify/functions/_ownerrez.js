@@ -12,6 +12,10 @@ const PROPERTY_IDS = {
   charming:        471812
 };
 
+// OwnerRez custom field definition IDs (find in admin → Settings → Custom Fields → URL).
+const BOOKING_FIELD_DOOR_CODE    = 294930270;   // merge code: BXDOORCODE — per-booking manual override
+const PROPERTY_FIELD_DOOR_BACKUP = 294932859;   // merge code: PXDOORBACKUP — per-cabin fallback
+
 function todayDenver() {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' });
 }
@@ -28,22 +32,67 @@ function daysFromNowDenver(n) {
   return d.toLocaleDateString('en-CA', { timeZone: 'America/Denver' });
 }
 
-async function fetchBookings(propertyId, fromDate, toDate) {
+function orHeaders() {
   const apiKey  = process.env.OWNERREZ_API_KEY;
   const apiUser = process.env.OWNERREZ_API_USER;
   if (!apiKey || !apiUser) return null;
-
-  const url = `https://api.ownerreservations.com/v2/bookings?property_ids=${propertyId}&from_date=${fromDate}&to_date=${toDate}&status=active&include_guest=true`;
   const creds = Buffer.from(`${apiUser}:${apiKey}`).toString('base64');
-  const res = await fetch(url, {
-    headers: { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/json' }
-  });
+  return { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/json' };
+}
+
+async function fetchBookings(propertyId, fromDate, toDate) {
+  const headers = orHeaders();
+  if (!headers) return null;
+
+  // include_fields=true returns each booking's custom field values inline,
+  // which we need to read BXDOORCODE without a second round-trip per booking.
+  const url = `https://api.ownerreservations.com/v2/bookings?property_ids=${propertyId}&from_date=${fromDate}&to_date=${toDate}&status=active&include_guest=true&include_fields=true`;
+  const res = await fetch(url, { headers });
   if (!res.ok) {
-    console.error('OwnerRez error:', res.status, await res.text());
+    console.error('OwnerRez bookings error:', res.status, await res.text());
     return null;
   }
   const data = await res.json();
   return (data.items || []).filter(b => !b.is_block && b.type !== 'block' && b.status === 'active');
+}
+
+// Looks up the property's PXDOORBACKUP value (per-cabin fallback code).
+// Returns the raw string or null. Caller normalizes via deriveCode.
+async function fetchPropertyBackupCode(propertyId) {
+  const headers = orHeaders();
+  if (!headers) return null;
+
+  const url = `https://api.ownerreservations.com/v2/properties/${propertyId}?include_fields=true`;
+  const res = await fetch(url, { headers });
+  if (!res.ok) {
+    console.error('OwnerRez property error:', res.status, await res.text());
+    return null;
+  }
+  const data = await res.json();
+  return getFieldValue(data, PROPERTY_FIELD_DOOR_BACKUP);
+}
+
+// Generic custom-field reader. OwnerRez surfaces field values on bookings and
+// properties under a handful of shapes depending on endpoint and API version,
+// so we check a few. Returns the raw string value (or null).
+function getFieldValue(obj, fieldDefinitionId) {
+  if (!obj) return null;
+  const candidates = [
+    obj.field_values,
+    obj.fields,
+    obj.custom_fields
+  ].filter(Array.isArray);
+  for (const arr of candidates) {
+    const match = arr.find(f =>
+      f.field_definition_id === fieldDefinitionId ||
+      f.fieldDefinitionId   === fieldDefinitionId ||
+      f.definition_id       === fieldDefinitionId ||
+      f.field_id            === fieldDefinitionId ||
+      f.id                  === fieldDefinitionId
+    );
+    if (match && match.value != null && match.value !== '') return match.value;
+  }
+  return null;
 }
 
 function currentBooking(bookings, today) {
@@ -51,45 +100,39 @@ function currentBooking(bookings, today) {
   return bookings.find(b => b.arrival <= today && b.departure > today) || null;
 }
 
-// Derive a 4-digit door code for a booking. Priority:
-//   1. Booking field/custom_field called "door_code" (manual override)
-//   2. Last 4 digits of guest phone
-//   3. Arrival date MMDD
-function deriveCode(booking) {
-  if (!booking) return null;
+// Returns 4–8 digit code, or null if input has fewer than 4 digits.
+function normalizeCode(raw) {
+  if (raw == null) return null;
+  const digits = String(raw).replace(/\D/g, '');
+  if (digits.length < 4) return null;
+  return digits.length > 8 ? digits.slice(-8) : digits;
+}
 
-  // OwnerRez sometimes surfaces fields as `fields` array. Check a few shapes.
-  const override =
-    booking.door_code ||
-    (booking.fields && booking.fields.door_code) ||
-    (Array.isArray(booking.custom_fields) &&
-      (booking.custom_fields.find(f => /door[_ ]?code/i.test(f.name || '')) || {}).value);
-  if (override && /^\d{4,8}$/.test(String(override).replace(/\D/g, ''))) {
-    return String(override).replace(/\D/g, '').slice(-4).padStart(4, '0');
-  }
+// Derive the door code for a booking. Priority:
+//   1. booking.door_code             (system-generated code on the booking)
+//   2. booking BXDOORCODE field      (manual per-booking override)
+//   3. propertyBackupCode            (PXDOORBACKUP, per-cabin fallback)
+function deriveCode(booking, propertyBackupCode) {
+  if (!booking) return normalizeCode(propertyBackupCode);
 
-  const phone =
-    (booking.guest && (booking.guest.phone || booking.guest.cell_phone || booking.guest.home_phone)) ||
-    booking.guest_phone;
-  if (phone) {
-    const digits = String(phone).replace(/\D/g, '');
-    if (digits.length >= 4) return digits.slice(-4);
-  }
-
-  if (booking.arrival && /^\d{4}-\d{2}-\d{2}$/.test(booking.arrival)) {
-    const [, mm, dd] = booking.arrival.split('-');
-    return mm + dd;
-  }
-
-  return null;
+  return (
+    normalizeCode(booking.door_code) ||
+    normalizeCode(getFieldValue(booking, BOOKING_FIELD_DOOR_CODE)) ||
+    normalizeCode(propertyBackupCode)
+  );
 }
 
 module.exports = {
   PROPERTY_IDS,
+  BOOKING_FIELD_DOOR_CODE,
+  PROPERTY_FIELD_DOOR_BACKUP,
   todayDenver,
   daysAgoDenver,
   daysFromNowDenver,
   fetchBookings,
+  fetchPropertyBackupCode,
   currentBooking,
-  deriveCode
+  deriveCode,
+  getFieldValue,
+  normalizeCode
 };

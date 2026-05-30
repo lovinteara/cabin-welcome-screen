@@ -9,6 +9,7 @@ const {
   todayDenver,
   daysAgoDenver,
   fetchBookings,
+  fetchPropertyBackupCode,
   currentBooking,
   deriveCode
 } = require('./_ownerrez');
@@ -42,13 +43,16 @@ exports.handler = async function(event) {
 
   try {
     const today = todayDenver();
-    const bookings = await fetchBookings(propertyId, daysAgoDenver(60), today);
+    const [bookings, propertyBackupCode] = await Promise.all([
+      fetchBookings(propertyId, daysAgoDenver(60), today),
+      fetchPropertyBackupCode(propertyId)
+    ]);
     const booking = currentBooking(bookings, today);
     if (!booking) {
       return { statusCode: 200, headers, body: JSON.stringify({ code: null }) };
     }
 
-    const code = deriveCode(booking);
+    const code = deriveCode(booking, propertyBackupCode);
     if (!code) {
       return { statusCode: 200, headers, body: JSON.stringify({ code: null }) };
     }
