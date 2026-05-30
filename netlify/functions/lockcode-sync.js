@@ -7,13 +7,15 @@
 // For each configured cabin:
 //   1. Looks up today's booking in OwnerRez + the cabin's PXDOORBACKUP value.
 //   2. Derives the code (see _ownerrez.deriveCode):
-//        booking.door_code → BXDOORCODE → PXDOORBACKUP.
+//        guest phone last 4 → booking.door_code → BXDOORCODE → PXDOORBACKUP.
 //   3. For each of that cabin's locks:
 //        guest in cabin → setCode in slot 10.
 //        no guest       → deleteCode in slot 10.
 //
-// Auth uses an OAuth SmartApp + refresh token stored in Netlify Blobs.
-// One-time setup: visit /api/oauth-start in a browser and approve.
+// Auth: SmartThings Automation SmartApp + refresh token. The token is captured
+// at install time by /api/lifecycle and stored in Netlify Blobs. To install,
+// register this site as a SmartApp's webhook and add it via the SmartThings
+// mobile app (Developer Mode → Automations → Add → custom apps).
 //
 // Required env vars:
 //   - OWNERREZ_API_USER, OWNERREZ_API_KEY

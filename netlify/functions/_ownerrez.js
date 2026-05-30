@@ -108,12 +108,27 @@ function normalizeCode(raw) {
   return digits.length > 8 ? digits.slice(-8) : digits;
 }
 
+// Last 4 digits of a phone number, or null.
+function phoneLast4(phone) {
+  if (!phone) return null;
+  const digits = String(phone).replace(/\D/g, '');
+  if (digits.length < 4) return null;
+  return digits.slice(-4);
+}
+
 // Derive the door code for a booking. Priority:
-//   1. booking.door_code             (system-generated code on the booking)
-//   2. booking BXDOORCODE field      (manual per-booking override)
-//   3. propertyBackupCode            (PXDOORBACKUP, per-cabin fallback)
+//   1. Last 4 of guest phone        (memorable for the guest)
+//   2. booking.door_code            (system-generated code on the booking)
+//   3. booking BXDOORCODE field     (manual per-booking override)
+//   4. propertyBackupCode           (PXDOORBACKUP, per-cabin fallback)
 function deriveCode(booking, propertyBackupCode) {
   if (!booking) return normalizeCode(propertyBackupCode);
+
+  const phone =
+    (booking.guest && (booking.guest.phone || booking.guest.cell_phone || booking.guest.home_phone)) ||
+    booking.guest_phone;
+  const phoneCode = phoneLast4(phone);
+  if (phoneCode) return phoneCode;
 
   return (
     normalizeCode(booking.door_code) ||
