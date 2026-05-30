@@ -132,13 +132,16 @@
   </div>
 </div>
 
-<!-- Celebration slide — shows when set via JotForm or on holidays -->
-<div class="slide" data-slide="celebration" id="celebration-slide" style="display:none; position:relative; align-items:center; justify-content:center;">
-  <img id="celebration-img" src="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit;" onerror="this.style.display='none'"/>
-  <div style="position:relative; z-index:2; text-align:center; background:rgba(0,0,0,0.45); border-radius:2vw; padding:3vh 4vw; max-width:70vw;">
-    <div id="celebration-guest" style="font-size:3.5vw; font-family:Georgia,serif; color:#ffd700; font-weight:bold; text-shadow:0 2px 8px rgba(0,0,0,0.8); margin-bottom:1vh;"></div>
-    <div id="celebration-message" style="font-size:2.2vw; color:#f0e8f0; text-shadow:0 2px 6px rgba(0,0,0,0.8); line-height:1.5;"></div>
-    <div style="font-size:1.4vw; color:#ffd700; opacity:0.7; margin-top:1.5vh;">From your hosts Andy &amp; Teara</div>
+<!-- Celebration slide — guest celebration, holiday, or fun national day of the year -->
+<div class="slide" data-slide="celebration" id="celebration-slide" style="position:relative; align-items:center; justify-content:center; text-align:center; overflow:hidden;">
+  <img id="celebration-img" src="" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;" onerror="this.style.display='none'"/>
+  <div id="celebration-emoji" style="position:relative; z-index:2; font-size:11vw; line-height:1; margin-bottom:2vh; filter:drop-shadow(0 4px 16px rgba(0,0,0,0.5));">&#127881;</div>
+  <div style="position:relative; z-index:2; max-width:80vw;">
+    <div id="celebration-eyebrow" style="font-size:1.6vw; letter-spacing:0.3vw; text-transform:uppercase; color:#ffd700; opacity:0.85; margin-bottom:1.5vh;">Today We Celebrate</div>
+    <div id="celebration-guest" style="font-size:3.2vw; font-family:Georgia,serif; color:#ffd700; font-weight:bold; text-shadow:0 2px 8px rgba(0,0,0,0.6); margin-bottom:1vh; display:none;"></div>
+    <div id="celebration-title" style="font-size:5.5vw; font-family:Georgia,serif; color:#f0e8f0; font-weight:bold; text-shadow:0 2px 10px rgba(0,0,0,0.5); line-height:1.1; margin-bottom:2vh;"></div>
+    <div id="celebration-message" style="font-size:2.1vw; color:#f0e8f0; opacity:0.85; text-shadow:0 2px 6px rgba(0,0,0,0.5); line-height:1.5; max-width:65vw; margin:0 auto;"></div>
+    <div style="font-size:1.4vw; color:#ffd700; opacity:0.7; margin-top:2.5vh;">From your hosts Andy &amp; Teara</div>
   </div>
 </div>
 
@@ -910,38 +913,36 @@
 <!-- Campfire Fun slide -->
 <div class="slide" data-slide="campfire" style="overflow:hidden;">
   <div class="slide-label">Tonight · Around the Fire</div>
-  <h1 style="font-size:3.6vw; font-family:Georgia,serif; margin-bottom:1.5vh;">Gather Around the Fire</h1>
-  <div style="display:grid; grid-template-columns:1.1fr 1fr 0.7fr; gap:2.5vw; height:74vh;">
+  <h1 style="font-size:3.4vw; font-family:Georgia,serif; margin-bottom:1.5vh;">Gather Around the Fire</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2vw; height:74vh;">
 
-    <!-- Left: Conversation Starters -->
-    <div style="background:linear-gradient(160deg, rgba(255,149,0,0.14), rgba(255,149,0,0.05)); border:1px solid rgba(255,149,0,0.35); border-radius:1.8vw; padding:3vh 2.2vw; display:flex; flex-direction:column;">
-      <div style="font-size:1.7vw; font-weight:700; color:#ff9500; text-transform:uppercase; letter-spacing:2px; margin-bottom:2vh; display:flex; align-items:center; gap:0.8vw;"><span style="font-size:2.2vw;">&#128172;</span>Conversation Starters</div>
-      <div id="campfire-questions" style="font-size:1.65vw; line-height:1.5; color:#f0e8f0; display:flex; flex-direction:column; justify-content:space-evenly; flex:1;"></div>
+    <!-- Conversation Starters -->
+    <div style="background:linear-gradient(160deg, rgba(255,149,0,0.15), rgba(255,149,0,0.04)); border:1px solid rgba(255,149,0,0.35); border-radius:1.6vw; padding:2.4vh 2vw; display:flex; flex-direction:column; overflow:hidden;">
+      <div style="font-size:1.6vw; font-weight:700; color:#ff9500; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.4vh; display:flex; align-items:center; gap:0.7vw;"><span style="font-size:2vw;">&#128172;</span>Conversation Starters</div>
+      <div id="campfire-questions" style="font-size:1.5vw; line-height:1.4; color:#f0e8f0; display:flex; flex-direction:column; justify-content:space-evenly; flex:1;"></div>
     </div>
 
-    <!-- Center: Story + Smores stacked -->
-    <div style="display:flex; flex-direction:column; gap:2.5vh;">
-      <div style="flex:1; background:linear-gradient(160deg, rgba(255,100,50,0.16), rgba(255,100,50,0.05)); border:1px solid rgba(255,100,50,0.35); border-radius:1.8vw; padding:2.5vh 2vw; display:flex; flex-direction:column;">
-        <div style="font-size:1.7vw; font-weight:700; color:#ff6432; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.5vh; display:flex; align-items:center; gap:0.8vw;"><span style="font-size:2.2vw;">&#128218;</span>Start a Story</div>
-        <div id="campfire-story" style="font-size:1.8vw; line-height:1.55; color:#f0e8f0; font-style:italic; flex:1;"></div>
-        <div style="font-size:1.4vw; color:#ffb38a; opacity:0.85; margin-top:1.5vh; font-weight:600;">&#10024; Take turns adding the next line!</div>
-      </div>
-      <div style="flex:1; background:linear-gradient(160deg, rgba(200,151,58,0.16), rgba(200,151,58,0.05)); border:1px solid rgba(200,151,58,0.35); border-radius:1.8vw; padding:2.5vh 2vw; display:flex; flex-direction:column; min-height:0;">
-        <div style="font-size:1.7vw; font-weight:700; color:#c8973a; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.5vh; display:flex; align-items:center; gap:0.8vw;"><span style="font-size:2.2vw;">&#127852;</span>S'more Ideas</div>
-        <div id="campfire-smores" style="font-size:1.55vw; line-height:1.45; color:#f0e8f0; flex:1; overflow:hidden;"></div>
-      </div>
+    <!-- Start a Story -->
+    <div style="background:linear-gradient(160deg, rgba(255,100,50,0.16), rgba(255,100,50,0.04)); border:1px solid rgba(255,100,50,0.35); border-radius:1.6vw; padding:2.4vh 2vw; display:flex; flex-direction:column; overflow:hidden;">
+      <div style="font-size:1.6vw; font-weight:700; color:#ff6432; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.4vh; display:flex; align-items:center; gap:0.7vw;"><span style="font-size:2vw;">&#128218;</span>Start a Story</div>
+      <div id="campfire-story" style="font-size:1.85vw; line-height:1.5; color:#f0e8f0; font-style:italic; flex:1; display:flex; align-items:center;"></div>
+      <div style="font-size:1.35vw; color:#ffb38a; opacity:0.85; font-weight:600;">&#10024; Take turns adding the next line!</div>
     </div>
 
-    <!-- Right: Smore image + story prompt graphic -->
-    <div style="display:flex; flex-direction:column; align-items:center; justify-content:space-between; gap:2vh; padding:1vh 0;">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:1vh;">
-        <img src="smore.svg" style="width:100%; max-height:26vh; object-fit:contain;" onerror="this.style.display='none'"/>
-        <div style="font-size:1.35vw; color:#c8973a; text-align:center; opacity:0.8; font-weight:600;">New ideas<br/>every rotation!</div>
+    <!-- S'more Ideas -->
+    <div style="background:linear-gradient(160deg, rgba(200,151,58,0.16), rgba(200,151,58,0.04)); border:1px solid rgba(200,151,58,0.35); border-radius:1.6vw; padding:2.4vh 2vw; display:flex; gap:1.5vw; overflow:hidden;">
+      <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+        <div style="font-size:1.6vw; font-weight:700; color:#c8973a; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.4vh; display:flex; align-items:center; gap:0.7vw;"><span style="font-size:2vw;">&#127852;</span>S'more Ideas</div>
+        <div id="campfire-smores" style="font-size:1.5vw; line-height:1.4; color:#f0e8f0; flex:1; overflow:hidden;"></div>
       </div>
-      <div style="width:100%; background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2.5vh 1.5vw; text-align:center;">
-        <div style="font-size:4vw; margin-bottom:1vh;">&#127755;</div>
-        <div style="font-size:1.35vw; color:#f0e8f0; opacity:0.75; line-height:1.4;">No screens needed&mdash;<br/>just good company<br/>under the stars.</div>
-      </div>
+      <img src="smore.svg" style="width:7vw; align-self:center; object-fit:contain;" onerror="this.style.display='none'"/>
+    </div>
+
+    <!-- Fireside Fun (would-you-rather / fun fact) -->
+    <div style="background:linear-gradient(160deg, rgba(95,168,184,0.16), rgba(95,168,184,0.04)); border:1px solid rgba(95,168,184,0.35); border-radius:1.6vw; padding:2.4vh 2vw; display:flex; flex-direction:column; overflow:hidden;">
+      <div style="font-size:1.6vw; font-weight:700; color:#5fa8b8; text-transform:uppercase; letter-spacing:2px; margin-bottom:1.4vh; display:flex; align-items:center; gap:0.7vw;"><span style="font-size:2vw;">&#129313;</span>Would You Rather</div>
+      <div id="campfire-wyr" style="font-size:1.7vw; line-height:1.5; color:#f0e8f0; flex:1; display:flex; align-items:center;"></div>
+      <div style="font-size:1.35vw; color:#9fd4e0; opacity:0.85; font-weight:600;">&#127775; No screens needed — just good company.</div>
     </div>
 
   </div>
@@ -971,45 +972,40 @@
 <!-- Road Conditions slide -->
 <div class="slide" data-slide="roadconditions">
   <div class="slide-label">Plan Your Drive · Road Conditions</div>
-  <h1 style="font-size:3.8vw; font-family:Georgia,serif; margin-bottom:1.5vh;">Road Conditions</h1>
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.6vw; margin-top:0.5vh;">
+  <h1 style="font-size:3.4vw; font-family:Georgia,serif; margin-bottom:0.5vh;">Road Conditions</h1>
+  <p style="font-size:1.4vw; opacity:0.45; margin-bottom:2vh;">Scan any code for live conditions, or call 511 from any phone in-state</p>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1.4vw;">
 
-    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 1.8vw; border:1px solid rgba(95,168,184,0.3); display:flex; flex-direction:column;">
-      <div style="font-size:1.5vw; font-weight:700; color:#5fa8b8; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Idaho Roads · 511.idaho.gov</div>
-      <div class="info-row"><span class="k">US-20</span><span class="v">Main route to Island Park</span></div>
-      <div class="info-row"><span class="k">Osborne Bridge</span><span class="v">See webcam on slide 7</span></div>
-      <div class="info-row"><span class="k">Live conditions</span><span class="v">511.idaho.gov</span></div>
-      <div class="info-row"><span class="k">Call</span><span class="v">511 from any phone</span></div>
-      <div style="flex:1;"></div>
-      <div style="background:#fff; padding:1vw; border-radius:1vw; align-self:flex-start;" id="qr-idaho511"></div>
+    <div style="background:rgba(95,168,184,0.07); border-radius:1.4vw; padding:2.4vh 1.4vw; border:1px solid rgba(95,168,184,0.3); display:flex; flex-direction:column; align-items:center; text-align:center;">
+      <div style="font-size:1.7vw; font-weight:700; color:#5fa8b8; margin-bottom:0.4vh;">Idaho</div>
+      <div style="font-size:1.2vw; opacity:0.5; margin-bottom:1.6vh;">511.idaho.gov</div>
+      <div style="background:#fff; padding:0.9vw; border-radius:0.9vw; margin-bottom:1.6vh;" id="qr-idaho511"></div>
+      <div style="font-size:1.3vw; line-height:1.5; opacity:0.8;"><strong>US-20</strong> main route<br/>Osborne Bridge cam<br/>Call <strong>511</strong></div>
     </div>
 
-    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 1.8vw; border:1px solid rgba(240,146,143,0.3); display:flex; flex-direction:column;">
-      <div style="font-size:1.5vw; font-weight:700; color:#f0928f; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Yellowstone Roads · nps.gov/yell</div>
-      <div class="info-row"><span class="k">Road info line</span><span class="v">(307) 344-2117</span></div>
-      <div class="info-row"><span class="k">Road updates</span><span class="v">Text 82190 to 888777</span></div>
-      <div class="info-row"><span class="k">Live report</span><span class="v">nps.gov/yell/roads</span></div>
-      <div style="flex:1;"></div>
-      <div style="background:#fff; padding:1vw; border-radius:1vw; align-self:flex-start;" id="qr-yellroads"></div>
+    <div style="background:rgba(240,146,143,0.07); border-radius:1.4vw; padding:2.4vh 1.4vw; border:1px solid rgba(240,146,143,0.3); display:flex; flex-direction:column; align-items:center; text-align:center;">
+      <div style="font-size:1.7vw; font-weight:700; color:#f0928f; margin-bottom:0.4vh;">Yellowstone</div>
+      <div style="font-size:1.2vw; opacity:0.5; margin-bottom:1.6vh;">nps.gov/yell</div>
+      <div style="background:#fff; padding:0.9vw; border-radius:0.9vw; margin-bottom:1.6vh;" id="qr-yellroads"></div>
+      <div style="font-size:1.3vw; line-height:1.5; opacity:0.8;">Info <strong>(307) 344-2117</strong><br/>Text <strong>82190</strong> to 888777<br/>Live road report</div>
     </div>
 
-    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 1.8vw; border:1px solid rgba(200,151,58,0.3); display:flex; flex-direction:column;">
-      <div style="font-size:1.5vw; font-weight:700; color:#c8973a; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Wyoming Roads · wyoroad.info</div>
-      <div class="info-row"><span class="k">WYDOT</span><span class="v">wyoroad.info</span></div>
-      <div class="info-row"><span class="k">Call</span><span class="v">(888) WYO-ROAD</span></div>
-      <div class="info-row"><span class="k">Cell</span><span class="v">511 from Wyoming</span></div>
-      <div style="flex:1;"></div>
-      <div style="background:#fff; padding:1vw; border-radius:1vw; align-self:flex-start;" id="qr-wyoroad"></div>
+    <div style="background:rgba(200,151,58,0.07); border-radius:1.4vw; padding:2.4vh 1.4vw; border:1px solid rgba(200,151,58,0.3); display:flex; flex-direction:column; align-items:center; text-align:center;">
+      <div style="font-size:1.7vw; font-weight:700; color:#c8973a; margin-bottom:0.4vh;">Wyoming</div>
+      <div style="font-size:1.2vw; opacity:0.5; margin-bottom:1.6vh;">wyoroad.info</div>
+      <div style="background:#fff; padding:0.9vw; border-radius:0.9vw; margin-bottom:1.6vh;" id="qr-wyoroad"></div>
+      <div style="font-size:1.3vw; line-height:1.5; opacity:0.8;">WYDOT updates<br/><strong>(888) WYO-ROAD</strong><br/><strong>511</strong> in Wyoming</div>
     </div>
 
-    <div style="background:rgba(255,255,255,0.05); border-radius:1.5vw; padding:2vh 1.8vw; border:1px solid rgba(92,184,116,0.3); display:flex; flex-direction:column;">
-      <div style="font-size:1.5vw; font-weight:700; color:#5cb874; margin-bottom:1.2vh; text-transform:uppercase; letter-spacing:1px;">Montana Roads · mdt.mt.gov</div>
-      <div class="info-row"><span class="k">MDT</span><span class="v">mdt.mt.gov/travinfo</span></div>
-      <div class="info-row"><span class="k">Beartooth Pass</span><span class="v">Check before driving!</span></div>
-      <div class="info-row"><span class="k">Call</span><span class="v">511 from Montana</span></div>
-      <div style="flex:1;"></div>
-      <div style="background:#fff; padding:1vw; border-radius:1vw; align-self:flex-start;" id="qr-mtroads"></div>
+    <div style="background:rgba(92,184,116,0.07); border-radius:1.4vw; padding:2.4vh 1.4vw; border:1px solid rgba(92,184,116,0.3); display:flex; flex-direction:column; align-items:center; text-align:center;">
+      <div style="font-size:1.7vw; font-weight:700; color:#5cb874; margin-bottom:0.4vh;">Montana</div>
+      <div style="font-size:1.2vw; opacity:0.5; margin-bottom:1.6vh;">mdt.mt.gov</div>
+      <div style="background:#fff; padding:0.9vw; border-radius:0.9vw; margin-bottom:1.6vh;" id="qr-mtroads"></div>
+      <div style="font-size:1.3vw; line-height:1.5; opacity:0.8;">mdt.mt.gov/travinfo<br/><strong>Beartooth Pass</strong> — check!<br/><strong>511</strong> in Montana</div>
     </div>
+
+  </div>
+</div>
 
   </div>
 </div>
@@ -1126,7 +1122,7 @@
       if (sid === '5' && window._currentRestaurant === 'The Happy Hour Bar') duration = 20000;  // Book again
       if (sid === 'allcabins') duration = 20000; // All cabins grid
       if (sid === 'campfire') duration = 35000;
-      if (sid === 'celebration') duration = 30000;
+      if (sid === 'celebration') duration = 12000;
       if (sid === 'parkalerts') duration = 30000;
       if (sid === 'roadconditions') duration = 20000; // Campfire — needs time to read
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
@@ -1565,11 +1561,26 @@
     ["Brownie S'more", "Replace graham cracker with a brownie · add marshmallow and chocolate · pure indulgence"],
   ];
 
+  const CAMPFIRE_WYR = [
+    "Would you rather spot a moose or a bald eagle on your hike tomorrow?",
+    "Would you rather float the Henry's Fork or hike to a waterfall?",
+    "Would you rather watch the sunrise over the Tetons or the stars over the caldera?",
+    "Would you rather catch a trophy trout or photograph a grizzly (from a safe distance)?",
+    "Would you rather have a cabin in the mountains or a cabin by the lake?",
+    "Would you rather explore Yellowstone's geysers or Grand Teton's trails?",
+    "Would you rather roast the perfect golden marshmallow or set yours on fire?",
+    "Would you rather wake up to elk bugling or loons calling on the water?",
+    "Would you rather ride a snowmobile in winter or a kayak in summer here?",
+    "Would you rather see Old Faithful erupt or find a quiet geyser all to yourself?",
+    "Would you rather tell ghost stories or sing songs around the fire?",
+    "Would you rather go stargazing or chase the northern lights?",
+  ];
+
   function applyCampfire() {
-    // Pick 4 random questions
-    const shuffledQ = [...CAMPFIRE_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
+    // Pick 3 random questions (fits the quadrant card cleanly)
+    const shuffledQ = [...CAMPFIRE_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 3);
     const qEl = document.getElementById('campfire-questions');
-    if (qEl) qEl.innerHTML = shuffledQ.map(q => `<div style="padding:1.2vh 0 1.2vh 1.2vw; border-left:3px solid rgba(255,149,0,0.6); color:#f0e8f0;">${q}</div>`).join('');
+    if (qEl) qEl.innerHTML = shuffledQ.map(q => `<div style="padding:1vh 0 1vh 1.2vw; border-left:3px solid rgba(255,149,0,0.6); color:#f0e8f0;">${q}</div>`).join('');
 
     // Pick 1 random story starter
     const story = CAMPFIRE_STORIES[Math.floor(Math.random() * CAMPFIRE_STORIES.length)];
@@ -1580,8 +1591,13 @@
     const shuffledS = [...CAMPFIRE_SMORES].sort(() => Math.random() - 0.5).slice(0, 3);
     const smEl = document.getElementById('campfire-smores');
     if (smEl) smEl.innerHTML = shuffledS.map(([name, desc]) =>
-      `<div style="margin-bottom:1.4vh;"><span style="font-weight:700; color:#e4b86a;">${name}</span><br/><span style="font-size:1.35vw; opacity:0.75; line-height:1.35;">${desc}</span></div>`
+      `<div style="margin-bottom:1.2vh;"><span style="font-weight:700; color:#e4b86a;">${name}</span><br/><span style="font-size:1.3vw; opacity:0.75; line-height:1.3;">${desc}</span></div>`
     ).join('');
+
+    // Pick 1 would-you-rather
+    const wyr = CAMPFIRE_WYR[Math.floor(Math.random() * CAMPFIRE_WYR.length)];
+    const wEl = document.getElementById('campfire-wyr');
+    if (wEl) wEl.textContent = wyr;
   }
 
   function applyContact() {
@@ -1928,7 +1944,7 @@
         { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
         { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
       ];
-      const roadQRSize = Math.round(window.innerWidth * 0.055);
+      const roadQRSize = Math.round(window.innerWidth * 0.05);
       roadQRs.forEach(({id, url}) => {
         const el = document.getElementById(id);
         if (el && !el.hasChildNodes()) {
@@ -1990,7 +2006,7 @@
         { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
         { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
       ];
-      const roadQRSize = Math.round(window.innerWidth * 0.055);
+      const roadQRSize = Math.round(window.innerWidth * 0.05);
       roadQRs.forEach(({id, url}) => {
         const el = document.getElementById(id);
         if (el && !el.hasChildNodes()) {
@@ -2156,38 +2172,77 @@
   }
 
   // ── CELEBRATION SYSTEM ─────────────────────────────────
-  const OCCASION_IMAGES = {
-    'birthday': 'occasions/occasion-birthday.svg',
-    'anniversary': 'occasions/occasion-anniversary.svg',
-    'honeymoon': 'occasions/occasion-honeymoon.svg',
-    'graduation': 'occasions/occasion-graduation.svg',
-    'reunion': 'occasions/occasion-reunion.svg',
-    'girls-trip': 'occasions/occasion-girls-trip.svg',
-    'guys-trip': 'occasions/occasion-guys-trip.svg',
-    'fishing-trip': 'occasions/occasion-fishing-trip.svg',
-    'river-float': 'occasions/occasion-river-float.svg',
-    'hunting-trip': 'occasions/occasion-hunting-trip.svg',
-    'snowmobile': 'occasions/occasion-snowmobile.svg',
-    'sled-trip': 'occasions/occasion-sled-trip.svg',
-    'retreat': 'occasions/occasion-retreat.svg',
-    'wellness': 'occasions/occasion-wellness.svg',
-    'rr': 'occasions/occasion-rr.svg',
-    'mom-and-me': 'occasions/occasion-mom-and-me.svg',
-    'dad-and-me': 'occasions/occasion-dad-and-me.svg',
+  // Occasion emoji for guest celebrations set via JotForm
+  const OCCASION_EMOJI = {
+    'birthday':'🎂','anniversary':'💍','honeymoon':'💕','graduation':'🎓','reunion':'🎉',
+    'girls-trip':'💃','guys-trip':'🍻','fishing-trip':'🎣','river-float':'🛶','hunting-trip':'🦌',
+    'snowmobile':'🛷','sled-trip':'🛷','retreat':'🧘','wellness':'🌿','rr':'😌','mom-and-me':'👩‍👧','dad-and-me':'👨‍👧',
   };
 
-  const HOLIDAY_IMAGES = {
-    '01-01': 'occasions/holiday-newyears.svg',
-    '02-14': 'occasions/holiday-valentines.svg',
-    '05-26': 'occasions/holiday-memorial-day.svg',
-    '07-03': 'occasions/holiday-idaho-day.svg',
-    '07-04': 'occasions/holiday-july4.svg',
-    '07-24': 'occasions/holiday-pioneer-day.svg',
-    '09-01': 'occasions/holiday-labor-day.svg',
-    '10-31': 'occasions/holiday-halloween.svg',
-    '11-27': 'occasions/holiday-thanksgiving.svg',
-    '12-25': 'occasions/holiday-christmas.svg',
+  // Major holidays (MM-DD) — these take priority over the everyday national days
+  const HOLIDAYS = {
+    '01-01':['🎆','New Year\'s Day','Here\'s to a fresh year of mountain adventures!'],
+    '02-14':['💝','Valentine\'s Day','Love is in the mountain air.'],
+    '03-04':['🥔','Idaho Statehood & Idaho Day','Celebrating the Gem State we call home.'],
+    '05-26':['🇺🇸','Memorial Day','Honoring those who served.'],
+    '07-04':['🎆','Independence Day','Happy 4th of July from Island Park!'],
+    '07-24':['🤠','Pioneer Day','Celebrating Idaho\'s pioneer heritage.'],
+    '09-01':['🛠️','Labor Day','Relax — you\'ve earned it.'],
+    '10-31':['🎃','Halloween','Spooky season in the pines!'],
+    '11-27':['🦃','Thanksgiving','Grateful you\'re here with us.'],
+    '12-25':['🎄','Christmas','Merry Christmas from Andy & Teara!'],
+    '12-31':['🥂','New Year\'s Eve','Cheers to the year ahead!'],
   };
+
+  // Fun "national day of the year" — keyed by MM-DD. Always something to celebrate.
+  // Leaned toward outdoors, Idaho, food, and family fun.
+  const NATIONAL_DAYS = {"01-01":["New Year's Day","First Sunrise Celebration","Fresh Tracks in the Snow Day","Snowshoe Hare Day"],"01-02":["Cozy Cabin Reset Day","Fresh Start Adventure Day","Elk in the Snow Day"],"01-03":["Winter Wildlife Watch Day","Snowy Window View Day","Frosty Pine Day"],"01-04":["Trivia Day","Cabin Game Night Day","Raven in the Pines Day"],"01-05":["Bird Day","Feathered Friends Day","Moose Tracks Day"],"01-06":["Hot Cocoa Day","Warm Socks Day","Snowshoe Hare Day"],"01-07":["Old Rock Day","Geology Appreciation Day","Elk in the Snow Day"],"01-08":["Bubble Bath Day","Relax at the Cabin Day","Frosty Pine Day"],"01-09":["Snowy Trail Day","Winter Walk Day","Raven in the Pines Day"],"01-10":["Houseplant Appreciation Day","Bring the Outdoors In Day","Moose Tracks Day"],"01-11":["Milk Day","Cookies and Milk Day","Snowshoe Hare Day"],"01-12":["Hot Tea Day","Tea by the Fire Day","Elk in the Snow Day"],"01-13":["Dream Big Day","Plan Your Next Adventure Day","Frosty Pine Day"],"01-14":["Dress Up Your Pet Day","Cabin Pet Photo Day","Raven in the Pines Day"],"01-15":["Bagel Day","Breakfast with a View Day","Moose Tracks Day"],"01-16":["Appreciate a Dragon Day","Tall Tale Day","Snowshoe Hare Day"],"01-17":["Good Neighbor Day","Share a Smile Day","Elk in the Snow Day"],"01-18":["Winnie the Pooh Day","Honey Bear Day","Frosty Pine Day"],"01-19":["Popcorn Day","Movie Night at the Cabin Day","Raven in the Pines Day"],"01-20":["Cheese Lover's Day","Snack Board Day","Moose Tracks Day"],"01-21":["Squirrel Appreciation Day","Tiny Forest Friends Day","Snowshoe Hare Day"],"01-22":["Answer Your Cat's Questions Day","Pet Cuddle Day","Elk in the Snow Day"],"01-23":["Pie Day","Cabin Dessert Day","Frosty Pine Day"],"01-24":["Compliment Day","Kind Words Day","Raven in the Pines Day"],"01-25":["Opposite Day","Silly Switcheroo Day","Moose Tracks Day"],"01-26":["Spouse's Day","Sweetheart Cabin Day","Snowshoe Hare Day"],"01-27":["Chocolate Cake Day","Dessert First Day","Elk in the Snow Day"],"01-28":["Blueberry Pancake Day","Lazy Breakfast Day","Frosty Pine Day"],"01-29":["Puzzle Day","Jigsaw by the Fire Day","Raven in the Pines Day"],"01-30":["Croissant Day","Fancy Breakfast Day","Moose Tracks Day"],"01-31":["Backward Day","Do Something Silly Day","Snowshoe Hare Day"],"02-01":["Freedom Day","Fresh Snow Day","Fox Tracks Day"],"02-02":["Groundhog Day","Shadow Spotting Day","Owl Listening Night"],"02-03":["Carrot Cake Day","Sweet Slice Day","Snowy Bison Day"],"02-04":["Homemade Soup Day","Soup by the Fire Day","Cabin Fireplace Day"],"02-05":["Weatherperson's Day","Mountain Weather Watch Day","Winter Stars Day"],"02-06":["Frozen Yogurt Day","Frozen Treat Day","Fox Tracks Day"],"02-07":["Send a Card Day","Thinking of You Day","Owl Listening Night"],"02-08":["Kite Flying Day","Windy Adventure Day","Snowy Bison Day"],"02-09":["Pizza Day","Cabin Pizza Night","Cabin Fireplace Day"],"02-10":["Umbrella Day","Cozy Rainy Day","Winter Stars Day"],"02-11":["Inventors Day","Creative Cabin Ideas Day","Fox Tracks Day"],"02-12":["Lincoln's Birthday","History Appreciation Day","Owl Listening Night"],"02-13":["Radio Day","Road Trip Playlist Day","Snowy Bison Day"],"02-14":["Valentine's Day","Love Where You Are Day","Cabin Fireplace Day"],"02-15":["Cabin Game Night Day","Board Game Day","Winter Stars Day"],"02-16":["Almond Day","Trail Snack Day","Fox Tracks Day"],"02-17":["Random Acts of Kindness Day","Leave a Happy Note Day","Owl Listening Night"],"02-18":["Cozy Blanket Day","Snuggle In Day","Snowy Bison Day"],"02-19":["Chocolate Mint Day","After-Dinner Treat Day","Cabin Fireplace Day"],"02-20":["Love Your Pet Day","Paws at the Cabin Day","Winter Stars Day"],"02-21":["Mother Language Day","Storytelling Day","Fox Tracks Day"],"02-22":["Wildlife Appreciation Day","Look for Tracks Day","Owl Listening Night"],"02-23":["Banana Bread Day","Cabin Baking Day","Snowy Bison Day"],"02-24":["Tortilla Chip Day","Chips and Dip Day","Cabin Fireplace Day"],"02-25":["Clam Chowder Day","Warm Bowl Day","Winter Stars Day"],"02-26":["Tell a Fairy Tale Day","Forest Story Day","Fox Tracks Day"],"02-27":["Polar Bear Day","Snow Bear Day","Owl Listening Night"],"02-28":["Public Sleeping Day","Nap Appreciation Day","Snowy Bison Day"],"02-29":["Leap Day","Bonus Adventure Day","Once Every Four Years Day","Cabin Fireplace Day"],"03-01":["Yellowstone Dreaming Day","Spring Trip Planning Day","Spring Bear Wake-Up Day"],"03-02":["Read Across America Day","Cabin Reading Day","River Thaw Day"],"03-03":["World Wildlife Day","Animal Tracks Day","Pinecone Day"],"03-04":["March Forth Day","Take the Next Step Day","Mountain Bluebird Day"],"03-05":["Cheese Doodle Day","Orange Fingers Snack Day","Forest Floor Day"],"03-06":["Frozen Food Day","Easy Cabin Dinner Day","Spring Bear Wake-Up Day"],"03-07":["Be Heard Day","Speak Up Kindly Day","River Thaw Day"],"03-08":["International Women's Day","Strong Women Celebration","Pinecone Day"],"03-09":["Get Outside and Smile Day","Fresh Air Happiness Day","Mountain Bluebird Day"],"03-10":["Pack for Adventure Day","Suitcase Day","Forest Floor Day"],"03-11":["Johnny Sack Cabin Day","Historic Cabin Day","Spring Bear Wake-Up Day"],"03-12":["Plant a Wildflower Day","Wildflower Wishes Day","River Thaw Day"],"03-13":["Good Samaritan Day","Helpful Neighbor Day","Pinecone Day"],"03-14":["Pi Day","Pie for Pi Day","Mountain Bluebird Day"],"03-15":["Idaho Cabin Dreaming Day","Mountain Getaway Day","Forest Floor Day"],"03-16":["Panda Day","Black and White Snack Day","Spring Bear Wake-Up Day"],"03-17":["St. Patrick's Day","Lucky Cabin Day","River Thaw Day"],"03-18":["Clean Air Day","Breathe Deep Day","Pinecone Day"],"03-19":["Let's Laugh Day","Cabin Giggle Day","Mountain Bluebird Day"],"03-20":["First Day of Spring","Spring in the Mountains Day","Forest Floor Day"],"03-21":["International Day of Forests","Forest Appreciation Day","Spring Bear Wake-Up Day"],"03-22":["World Water Day","River Appreciation Day","River Thaw Day"],"03-23":["Puppy Day","Dog Walk Day","Pinecone Day"],"03-24":["Chocolate Covered Raisin Day","Sweet Trail Mix Day","Mountain Bluebird Day"],"03-25":["Tolkien Reading Day","Adventure Story Day","Forest Floor Day"],"03-26":["Make Up Your Own Holiday Day","Invent a Celebration Day","Spring Bear Wake-Up Day"],"03-27":["Mountain View Day","Scenic Overlook Day","River Thaw Day"],"03-28":["Respect Your Cat Day","Quiet Cozy Day","Pinecone Day"],"03-29":["Mom and Pop Business Day","Shop Local Day","Mountain Bluebird Day"],"03-30":["Take a Walk in the Park Day","Park Stroll Day","Forest Floor Day"],"03-31":["Crayon Day","Color Something Happy Day","Spring Bear Wake-Up Day"],"04-01":["April Fool's Day","Harmless Prank Day","Baby Animal Watch Day"],"04-02":["Picture Book Day","Read Aloud Day","Songbird Morning Day"],"04-03":["Find a Rainbow Day","Colorful Sky Day","Wildflower Peek Day"],"04-04":["Walk Around Things Day","Go the Scenic Route Day","Rain on the Roof Day"],"04-05":["Deep Dish Pizza Day","Extra Cheese Day","Muddy Boots Day"],"04-06":["Fresh Air Day","Open the Windows Day","Baby Animal Watch Day"],"04-07":["World Health Day","Stretch and Smile Day","Songbird Morning Day"],"04-08":["Draw a Bird Day","Sketch Nature Day","Wildflower Peek Day"],"04-09":["Unicorn Day","Believe in Magic Day","Rain on the Roof Day"],"04-10":["Siblings Day","Family Memory Day","Muddy Boots Day"],"04-11":["Pet Day","Pet Photo Day","Baby Animal Watch Day"],"04-12":["Grilled Cheese Day","Tomato Soup Sidekick Day","Songbird Morning Day"],"04-13":["Scrabble Day","Word Game Day","Wildflower Peek Day"],"04-14":["Look Up at the Sky Day","Cloud Watching Day","Rain on the Roof Day"],"04-15":["Laundry Day","Fresh Sheets Day","Muddy Boots Day"],"04-16":["Pajama Day","Stay Cozy Day","Baby Animal Watch Day"],"04-17":["Bat Appreciation Day","Night Wildlife Day","Songbird Morning Day"],"04-18":["Trail Map Day","Plan a Hike Day","Wildflower Peek Day"],"04-19":["Hanging Out Day","Porch Sitting Day","Rain on the Roof Day"],"04-20":["Look for Moose Day","Moose Crossing Day","Muddy Boots Day"],"04-21":["Kindergarten Day","Little Learners Day","Baby Animal Watch Day"],"04-22":["Earth Day","Love the Planet Day","Songbird Morning Day"],"04-23":["World Book Day","Book by the Fire Day","Wildflower Peek Day"],"04-24":["Arbor Day","Tree Appreciation Day","Rain on the Roof Day"],"04-25":["Junior Ranger Day","National Park Kid Day","Muddy Boots Day"],"04-26":["Audubon Day","Birdwatching Day","Baby Animal Watch Day"],"04-27":["Tell a Story Day","Campfire Story Day","Songbird Morning Day"],"04-28":["Superhero Day","Everyday Hero Day","Wildflower Peek Day"],"04-29":["International Dance Day","Kitchen Dance Party Day","Rain on the Roof Day"],"04-30":["Adopt a Shelter Pet Day","Rescue Pet Love Day","Muddy Boots Day"],"05-01":["May Day","Spring Flower Day","Moose Meadow Day"],"05-02":["Idaho Potato Day","Baked Potato Happiness Day","Bald Eagle Day"],"05-03":["Garden Meditation Day","Quiet Garden Day","Lodgepole Pine Day"],"05-04":["Star Wars Day","May the Forest Be With You Day","Spring Creek Day"],"05-05":["Cinco de Mayo","Taco Night Day","Fresh Trail Day"],"05-06":["Beverage Day","Favorite Drink Day","Moose Meadow Day"],"05-07":["Tourism Appreciation Day","Welcome Travelers Day","Bald Eagle Day"],"05-08":["Have a Coke Day","Ice-Cold Drink Day","Lodgepole Pine Day"],"05-09":["Lost Sock Day","Cabin Laundry Mystery Day","Spring Creek Day"],"05-10":["Clean Up Your Room Day","Tidy Cabin Day","Fresh Trail Day"],"05-11":["Eat What You Want Day","Vacation Treat Day","Moose Meadow Day"],"05-12":["Limerick Day","Silly Poem Day","Bald Eagle Day"],"05-13":["Apple Pie Day","Pie and Ice Cream Day","Lodgepole Pine Day"],"05-14":["Dance Like a Chicken Day","Silly Dance Day","Spring Creek Day"],"05-15":["Chocolate Chip Day","Cookie Add-In Day","Fresh Trail Day"],"05-16":["Love a Tree Day","Lodgepole Pine Day","Moose Meadow Day"],"05-17":["World Baking Day","Bake Something Sweet Day","Bald Eagle Day"],"05-18":["Museum Day","History Adventure Day","Lodgepole Pine Day"],"05-19":["Plant Something Day","Grow Something Day","Spring Creek Day"],"05-20":["Pick Strawberries Day","Berry Sweet Day","Fresh Trail Day"],"05-21":["World Meditation Day","Mountain Calm Day","Moose Meadow Day"],"05-22":["Biodiversity Day","Nature Variety Day","Bald Eagle Day"],"05-23":["Lucky Penny Day","Tiny Treasure Day","Lodgepole Pine Day"],"05-24":["Scavenger Hunt Day","Cabin Treasure Hunt Day","Spring Creek Day"],"05-25":["Tap Dance Day","Happy Feet Day","Fresh Trail Day"],"05-26":["Paper Airplane Day","Cabin Flight School Day","Moose Meadow Day"],"05-27":["Sunscreen Day","Sunny Adventure Day","Bald Eagle Day"],"05-28":["Hamburger Day","Grill Night Day","Lodgepole Pine Day"],"05-29":["Composting Day","Waste Less Day","Spring Creek Day"],"05-30":["Water a Flower Day","Bloom Day","Fresh Trail Day"],"05-31":["Smile Day","Happy Guest Day","Moose Meadow Day"],"06-01":["Great Outdoors Month Begins","Outside Every Day Day","Bison Meadow Day"],"06-02":["Rocky Road Ice Cream Day","Rocky Mountain Treat Day","Butterfly Day"],"06-03":["World Bicycle Day","Pedal Around Day","River Rock Day"],"06-04":["Cheese Day","Cheesy Smile Day","Paddle the Water Day"],"06-05":["World Environment Day","Leave It Better Day","Long Sunset Day"],"06-06":["Yo-Yo Day","Classic Toy Day","Bison Meadow Day"],"06-07":["Chocolate Ice Cream Day","Summer Scoop Day","Butterfly Day"],"06-08":["Best Friends Day","Adventure Buddy Day","River Rock Day"],"06-09":["Donald Duck Day","Silly Voice Day","Paddle the Water Day"],"06-10":["Iced Tea Day","Porch Tea Day","Long Sunset Day"],"06-11":["Corn on the Cob Day","Summer BBQ Side Day","Bison Meadow Day"],"06-12":["Peanut Butter Cookie Day","Cookie Jar Day","Butterfly Day"],"06-13":["Weed Your Garden Day","Garden Helper Day","River Rock Day"],"06-14":["Flag Day","Red White and Blue Day","Paddle the Water Day"],"06-15":["Nature Photography Day","Take a Scenic Photo Day","Long Sunset Day"],"06-16":["Fresh Veggies Day","Farm Stand Day","Bison Meadow Day"],"06-17":["Eat Your Vegetables Day","Crunchy Snack Day","Butterfly Day"],"06-18":["International Picnic Day","Picnic Blanket Day","River Rock Day"],"06-19":["Juneteenth","Freedom Celebration Day","Paddle the Water Day"],"06-20":["Summer Solstice Celebration","Longest Day of Sunshine","Long Sunset Day"],"06-21":["World Giraffe Day","Tall Tales Day","Bison Meadow Day"],"06-22":["Onion Rings Day","Crispy Snack Day","Butterfly Day"],"06-23":["Pink Day","Wear Something Bright Day","River Rock Day"],"06-24":["Swim a Lap Day","Lake Day","Paddle the Water Day"],"06-25":["Catfish Day","Fishing Story Day","Long Sunset Day"],"06-26":["Canoe Day","Paddle Day","Bison Meadow Day"],"06-27":["Sunglasses Day","Shade Your Eyes Day","Butterfly Day"],"06-28":["Log Cabin Day","Cabin Love Day","River Rock Day"],"06-29":["Camera Day","Vacation Photo Day","Paddle the Water Day"],"06-30":["Meteor Watch Day","Night Sky Day","Long Sunset Day"],"07-01":["Canada Day","North Country Neighbor Day","Campfire Stories Day"],"07-02":["Made in Idaho Day","Local Love Day","Huckleberry Bear Day"],"07-03":["Stay Cool Day","Shade Tree Day","Dragonfly Day"],"07-04":["Independence Day","Fireworks and Freedom Day","Lake Breeze Day"],"07-05":["Graham Cracker Day","Almost S'mores Day","Mountain Picnic Day"],"07-06":["Fried Chicken Day","Picnic Food Day","Campfire Stories Day"],"07-07":["Chocolate Day","Sweet Tooth Day","Huckleberry Bear Day"],"07-08":["Blue Sky Day","Perfect Porch Weather Day","Dragonfly Day"],"07-09":["Sugar Cookie Day","Cookie Decorating Day","Lake Breeze Day"],"07-10":["Teddy Bear Picnic Day","Stuffed Animal Adventure Day","Mountain Picnic Day"],"07-11":["Cheer Up the Lonely Day","Send a Happy Text Day","Campfire Stories Day"],"07-12":["Simplicity Day","Slow Morning Day","Huckleberry Bear Day"],"07-13":["French Fry Day","Potato Fry Day","Dragonfly Day"],"07-14":["Mac and Cheese Day","Comfort Food Day","Lake Breeze Day"],"07-15":["Give Something Away Day","Share the Good Day","Mountain Picnic Day"],"07-16":["Porch Sitting Day","Fresh Air Evening Day","Campfire Stories Day"],"07-17":["World Emoji Day","Send a Smile Day","Huckleberry Bear Day"],"07-18":["Huckleberry Happiness Day","Berry Picking Day","Dragonfly Day"],"07-19":["Ice Cream Day","Summer Cone Day","Lake Breeze Day"],"07-20":["Moon Day","Look at the Moon Day","Mountain Picnic Day"],"07-21":["Junk Food Day","Vacation Snack Day","Campfire Stories Day"],"07-22":["Hammock Day","Lazy Afternoon Day","Huckleberry Bear Day"],"07-23":["Gorgeous Grandma Day","Family Stories Day","Dragonfly Day"],"07-24":["Cousins Day","Family Adventure Day","Lake Breeze Day"],"07-25":["Hot Fudge Sundae Day","Ice Cream Topping Day","Mountain Picnic Day"],"07-26":["All or Nothing Day","Try Something New Day","Campfire Stories Day"],"07-27":["Walk on Stilts Day","Stand Tall Day","Huckleberry Bear Day"],"07-28":["Waterpark Day","Splash Day","Dragonfly Day"],"07-29":["Chicken Wing Day","Finger Food Day","Lake Breeze Day"],"07-30":["Friendship Day","Adventure Friends Day","Mountain Picnic Day"],"07-31":["Avocado Day","Guacamole Day","Campfire Stories Day"],"08-01":["Mountain Adventure Day","Peak View Day","S'mores Smile Day"],"08-02":["Ice Cream Sandwich Day","Frozen Dessert Day","Night Sky Watch Day"],"08-03":["Watermelon Day","Juicy Summer Day","Chipmunk Snack Day"],"08-04":["Chocolate Chip Cookie Day","Warm Cookie Day","Pine Forest Day"],"08-05":["Work Like a Dog Day","Take a Dog Break Day","Warm Trail Day"],"08-06":["Root Beer Float Day","Frosty Mug Day","S'mores Smile Day"],"08-07":["Lighthouse Day","Find Your Way Day","Night Sky Watch Day"],"08-08":["International Cat Day","Cabin Cat Nap Day","Chipmunk Snack Day"],"08-09":["Book Lovers Day","Vacation Reading Day","Pine Forest Day"],"08-10":["S'mores Day","Campfire Treat Day","Warm Trail Day"],"08-11":["Play in the Sand Day","Barefoot Summer Day","S'mores Smile Day"],"08-12":["World Elephant Day","Big Gentle Giants Day","Night Sky Watch Day"],"08-13":["Left-Handers Day","Lefty Celebration Day","Chipmunk Snack Day"],"08-14":["Creamsicle Day","Orange Treat Day","Pine Forest Day"],"08-15":["Relaxation Day","Do Less Day","Warm Trail Day"],"08-16":["Tell a Joke Day","Laugh Out Loud Day","S'mores Smile Day"],"08-17":["Black Cat Appreciation Day","Lucky Cat Day","Night Sky Watch Day"],"08-18":["Mail Order Catalog Day","Wish List Day","Chipmunk Snack Day"],"08-19":["World Photography Day","Scenic Snapshot Day","Pine Forest Day"],"08-20":["Chocolate Pecan Pie Day","Pie Slice Day","Warm Trail Day"],"08-21":["Senior Citizens Day","Wisdom and Stories Day","S'mores Smile Day"],"08-22":["Be an Angel Day","Do Something Kind Day","Night Sky Watch Day"],"08-23":["Ride the Wind Day","Breezy Day","Chipmunk Snack Day"],"08-24":["Waffle Day","Breakfast for Dinner Day","Pine Forest Day"],"08-25":["Banana Split Day","Sundae Smiles Day","Warm Trail Day"],"08-26":["Dog Day","Pup Adventure Day","S'mores Smile Day"],"08-27":["Just Because Day","Celebrate for No Reason Day","Night Sky Watch Day"],"08-28":["Bow Tie Day","Dress Up Silly Day","Chipmunk Snack Day"],"08-29":["More Herbs, Less Salt Day","Flavor Day","Pine Forest Day"],"08-30":["Beach Day","Lake Shore Day","Warm Trail Day"],"08-31":["Trail Mix Day","Snack for the Trail Day","S'mores Smile Day"],"09-01":["Back to the Mountains Day","Fall Trip Dreaming Day","Elk Bugle Season Day"],"09-02":["Blueberry Popsicle Day","Last Taste of Summer Day","Golden Aspen Day"],"09-03":["Skyscraper Day","Look Up Day","Cool Morning Day"],"09-04":["Wildlife Crossing Day","Drive Slow for Wildlife Day","Migration Watch Day"],"09-05":["Cheese Pizza Day","Pizza Night Day","Fall Trail Day"],"09-06":["Read a Book Day","Cabin Chapter Day","Elk Bugle Season Day"],"09-07":["Grandparents Day","Grand Stories Day","Golden Aspen Day"],"09-08":["International Literacy Day","Learn Something New Day","Cool Morning Day"],"09-09":["Teddy Bear Day","Cozy Comfort Day","Migration Watch Day"],"09-10":["Swap Ideas Day","Brainstorm Day","Fall Trail Day"],"09-11":["Day of Remembrance","Kindness and Reflection Day","Elk Bugle Season Day"],"09-12":["Chocolate Milkshake Day","Sweet Sip Day","Golden Aspen Day"],"09-13":["Positive Thinking Day","Look for the Good Day","Cool Morning Day"],"09-14":["Cream Filled Donut Day","Bakery Treat Day","Migration Watch Day"],"09-15":["Make a Hat Day","Mountain Hat Day","Fall Trail Day"],"09-16":["Trail Snack Day","Granola Bar Day","Elk Bugle Season Day"],"09-17":["Constitution Day","Civic Appreciation Day","Golden Aspen Day"],"09-18":["Cheeseburger Day","Grill Favorite Day","Cool Morning Day"],"09-19":["Talk Like a Pirate Day","Arrr-dventure Day","Migration Watch Day"],"09-20":["Pepperoni Pizza Day","Pizza Slice Day","Fall Trail Day"],"09-21":["World Gratitude Day","Thankful Guest Day","Elk Bugle Season Day"],"09-22":["First Day of Fall","Sweater Weather Day","Golden Aspen Day"],"09-23":["Checkers Day","Cabin Board Game Day","Cool Morning Day"],"09-24":["Public Lands Day","Love Public Lands Day","Migration Watch Day"],"09-25":["Comic Book Day","Hero Story Day","Fall Trail Day"],"09-26":["Johnny Appleseed Day","Apple Picking Day","Elk Bugle Season Day"],"09-27":["World Tourism Day","Welcome Explorer Day","Golden Aspen Day"],"09-28":["Good Neighbor Day","Wave to a Neighbor Day","Cool Morning Day"],"09-29":["Coffee Day","Morning Mug Day","Migration Watch Day"],"09-30":["Hot Mulled Cider Day","Autumn Sip Day","Fall Trail Day"],"10-01":["Pumpkin Spice Day","Cozy October Day","Spooky Forest Day"],"10-02":["Name Your Car Day","Road Trip Buddy Day","Owl Moon Day"],"10-03":["Techies Day","Smart Cabin Day","Pumpkin Porch Day"],"10-04":["World Animal Day","Wildlife Kindness Day","Crunchy Leaves Day"],"10-05":["Do Something Nice Day","Kind Gesture Day","Fox in the Frost Day"],"10-06":["Mad Hatter Day","Silly Hat Day","Spooky Forest Day"],"10-07":["Frappe Day","Fancy Drink Day","Owl Moon Day"],"10-08":["Fluffernutter Day","Peanut Butter Happiness Day","Pumpkin Porch Day"],"10-09":["Moldy Cheese Day","Brave Snack Day","Crunchy Leaves Day"],"10-10":["Handbag Day","Pack Your Day Bag Day","Fox in the Frost Day"],"10-11":["Sausage Pizza Day","Cabin Pizza Night","Spooky Forest Day"],"10-12":["Farmer's Day","Harvest Appreciation Day","Owl Moon Day"],"10-13":["M&M Day","Colorful Candy Day","Pumpkin Porch Day"],"10-14":["Dessert Day","Treat Yourself Day","Crunchy Leaves Day"],"10-15":["Grouch Day","Laugh at a Grump Day","Fox in the Frost Day"],"10-16":["Dictionary Day","Learn a New Word Day","Spooky Forest Day"],"10-17":["Pasta Day","Noodle Night Day","Owl Moon Day"],"10-18":["Chocolate Cupcake Day","Cupcake Smile Day","Pumpkin Porch Day"],"10-19":["New Friends Day","Meet Someone Kind Day","Crunchy Leaves Day"],"10-20":["Sloth Day","Slow Down Day","Fox in the Frost Day"],"10-21":["Apple Day","Crisp Apple Day","Spooky Forest Day"],"10-22":["Nut Day","Trail Nut Snack Day","Owl Moon Day"],"10-23":["Mole Day","Science Smile Day","Pumpkin Porch Day"],"10-24":["United Nations Day","World Together Day","Crunchy Leaves Day"],"10-25":["Sourest Day","Sour Candy Day","Fox in the Frost Day"],"10-26":["Pumpkin Day","Pumpkin Porch Day","Spooky Forest Day"],"10-27":["Black Cat Day","Spooky Cat Day","Owl Moon Day"],"10-28":["Chocolate Day","Chocolate Break Day","Pumpkin Porch Day"],"10-29":["Cat Day","Cat Nap Day","Crunchy Leaves Day"],"10-30":["Checklist Day","Pack and Plan Day","Fox in the Frost Day"],"10-31":["Halloween","Costume and Candy Day","Spooky Forest Day"],"11-01":["Cinnamon Day","Warm Spice Day","Grateful Forest Day"],"11-02":["Look for Circles Day","Nature Shapes Day","Quiet Trail Day"],"11-03":["Sandwich Day","Picnic Sandwich Day","Pine Needle Day"],"11-04":["Candy Day","Sweet Little Treat Day","Cozy Cabin Day"],"11-05":["Donut Day","Breakfast Treat Day","Deer Meadow Day"],"11-06":["Nachos Day","Snack Plate Day","Grateful Forest Day"],"11-07":["Bittersweet Chocolate Day","Chocolate Moment Day","Quiet Trail Day"],"11-08":["Cappuccino Day","Foamy Coffee Day","Pine Needle Day"],"11-09":["Art Museum Day","Creative Inspiration Day","Cozy Cabin Day"],"11-10":["Forget-Me-Not Day","Remember Someone Kind Day","Deer Meadow Day"],"11-11":["Veterans Day","Thank a Veteran Day","Grateful Forest Day"],"11-12":["Chicken Soup for the Soul Day","Comfort and Kindness Day","Quiet Trail Day"],"11-13":["World Kindness Day","Kindness Everywhere Day","Pine Needle Day"],"11-14":["Pickle Day","Crunchy Pickle Day","Cozy Cabin Day"],"11-15":["Clean Out Your Refrigerator Day","Leftover Adventure Day","Deer Meadow Day"],"11-16":["Fast Food Day","Road Trip Food Day","Grateful Forest Day"],"11-17":["Take a Hike Day","Trail Time Day","Quiet Trail Day"],"11-18":["Mickey Mouse Day","Classic Cartoon Day","Pine Needle Day"],"11-19":["Have a Bad Day Day","It's Okay Day","Cozy Cabin Day"],"11-20":["Absurdity Day","Silly Nonsense Day","Deer Meadow Day"],"11-21":["Stuffing Day","Holiday Side Dish Day","Grateful Forest Day"],"11-22":["Go for a Ride Day","Scenic Drive Day","Quiet Trail Day"],"11-23":["Espresso Day","Tiny Coffee Day","Pine Needle Day"],"11-24":["Celebrate Your Unique Talent Day","Hidden Talent Day","Cozy Cabin Day"],"11-25":["Parfait Day","Layered Treat Day","Deer Meadow Day"],"11-26":["Cake Day","Slice of Happiness Day","Grateful Forest Day"],"11-27":["Craft Jerky Day","Trail Protein Day","Quiet Trail Day"],"11-28":["French Toast Day","Sweet Breakfast Day","Pine Needle Day"],"11-29":["Square Dance Day","Dance in the Kitchen Day","Cozy Cabin Day"],"11-30":["Mason Jar Day","Cabin Craft Day","Deer Meadow Day"],"12-01":["Cookie Cutter Day","Holiday Cookie Day","Snowflake Day"],"12-02":["Fritters Day","Warm Treat Day","Merry Moose Day"],"12-03":["Make a Gift Day","Handmade Happiness Day","Winter Cabin Day"],"12-04":["Sock Day","Cozy Sock Day","Pine Garland Day"],"12-05":["Bathtub Party Day","Bubble Soak Day","Stargazing Blanket Day"],"12-06":["Mitten Tree Day","Warm Hands Day","Snowflake Day"],"12-07":["Letter Writing Day","Send a Note Day","Merry Moose Day"],"12-08":["Brownie Day","Chocolate Square Day","Winter Cabin Day"],"12-09":["Christmas Card Day","Holiday Mail Day","Pine Garland Day"],"12-10":["Dewey Decimal Day","Library Love Day","Stargazing Blanket Day"],"12-11":["Mountain Snow Day","Snow Globe View Day","Snowflake Day"],"12-12":["Gingerbread House Day","Sweet Cabin Day","Merry Moose Day"],"12-13":["Cocoa and Cookies Day","Fireside Treat Day","Winter Cabin Day"],"12-14":["Roast Chestnuts Day","Warm Snack Day","Pine Garland Day"],"12-15":["Cupcake Day","Tiny Cake Day","Stargazing Blanket Day"],"12-16":["Chocolate Covered Anything Day","Dip It in Chocolate Day","Snowflake Day"],"12-17":["Maple Syrup Day","Pancake Topping Day","Merry Moose Day"],"12-18":["Bake Cookies Day","Cookie Sheet Day","Winter Cabin Day"],"12-19":["Hard Candy Day","Old Fashioned Candy Day","Pine Garland Day"],"12-20":["Go Caroling Day","Holiday Song Day","Stargazing Blanket Day"],"12-21":["Winter Solstice","Longest Night, Coziest Lights Day","Snowflake Day"],"12-22":["Cabin Lights Day","Twinkle Light Day","Merry Moose Day"],"12-23":["Festivus","Silly Tradition Day","Winter Cabin Day"],"12-24":["Christmas Eve","Cozy Holiday Eve","Pine Garland Day"],"12-25":["Christmas Day","Merry and Bright Day","Stargazing Blanket Day"],"12-26":["Candy Cane Day","Boxing Day","Snowflake Day"],"12-27":["Visit the Zoo Day","Animal Adventure Day","Merry Moose Day"],"12-28":["Card Playing Day","Family Game Day","Winter Cabin Day"],"12-29":["Tick Tock Day","Year-End Countdown Day","Pine Garland Day"],"12-30":["Bacon Day","Big Breakfast Day","Stargazing Blanket Day"],"12-31":["New Year's Eve","Last Sunset of the Year","Snowflake Day"]};
+
+  // Pick a festive emoji for a celebration name by keyword
+  function celebrationEmoji(name) {
+    const n = (name || '').toLowerCase();
+    const map = [
+      [/(bird|raven|eagle|owl|hawk|sparrow|chickadee)/,'🦅'],[/(bear|grizzly)/,'🐻'],[/(polar)/,'🐻‍❄️'],
+      [/(moose)/,'🫎'],[/(elk|deer|caribou)/,'🦌'],[/(wolf|coyote|fox)/,'🐺'],[/(bison|buffalo)/,'🦬'],
+      [/(beaver)/,'🦫'],[/(rabbit|hare|bunny)/,'🐇'],[/(squirrel|chipmunk)/,'🐿️'],[/(otter)/,'🦦'],
+      [/(fish|trout|fly.?fish|angler|catch)/,'🎣'],[/(kayak|canoe|paddle|raft|float)/,'🛶'],
+      [/(hike|trail|trek|walk|backpack)/,'🥾'],[/(climb|summit|peak|mountain)/,'🏔️'],
+      [/(camp|tent|campfire|bonfire)/,'🏕️'],[/(star|galaxy|astro|night sky|stargaz|cosmos|meteor)/,'🌌'],
+      [/(moon)/,'🌙'],[/(sun|sunrise|sunset|solstice|daylight)/,'🌞'],[/(snow|frost|ski|sled|snowshoe|winter|blizzard)/,'❄️'],
+      [/(rain|storm|cloud)/,'🌧️'],[/(forest|pine|tree|wood|timber|lodgepole)/,'🌲'],[/(flower|bloom|wildflower|garden)/,'🌼'],
+      [/(leaf|fall|autumn|foliage)/,'🍂'],[/(river|lake|water|spring|creek|waterfall)/,'🌊'],
+      [/(pizza)/,'🍕'],[/(pie)/,'🥧'],[/(coffee|espresso|latte|brew)/,'☕'],[/(tea)/,'🍵'],
+      [/(cocoa|chocolate|hot chocolate)/,'🍫'],[/(s.?more|marshmallow)/,'🍫'],[/(waffle|pancake)/,'🧇'],
+      [/(burger|bbq|grill|barbecue|cookout)/,'🍔'],[/(taco|burrito)/,'🌮'],[/(ice cream|sundae)/,'🍦'],
+      [/(beer|brew|ale|pub|tavern)/,'🍺'],[/(wine)/,'🍷'],[/(cookie|bake|bread|donut|doughnut)/,'🍪'],
+      [/(potato|spud|tater)/,'🥔'],[/(berry|huckleberry|raspberry)/,'🫐'],[/(apple)/,'🍎'],[/(popcorn)/,'🍿'],
+      [/(dog|puppy|pup)/,'🐶'],[/(cat|kitten)/,'🐱'],[/(horse|pony|equestrian)/,'🐴'],[/(pet)/,'🐾'],
+      [/(book|read|story|library|poetry|poem)/,'📚'],[/(game|trivia|puzzle|board game|chess)/,'🎲'],
+      [/(music|song|sing|guitar|banjo|fiddle)/,'🎵'],[/(photo|camera|picture)/,'📷'],[/(art|paint|draw|craft)/,'🎨'],
+      [/(movie|film|cinema)/,'🎬'],[/(kite)/,'🪁'],[/(bike|cycle|bicycle)/,'🚲'],
+      [/(love|heart|valentine|kiss|hug|sweetheart)/,'❤️'],[/(family|reunion|together)/,'👨‍👩‍👧'],
+      [/(firework|freedom|independence|liberty|patriot|flag|veteran|memorial)/,'🇺🇸'],
+      [/(christmas|merry|santa|noel|yule)/,'🎄'],[/(new year|resolution|midnight)/,'🎆'],
+      [/(thanksgiv|turkey|gratitude|grateful|harvest)/,'🦃'],[/(halloween|spooky|pumpkin|ghost|costume)/,'🎃'],
+      [/(easter|bunny|egg)/,'🐰'],[/(pirate)/,'🏴‍☠️'],[/(idaho|pioneer|gem state)/,'🥔'],
+      [/(wyoming|cowboy|rodeo|ranch|wrangler)/,'🤠'],[/(montana|big sky)/,'🏔️'],
+      [/(relax|cozy|rest|reset|calm|peace|wellness|spa|nap|lazy)/,'😌'],[/(adventure|explore|journey|wander|roam)/,'🧭'],
+      [/(rainbow)/,'🌈'],[/(geyser|hot spring|yellowstone)/,'♨️'],[/(park|national park)/,'🏞️'],
+      [/(picnic|lunch|brunch|breakfast|dinner|feast)/,'🧺'],[/(balloon|party|celebrate|festiv)/,'🎉'],
+    ];
+    for (const [re, em] of map) { if (re.test(n)) return em; }
+    return '🎉';
+  }
+
+  // Fallback rotation when the specific day isn't in the calendar — still festive
+  const GENERIC_CELEBRATIONS = [
+    ['🏔️','National Great Outdoors Day','Every day is a good day in Island Park.'],
+    ['🎣','A Perfect Day to Fish','The Henry\'s Fork is calling.'],
+    ['🌲','National Forest Day','You\'re surrounded by some of the best in the country.'],
+    ['🦌','Wildlife Watching Day','Keep your eyes open — moose, elk, and eagles are out there.'],
+    ['🌌','Dark Sky Day','Island Park has some of the best stargazing anywhere.'],
+    ['🛶','Adventure Awaits Day','What will you explore today?'],
+  ];
 
   let _celebration = null;
 
@@ -2203,11 +2258,7 @@
     try {
       const res = await fetch(`/api/celebration?cabin=${cabinKey}`);
       const data = await res.json();
-      if (data && data.active) {
-        _celebration = data;
-      } else {
-        _celebration = null;
-      }
+      _celebration = (data && data.active) ? data : null;
     } catch(e) {
       _celebration = null;
     }
@@ -2217,31 +2268,68 @@
   function applyCelebration() {
     const slide = document.getElementById('celebration-slide');
     if (!slide) return;
+    const emojiEl = document.getElementById('celebration-emoji');
+    const eyebrowEl = document.getElementById('celebration-eyebrow');
+    const guestEl = document.getElementById('celebration-guest');
+    const titleEl = document.getElementById('celebration-title');
+    const msgEl = document.getElementById('celebration-message');
+    const imgEl = document.getElementById('celebration-img');
+    if (imgEl) imgEl.style.display = 'none';
 
-    // Check for JotForm-set celebration
+    // 1) Guest celebration set via JotForm wins
     if (_celebration && _celebration.active) {
-      const imgFile = OCCASION_IMAGES[_celebration.occasion] || 'occasions/occasion-birthday.svg';
-      document.getElementById('celebration-img').src = imgFile;
-      document.getElementById('celebration-guest').textContent = _celebration.guestName || '';
-      document.getElementById('celebration-message').textContent = _celebration.message || '';
+      if (emojiEl) emojiEl.textContent = OCCASION_EMOJI[_celebration.occasion] || '🎉';
+      if (eyebrowEl) eyebrowEl.textContent = 'A Special Celebration';
+      if (guestEl) { guestEl.textContent = _celebration.guestName || ''; guestEl.style.display = _celebration.guestName ? 'block' : 'none'; }
+      if (titleEl) titleEl.textContent = _celebration.title || 'Congratulations!';
+      if (msgEl) msgEl.textContent = _celebration.message || '';
       slide.style.display = 'flex';
       return;
     }
 
-    // Check for auto holiday
+    if (guestEl) guestEl.style.display = 'none';
     const todayKey = getTodayKey();
-    const holidayImg = HOLIDAY_IMAGES[todayKey];
-    if (holidayImg) {
-      document.getElementById('celebration-img').src = holidayImg;
-      document.getElementById('celebration-guest').textContent = '';
-      document.getElementById('celebration-message').textContent = 'Happy Holidays from Andy & Teara!';
-      slide.style.display = 'flex';
-      return;
+
+    // Build the pool of celebrations for today: major holiday first (if any),
+    // then all the fun "national day" options from the calendar.
+    const pool = [];
+    if (HOLIDAYS[todayKey]) {
+      const [emoji, title, msg] = HOLIDAYS[todayKey];
+      pool.push({ emoji, title, msg, eyebrow: 'Happy Holidays' });
+    }
+    if (NATIONAL_DAYS[todayKey]) {
+      const seen = new Set(pool.map(p => p.title.toLowerCase()));
+      NATIONAL_DAYS[todayKey].forEach(title => {
+        if (seen.has(title.toLowerCase())) return;
+        seen.add(title.toLowerCase());
+        pool.push({ emoji: celebrationEmoji(title), title, msg: 'Happy ' + title + ' from Island Park!', eyebrow: 'Today We Celebrate' });
+      });
     }
 
-    // No celebration — hide slide
-    slide.style.display = 'none';
+    // Fallback if somehow nothing for today
+    if (!pool.length) {
+      const d = new Date();
+      const dayOfYear = Math.floor((d - new Date(d.getFullYear(),0,0)) / 86400000);
+      const [emoji, title, msg] = GENERIC_CELEBRATIONS[dayOfYear % GENERIC_CELEBRATIONS.length];
+      pool.push({ emoji, title, msg, eyebrow: 'Today We Celebrate' });
+    }
+
+    // Rotate: pick a different option each time the slide comes around
+    if (window._celebrationDayKey !== todayKey) {
+      window._celebrationDayKey = todayKey;
+      window._celebrationIdx = 0;
+    } else {
+      window._celebrationIdx = (window._celebrationIdx + 1) % pool.length;
+    }
+    const pick = pool[window._celebrationIdx % pool.length];
+
+    if (emojiEl) emojiEl.textContent = pick.emoji;
+    if (eyebrowEl) eyebrowEl.textContent = pick.eyebrow;
+    if (titleEl) titleEl.textContent = pick.title;
+    if (msgEl) msgEl.textContent = pick.msg;
+    slide.style.display = 'flex';
   }
+
 
   // ── FIRE SAFETY STATUS ───────────────────────────────
   async function loadFireStatus() {
@@ -2395,7 +2483,7 @@
         { id: 'qr-wyoroad', url: 'https://www.wyoroad.info' },
         { id: 'qr-mtroads', url: 'https://www.mdt.mt.gov/travinfo' },
       ];
-      const roadQRSize = Math.round(window.innerWidth * 0.055);
+      const roadQRSize = Math.round(window.innerWidth * 0.05);
       roadQRs.forEach(({id, url}) => {
         const el = document.getElementById(id);
         if (el && !el.hasChildNodes()) {
