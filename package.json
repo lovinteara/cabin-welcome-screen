@@ -1,0 +1,9 @@
+{
+  "name": "cabin-welcome-screen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cabin welcome screen — Netlify functions need this for @netlify/blobs (OAuth refresh-token storage for the door-lock sync).",
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0"
+  }
+}
