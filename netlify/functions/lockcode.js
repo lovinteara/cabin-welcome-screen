@@ -62,6 +62,28 @@ exports.handler = async function(event) {
       fetchPropertyBackupCode(propertyId)
     ]);
     const booking = currentBooking(bookings, today);
+
+    if (bypassSwitch) {
+      console.log('lockcode debug:', JSON.stringify({
+        cabin,
+        propertyId,
+        today,
+        bookingCount: bookings ? bookings.length : null,
+        currentBookingId: booking && booking.id,
+        bookingsSummary: (bookings || []).map(b => ({
+          id: b.id,
+          arrival: b.arrival,
+          departure: b.departure,
+          status: b.status,
+          hasGuest: !!b.guest,
+          guestPhoneSet: !!(b.guest && (b.guest.phone || b.guest.cell_phone || b.guest.home_phone)),
+          guestPhoneFields: b.guest ? Object.keys(b.guest).filter(k => /phone/i.test(k)) : [],
+          doorCodeSet: !!b.door_code,
+          topLevelKeys: Object.keys(b).filter(k => /code|phone|door/i.test(k))
+        }))
+      }));
+    }
+
     if (!booking) {
       return { statusCode: 200, headers, body: JSON.stringify({ code: null }) };
     }
