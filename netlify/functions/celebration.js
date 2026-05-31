@@ -42,25 +42,44 @@ exports.handler = async function(event) {
   if (event.httpMethod === 'POST') {
     try {
       let raw = {};
-      const ct = event.headers['content-type'] || '';
+      const ct = (event.headers['content-type'] || event.headers['Content-Type'] || '');
 
-      if (ct.includes('application/json')) {
-        raw = JSON.parse(event.body);
-      } else {
-        // JotForm sends URL-encoded form data
-        const params = new URLSearchParams(event.body);
-        params.forEach((v, k) => { raw[k] = v; });
-        // JotForm also packs everything into a "rawRequest" JSON string — merge it in
-        if (raw.rawRequest) {
-          try {
-            const rr = JSON.parse(raw.rawRequest);
-            Object.assign(raw, rr);
-          } catch (e) {}
-        }
+      // Netlify may deliver the body base64-encoded — decode it first
+      let bodyStr = event.body || '';
+      if (event.isBase64Encoded) {
+        try { bodyStr = Buffer.from(bodyStr, 'base64').toString('utf8'); } catch (e) {}
       }
 
+      if (ct.includes('application/json')) {
+        raw = JSON.parse(bodyStr);
+      } else if (ct.includes('multipart/form-data')) {
+        // JotForm webhooks usually send multipart. Pull each field out by name.
+        // Matches:  name="q1_which_cabin" \r\n\r\n VALUE \r\n--boundary
+        const re = /name="([^"]+)"\r?\n\r?\n([\s\S]*?)\r?\n--/g;
+        let m;
+        while ((m = re.exec(bodyStr)) !== null) {
+          raw[m[1]] = m[2].trim();
+        }
+      } else {
+        // URL-encoded form data
+        const params = new URLSearchParams(bodyStr);
+        params.forEach((v, k) => { raw[k] = v; });
+      }
+
+      // JotForm also packs everything into a "rawRequest" JSON string — merge it in
+      if (raw.rawRequest) {
+        try {
+          const rr = JSON.parse(raw.rawRequest);
+          Object.assign(raw, rr);
+        } catch (e) {}
+      }
+
+      // Log what arrived so we can see the exact field names/values in Netlify logs
+      console.log('CELEBRATION webhook received fields:', JSON.stringify(Object.keys(raw)));
+      console.log('CELEBRATION webhook full payload:', JSON.stringify(raw).slice(0, 1500));
+
       // Match fields by keyword so it works regardless of JotForm's exact field names
-      // (e.g. q1_cabin, q1_whichCabin, cabin, etc. all match "cabin")
+      // (e.g. q1_cabin, q1_which_cabin, cabin, etc. all match "cabin")
       const findField = (keywords) => {
         for (const key of Object.keys(raw)) {
           const k = key.toLowerCase();
