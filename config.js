@@ -115,7 +115,7 @@ const ACTIVITIES = [
   { name: "Imperial Geyser", category: "Today's hike",
     lat: 44.524, lon: -110.851, distance: "5.6 mi", elevation: "mostly flat", difficulty: "Easy",
     seasons: ["summer","fall"], minTemp: 40, weatherSafe: true,
-    blurb: "Best hike in Yellowstone. Mostly flat walk past Fairy Falls to a working geyser most tourists miss.", fav: true },
+    blurb: "Our favorite hike in Yellowstone — three wonders on one mostly-flat trail. Pass the Grand Prismatic overlook, then Fairy Falls, ending at Imperial Geyser bubbling into a turquoise pool most tourists never see.", fav: true },
 
   { name: "Wade Lake & Cliff Lake", category: "Today's adventure",
     lat: 44.840, lon: -111.585, distance: "varies", elevation: "flat", difficulty: "Easy",
