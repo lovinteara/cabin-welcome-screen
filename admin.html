@@ -89,6 +89,15 @@
 </div>
 <div class="cabin-url" id="cabin-url">https://cabin-welcome-screen.netlify.app/?cabin=huckleberry &nbsp;|&nbsp; WiFi: The Huckleberry Hut &nbsp;·&nbsp; PW: Y3llowst0neTrout!</div>
 
+<div style="background:#1a1f2e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:14px 16px; margin-bottom:20px;">
+  <div class="section-header" style="margin:0 0 8px;">Celebration message</div>
+  <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+    <button onclick="clearCelebration()" style="padding:8px 16px; border-radius:8px; border:1px solid #e0a34a; background:rgba(224,163,74,0.12); color:#f0d9b5; font-size:13px; font-weight:600; cursor:pointer;">Clear celebration for <span id="celebration-cabin-name">Huckleberry Hut</span></button>
+    <span style="font-size:12px; opacity:0.5;">Removes the personalized guest message and returns the slide to the normal day-of-the-year celebrations.</span>
+  </div>
+  <div id="celebration-clear-status" style="font-size:12px; margin-top:8px; min-height:16px;"></div>
+</div>
+
 <div class="stats">
   <div class="stat"><div class="stat-val">33</div><div class="stat-lbl">Total slides</div></div>
   <div class="stat"><div class="stat-val">~6.3 min</div><div class="stat-lbl">Full rotation</div></div>
@@ -251,9 +260,37 @@ document.getElementById('modal').addEventListener('click', e => {
 });
 
 function setCabin(key, ssid, pw, btn) {
+  window.currentCabin = key;
+  window.currentCabinName = btn ? btn.textContent.trim() : key;
   document.querySelectorAll('.cabin-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('cabin-url').innerHTML = `https://cabin-welcome-screen.netlify.app/?cabin=${key} &nbsp;|&nbsp; WiFi: ${ssid} &nbsp;·&nbsp; PW: ${pw}`;
+  const cs = document.getElementById('celebration-cabin-name');
+  if (cs) cs.textContent = window.currentCabinName;
+  const st = document.getElementById('celebration-clear-status');
+  if (st) st.textContent = '';
+}
+
+// Default current cabin = the one whose tab is active on load (Huckleberry)
+window.currentCabin = 'huckleberry';
+window.currentCabinName = 'Huckleberry Hut';
+
+async function clearCelebration() {
+  const cabin = window.currentCabin || 'huckleberry';
+  const name = window.currentCabinName || cabin;
+  const status = document.getElementById('celebration-clear-status');
+  if (!confirm(`Clear the celebration message for ${name}?\n\nThe screen will go back to the normal day-of-the-year celebrations.`)) return;
+  if (status) { status.style.color = '#9fb4c8'; status.textContent = 'Clearing…'; }
+  try {
+    const res = await fetch(`https://cabin-welcome-screen.netlify.app/api/celebration?cabin=${encodeURIComponent(cabin)}`, { method: 'DELETE' });
+    if (res.ok) {
+      if (status) { status.style.color = '#5cb874'; status.textContent = `✓ Cleared for ${name}. The screen returns to default within a minute (or refresh the TV).`; }
+    } else {
+      if (status) { status.style.color = '#e0a34a'; status.textContent = `Hmm — server responded ${res.status}. Try again in a moment.`; }
+    }
+  } catch (e) {
+    if (status) { status.style.color = '#e0a34a'; status.textContent = 'Could not reach the server. Check your internet and try again.'; }
+  }
 }
 
 buildSlides();
