@@ -78,14 +78,12 @@ exports.handler = async function(event) {
       console.log('CELEBRATION webhook received fields:', JSON.stringify(Object.keys(raw)));
       console.log('CELEBRATION webhook full payload:', JSON.stringify(raw).slice(0, 1500));
 
-      // Match fields by keyword so it works regardless of JotForm's exact field names
-      // (e.g. q1_cabin, q1_which_cabin, cabin, etc. all match "cabin")
+      // Match fields by keyword in the field NAME (works when names are descriptive)
       const findField = (keywords) => {
         for (const key of Object.keys(raw)) {
           const k = key.toLowerCase();
           if (keywords.some(kw => k.includes(kw))) {
             let val = raw[key];
-            // JotForm sometimes sends an object {text:..} or array for choice fields
             if (val && typeof val === 'object') val = val.text || val.value || Object.values(val).join(' ');
             if (val != null && String(val).trim() !== '') return String(val).trim();
           }
@@ -93,13 +91,37 @@ exports.handler = async function(event) {
         return undefined;
       };
 
-      const cabin    = findField(['cabin']);
-      const occasion = findField(['occasion']);
-      const guestName= findField(['guestname', 'guest', 'name']);
-      const message  = findField(['message', 'msg']);
-      const action   = (findField(['action']) || 'set').toLowerCase().includes('clear') ? 'clear' : 'set';
+      // JotForm's "pretty" field maps the real QUESTION LABELS to answers, e.g.
+      // "Which cabin?:Huckleberry Hut, What's the occasion?:Birthday, Guest name...:Smith"
+      // This is the most reliable source since auto-generated field names (q2_dropdown0)
+      // contain no meaningful keywords. Parse it into label->answer pairs.
+      const pretty = {};
+      if (raw.pretty && typeof raw.pretty === 'string') {
+        raw.pretty.split(/,\s*/).forEach(pair => {
+          const idx = pair.indexOf(':');
+          if (idx > -1) {
+            const label = pair.slice(0, idx).trim().toLowerCase();
+            const value = pair.slice(idx + 1).trim();
+            if (value) pretty[label] = value;
+          }
+        });
+      }
+      // Find a pretty answer whose question label contains any of the keywords
+      const findPretty = (keywords) => {
+        for (const label of Object.keys(pretty)) {
+          if (keywords.some(kw => label.includes(kw))) return pretty[label];
+        }
+        return undefined;
+      };
 
-      if (!cabin) return { statusCode: 400, headers, body: JSON.stringify({ error: 'cabin required', received: Object.keys(raw) }) };
+      const cabin    = findPretty(['cabin'])    || findField(['cabin']);
+      const occasion = findPretty(['occasion']) || findField(['occasion']);
+      const guestName= findPretty(['guest', 'name']) || findField(['guestname', 'guest', 'name']);
+      const message  = findPretty(['message', 'display']) || findField(['message', 'msg']);
+      const actionRaw= findPretty(['action']) || findField(['action']) || 'set';
+      const action   = String(actionRaw).toLowerCase().includes('clear') ? 'clear' : 'set';
+
+      if (!cabin) return { statusCode: 400, headers, body: JSON.stringify({ error: 'cabin required', received: Object.keys(raw), pretty: Object.keys(pretty) }) };
 
       // Normalize the cabin value: take the part after a pipe if present (e.g. "Caldera Cottage|caldera"),
       // lowercase, and map any friendly name to its key.
