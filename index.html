@@ -299,17 +299,17 @@
       <div class="activity-stats" id="activity-stats"></div>
     </div>
     <div id="activity-img-wrap" style="display:none; flex-shrink:0; width:30vw;">
-      <img id="activity-img" src="" style="width:100%; max-height:55vh; object-fit:cover; border-radius:1.5vw; opacity:0.9;"
+      <img id="activity-img" src="" style="width:100%; max-height:70vh; object-fit:contain; border-radius:1.5vw; opacity:0.9;"
            onerror="document.getElementById('activity-img-wrap').style.display='none'" />
     </div>
   </div>
 </div>
 
 <!-- Slide 5: Food -->
-<div class="slide" data-slide="5" id="food-slide" style="position:relative; justify-content:flex-start; padding-top:6vh;">
+<div class="slide" data-slide="5" id="food-slide" style="position:relative;">
   <div class="slide-label">Local pick · Food</div>
   <div id="food-fav-badge"></div>
-  <div style="display:flex; gap:4vw; align-items:flex-start; margin-top:1vh;">
+  <div style="display:flex; gap:4vw; align-items:center; margin-top:1vh; max-height:80vh;">
     <div style="flex:1.4; min-width:0;">
       <h1 id="food-name" style="margin:0;">—</h1>
       <p id="food-blurb" style="margin-top:1.5vh;">—</p>
@@ -319,14 +319,34 @@
         <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
       </div>
     </div>
-    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5vh; min-width:22vw; max-height:78vh; overflow:hidden;">
-      <img id="food-biz-logo" src="" style="max-height:22vh; max-width:28vw; object-fit:contain; opacity:0.97; display:none;" />
-      <img id="food-sec-img" src="" style="max-height:16vh; max-width:24vw; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
+    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5vh; min-width:22vw; max-height:80vh;">
+      <img id="food-biz-logo" src="" style="max-height:18vh; max-width:26vw; object-fit:contain; opacity:0.97; display:none;" />
+      <img id="food-sec-img" src="" style="max-height:14vh; max-width:22vw; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
       <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:0.8vh;">
         <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw;"></div>
         <p style="font-size:1.4vw; opacity:0.5; text-transform:uppercase; letter-spacing:0.2vw;">Scan for menu</p>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Oasis Mini zen table — LITTLE CHALET ONLY (removed from rotation for all other cabins) -->
+<div class="slide" data-slide="oasis" id="oasis-slide" style="padding:0; overflow:hidden; align-items:center; justify-content:center; text-align:center;">
+  <img src="moose%20oasis%20mini%202.jpg"
+       style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;"
+       onerror="this.style.display='none'" />
+  <div style="position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%);"></div>
+  <div style="position:absolute; top:6vh; left:0; right:0; z-index:2;">
+    <div class="slide-label" style="position:static;">Relax &amp; unwind</div>
+    <h1 style="font-size:4.5vw; margin-top:1vh;">Your Oasis Mini</h1>
+    <p style="font-size:2vw; opacity:0.9; margin-top:1vh;">Sit back and watch — a little moment of calm</p>
+  </div>
+  <div style="position:absolute; bottom:5vh; right:5vw; z-index:2; display:flex; flex-direction:column; align-items:center; gap:1vh; background:rgba(0,0,0,0.45); padding:2vh 2vw; border-radius:1.5vw;">
+    <img src="oasis%20mini%20share%20qr%20code.jpg"
+         style="width:11vw; height:11vw; object-fit:contain; background:#fff; padding:0.6vw; border-radius:1vw;"
+         onerror="this.style.display='none'" />
+    <p style="font-size:1.5vw; opacity:0.95; max-width:16vw; line-height:1.3;">Want to start or stop the Oasis Mini Table? Scan to control the Oasis Mini.</p>
+    <p style="font-size:1.2vw; opacity:0.8; max-width:16vw; line-height:1.3; margin-top:0.4vh;">Kindly do not move the Oasis Mini or open the lid.</p>
   </div>
 </div>
 
@@ -1033,6 +1053,17 @@
 <script src="config.js"></script>
 <script>
 (function () {
+  // ── CABIN-SPECIFIC SLIDES ─────────────────────────────────
+  // The Oasis Mini slide is for Little Chalet only. Remove it everywhere else
+  // BEFORE the slide list is built so it never enters the rotation.
+  (function removeCabinOnlySlides() {
+    const cab = new URLSearchParams(window.location.search).get('cabin') || '';
+    if (cab !== 'little-chalet') {
+      const oasis = document.getElementById('oasis-slide');
+      if (oasis) oasis.remove();
+    }
+  })();
+
   // ── SLIDE SETUP ───────────────────────────────────────────
   const slides = document.querySelectorAll('#welcome-screen .slide');
   const dotsEl = document.getElementById('dots');
@@ -1125,6 +1156,7 @@
       if (sid === 'celebration') duration = 12000;
       if (sid === 'parkalerts') duration = 30000;
       if (sid === 'roadconditions') duration = 20000; // Campfire — needs time to read
+      if (sid === 'oasis') duration = 30000; // Oasis Mini — relaxing watch slide (Little Chalet)
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -1439,12 +1471,12 @@
         foodLogoEl.style.display = 'block';
         // Per-restaurant logo size overrides
         const logoSizes = {
-          'Café Sabor': 'max-height:30vh; max-width:40vw;',
+          'Café Sabor': 'max-height:22vh; max-width:34vw;',
         };
         const sizeOverride = logoSizes[r.name];
         foodLogoEl.style.cssText = sizeOverride
           ? sizeOverride + ' object-fit:contain; opacity:0.95; display:block;'
-          : 'max-height:22vh; max-width:28vw; object-fit:contain; opacity:0.97; display:block;';
+          : 'max-height:18vh; max-width:26vw; object-fit:contain; opacity:0.97; display:block;';
       } else {
         foodLogoEl.style.display = 'none';
       }
