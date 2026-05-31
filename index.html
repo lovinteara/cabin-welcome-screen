@@ -164,7 +164,7 @@
 
 <!-- Door Code: shows code when /api/lockcode returns one, else a gallery photo -->
 <div class="slide" data-slide="doorcode" id="doorcode-slide" style="align-items:center; justify-content:center; text-align:center;">
-  <img id="doorcode-fallback-img" src="" alt="Island Park" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;" onerror="this.style.display='none'"/>
+  <img id="doorcode-fallback-img" src="" alt="Island Park" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#0a1a2f; z-index:0;" onerror="this.style.display='none'"/>
   <div id="doorcode-content" style="position:relative; z-index:1;">
     <div class="slide-label">Your door code</div>
     <h1 style="font-size:4vw; font-weight:400; opacity:0.85;" id="doorcode-greeting">Welcome</h1>
@@ -305,30 +305,27 @@
   </div>
 </div>
 
-<!-- Slide 5: Food — rebuilt: fills slide exactly, cannot overflow -->
-<div class="slide" data-slide="5" id="food-slide" style="position:relative; padding:4vw 6vw; box-sizing:border-box; overflow:hidden; justify-content:flex-start;">
-  <div class="slide-label" style="flex-shrink:0;">Local pick · Food</div>
-  <!-- Row grows to fill all space below the label; min-height:0 lets children shrink instead of overflow -->
-  <div style="display:flex; gap:4vw; align-items:center; width:100%; flex:1 1 auto; min-height:0; overflow:hidden;">
-    <!-- LEFT: text -->
-    <div style="flex:1.4; min-width:0; max-height:100%; overflow:hidden; display:flex; flex-direction:column; justify-content:center;">
-      <div id="food-fav-badge"></div>
-      <h1 id="food-name" style="margin:0;">—</h1>
-      <p id="food-blurb" style="margin-top:1.5vh;">—</p>
-      <p id="food-tip" style="display:none; margin-top:1.5vh; font-size:1.9vw; color:#ffd700; font-weight:600;"></p>
-      <p id="food-sub" style="margin-top:1vh; font-size:2vw; opacity:0.5;">—</p>
-      <div id="food-phone-wrap" style="display:none; margin-top:1.5vh;">
-        <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
-      </div>
+<!-- Slide 5: Food — self-contained type scale + bounded centered layout -->
+<div class="slide" data-slide="5" id="food-slide" style="position:relative; overflow:hidden; flex-direction:row; align-items:center; justify-content:center; gap:4vw;">
+  <!-- LEFT: text block, vertically centered, capped -->
+  <div style="flex:1.4; min-width:0; max-height:80vh; overflow:hidden; display:flex; flex-direction:column; justify-content:center;">
+    <div class="slide-label" style="margin-bottom:1.5vh;">Local pick · Food</div>
+    <div id="food-fav-badge"></div>
+    <div id="food-name" style="font-family:Georgia,serif; font-weight:400; font-size:5vw; line-height:1.05; margin:0.5vh 0 0;">—</div>
+    <p id="food-blurb" style="font-size:2.2vw; line-height:1.45; margin-top:1.5vh; max-width:48vw;">—</p>
+    <p id="food-tip" style="display:none; margin-top:1.5vh; font-size:1.9vw; color:#ffd700; font-weight:600;"></p>
+    <p id="food-sub" style="margin-top:1.2vh; font-size:1.9vw; opacity:0.5;">—</p>
+    <div id="food-phone-wrap" style="display:none; margin-top:1.5vh;">
+      <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
     </div>
-    <!-- RIGHT: visual column. Fixed width, full height, contents centered and individually capped as a SHARE of this column so the stack always fits. -->
-    <div style="flex:0 0 30vw; height:100%; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; overflow:hidden;">
-      <img id="food-biz-logo" src="" style="max-height:30%; max-width:100%; object-fit:contain; opacity:0.97; display:none;" />
-      <img id="food-sec-img" src="" style="max-height:24%; max-width:90%; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
-      <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:1vh; flex-shrink:0;">
-        <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw; line-height:0;"></div>
-        <p style="font-size:1.4vw; opacity:0.6; text-transform:uppercase; letter-spacing:0.2vw;">Scan for menu</p>
-      </div>
+  </div>
+  <!-- RIGHT: visual column, vertically centered, each item capped so the stack always fits -->
+  <div style="flex:0 0 28vw; max-height:80vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; overflow:hidden;">
+    <img id="food-biz-logo" src="" style="max-height:22vh; max-width:100%; object-fit:contain; opacity:0.97; display:none;" />
+    <img id="food-sec-img" src="" style="max-height:16vh; max-width:90%; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
+    <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:1vh; flex-shrink:0;">
+      <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw; line-height:0;"></div>
+      <p style="font-size:1.4vw; opacity:0.6; text-transform:uppercase; letter-spacing:0.2vw; margin:0;">Scan for menu</p>
     </div>
   </div>
 </div>
@@ -1471,10 +1468,9 @@
       foodLogoEl.style.display = 'none';
       if (logoFile) {
         foodLogoEl.src = logoFile;
-        // Cap as a SHARE of the column (not vh) so logo + image + QR always fit together.
-        // Café Sabor's logo is wide/short, so give it a touch more height.
+        // Cap in vh so logo + image + QR always fit. Café Sabor's logo is wide/short, give a bit more height.
         const taller = (r.name === 'Café Sabor');
-        foodLogoEl.style.cssText = 'max-height:' + (taller ? '34%' : '30%')
+        foodLogoEl.style.cssText = 'max-height:' + (taller ? '26vh' : '22vh')
           + '; max-width:100%; object-fit:contain; opacity:0.96; display:block;';
       } else {
         foodLogoEl.style.display = 'none';
