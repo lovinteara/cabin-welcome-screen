@@ -319,8 +319,8 @@
         <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
       </div>
     </div>
-    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:2vh; min-width:22vw;">
-      <img id="food-biz-logo" src="" style="max-height:30vh; max-width:28vw; object-fit:contain; opacity:0.97; display:none;" />
+    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5vh; min-width:22vw; max-height:78vh; overflow:hidden;">
+      <img id="food-biz-logo" src="" style="max-height:22vh; max-width:28vw; object-fit:contain; opacity:0.97; display:none;" />
       <img id="food-sec-img" src="" style="max-height:16vh; max-width:24vw; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
       <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:0.8vh;">
         <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw;"></div>
@@ -1439,12 +1439,12 @@
         foodLogoEl.style.display = 'block';
         // Per-restaurant logo size overrides
         const logoSizes = {
-          'Café Sabor': 'max-height:44vh; max-width:50vw;',
+          'Café Sabor': 'max-height:30vh; max-width:40vw;',
         };
         const sizeOverride = logoSizes[r.name];
         foodLogoEl.style.cssText = sizeOverride
-          ? sizeOverride + ' object-fit:contain; opacity:0.95;'
-          : 'max-height:30vh; max-width:28vw; object-fit:contain; opacity:0.97;';
+          ? sizeOverride + ' object-fit:contain; opacity:0.95; display:block;'
+          : 'max-height:22vh; max-width:28vw; object-fit:contain; opacity:0.97; display:block;';
       } else {
         foodLogoEl.style.display = 'none';
       }
@@ -1486,8 +1486,8 @@
         foodQrEl.innerHTML = '';
         new QRCode(foodQrEl, {
           text: extras.url,
-          width: Math.round(window.innerWidth * 0.1),
-          height: Math.round(window.innerWidth * 0.1),
+          width: Math.round(window.innerWidth * 0.085),
+          height: Math.round(window.innerWidth * 0.085),
           colorDark: '#000000',
           colorLight: '#ffffff',
           correctLevel: QRCode.CorrectLevel.M
