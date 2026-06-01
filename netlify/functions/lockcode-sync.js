@@ -42,6 +42,7 @@ const {
   todayDenver,
   daysAgoDenver,
   fetchBookings,
+  fetchGuest,
   fetchPropertyBackupCode,
   currentBooking,
   deriveCode
@@ -85,6 +86,13 @@ async function syncOneCabin(cabinKey, cabinConfig, today) {
   if (!booking) {
     const devices = await pushToAllLocks(deviceIds, id => deleteCode(accessToken, id, CODE_SLOT));
     return { cabin: cabinKey, status: 'no-guest', devices };
+  }
+
+  // /v2/bookings?include_guest=true returns a name-only guest. Fetch the
+  // full guest so deriveCode can read cell_phone / home_phone.
+  if (booking.guest_id) {
+    const fullGuest = await fetchGuest(booking.guest_id);
+    if (fullGuest) booking.guest = { ...(booking.guest || {}), ...fullGuest };
   }
 
   const code = deriveCode(booking, propertyBackupCode);
