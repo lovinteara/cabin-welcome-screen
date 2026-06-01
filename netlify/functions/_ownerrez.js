@@ -54,6 +54,23 @@ async function fetchBookings(propertyId, fromDate, toDate) {
   return (data.items || []).filter(b => !b.is_block && b.type !== 'block' && b.status === 'active');
 }
 
+// /v2/bookings?include_guest=true returns a slimmed-down guest object with
+// only name + id — no contact methods. The full guest record (including
+// cell_phone / home_phone) lives at /v2/guests/{id}. deriveCode needs phone
+// to derive the door code as last 4 of phone, so we fetch the full guest
+// after we've found the current booking.
+async function fetchGuest(guestId) {
+  if (!guestId) return null;
+  const headers = orHeaders();
+  if (!headers) return null;
+  const res = await fetch(`https://api.ownerreservations.com/v2/guests/${guestId}`, { headers });
+  if (!res.ok) {
+    console.error('OwnerRez guest error:', res.status, await res.text());
+    return null;
+  }
+  return res.json();
+}
+
 // Looks up the property's PXDOORBACKUP value (per-cabin fallback code).
 // TODO: the OwnerRez v2 endpoint for property custom field values is not
 // yet known — /v2/propertyfieldvalues 404s and the earlier
@@ -145,6 +162,7 @@ module.exports = {
   daysAgoDenver,
   daysFromNowDenver,
   fetchBookings,
+  fetchGuest,
   fetchPropertyBackupCode,
   currentBooking,
   deriveCode,
