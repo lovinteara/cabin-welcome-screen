@@ -133,6 +133,23 @@ function phoneLast4(phone) {
   return digits.slice(-4);
 }
 
+// Pulls a phone number string out of a guest record. Handles both the legacy
+// flat-field shape (some endpoints) and the /v2/guests/{id} shape where
+// phones come back as an array of { type, number, is_primary } objects.
+// Prefers primary, then cell/mobile, then any.
+function extractGuestPhone(guest) {
+  if (!guest) return null;
+  const flat = guest.phone || guest.cell_phone || guest.home_phone || guest.mobile_phone;
+  if (flat) return String(flat);
+  if (Array.isArray(guest.phones) && guest.phones.length) {
+    const primary = guest.phones.find(p => p && p.is_primary);
+    const cell    = guest.phones.find(p => p && /cell|mobile/i.test(String(p.type || '')));
+    const pick    = primary || cell || guest.phones[0];
+    if (pick) return pick.number || pick.value || pick.phone || null;
+  }
+  return null;
+}
+
 // Derive the door code for a booking. Priority:
 //   1. Last 4 of guest phone        (memorable for the guest)
 //   2. booking.door_code            (system-generated code on the booking)
@@ -141,9 +158,7 @@ function phoneLast4(phone) {
 function deriveCode(booking, propertyBackupCode) {
   if (!booking) return normalizeCode(propertyBackupCode);
 
-  const phone =
-    (booking.guest && (booking.guest.phone || booking.guest.cell_phone || booking.guest.home_phone)) ||
-    booking.guest_phone;
+  const phone = extractGuestPhone(booking.guest) || booking.guest_phone;
   const phoneCode = phoneLast4(phone);
   if (phoneCode) return phoneCode;
 
@@ -166,6 +181,8 @@ module.exports = {
   fetchPropertyBackupCode,
   currentBooking,
   deriveCode,
+  extractGuestPhone,
+  phoneLast4,
   getFieldValue,
   normalizeCode
 };
