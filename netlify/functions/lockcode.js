@@ -12,7 +12,9 @@ const {
   fetchGuest,
   fetchPropertyBackupCode,
   currentBooking,
-  deriveCode
+  deriveCode,
+  extractGuestPhone,
+  phoneLast4
 } = require('./_ownerrez');
 
 function formatDeparture(dateStr) {
@@ -73,17 +75,21 @@ exports.handler = async function(event) {
     }
 
     if (bypassSwitch) {
+      const guest = booking && booking.guest;
+      const extractedPhone = extractGuestPhone(guest);
       console.log('lockcode debug:', JSON.stringify({
         cabin,
         propertyId,
         today,
         bookingCount: bookings ? bookings.length : null,
         currentBookingId: booking && booking.id,
-        guestKeys: booking && booking.guest ? Object.keys(booking.guest) : null,
-        guestPhoneFields: booking && booking.guest
-          ? Object.keys(booking.guest).filter(k => /phone|cell|mobile/i.test(k))
+        guestKeys: guest ? Object.keys(guest) : null,
+        guestPhonesCount: guest && Array.isArray(guest.phones) ? guest.phones.length : null,
+        guestPhonesShapes: guest && Array.isArray(guest.phones)
+          ? guest.phones.map(p => p ? Object.keys(p) : null)
           : null,
-        guestPhoneSet: !!(booking && booking.guest && (booking.guest.cell_phone || booking.guest.home_phone || booking.guest.phone))
+        extractedPhonePresent: !!extractedPhone,
+        derivedCodeLast4: phoneLast4(extractedPhone)
       }));
     }
 
