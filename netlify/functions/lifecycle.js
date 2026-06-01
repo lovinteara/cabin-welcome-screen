@@ -28,9 +28,15 @@
 // loud failure at the next sync rather than silent data exfiltration. If we
 // publish this SmartApp later, signature verification goes here.
 
+const { connectLambda } = require('@netlify/blobs');
 const { setRefreshToken } = require('./_smartthings');
 
 exports.handler = async function(event) {
+  // Netlify v1 (exports.handler) functions don't auto-wire @netlify/blobs;
+  // we have to hand it the event so it can pull siteID + token out. Without
+  // this, setRefreshToken throws "environment has not been configured".
+  connectLambda(event);
+
   let body;
   try {
     body = JSON.parse(event.body || '{}');
@@ -62,6 +68,12 @@ exports.handler = async function(event) {
 
     case 'EVENT':
       return jsonResponse({ eventData: {} });
+
+    // DASHBOARD is fired when the SmartApp dashboard tile is rendered. We
+    // don't have anything to show — respond 200 with empty body so the app
+    // doesn't keep retrying.
+    case 'DASHBOARD':
+      return jsonResponse({});
 
     default:
       console.warn('Unhandled lifecycle:', lifecycle);
@@ -147,24 +159,6 @@ async function handleInstallOrUpdate(lifecycle, body) {
       );
     } catch (err) {
       console.error('Failed to persist refresh token:', err.message);
-    }
-  }
-
-  // Best-effort: log the location's human-readable name so the user can map
-  // locationIds to cabins from the Netlify function logs.
-  if (data.authToken && locationId) {
-    try {
-      const res = await fetch(`https://api.smartthings.com/v1/locations/${locationId}`, {
-        headers: { Authorization: `Bearer ${data.authToken}` }
-      });
-      if (res.ok) {
-        const loc = await res.json();
-        console.log(`Location: ${JSON.stringify({ id: locationId, name: loc.name, countryCode: loc.countryCode })}`);
-      } else {
-        console.warn(`Could not look up location ${locationId}: ${res.status}`);
-      }
-    } catch (err) {
-      console.warn(`Location lookup threw: ${err.message}`);
     }
   }
 
