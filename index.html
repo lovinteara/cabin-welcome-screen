@@ -305,27 +305,27 @@
   </div>
 </div>
 
-<!-- Slide 5: Food — self-contained type scale + bounded centered layout -->
-<div class="slide" data-slide="5" id="food-slide" style="position:relative; overflow:hidden; flex-direction:row; align-items:center; justify-content:center; gap:4vw;">
-  <!-- LEFT: text block, vertically centered, capped -->
-  <div style="flex:1.4; min-width:0; max-height:80vh; overflow:hidden; display:flex; flex-direction:column; justify-content:center;">
-    <div class="slide-label" style="margin-bottom:1.5vh;">Local pick · Food</div>
-    <div id="food-fav-badge"></div>
-    <div id="food-name" style="font-family:Georgia,serif; font-weight:400; font-size:5vw; line-height:1.05; margin:0.5vh 0 0;">—</div>
-    <p id="food-blurb" style="font-size:2.2vw; line-height:1.45; margin-top:1.5vh; max-width:48vw;">—</p>
-    <p id="food-tip" style="display:none; margin-top:1.5vh; font-size:1.9vw; color:#ffd700; font-weight:600;"></p>
-    <p id="food-sub" style="margin-top:1.2vh; font-size:1.9vw; opacity:0.5;">—</p>
-    <div id="food-phone-wrap" style="display:none; margin-top:1.5vh;">
-      <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
+<!-- Slide 5: Food — mirrors the working HMA slide structure (plain .slide + inner flex row) -->
+<div class="slide" data-slide="5" id="food-slide">
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:4vw; width:100%;">
+    <div style="flex:1.4; min-width:0;">
+      <div class="slide-label">Local pick · Food</div>
+      <div id="food-fav-badge"></div>
+      <h1 id="food-name" style="font-size:5vw;">—</h1>
+      <p id="food-blurb" style="margin-top:1vh; font-size:1.9vw; max-width:50vw;">—</p>
+      <p id="food-tip" style="display:none; margin-top:1.5vh; font-size:1.9vw; color:#ffd700; font-weight:600;"></p>
+      <p id="food-sub" style="margin-top:1vh; font-size:1.8vw; opacity:0.5;">—</p>
+      <div id="food-phone-wrap" style="display:none; margin-top:1.5vh;">
+        <p id="food-phone" style="font-size:2.4vw; opacity:0.7;"></p>
+      </div>
     </div>
-  </div>
-  <!-- RIGHT: visual column, vertically centered, each item capped so the stack always fits -->
-  <div style="flex:0 0 28vw; max-height:80vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; overflow:hidden;">
-    <img id="food-biz-logo" src="" style="max-height:22vh; max-width:100%; object-fit:contain; opacity:0.97; display:none;" />
-    <img id="food-sec-img" src="" style="max-height:16vh; max-width:90%; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
-    <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:1vh; flex-shrink:0;">
-      <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw; line-height:0;"></div>
-      <p style="font-size:1.4vw; opacity:0.6; text-transform:uppercase; letter-spacing:0.2vw; margin:0;">Scan for menu</p>
+    <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; width:28vw;">
+      <img id="food-biz-logo" src="" style="max-height:22vh; max-width:100%; object-fit:contain; opacity:0.97; display:none;" />
+      <img id="food-sec-img" src="" style="max-height:16vh; max-width:90%; object-fit:contain; opacity:0.92; border-radius:1vw; display:none;" />
+      <div id="food-qr-wrap" style="display:none; flex-direction:column; align-items:center; gap:1vh;">
+        <div id="food-qr" style="background:#fff; padding:1vw; border-radius:1vw; line-height:0;"></div>
+        <p style="font-size:1.4vw; opacity:0.6; text-transform:uppercase; letter-spacing:0.2vw; margin:0;">Scan for menu</p>
+      </div>
     </div>
   </div>
 </div>
