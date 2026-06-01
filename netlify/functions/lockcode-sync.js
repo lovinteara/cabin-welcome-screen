@@ -48,6 +48,7 @@ const {
   deriveCode
 } = require('./_ownerrez');
 const { newAccessToken, setCode, deleteCode } = require('./_smartthings');
+const { connectLambda } = require('@netlify/blobs');
 
 const CODE_SLOT = 10;
 
@@ -121,7 +122,11 @@ async function pushToAllLocks(deviceIds, action) {
   return results;
 }
 
-exports.handler = async function() {
+exports.handler = async function(event) {
+  // Wire @netlify/blobs to siteID + token from the function event so
+  // getRefreshToken() can read the OAuth tokens stashed by /api/lifecycle.
+  connectLambda(event || {});
+
   const devicesRaw = process.env.SMARTTHINGS_DEVICES;
   if (!devicesRaw) {
     return { statusCode: 200, body: 'SMARTTHINGS_DEVICES not set; nothing to sync' };
