@@ -17,6 +17,21 @@ const {
   phoneLast4
 } = require('./_ownerrez');
 
+// Reads SMARTTHINGS_DEVICES and returns true if `cabin` is one of the
+// auto-sync cabins. Used to gate /api/lockcode so the TV slide stays blank
+// for manual-lock cabins where a derived code wouldn't match the keypad.
+function isAutoSyncCabin(cabin) {
+  if (!cabin) return false;
+  try {
+    const raw = process.env.SMARTTHINGS_DEVICES;
+    if (!raw) return false;
+    const map = JSON.parse(raw);
+    return Object.prototype.hasOwnProperty.call(map, cabin);
+  } catch {
+    return false;
+  }
+}
+
 function formatDeparture(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return '';
   const parts = dateStr.split('-');
@@ -56,6 +71,16 @@ exports.handler = async function(event) {
   const propertyId = PROPERTY_IDS[cabin];
   if (!propertyId) {
     return { statusCode: 400, headers, body: JSON.stringify({ code: null }) };
+  }
+
+  // Only return a code for cabins whose physical lock is being auto-synced
+  // (i.e. cabins listed in SMARTTHINGS_DEVICES). Manual-lock cabins (RRL,
+  // Charming, Big Chalet before re-pair) have a static code on the keypad
+  // that won't match phone-last-4, so showing a derived code on the TV would
+  // lock guests out. They get the correct static code via the manual-cabin
+  // email template (Template B with {PXDOORBACKUP}) instead.
+  if (!isAutoSyncCabin(cabin)) {
+    return { statusCode: 200, headers, body: JSON.stringify({ code: null }) };
   }
 
   try {
