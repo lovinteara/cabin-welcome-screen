@@ -10,6 +10,7 @@ One repo, one URL per cabin, edit once → updates everywhere.
 
 - **`index.html`** — the slideshow itself. Don't edit unless changing the design.
 - **`config.js`** — your cabins, activities, restaurants, holidays, and quotes. **This is where you make edits.**
+- **`admin.html`** — a reference dashboard. Open it in a browser to preview every slide, see each slide's duration, the cabin URLs/WiFi, and Pi status. Documentation only — editing it does NOT change what the cabins display.
 - **`netlify/functions/`** — optional backend: live guest info, weather alerts, and door-code automation. Only used if you deploy to Netlify (see "Deployment" below).
 - **`LOCK_SYNC_SETUP.md`** — separate setup guide for the door-code automation (SmartThings + OwnerRez). Only relevant if you want guests' codes auto-pushed to physical Schlage locks.
 - **`README.md`** — this file.
@@ -128,7 +129,7 @@ See "Setting up displays" below. The only thing different per cabin is the `?cab
 
 ## Setting this up for someone else (white-label / clients)
 
-If you want to give this whole system to a friend running their own rentals, two options:
+If you want to give this whole system to a friend running their own rentals, three options:
 
 ### Option A — They fork your repo
 
@@ -170,7 +171,7 @@ You don't need a Raspberry Pi. Anything that can keep a web page open in full-sc
 | Option | Best for | Cost | Setup | Notes |
 |---|---|---|---|---|
 | **Smart TV with browser** (LG, Samsung, Vizio, etc.) | Cabins already with a smart TV | $0 | Open TV's built-in browser → enter the URL → make it full-screen. Reload manually. | Sometimes the browser is buried in "Apps." Some smart TVs (Roku, older Samsungs) have no real browser — won't work. |
-| **Existing tablet / iPad in a wall mount** | You already own one or can buy cheap used | $0–$100 | **iPad**: open Safari → URL → tap Share → "Add to Home Screen" → launch it from home screen for full-screen kiosk feel. Use **Guided Access** (Settings → Accessibility → Guided Access) to lock guests out of switching apps.<br>**Android**: install **Fully Kiosk Browser** (free) → enter URL → enable kiosk mode. | Best balance of price + reliability. iPad 5th-9th gen used = $80–150. Always-on with brightness dimmed. |
+| **Existing tablet / iPad in a wall mount** | You already own one or can buy cheap used | $0–$100 | **iPad**: open Safari → URL → tap Share → "Add to Home Screen" → launch it from home screen for full-screen kiosk feel. Use **Guided Access** (Settings → Accessibility → Guided Access) to lock guests out of switching apps.<br>**Android**: install **Fully Kiosk Browser** (free) → enter URL → enable kiosk mode. | Best balance of price + reliability. iPad 5th–9th gen used = $80–150. Always-on with brightness dimmed. |
 | **Chromecast with Google TV / Fire TV Stick** + an old TV | Cabin has a dumb TV with HDMI | $30–50 | Side-load a kiosk browser (Fire TV: Silk Browser; Google TV: any Android browser) → load the URL → enable full-screen | Cheaper than a Pi; less flexible. Restart after every power outage. |
 
 ### Dedicated computers (more setup, more reliable always-on)
@@ -200,9 +201,19 @@ If you go the Pi route:
 - The TV's HDMI input
 
 #### Setup steps for each Pi
+
 1. **Flash the SD card** with Raspberry Pi OS (or use the kit's preloaded card)
 2. **Boot the Pi**, connect WiFi, finish initial setup
-3. **Make the Pi launch the browser in kiosk mode on boot.** Terminal:
+3. **Install the emoji font.** Raspberry Pi OS ships without one, so without this the celebration, campfire, and other slides show emoji as empty boxes (☐). In a terminal:
+
+   ```bash
+   sudo apt update
+   sudo apt install fonts-noto-color-emoji -y
+   ```
+
+   Reboot (or restart Chromium) afterward and emoji will render everywhere. **Do this on every Pi** — including any SD card you reflash.
+
+4. **Make the Pi launch the browser in kiosk mode on boot.** Terminal:
    ```bash
    mkdir -p ~/.config/autostart
    nano ~/.config/autostart/welcome-screen.desktop
@@ -216,9 +227,10 @@ If you go the Pi route:
    ```
    Save (Ctrl+O, Enter, Ctrl+X) and reboot.
 
-4. **Plug Pi into the TV** → set TV to that HDMI input → done.
+5. **Plug Pi into the TV** → set TV to that HDMI input → done.
 
 #### Stop the screen from blanking
+
 ```bash
 sudo nano /etc/lightdm/lightdm.conf
 ```
@@ -229,6 +241,7 @@ xserver-command=X -s 0 -dpms
 Reboot.
 
 #### Auto-reload nightly (so config edits show up without manual refresh)
+
 ```bash
 crontab -e
 ```
@@ -317,11 +330,16 @@ Delete the entire `{ ... }` block including the trailing comma.
 
 ### Changing slide duration
 
-In `index.html`, find:
+In `index.html`, find the `scheduleNext()` function. The base duration is 8 seconds, with per-slide overrides below it:
+
 ```javascript
-setInterval(next, 8000);
+let duration = 8000;              // default — 8 seconds
+if (sid === 'campfire') duration = 35000;   // 35 seconds
+if (sid === 'watchtv')  duration = 18000;   // 18 seconds
+// ...etc
 ```
-Change `8000` to whatever you want in milliseconds.
+
+To change how long a slide stays up, edit its line (milliseconds: `5000` = 5 sec, `12000` = 12 sec). To change the default for every slide that has no override, change the `let duration = 8000;` line. Each slide's current duration is listed in `admin.html`.
 
 ---
 
@@ -342,6 +360,7 @@ Lock-sync requires the **Netlify deployment path** above (it uses the backend fu
 | Problem | Fix |
 |---|---|
 | Weather shows "unavailable" | No internet at the cabin. Check WiFi. |
+| Emoji show as empty boxes (☐) | Emoji font not installed on the Pi. Run `sudo apt install fonts-noto-color-emoji -y` then reboot |
 | Wrong cabin showing | Check `?cabin=` in the URL matches a key in `config.js` |
 | Pi reboots randomly | Get a real 5V/3A power supply, not a phone charger |
 | Screen goes black after 10 min | See "Stop the screen from blanking" in the Pi section, or set auto-lock to Never on iPad |
@@ -349,18 +368,24 @@ Lock-sync requires the **Netlify deployment path** above (it uses the backend fu
 | iPad goes to lock screen | Settings → Display & Brightness → Auto-Lock → Never |
 | Guests interfering with the iPad | Use Guided Access to lock to the welcome-screen app |
 | URL shows "page not found" | Double-check the URL — case-sensitive on GitHub Pages, `?cabin=` exactly matches your key |
-| Door code slide doesn't appear | See LOCK_SYNC_SETUP.md troubleshooting |
+| Door code shows a photo instead of a code | Expected between bookings — no active code means the slide shows a gallery photo. If you expect a code, check `/api/lockcode?cabin=YOUR-KEY` directly and the `OWNERREZ_*` env vars |
+| Door-code or lock-sync trouble | See `LOCK_SYNC_SETUP.md` "Common gotchas" section |
 
 ---
 
 ## What you have once it's deployed
 
+- 33 rotating slides (~6.3 min full loop) — preview them all in `admin.html`
 - Live weather pulled per-cabin from Open-Meteo (free, no API key)
-- Activity rotation that respects season, weather, and local favorites
-- Restaurant rotation that hides closed days
-- Drive times from each cabin's coordinates
-- Alert pills: snow forecast, freeze warning, fire danger, stargazing nights
-- Holiday-themed accent slides on the right dates
+- Smart activity rotation that respects season, weather, and your local favorites
+- Restaurant rotation that hides closed days (Café Sabor on Tuesdays, Shotgun Bar Mon/Tue); "Tell them Teara sent you!" taglines auto-highlighted
+- Drive times calculated from each cabin's coordinates, plus a 4-state road conditions board (ID / YNP / WY / MT) with QR codes
+- Four alert pills: snow forecast, freeze warning, fire danger, stargazing nights
+- Day-aware trash slide: "Trash Day!" on pickup day, "Trash Tomorrow!" the day before, bear-can tutorial video otherwise
+- Door code slide pulls the live Schlage code during a stay, shows a gallery photo between bookings (auto-sync cabins only — see `LOCK_SYNC_SETUP.md`)
+- Campfire slide with rotating conversation starters, story prompts, and s'more recipes
+- Watch TV slide with brand-colored streaming apps and "Input/Source → PC" return steps
+- Live Yellowstone & Grand Teton park alerts (NPS API)
 - (Netlify only) Live guest greeting from OwnerRez
 - (Netlify only, optional) Auto-rotating door code matching the physical Schlage keypad
-- One repo, N cabins, edit once → deploy everywhere
+- One repo, N cabins, edit-once deploy-everywhere

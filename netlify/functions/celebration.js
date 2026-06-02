@@ -1,4 +1,4 @@
-const { getStore } = require('@netlify/blobs');
+const { getStore, connectLambda } = require('@netlify/blobs');
 
 exports.handler = async function(event) {
   const headers = {
@@ -11,7 +11,20 @@ exports.handler = async function(event) {
     return { statusCode: 200, headers, body: '' };
   }
 
-  const store = getStore('celebrations');
+  // This function uses the classic (Lambda-compatible) syntax, which does NOT
+  // auto-configure Netlify Blobs. We must call connectLambda(event) first.
+  // Fall back to explicit siteID + token from env vars if that isn't available.
+  let store;
+  try {
+    if (typeof connectLambda === 'function') connectLambda(event);
+    store = getStore('celebrations');
+  } catch (e) {
+    store = getStore({
+      name: 'celebrations',
+      siteID: process.env.NETLIFY_SITE_ID || process.env.SITE_ID,
+      token: process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_API_TOKEN,
+    });
+  }
 
   // GET — fetch celebration for a cabin
   if (event.httpMethod === 'GET') {
@@ -28,42 +41,115 @@ exports.handler = async function(event) {
   // POST — set celebration (from JotForm webhook)
   if (event.httpMethod === 'POST') {
     try {
-      let body = {};
-      const ct = event.headers['content-type'] || '';
+      let raw = {};
+      const ct = (event.headers['content-type'] || event.headers['Content-Type'] || '');
 
-      if (ct.includes('application/json')) {
-        body = JSON.parse(event.body);
-      } else {
-        // JotForm sends URL-encoded form data
-        const params = new URLSearchParams(event.body);
-        // JotForm field names: q1_cabin, q2_occasion, q3_guestName, q4_message, q5_action
-        body = {
-          cabin: params.get('q1_cabin') || params.get('cabin'),
-          occasion: params.get('q2_occasion') || params.get('occasion'),
-          guestName: params.get('q3_guestName') || params.get('guestName'),
-          message: params.get('q4_message') || params.get('message'),
-          action: params.get('q5_action') || params.get('action') || 'set',
-        };
+      // Netlify may deliver the body base64-encoded — decode it first
+      let bodyStr = event.body || '';
+      if (event.isBase64Encoded) {
+        try { bodyStr = Buffer.from(bodyStr, 'base64').toString('utf8'); } catch (e) {}
       }
 
-      const { cabin, occasion, guestName, message, action } = body;
-      if (!cabin) return { statusCode: 400, headers, body: JSON.stringify({ error: 'cabin required' }) };
+      if (ct.includes('application/json')) {
+        raw = JSON.parse(bodyStr);
+      } else if (ct.includes('multipart/form-data')) {
+        // JotForm webhooks usually send multipart. Pull each field out by name.
+        // Matches:  name="q1_which_cabin" \r\n\r\n VALUE \r\n--boundary
+        const re = /name="([^"]+)"\r?\n\r?\n([\s\S]*?)\r?\n--/g;
+        let m;
+        while ((m = re.exec(bodyStr)) !== null) {
+          raw[m[1]] = m[2].trim();
+        }
+      } else {
+        // URL-encoded form data
+        const params = new URLSearchParams(bodyStr);
+        params.forEach((v, k) => { raw[k] = v; });
+      }
+
+      // JotForm also packs everything into a "rawRequest" JSON string — merge it in
+      if (raw.rawRequest) {
+        try {
+          const rr = JSON.parse(raw.rawRequest);
+          Object.assign(raw, rr);
+        } catch (e) {}
+      }
+
+      // Log what arrived so we can see the exact field names/values in Netlify logs
+      console.log('CELEBRATION webhook received fields:', JSON.stringify(Object.keys(raw)));
+      console.log('CELEBRATION webhook full payload:', JSON.stringify(raw).slice(0, 1500));
+
+      // Match fields by keyword in the field NAME (works when names are descriptive)
+      const findField = (keywords) => {
+        for (const key of Object.keys(raw)) {
+          const k = key.toLowerCase();
+          if (keywords.some(kw => k.includes(kw))) {
+            let val = raw[key];
+            if (val && typeof val === 'object') val = val.text || val.value || Object.values(val).join(' ');
+            if (val != null && String(val).trim() !== '') return String(val).trim();
+          }
+        }
+        return undefined;
+      };
+
+      // JotForm's "pretty" field maps the real QUESTION LABELS to answers, e.g.
+      // "Which cabin?:Huckleberry Hut, What's the occasion?:Birthday, Guest name...:Smith"
+      // This is the most reliable source since auto-generated field names (q2_dropdown0)
+      // contain no meaningful keywords. Parse it into label->answer pairs.
+      const pretty = {};
+      if (raw.pretty && typeof raw.pretty === 'string') {
+        raw.pretty.split(/,\s*/).forEach(pair => {
+          const idx = pair.indexOf(':');
+          if (idx > -1) {
+            const label = pair.slice(0, idx).trim().toLowerCase();
+            const value = pair.slice(idx + 1).trim();
+            if (value) pretty[label] = value;
+          }
+        });
+      }
+      // Find a pretty answer whose question label contains any of the keywords
+      const findPretty = (keywords) => {
+        for (const label of Object.keys(pretty)) {
+          if (keywords.some(kw => label.includes(kw))) return pretty[label];
+        }
+        return undefined;
+      };
+
+      const cabin    = findPretty(['cabin'])    || findField(['cabin']);
+      const occasion = findPretty(['occasion']) || findField(['occasion']);
+      const guestName= findPretty(['guest', 'name']) || findField(['guestname', 'guest', 'name']);
+      const message  = findPretty(['message', 'display']) || findField(['message', 'msg']);
+      const actionRaw= findPretty(['action']) || findField(['action']) || 'set';
+      const action   = String(actionRaw).toLowerCase().includes('clear') ? 'clear' : 'set';
+
+      if (!cabin) return { statusCode: 400, headers, body: JSON.stringify({ error: 'cabin required', received: Object.keys(raw), pretty: Object.keys(pretty) }) };
+
+      // Normalize the cabin value: take the part after a pipe if present (e.g. "Caldera Cottage|caldera"),
+      // lowercase, and map any friendly name to its key.
+      let cabinKey = cabin.includes('|') ? cabin.split('|').pop() : cabin;
+      cabinKey = cabinKey.trim().toLowerCase();
+      const nameToKey = {
+        'huckleberry hut':'huckleberry', 'gathering place':'gathering',
+        'little chalet':'little-chalet', 'big chalet':'big-chalet',
+        'caldera cottage':'caldera', "d'shouse haven":'dshouse', 'dshouse haven':'dshouse',
+        'rrl sleeps 14':'rrl', 'charming log home':'charming',
+      };
+      if (nameToKey[cabinKey]) cabinKey = nameToKey[cabinKey];
 
       if (action === 'clear') {
-        await store.delete(cabin);
-        return { statusCode: 200, headers, body: JSON.stringify({ success: true, cleared: cabin }) };
+        await store.delete(cabinKey);
+        return { statusCode: 200, headers, body: JSON.stringify({ success: true, cleared: cabinKey }) };
       }
 
       const celebration = {
         active: true,
-        cabin,
+        cabin: cabinKey,
         occasion,
         guestName,
         message,
         setAt: new Date().toISOString()
       };
 
-      await store.set(cabin, JSON.stringify(celebration));
+      await store.set(cabinKey, JSON.stringify(celebration));
       return { statusCode: 200, headers, body: JSON.stringify({ success: true, celebration }) };
     } catch(e) {
       return { statusCode: 500, headers, body: JSON.stringify({ error: e.message }) };
