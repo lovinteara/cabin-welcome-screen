@@ -107,11 +107,15 @@ function getFieldValue(obj, fieldDefinitionId) {
 
 function currentBooking(bookings, today) {
   if (!bookings) return null;
-  // Inclusive of departure day so a checkout-day booking still counts as
-  // current — guests are typically in the cabin until ~10 AM and need the
-  // door code in that window. Same-day turnover: if both the departing and
-  // the arriving booking match, prefer the later arrival (next guest).
-  const matches = bookings.filter(b => b.arrival <= today && b.departure >= today);
+  // Strict — a booking whose departure date is today is treated as done.
+  // The scheduled lock-sync runs at 11 AM Mountain (after the 10 AM check-
+  // out window), so on a guest's departure day we want their slot 10 code
+  // cleared, not kept. The departing guest may still need to twist the
+  // door from the inside but doesn't need keypad re-entry. Same-day
+  // turnover: if both the departing and arriving booking match (which
+  // requires arrival === departure), prefer the later-arriving one (next
+  // guest).
+  const matches = bookings.filter(b => b.arrival <= today && b.departure > today);
   if (matches.length === 0) return null;
   matches.sort((a, b) => (b.arrival || '').localeCompare(a.arrival || ''));
   return matches[0];
