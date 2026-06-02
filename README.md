@@ -1,162 +1,293 @@
 # Cabin Welcome Screen
 
-A digital welcome screen for short-term rentals — rotates through cabin info, live weather, activity recommendations, and local picks. Each cabin shows its own WiFi, weather, drive times, and check-out info.
+A digital welcome screen for short-term rentals — rotates through cabin info, live weather, activity recommendations, local favorites, holiday-themed slides, and (optionally) a live door code for the current guest. Each cabin shows its own WiFi password, local conditions, drive times, and check-out info.
+
+One repo, one URL per cabin, edit once → updates everywhere.
 
 ---
 
 ## What's in this folder
 
 - **`index.html`** — the slideshow itself. Don't edit unless changing the design.
-- **`config.js`** — your cabins, activities, restaurants, and quotes. **This is where you make edits.**
+- **`config.js`** — your cabins, activities, restaurants, holidays, and quotes. **This is where you make edits.**
+- **`netlify/functions/`** — optional backend: live guest info, weather alerts, and door-code automation. Only used if you deploy to Netlify (see "Deployment" below).
+- **`LOCK_SYNC_SETUP.md`** — separate setup guide for the door-code automation (SmartThings + OwnerRez). Only relevant if you want guests' codes auto-pushed to physical Schlage locks.
 - **`README.md`** — this file.
 
 ---
 
 ## Quick test on your computer first
 
-Before doing anything else, double-click `index.html`. It'll open in your browser and show Huckleberry Hut by default. Wait a few seconds for weather to load, watch the slides cycle. If everything looks right, move on to deployment.
+Before deploying anywhere, double-click `index.html`. It opens in your browser and defaults to one cabin. Wait a few seconds for weather to load, watch the slides cycle. If the layout looks right, move on to deployment.
 
 ---
 
-## Recommended setup: Host on GitHub Pages
+## Deployment — pick a platform
 
-This is the path you want. One repo, eight URLs (one per cabin), edit-once-update-everywhere.
+| Platform | Cost | Live guest info? | Door code slide? | Best for |
+|---|---|---|---|---|
+| **GitHub Pages** | Free | ❌ (static only) | ❌ | Simplest possible setup; no backend features |
+| **Netlify** | Free tier | ✅ | ✅ | Recommended if you have OwnerRez or want any backend feature |
 
-### Step 1: Create the GitHub repo
+Netlify costs nothing for our use (well under all free-tier limits) and gives you everything. **If you're not sure, pick Netlify.**
 
-1. Go to **github.com** and click **+ → New repository**
-2. Name it something like `cabin-welcome-screen`
-3. Set it to **Public** (required for free GitHub Pages)
-4. Skip the "Initialize with README" — you already have one
-5. Click **Create repository**
+### GitHub Pages deployment
 
-### Step 2: Upload the files
+1. Create a public GitHub repo and upload these files
+2. **Settings → Pages** → Source: Deploy from a branch, Branch: `main` / root → Save
+3. Wait 1–3 min; URL appears: `https://YOURUSERNAME.github.io/REPO-NAME/`
+4. Test: `https://YOURUSERNAME.github.io/REPO-NAME/?cabin=YOUR-CABIN-KEY`
 
-Easiest way (no command line needed):
+### Netlify deployment
 
-1. On your new empty repo page, click **uploading an existing file**
-2. Drag `index.html`, `config.js`, and `README.md` into the upload area
-3. Scroll down, type a commit message like "Initial setup"
-4. Click **Commit changes**
-
-### Step 3: Turn on GitHub Pages
-
-1. In the repo, click **Settings** (top right)
-2. In the left sidebar, click **Pages**
-3. Under **Source**, select **Deploy from a branch**
-4. Under **Branch**, select **main** and folder **/ (root)**, then click **Save**
-5. Wait 1–3 minutes. The page will refresh and show:
-   *"Your site is live at `https://YOURUSERNAME.github.io/cabin-welcome-screen/`"*
-
-### Step 4: Test the URLs
-
-Open these in your browser to test each cabin (replace YOURUSERNAME with your GitHub username):
-
-- `https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=huckleberry`
-- `https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=gathering`
-- `https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=little-chalet`
-- `https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=big-chalet`
-- `https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=caldera`
-- `https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=dshouse`
-- `https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=rrl`
-- `https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=charming`
-
-Each one should show that cabin's name, WiFi, weather for its specific coordinates, and drive times calculated from that cabin to each activity.
-
-**Bookmark or write down each URL** — you'll need them for the Pi setup.
+1. Push these files to a GitHub repo (private OK on Netlify)
+2. Log in to https://app.netlify.com → **Add new project → Import from GitHub** → pick your repo
+3. Leave build settings at defaults (no build command, publish dir = `/`)
+4. Deploy. Your site URL appears: `https://YOUR-SITE.netlify.app/`
+5. Test: `https://YOUR-SITE.netlify.app/?cabin=YOUR-CABIN-KEY`
+6. (If you want the door-code slide later) Set up the backend per `LOCK_SYNC_SETUP.md`
 
 ---
 
-## How to make edits going forward
+## Adding a new cabin
 
-The big payoff of GitHub Pages: edit once, all 8 cabins update.
+You'll do this whenever you take on a new property. ~10 minutes per cabin.
 
-### Easy way (browser, no command line)
+### Step 1 — Pick a short cabin key
 
-1. Go to your repo on github.com
-2. Click `config.js`
-3. Click the pencil icon (top right) to edit
-4. Make your changes — add a restaurant, fix a typo, swap a quote, anything
-5. Scroll down, write a quick commit message ("added new fishing spot")
-6. Click **Commit changes**
-7. Wait 1–3 minutes. All cabins update automatically the next time their pages refresh.
+A lowercase, hyphenated identifier you'll use in the URL. Examples: `huckleberry`, `little-chalet`, `caldera`. Keep it short — it goes in the URL the cabin's display loads.
 
-### To force the cabins to refresh immediately
+### Step 2 — Add the cabin to `config.js`
 
-Most browsers cache the page for ~10 minutes. To force a fresh load on a Pi, you can add a version number to the URL like `?cabin=huckleberry&v=2`. Increment the `v` number when you push major changes.
+Open `config.js`. There are several per-cabin sections; add an entry to each one for the new cabin using its key. The key sections to update:
+
+**`THEMES`** — color palette and logo for the cabin:
+```javascript
+'your-key': {
+  bg1: '#hexcolor1',
+  bg2: '#hexcolor2',
+  accent: '#hexcolor3',
+  // ... copy structure from an existing cabin
+  logoUrl: 'your-cabin-logo.png',
+},
+```
+
+**`CABINS`** — name, location, WiFi, checkout time:
+```javascript
+'your-key': {
+  name: 'Your Cabin Name',
+  lat: 44.4200,         // for weather
+  lon: -111.3800,
+  wifi: 'WiFi-Network-Name',
+  pw: 'WiFiPassword',
+  checkout: '10:00 AM',
+  wifiSet: true
+},
+```
+
+**`CABIN_CLEANING`** (if you use the cleaner-task slide):
+```javascript
+'your-key': {
+  name: 'Your Cabin Name',
+  notes: ['Anything cabin-specific the cleaner should know']
+},
+```
+
+**`CABIN_TRASH`** (if you use the trash-day slide):
+```javascript
+'your-key': {
+  days: ['Wednesday'],  // pickup day(s)
+  cans: 2,
+  notes: 'Standard pickup notes'
+},
+```
+
+### Step 3 — Add the cabin's logo (if it has one)
+
+Drop the logo image (PNG, transparent background preferred) into the repo root. Reference its filename in the cabin's `THEMES` entry (`logoUrl: 'your-cabin-logo.png'`).
+
+### Step 4 — Push and verify
+
+1. Commit the changes (browser editor commit or `git push` if local)
+2. Wait for the deploy to publish (~2 min on Netlify, 1–3 min on GitHub Pages)
+3. Test the new URL: `https://<your-site-base>/?cabin=your-key`
+4. Confirm weather loads, logo shows, WiFi info is right
+
+### Step 5 — Point that cabin's display at the new URL
+
+See "Setting up displays" below. The only thing different per cabin is the `?cabin=` in the URL.
+
+### Step 6 (optional) — If you use door-code auto-sync
+
+1. Add the new property's OwnerRez property ID to `PROPERTY_IDS` in `netlify/functions/_ownerrez.js`
+2. Add the cabin key + SmartThings locationId + lock device UUIDs to `SMARTTHINGS_DEVICES` in Netlify env vars (see `LOCK_SYNC_SETUP.md`)
+3. Install the SmartThings SmartApp in that cabin's Location
+4. Redeploy
 
 ---
 
-## Setting up the Raspberry Pis
+## Setting this up for someone else (white-label / clients)
 
-### Hardware needed (per cabin)
-- Raspberry Pi 4 (4GB) — get a CanaKit or Vilros starter kit, ~$90
-- Micro-HDMI to HDMI cable (usually in the kit)
+If you want to give this whole system to a friend running their own rentals, two options:
+
+### Option A — They fork your repo
+
+1. They go to your repo on GitHub → **Fork** to their own account
+2. They edit `config.js` with their own cabins
+3. They deploy their fork (GitHub Pages or Netlify) — separate URL from yours
+4. They keep maintaining their own copy
+
+**Pro**: clean separation, they can pull future improvements you push.
+**Con**: each person manages their own deploy.
+
+### Option B — You host, they pay for a custom-branded version
+
+1. You maintain a copy of the repo per client (separate Netlify project per client)
+2. Each client's `config.js` is their cabins
+3. Their domain (or Netlify subdomain) points at their deploy
+4. You charge them a monthly fee for hosting + updates
+
+**Pro**: you make money; they get hassle-free updates.
+**Con**: more work for you; you need to manage multiple deploys.
+
+### Option C (advanced) — Multi-tenant deploy
+
+1. One deploy serves multiple clients
+2. URL pattern: `https://welcome.example.com/?client=acme&cabin=cabin-1`
+3. Refactor `config.js` into a per-client config file loaded by query param
+4. Higher upfront engineering work but lower ongoing cost
+
+For now, Option A is the simplest hand-off. Option B is the obvious business model.
+
+---
+
+## Setting up displays
+
+You don't need a Raspberry Pi. Anything that can keep a web page open in full-screen works. Hardware is getting expensive; here are options ranked roughly by total cost:
+
+### Software-only / use-what-you-have
+
+| Option | Best for | Cost | Setup | Notes |
+|---|---|---|---|---|
+| **Smart TV with browser** (LG, Samsung, Vizio, etc.) | Cabins already with a smart TV | $0 | Open TV's built-in browser → enter the URL → make it full-screen. Reload manually. | Sometimes the browser is buried in "Apps." Some smart TVs (Roku, older Samsungs) have no real browser — won't work. |
+| **Existing tablet / iPad in a wall mount** | You already own one or can buy cheap used | $0–$100 | **iPad**: open Safari → URL → tap Share → "Add to Home Screen" → launch it from home screen for full-screen kiosk feel. Use **Guided Access** (Settings → Accessibility → Guided Access) to lock guests out of switching apps.<br>**Android**: install **Fully Kiosk Browser** (free) → enter URL → enable kiosk mode. | Best balance of price + reliability. iPad 5th-9th gen used = $80–150. Always-on with brightness dimmed. |
+| **Chromecast with Google TV / Fire TV Stick** + an old TV | Cabin has a dumb TV with HDMI | $30–50 | Side-load a kiosk browser (Fire TV: Silk Browser; Google TV: any Android browser) → load the URL → enable full-screen | Cheaper than a Pi; less flexible. Restart after every power outage. |
+
+### Dedicated computers (more setup, more reliable always-on)
+
+| Option | Best for | Cost | Setup | Notes |
+|---|---|---|---|---|
+| **Used Chromebook** | Want reliable kiosk with no fuss | $80–150 | Chrome OS has a built-in single-app kiosk mode. Configure once → boots straight to the URL. | Often the sweet spot. Ignore the small screen — close the lid, use HDMI to TV. |
+| **Raspberry Pi 4 / 5** | DIY tinkerers, want full control | $90–150 (kit) | See "Raspberry Pi setup" below. | Original recommendation but expensive now compared to alternatives. |
+| **Used Intel NUC / mini PC** | Want a small box at each cabin running full Windows or Linux | $80–200 | Install OS → set Chrome to autostart in kiosk mode → done | More powerful than needed; reliable. |
+| **Old laptop / desktop you already own** | Free hardware sitting around | $0 | Install lightweight Linux (e.g., Linux Mint) → set up Chrome kiosk autostart | Power-hungry, big, ugly — but free. |
+
+### Quick recommendation by scenario
+
+- **Want simplest possible, have any smart TV**: just use the TV's browser, manually refresh after edits. Free.
+- **Want reliable always-on with a small budget**: used iPad/tablet wall-mounted. ~$80–150.
+- **Want it to "just work" forever**: used Chromebook in kiosk mode behind the TV. ~$80–150.
+- **Want a dedicated tiny device behind every TV**: Raspberry Pi if you like Linux, mini PC otherwise. ~$90–200.
+
+### Raspberry Pi setup (legacy / still works)
+
+If you go the Pi route:
+
+#### Hardware needed (per cabin)
+- Raspberry Pi 4 (4GB+) — CanaKit or Vilros starter kit, ~$90
+- Micro-HDMI to HDMI cable (in most kits)
+- Real 5V/3A USB-C power supply (NOT a phone charger — Pis are picky)
 - The TV's HDMI input
 
-### Setup steps for each Pi
-
-1. **Flash the SD card** with Raspberry Pi OS (the kit's preloaded card works)
+#### Setup steps for each Pi
+1. **Flash the SD card** with Raspberry Pi OS (or use the kit's preloaded card)
 2. **Boot the Pi**, connect WiFi, finish initial setup
-3. **Set the Pi to launch the browser in kiosk mode on boot.** Open a terminal and run:
-
+3. **Make the Pi launch the browser in kiosk mode on boot.** Terminal:
    ```bash
    mkdir -p ~/.config/autostart
    nano ~/.config/autostart/welcome-screen.desktop
    ```
-
-   Paste this in, **changing the URL to that cabin's specific URL**:
-
+   Paste in (replace the URL with this cabin's URL):
    ```
    [Desktop Entry]
    Type=Application
    Name=Welcome Screen
-   Exec=chromium-browser --kiosk --noerrdialogs --disable-infobars https://YOURUSERNAME.github.io/cabin-welcome-screen/?cabin=huckleberry
+   Exec=chromium-browser --kiosk --noerrdialogs --disable-infobars https://YOUR-SITE/?cabin=YOUR-CABIN-KEY
    ```
-
-   For the Pi at Gathering Place, the URL would end in `?cabin=gathering`. For Caldera Cottage, `?cabin=caldera`. And so on.
-
    Save (Ctrl+O, Enter, Ctrl+X) and reboot.
 
-4. **Plug Pi into the TV**, set TV to that HDMI input, and you're done.
+4. **Plug Pi into the TV** → set TV to that HDMI input → done.
 
-### Disabling screen blanking on the Pi
-
-So the TV doesn't go dark after 10 minutes:
-
+#### Stop the screen from blanking
 ```bash
 sudo nano /etc/lightdm/lightdm.conf
 ```
-
 Find the `[Seat:*]` section, add:
-
 ```
 xserver-command=X -s 0 -dpms
 ```
-
 Reboot.
 
-### Auto-reload the page nightly (optional, recommended)
-
-This forces a fresh load of your latest config every morning at 4 AM, so you don't have to manually refresh anything after pushing edits:
-
+#### Auto-reload nightly (so config edits show up without manual refresh)
 ```bash
 crontab -e
 ```
-
-Add this line:
-
+Add:
 ```
 0 4 * * * /usr/bin/xdotool key F5
 ```
+Install xdotool if needed: `sudo apt install xdotool`
 
-You may need to install xdotool first: `sudo apt install xdotool`
+### iPad-as-always-on-display setup (recommended modern path)
+
+1. Open Safari → load `https://YOUR-SITE/?cabin=YOUR-CABIN-KEY`
+2. Tap **Share → Add to Home Screen** → name it "Welcome Screen"
+3. Launch the home-screen icon — opens full-screen, no browser chrome
+4. **Settings → Display & Brightness → Auto-Lock → Never** (so it stays on)
+5. **Settings → Accessibility → Guided Access** → turn ON → set a passcode
+6. With the welcome screen open, triple-click the home button (or side button on Face ID models) → tap **Guided Access → Start**. Now the iPad is locked to the welcome screen until you triple-click again + enter the passcode.
+7. Wall-mount it somewhere visible to guests (Amazon has cheap iPad wall mounts ~$15).
+8. Plug it in permanently — iPads handle 24/7 power-on fine.
+
+**Caveat — display burn-in**: iPads (LCD) handle always-on fine; older OLED iPads can develop image retention. Most welcome-screen content rotates enough to avoid this.
+
+### Android-tablet setup (cheapest "real" device path)
+
+1. Buy a $70–100 Android tablet (Lenovo Tab M-series, Samsung Tab A, Amazon Fire HD 10)
+2. Install **Fully Kiosk Browser** from Play Store (free for personal use)
+3. In Fully Kiosk: paste URL → enable kiosk mode → set startup URL → auto-launch on boot
+4. Wall-mount, leave plugged in
+
+Fire HD 10 specifically: install Fully Kiosk via sideload (Amazon's app store doesn't have it).
 
 ---
 
-## Editing the config
+## Making edits day-to-day
 
-Open `config.js`. Each section has comments showing how to add or remove entries.
+The big payoff: edit once, all displays update.
+
+### Browser-only workflow (no command line)
+
+1. Go to your repo on github.com
+2. Click `config.js` → pencil icon (top right) to edit
+3. Make your change — add a restaurant, fix a typo, swap a quote
+4. Scroll down, write a quick commit message ("added new fishing spot")
+5. Click **Commit changes**
+6. Wait 1–3 min for the deploy. Displays pick it up on next refresh.
+
+### Forcing displays to refresh immediately
+
+Browsers cache pages. To force-refresh now:
+- **iPad / Safari**: pull down from top to reload
+- **Android / Fully Kiosk**: built-in "Reload" button or restart the kiosk
+- **Pi / Chromium**: SSH in, run `xdotool key F5`, or just unplug + replug
+- **Smart TV browser**: press the TV's refresh button or close + reopen the browser
+
+If you want auto-refresh on a schedule, see the cron entry in the Pi section — most kiosk browsers (Fully Kiosk, Chromebook) have a built-in "reload every N minutes" setting.
+
+---
+
+## Editing `config.js` reference
 
 ### Adding a new restaurant
 
@@ -170,7 +301,7 @@ Find the `RESTAURANTS` array. Copy an existing block, change the values:
   fav: true },
 ```
 
-Day numbers for `closedDays`: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat. Don't forget the comma at the end if it's not the last entry.
+Day numbers for `closedDays`: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat. Comma at the end if it's not the last entry.
 
 ### Adding a new activity
 
@@ -186,190 +317,50 @@ Delete the entire `{ ... }` block including the trailing comma.
 
 ### Changing slide duration
 
-In `index.html`, find this line near the top of the script:
-
+In `index.html`, find:
 ```javascript
 setInterval(next, 8000);
 ```
-
-Change `8000` to whatever you want in milliseconds. `5000` = 5 seconds. `12000` = 12 seconds.
+Change `8000` to whatever you want in milliseconds.
 
 ---
 
-## Automatic door locks (Schlage via SmartThings)
+## Optional: door-code automation
 
-The welcome screen can show each guest their 4-digit door code, and the
-backend can push that code straight to the cabin's Schlage lock on a daily
-schedule — no manual code rotation between guests.
+If you have Schlage locks on SmartThings and want guests' codes to rotate automatically (and optionally show on the welcome-screen TV), see the separate setup guide:
 
-### How it works
+**→ [LOCK_SYNC_SETUP.md](./LOCK_SYNC_SETUP.md)**
 
-1. A scheduled Netlify function (`lockcode-sync`) runs once a day at 11 AM
-   Mountain (after the 10 AM checkout window).
-2. For each cabin you've configured, it asks OwnerRez who's currently
-   booked, derives a 4-digit code from the booking, and calls the
-   SmartThings API to set that code in slot 1 of the lock.
-3. Between bookings (no guest in the cabin), it clears slot 1 so the
-   previous code stops working.
-4. The welcome screen's "Door Code" slide hits `/api/lockcode?cabin=…`
-   live, so the guest always sees the current active code.
+It covers SmartThings SmartApp registration, OwnerRez door-lock integration, env-var configuration, per-Location install for OAuth tokens, and the dual-template email strategy for auto-sync vs manual-lock cabins.
 
-### Code derivation order
-
-For each booking the function picks the first option that succeeds:
-
-1. A booking field named `door_code` (manual override per booking in
-   OwnerRez)
-2. The last 4 digits of the guest's phone number
-3. The arrival date as MMDD (e.g. May 17 → `0517`)
-
-### Why this is more setup than you'd expect
-
-SmartThings recently changed their auth rules: Personal Access Tokens
-now expire after **24 hours** and are explicitly for "temporary
-development use." A daily cron can't survive on a token that dies every
-day, so we use the proper production path: a registered **OAuth
-SmartApp** with a long-lived refresh token (~30 days, auto-rotated on
-every use). The refresh token lives in Netlify Blobs so the function
-can mint fresh access tokens whenever it runs.
-
-You set this up **once**. After that it self-maintains as long as the
-sync runs at least once a month (the daily cron easily covers that).
-
-### What you need
-
-- **Schlage Z-Wave or Zigbee lock** paired to a SmartThings hub
-  (Connect, BE469, BE499, etc.). The all-WiFi Schlage Encode has no
-  public API, so it has to be paired with SmartThings for this to work.
-- A **Samsung / SmartThings developer account** (free) for registering
-  the SmartApp.
-- **Each lock's `deviceId`** — see "Find your device IDs" below.
-
-### Step 1: Register a SmartApp
-
-1. Go to https://smartthings.developer.samsung.com/workspace/ and sign
-   in with your Samsung account.
-2. Click **New Project → Automation for the SmartThings App → OAuth-In**
-   (or whichever option the workspace currently calls
-   "API-only / OAuth").
-3. Give it a name like "Cabin Lock Sync."
-4. **Redirect URI**: set this to your Netlify site's callback URL —
-   `https://YOUR-SITE.netlify.app/.netlify/functions/oauth-callback`
-5. **Scopes**: enable `r:devices:*` and `x:devices:*` (read devices,
-   execute device commands).
-6. Save / Deploy the app.
-7. From the project page, copy the **Client ID** and **Client Secret**
-   (the secret is shown once — save it now).
-
-### Step 2: Set Netlify environment variables
-
-In **Site settings → Environment variables**:
-
-| Variable | Value |
-|---|---|
-| `OWNERREZ_API_USER` | Your OwnerRez API username (already set if guest names work) |
-| `OWNERREZ_API_KEY`  | Your OwnerRez API key (already set if guest names work) |
-| `SMARTTHINGS_CLIENT_ID` | From the SmartApp page |
-| `SMARTTHINGS_CLIENT_SECRET` | From the SmartApp page |
-| `SMARTTHINGS_REDIRECT_URI` | The same URL you put in step 1 (must match exactly) |
-| `SMARTTHINGS_DEVICES` | JSON map of cabin → deviceId — see step 4 |
-
-Trigger a redeploy so the new env vars take effect.
-
-### Step 3: Do the one-time OAuth handshake
-
-In a browser, visit:
-
-```
-https://YOUR-SITE.netlify.app/api/oauth-start
-```
-
-You'll be redirected to a SmartThings approval page. Approve the app
-(it'll list the device-access scopes). SmartThings then redirects you
-back to `/api/oauth-callback`, which stores the refresh token in
-Netlify Blobs and shows a "SmartThings connected" page.
-
-That's it for auth. You don't have to redo this unless you delete the
-SmartApp, revoke access in your SmartThings account, or the sync stops
-running for 30+ days.
-
-### Step 4: Find your device IDs
-
-You can do this two ways:
-
-**A.** With `curl` and a *temporary* PAT (24h is plenty for this lookup —
-generate one at https://account.smartthings.com/tokens with `r:devices:*`,
-then run):
-
-```bash
-curl -H "Authorization: Bearer YOUR_PAT" \
-     https://api.smartthings.com/v1/devices | jq '.items[] | {name, deviceId, label}'
-```
-
-**B.** Or in the SmartThings app on your phone, open each lock and check
-the device details (sometimes the deviceId is buried in "Information").
-
-Copy each lock's `deviceId` UUID and build the `SMARTTHINGS_DEVICES`
-JSON map. Example:
-
-```json
-{"huckleberry":"abc-123-uuid","gathering":"def-456-uuid","caldera":"ghi-789-uuid"}
-```
-
-Only cabins listed here get synced — roll out one lock at a time by
-adding them gradually.
-
-### Step 5: Test the sync
-
-From the Netlify dashboard go to **Functions → lockcode-sync → Trigger**,
-or hit it via the URL:
-
-```
-https://YOUR-SITE.netlify.app/.netlify/functions/lockcode-sync
-```
-
-The response includes per-cabin status (`set` / `no-guest, slot cleared`
-/ `error`). Check the lock physically afterwards — slot 1 should have
-the new code. Function logs (Netlify → Functions → lockcode-sync → Logs)
-show details if anything fails.
-
-### Limitations / gotchas
-
-- The cron runs in UTC, so the 17:00 UTC schedule lands at 10–11 AM
-  Mountain depending on DST. Both are after the 10 AM checkout — fine
-  for our use.
-- Only slot 1 is used. If you also program codes manually for cleaners
-  or yourself, put them in slots 2+ so the sync doesn't overwrite them.
-- The screen's "Door Code" slide only shows when there's an active
-  booking. Between guests the slide is hidden entirely.
-- If you revoke the SmartApp in your SmartThings account, or the sync
-  doesn't run for 30+ days, the refresh token expires — just visit
-  `/api/oauth-start` again to re-authorize.
+Lock-sync requires the **Netlify deployment path** above (it uses the backend functions). GitHub Pages can't run the scheduled sync.
 
 ---
 
 ## Troubleshooting
 
 | Problem | Fix |
-|---------|-----|
+|---|---|
 | Weather shows "unavailable" | No internet at the cabin. Check WiFi. |
-| Wrong cabin name showing | Check the `?cabin=` part of the URL is correct |
-| Pi reboots randomly | Buy a real 5V/3A power supply, not a phone charger |
-| Screen goes black after 10 min | See "Disabling screen blanking" above |
-| Edit not appearing on cabin TVs | Wait a few minutes (browser cache) or set up nightly auto-reload |
-| Pi shows "page not found" | Double-check the URL — case-sensitive on GitHub Pages |
-| Door code slide doesn't appear | No active booking, or `OWNERREZ_*` env vars missing — check `/api/lockcode?cabin=huckleberry` directly |
-| Lock isn't getting the new code | Check `SMARTTHINGS_CLIENT_ID`/`CLIENT_SECRET`/`REDIRECT_URI`/`DEVICES` env vars are set, that you've done the `/api/oauth-start` handshake, then trigger `lockcode-sync` manually and read its logs |
-| `No refresh token stored` in logs | The one-time OAuth handshake was never done (or the SmartApp was revoked) — visit `/api/oauth-start` in a browser |
-| Code on the lock doesn't match the screen | Lock has codes in higher slots overriding slot 1, or the daily sync hasn't run yet — trigger manually |
+| Wrong cabin showing | Check `?cabin=` in the URL matches a key in `config.js` |
+| Pi reboots randomly | Get a real 5V/3A power supply, not a phone charger |
+| Screen goes black after 10 min | See "Stop the screen from blanking" in the Pi section, or set auto-lock to Never on iPad |
+| Edit not appearing on displays | Wait a few min (browser cache), or force-refresh |
+| iPad goes to lock screen | Settings → Display & Brightness → Auto-Lock → Never |
+| Guests interfering with the iPad | Use Guided Access to lock to the welcome-screen app |
+| URL shows "page not found" | Double-check the URL — case-sensitive on GitHub Pages, `?cabin=` exactly matches your key |
+| Door code slide doesn't appear | See LOCK_SYNC_SETUP.md troubleshooting |
 
 ---
 
-## Summary of what you have
+## What you have once it's deployed
 
 - Live weather pulled per-cabin from Open-Meteo (free, no API key)
-- Smart activity rotation that respects season, weather, and your local favorites
-- Restaurant rotation that hides closed days (Café Sabor on Tuesdays, Shotgun Bar Mon/Tue)
-- Drive times calculated from each cabin's coordinates
-- Four alert pills: snow forecast, freeze warning, fire danger, stargazing nights
-- One repo, eight URLs, edit-once deploy-everywhere
+- Activity rotation that respects season, weather, and local favorites
+- Restaurant rotation that hides closed days
+- Drive times from each cabin's coordinates
+- Alert pills: snow forecast, freeze warning, fire danger, stargazing nights
+- Holiday-themed accent slides on the right dates
+- (Netlify only) Live guest greeting from OwnerRez
+- (Netlify only, optional) Auto-rotating door code matching the physical Schlage keypad
+- One repo, N cabins, edit once → deploy everywhere
