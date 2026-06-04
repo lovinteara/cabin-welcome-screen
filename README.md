@@ -12,8 +12,20 @@ One repo, one URL per cabin, edit once → updates everywhere.
 - **`config.js`** — your cabins, activities, restaurants, holidays, and quotes. **This is where you make edits.**
 - **`admin.html`** — a reference dashboard. Open it in a browser to preview every slide, see each slide's duration, the cabin URLs/WiFi, and Pi status. Documentation only — editing it does NOT change what the cabins display.
 - **`netlify/functions/`** — optional backend: live guest info, weather alerts, and door-code automation. Only used if you deploy to Netlify (see "Deployment" below).
-- **`LOCK_SYNC_SETUP.md`** — separate setup guide for the door-code automation (SmartThings + OwnerRez). Only relevant if you want guests' codes auto-pushed to physical Schlage locks.
+- **[`LOCK_SYNC_SETUP.md`](LOCK_SYNC_SETUP.md)** — separate setup guide for the door-code automation (SmartThings + OwnerRez). Only relevant if you want guests' codes auto-pushed to physical Schlage locks.
 - **`README.md`** — this file.
+
+---
+
+## Documentation index
+
+This README covers day-to-day operations and the per-cabin Pi setup. For the bigger picture, these companion guides go deeper:
+
+- **[SETUP_FROM_SCRATCH.md](SETUP_FROM_SCRATCH.md)** — build the entire system from nothing: GitHub repo, Netlify site, config, integrations, displays. Start here if you're standing it up fresh or want to understand how the pieces fit.
+- **[DISPLAY_OPTIONS.md](DISPLAY_OPTIONS.md)** — TV vs. monitor vs. iPad for the in-cabin display, with the trade-offs and exact steps for each.
+- **[INTEGRATIONS_SETUP.md](INTEGRATIONS_SETUP.md)** — how to actually get every API key/credential (OwnerRez, JotForm, SmartThings) and the exact env-var names + per-client maps to set.
+- **[NEW_CLIENT_SETUP.md](NEW_CLIENT_SETUP.md)** — the repeatable playbook for running CabinCast Pro for another property manager as a separate, white-labeled instance.
+- **[LOCK_SYNC_SETUP.md](LOCK_SYNC_SETUP.md)** — the door-lock automation deep dive.
 
 ---
 
@@ -213,21 +225,65 @@ If you go the Pi route:
 
    Reboot (or restart Chromium) afterward and emoji will render everywhere. **Do this on every Pi** — including any SD card you reflash.
 
-4. **Make the Pi launch the browser in kiosk mode on boot.** Terminal:
+4. **Set which cabin this Pi is for.** This one line is the only per-cabin change — everything else below is identical on every Pi. In a terminal (replace `YOUR-CABIN-KEY` with this cabin's key, e.g. `huckleberry`, `dshouse`, `rrl`, `charming`):
+   ```bash
+   echo "YOUR-CABIN-KEY" > ~/cabin-name.txt
+   ```
+   Valid keys: `huckleberry`, `gathering`, `little-chalet`, `big-chalet`, `caldera`, `dshouse`, `rrl`, `charming`
+
+5. **Create the startup script.** This handles three things automatically: forces HDMI as the audio output (Pi OS defaults to a silent dummy sink after reboot — see Sound fix below), reads the cabin key from step 4, and launches Chromium in kiosk mode with all the prompt-suppressing flags so guests never see a permission popup. Paste this whole block:
+   ```bash
+   cat > ~/kiosk-start.sh << 'EOF'
+   #!/bin/bash
+   sleep 5
+   # Force HDMI audio (Pi OS / PipeWire defaults to a dummy sink after reboot)
+   HDMI_SINK=$(pactl list short sinks | grep -i hdmi | head -n1 | awk '{print $2}')
+   if [ -n "$HDMI_SINK" ]; then
+     pactl set-default-sink "$HDMI_SINK"
+     pactl set-sink-volume "$HDMI_SINK" 100%
+     pactl set-sink-mute "$HDMI_SINK" 0
+   fi
+   CABIN=$(cat ~/cabin-name.txt 2>/dev/null)
+   chromium --kiosk --noerrdialogs --disable-infobars \
+     --disable-session-crashed-bubble \
+     --use-fake-ui-for-media-stream \
+     --autoplay-policy=no-user-gesture-required \
+     --no-first-run --disable-notifications \
+     --disable-features=Translate \
+     "https://YOUR-SITE/?cabin=${CABIN}"
+   EOF
+   chmod +x ~/kiosk-start.sh
+   ```
+   (Replace `YOUR-SITE` once with your real site, e.g. `cabin-welcome-screen.netlify.app`.)
+
+   What the flags do — these auto-accept or suppress every popup a guest would otherwise see:
+   - `--use-fake-ui-for-media-stream` — auto-allows camera/microphone prompts
+   - `--autoplay-policy=no-user-gesture-required` — lets audio/video play without a click
+   - `--disable-session-crashed-bubble` — skips the "restore pages?" bar after a power loss
+   - `--no-first-run` — skips first-launch setup screens
+   - `--disable-notifications` — blocks website notification permission popups
+   - `--disable-features=Translate` — kills the "translate this page?" bar
+
+6. **Make the script launch on boot.** Terminal:
    ```bash
    mkdir -p ~/.config/autostart
-   nano ~/.config/autostart/welcome-screen.desktop
-   ```
-   Paste in (replace the URL with this cabin's URL):
-   ```
+   cat > ~/.config/autostart/kiosk.desktop << 'EOF'
    [Desktop Entry]
    Type=Application
-   Name=Welcome Screen
-   Exec=chromium-browser --kiosk --noerrdialogs --disable-infobars https://YOUR-SITE/?cabin=YOUR-CABIN-KEY
+   Name=Kiosk
+   Exec=/home/pi/kiosk-start.sh
+   EOF
    ```
-   Save (Ctrl+O, Enter, Ctrl+X) and reboot.
+   (If your Pi username isn't `pi`, change the path in `Exec=` to match — run `whoami` if unsure.)
 
-5. **Plug Pi into the TV** → set TV to that HDMI input → done.
+7. **Verify, then reboot.**
+   ```bash
+   cat ~/cabin-name.txt && echo "---" && cat ~/kiosk-start.sh
+   sudo reboot
+   ```
+   It should boot straight into this cabin's welcome screen, with sound, and never show a prompt.
+
+8. **Plug Pi into the TV** → set TV to that HDMI input → done.
 
 #### Stop the screen from blanking
 
@@ -361,6 +417,7 @@ Lock-sync requires the **Netlify deployment path** above (it uses the backend fu
 |---|---|
 | Weather shows "unavailable" | No internet at the cabin. Check WiFi. |
 | Emoji show as empty boxes (☐) | Emoji font not installed on the Pi. Run `sudo apt install fonts-noto-color-emoji -y` then reboot |
+| No sound from the TV | Pi OS (PipeWire) defaults to a silent "dummy" sink after reboot, not HDMI. The `~/kiosk-start.sh` script (Pi setup step 5) auto-fixes this on every boot by detecting the HDMI sink with `pactl list short sinks \| grep -i hdmi` and setting it as default. If a Pi was set up the old way without that script, redo steps 5–7. To test manually: `pactl list short sinks` (find the HDMI line), then `pactl set-default-sink <name>`. Note: `pactl` is built in on current Pi OS; older `pactl`-less images may need `sudo apt install pulseaudio-utils` |
 | Wrong cabin showing | Check `?cabin=` in the URL matches a key in `config.js` |
 | Pi reboots randomly | Get a real 5V/3A power supply, not a phone charger |
 | Screen goes black after 10 min | See "Stop the screen from blanking" in the Pi section, or set auto-lock to Never on iPad |
