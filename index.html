@@ -1718,14 +1718,11 @@
   }
 
   // ── DOOR CODE SLIDE ──────────────────────────────────
-  async function setupDoorCodeSlide(cabinKey) {
+    async function setupDoorCodeSlide(cabinKey) {
     const slide = document.getElementById('doorcode-slide');
     if (!slide) return;
-    let data = null;
-    try {
-      const res = await fetch(`/api/lockcode?cabin=${cabinKey}`);
-      if (res.ok) data = await res.json();
-    } catch {}
+    let data = null; // Door code display disabled for security — always show gallery photo
+
 
     const content = document.getElementById('doorcode-content');
     const fallbackImg = document.getElementById('doorcode-fallback-img');
