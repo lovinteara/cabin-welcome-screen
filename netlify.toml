@@ -6,3 +6,9 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# Daily door-code sync — 11:00 AM Mountain (17:00 UTC standard / 18:00 UTC DST).
+# Cron is UTC; this lands a bit after the 10 AM checkout, so the previous
+# guest's code is cleared before the next arrival.
+[functions."lockcode-sync"]
+  schedule = "0 17 * * *"
