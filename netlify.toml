@@ -7,8 +7,23 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
-# Daily door-code sync — 11:00 AM Mountain (17:00 UTC standard / 18:00 UTC DST).
-# Cron is UTC; this lands a bit after the 10 AM checkout, so the previous
-# guest's code is cleared before the next arrival.
-[functions."lockcode-sync"]
+# Daily door-code automation — two runs per day in Mountain Time.
+#
+# 11 AM Mountain (lockcode-checkout): clears slot 10 on any cabin whose guest
+# checks out today. Departing guest's keypad access is removed immediately at
+# checkout. Mid-stay codes are left alone.
+#
+# 3 PM Mountain (lockcode-sync): sets slot 10 to the current guest's code so
+# new arrivals get their code activated right at the standard 3 PM check-in
+# time. Mid-stay re-pushes are no-ops (same value). Empty cabins get cleared
+# again as a safety net.
+#
+# Cron is UTC and doesn't follow DST — the times above are correct for
+# Mountain Daylight Time (Mar-Nov, peak rental season). In MST (winter) the
+# runs shift one hour earlier: 10 AM clear, 2 PM set. Still safe windows.
+
+[functions."lockcode-checkout"]
   schedule = "0 17 * * *"
+
+[functions."lockcode-sync"]
+  schedule = "0 21 * * *"
