@@ -2279,7 +2279,10 @@
   }
 
   async function loadCelebration() {
-    const cabinKey = window._cabinKey || 'huckleberry';
+    // Read the cabin from the URL like the rest of the app does. (window._cabinKey
+    // was never assigned anywhere, so this used to always fall back to 'huckleberry'
+    // — which is why only Huckleberry ever showed guest celebrations.)
+    const cabinKey = new URLSearchParams(window.location.search).get('cabin') || 'huckleberry';
     try {
       const res = await fetch(`/api/celebration?cabin=${cabinKey}`);
       const data = await res.json();
@@ -2420,6 +2423,7 @@
 
   function init() {
     const key = getCabinKey();
+    window._cabinKey = key; // make the resolved cabin available to loadCelebration, auto-clear, etc.
     const cabin = CABINS[key];
     const theme = THEMES[key] || THEMES[Object.keys(THEMES)[0]];
 
