@@ -2591,10 +2591,14 @@
     loadGuest(key).then(guest => {
       applyGuest(guest, theme, cabin);
       // Cache arrival (raw YYYY-MM-DD) so we can detect a celebration left over from a previous guest
-      if (guest && guest.arrival) window._guestArrival = guest.arrival;
-      // Cache departure for cleaning mode check
-      if (guest && guest.departure) {
-        // Convert "May 9" back to YYYY-MM-DD for comparison
+      if (guest && guest.arrivalRaw) window._guestArrival = guest.arrivalRaw;
+      else if (guest && guest.arrival) window._guestArrival = guest.arrival;
+      // Cache departure for cleaning mode + celebration expiry. Prefer the raw
+      // ISO date straight from OwnerRez (no lossy round-trip through "June 22").
+      if (guest && guest.departureRaw && /^\d{4}-\d{2}-\d{2}$/.test(guest.departureRaw)) {
+        window._guestDeparture = guest.departureRaw;
+      } else if (guest && guest.departure) {
+        // Fallback: convert "June 22" back to YYYY-MM-DD for comparison
         const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         const parts = guest.departure.split(' ');
         if (parts.length === 2) {
