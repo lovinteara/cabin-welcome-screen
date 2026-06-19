@@ -2308,12 +2308,13 @@
         return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
       })();
       // (a) Expired if today is strictly AFTER the current guest's checkout.
+      //     This is the real protection against a previous guest's message lingering:
+      //     once checkout passes, the celebration is cleared.
       if (window._guestDeparture && todayStr > window._guestDeparture) celebrationExpired = true;
-      // (b) Stale if it was set BEFORE the current guest arrived (it's a previous guest's message).
-      if (window._guestArrival && _celebration.setAt) {
-        const setDay = String(_celebration.setAt).slice(0, 10); // YYYY-MM-DD
-        if (setDay < window._guestArrival) celebrationExpired = true;
-      }
+      // NOTE: We intentionally do NOT mark a celebration stale just because it was
+      // set before the guest's arrival date. Hosts set up surprise celebrations
+      // BEFORE check-in on purpose ("SHHHHH! a little surprise"), so a set date
+      // earlier than arrival is normal and expected — not a leftover.
       // If expired/stale, clear it from storage once so it can't resurface.
       if (celebrationExpired && !window._celebrationClearAttempted) {
         window._celebrationClearAttempted = true;
@@ -2325,7 +2326,7 @@
       if (emojiEl) emojiEl.textContent = OCCASION_EMOJI[_celebration.occasion] || '🎉';
       if (eyebrowEl) eyebrowEl.textContent = 'A Special Celebration';
       if (guestEl) { guestEl.textContent = _celebration.guestName || ''; guestEl.style.display = _celebration.guestName ? 'block' : 'none'; }
-      if (titleEl) titleEl.textContent = _celebration.title || 'Congratulations!';
+      if (titleEl) titleEl.textContent = _celebration.title || _celebration.occasion || 'Congratulations!';
       if (msgEl) msgEl.textContent = _celebration.message || '';
       slide.style.display = 'flex';
       return;
