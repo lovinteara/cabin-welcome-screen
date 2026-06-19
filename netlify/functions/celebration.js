@@ -53,12 +53,30 @@ exports.handler = async function(event) {
       if (ct.includes('application/json')) {
         raw = JSON.parse(bodyStr);
       } else if (ct.includes('multipart/form-data')) {
-        // JotForm webhooks usually send multipart. Pull each field out by name.
-        // Matches:  name="q1_which_cabin" \r\n\r\n VALUE \r\n--boundary
-        const re = /name="([^"]+)"\r?\n\r?\n([\s\S]*?)\r?\n--/g;
-        let m;
-        while ((m = re.exec(bodyStr)) !== null) {
-          raw[m[1]] = m[2].trim();
+        // Split the body on the ACTUAL boundary from the Content-Type header so
+        // long values (messages with commas/newlines) are never cut short.
+        const bMatch = ct.match(/boundary=(?:"([^"]+)"|([^;]+))/i);
+        const boundary = bMatch ? (bMatch[1] || bMatch[2]).trim() : null;
+
+        if (boundary) {
+          // Each part is delimited by --boundary; capture name + full value per part.
+          const parts = bodyStr.split('--' + boundary);
+          for (const part of parts) {
+            const nameMatch = part.match(/name="([^"]+)"/);
+            if (!nameMatch) continue;
+            // Value is everything after the blank line following the headers,
+            // minus the trailing CRLF. No lazy cutoff, so commas/newlines survive.
+            const idx = part.indexOf('\r\n\r\n');
+            if (idx === -1) continue;
+            let val = part.slice(idx + 4);
+            val = val.replace(/\r\n$/, '');
+            raw[nameMatch[1]] = val.trim();
+          }
+        } else {
+          // Fallback to the old regex if no boundary was found in the header.
+          const re = /name="([^"]+)"\r?\n\r?\n([\s\S]*?)\r?\n--/g;
+          let m;
+          while ((m = re.exec(bodyStr)) !== null) raw[m[1]] = m[2].trim();
         }
       } else {
         // URL-encoded form data
@@ -66,12 +84,24 @@ exports.handler = async function(event) {
         params.forEach((v, k) => { raw[k] = v; });
       }
 
-      // JotForm also packs everything into a "rawRequest" JSON string — merge it in
+      // JotForm also packs everything into a "rawRequest" JSON string. It's the
+      // cleanest copy of the data, so merge it in — but keep the LONGER value for
+      // each field so a truncated copy can never overwrite a complete one.
       if (raw.rawRequest) {
         try {
           const rr = JSON.parse(raw.rawRequest);
-          Object.assign(raw, rr);
-        } catch (e) {}
+          for (const k of Object.keys(rr)) {
+            const incoming = rr[k];
+            const existing = raw[k];
+            const iLen = incoming == null ? 0 : String(incoming).length;
+            const eLen = existing == null ? 0 : String(existing).length;
+            if (iLen >= eLen) raw[k] = incoming;
+          }
+        } catch (e) {
+          // Don't swallow silently — surface it so a recurrence is visible in logs.
+          console.log('CELEBRATION rawRequest parse failed:', e.message,
+                      '| rawRequest length:', String(raw.rawRequest).length);
+        }
       }
 
       // Log what arrived so we can see the exact field names/values in Netlify logs
