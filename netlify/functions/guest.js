@@ -87,6 +87,8 @@ exports.handler = async function(event) {
         guest: {
           firstName,
           departure,
+          departureRaw: current.departure || '',
+          arrivalRaw:   current.arrival   || '',
           adults:   current.adults   || 0,
           children: current.children || 0,
           pets:     current.pets     || 0
