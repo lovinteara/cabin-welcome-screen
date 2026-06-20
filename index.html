@@ -2278,6 +2278,14 @@
     return mo + '-' + dy;
   }
 
+  // ─────────────────────────────────────────────────────────────────────
+  // CELEBRATION DISPLAY
+  // IMPORTANT (fixed 2026-06-19): always resolve the cabin from the URL here.
+  // This function previously used `window._cabinKey`, which was never assigned,
+  // so it ALWAYS fell back to 'huckleberry' — meaning every cabin fetched
+  // Huckleberry's celebration and ignored its own ?cabin= param. Do not
+  // reintroduce a dependency on a global that isn't set before this runs.
+  // ─────────────────────────────────────────────────────────────────────
   async function loadCelebration() {
     // Read the cabin from the URL like the rest of the app does. (window._cabinKey
     // was never assigned anywhere, so this used to always fall back to 'huckleberry'
