@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Cabin Celebration Status</title>
+<style>
+  :root{
+    --bg:#14110d;          /* dark cabin night */
+    --panel:#1e1a14;       /* warm panel */
+    --panel-edge:#322b21;
+    --ink:#f3ece0;         /* warm off-white */
+    --ink-dim:#a89d8a;
+    --gold:#e3a008;        /* lantern gold */
+    --green:#5fb878;       /* showing */
+    --amber:#e0a030;       /* stored but not showing */
+    --grey:#6b6256;        /* nothing stored */
+    --red:#d9694e;         /* error */
+    --blue:#6fa8d9;        /* guest in, no message - opportunity */
+    --pine:#3a4a3f;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Iowan Old Style",Georgia,"Times New Roman",serif;
+    -webkit-font-smoothing:antialiased;
+    padding:28px 20px 60px;
+  }
+  .wrap{max-width:980px;margin:0 auto}
+  header{
+    display:flex;align-items:baseline;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--panel-edge);
+    padding-bottom:16px;margin-bottom:8px;
+  }
+  h1{
+    font-size:26px;font-weight:600;letter-spacing:.3px;margin:0;
+  }
+  h1 .sub{
+    display:block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--gold);margin-bottom:6px;font-weight:400;
+  }
+  .controls{display:flex;align-items:center;gap:10px}
+  button{
+    font:inherit;font-size:13px;background:var(--gold);color:#1a1206;
+    border:none;border-radius:6px;padding:9px 16px;cursor:pointer;
+    font-weight:600;letter-spacing:.3px;
+  }
+  button:hover{filter:brightness(1.08)}
+  button:disabled{opacity:.5;cursor:default}
+  .updated{font-size:12px;color:var(--ink-dim);font-family:ui-monospace,Menlo,monospace}
+
+  .legend{
+    display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 22px;
+    font-size:12px;color:var(--ink-dim);
+  }
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+  .d-green{background:var(--green)} .d-amber{background:var(--amber)}
+  .d-grey{background:var(--grey)} .d-red{background:var(--red)}
+  .d-blue{background:var(--blue)}
+
+  .grid{display:flex;flex-direction:column;gap:10px}
+  .card{
+    background:var(--panel);border:1px solid var(--panel-edge);
+    border-left:4px solid var(--grey);border-radius:9px;
+    padding:15px 18px;display:grid;
+    grid-template-columns:1fr auto;gap:6px 18px;align-items:center;
+  }
+  .card.s-green{border-left-color:var(--green)}
+  .card.s-amber{border-left-color:var(--amber)}
+  .card.s-grey{border-left-color:var(--grey)}
+  .card.s-red{border-left-color:var(--red)}
+  .card.s-blue{border-left-color:var(--blue)}
+
+  .cabin-name{font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px}
+  .slug{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--ink-dim);
+        background:#000;padding:2px 7px;border-radius:4px;letter-spacing:.5px}
+  .status-pill{
+    font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:1px;
+    text-transform:uppercase;padding:5px 11px;border-radius:20px;font-weight:600;
+    justify-self:end;white-space:nowrap;
+  }
+  .p-green{background:rgba(95,184,120,.16);color:var(--green)}
+  .p-amber{background:rgba(224,160,48,.16);color:var(--amber)}
+  .p-grey{background:rgba(107,98,86,.2);color:var(--ink-dim)}
+  .p-red{background:rgba(217,105,78,.16);color:var(--red)}
+  .p-blue{background:rgba(111,168,217,.16);color:var(--blue)}
+
+  .detail{
+    grid-column:1 / -1;font-size:13px;color:var(--ink-dim);
+    line-height:1.55;border-top:1px dashed var(--panel-edge);
+    padding-top:10px;margin-top:4px;
+  }
+  .detail b{color:var(--ink);font-weight:600}
+  .detail .msg{color:var(--ink);font-style:italic}
+  .detail .row{display:flex;flex-wrap:wrap;gap:6px 22px}
+  .open-link{
+    font-family:ui-monospace,Menlo,monospace;font-size:11px;
+    color:var(--gold);text-decoration:none;border-bottom:1px solid transparent;
+  }
+  .open-link:hover{border-bottom-color:var(--gold)}
+  .loading{color:var(--ink-dim);font-style:italic}
+  footer{margin-top:30px;font-size:12px;color:var(--grey);line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="sub">Visit Island Park · Fleet Monitor</span>Celebration Status</h1>
+    <div class="controls">
+      <span class="updated" id="updated"></span>
+      <button id="refresh">Refresh all</button>
+    </div>
+  </header>
+
+  <div class="legend">
+    <span><i class="dot d-green"></i> Showing on screen now</span>
+    <span><i class="dot d-blue"></i> Guest in · no message set</span>
+    <span><i class="dot d-amber"></i> Stored, but won't display</span>
+    <span><i class="dot d-grey"></i> Nothing set</span>
+    <span><i class="dot d-red"></i> Couldn't reach</span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Checks each cabin's <code>/api/celebration</code> and <code>/api/guest</code> endpoints live.
+    A celebration shows on the TV when one is stored <i>and</i> the current guest's checkout
+    hasn't passed. Amber means something's stored but the screen is hiding it — usually no active
+    booking or checkout already gone by.
+  </footer>
+</div>
+
+<script>
+  const BASE = "https://cabin-welcome-screen.netlify.app";
+  const CABINS = [
+    {name:"Huckleberry Hut",   slug:"huckleberry"},
+    {name:"The Gathering Place",slug:"gathering"},
+    {name:"Little Chalet",     slug:"little-chalet"},
+    {name:"Big Chalet",        slug:"big-chalet"},
+    {name:"Caldera Cottage",   slug:"caldera"},
+    {name:"D'Shouse Haven",    slug:"dshouse"},
+    {name:"RRL Sleeps 14",     slug:"rrl"},
+    {name:"Charming Log Home", slug:"charming"},
+  ];
+
+  const grid = document.getElementById('grid');
+  const updatedEl = document.getElementById('updated');
+  const refreshBtn = document.getElementById('refresh');
+
+  function todayStr(){
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+  function render(cabin, cel, guest, error){
+    let cls='s-grey', pill='p-grey', label='Nothing set';
+    let detailRows = [];
+
+    if (error){
+      cls='s-red'; pill='p-red'; label='Unreachable';
+      detailRows.push(`<span style="color:var(--red)">Error: ${esc(error)}</span>`);
+    } else {
+      const hasCel = cel && cel.active;
+      // departure from guest (raw preferred)
+      const dep = guest && (guest.departureRaw || '');
+      const depValid = /^\d{4}-\d{2}-\d{2}$/.test(dep);
+      const expired = depValid && todayStr() > dep;
+      const willShow = hasCel && !expired;
+
+      if (hasCel){
+        if (willShow){ cls='s-green'; pill='p-green'; label='Showing now'; }
+        else { cls='s-amber'; pill='p-amber'; label="Stored · hidden"; }
+
+        detailRows.push(
+          `<div class="row">`+
+            `<span><b>Occasion:</b> ${esc(cel.occasion)||'—'}</span>`+
+            `<span><b>Guest:</b> ${esc(cel.guestName)||'—'}</span>`+
+          `</div>`+
+          `<div><b>Message:</b> <span class="msg">${esc(cel.message)||'—'}</span></div>`
+        );
+        if (!willShow){
+          if (!guest) detailRows.push(`<span style="color:var(--amber)">No active booking found — screen can't confirm a current stay, so it hides the celebration.</span>`);
+          else if (expired) detailRows.push(`<span style="color:var(--amber)">Guest checkout (${esc(dep)}) has passed — celebration expired.</span>`);
+        }
+      } else if (guest){
+        // Guest checked in but NO personalized message — opportunity to add one
+        cls='s-blue'; pill='p-blue'; label='Guest in · no message';
+        detailRows.push(`<span style="color:var(--blue)">★ ${esc(guest.firstName)||'A guest'} is checked in but has no personalized message. Tap below to set one up.</span>`);
+      } else {
+        detailRows.push(`<span>No celebration submitted, and no guest currently checked in.</span>`);
+      }
+
+      // booking line
+      if (guest){
+        detailRows.push(
+          `<div class="row" style="margin-top:2px">`+
+            `<span><b>Current guest:</b> ${esc(guest.firstName)||'—'}</span>`+
+            (guest.arrivalRaw?`<span><b>In:</b> ${esc(guest.arrivalRaw)}</span>`:'')+
+            (guest.departureRaw?`<span><b>Out:</b> ${esc(guest.departureRaw)}</span>`:'')+
+          `</div>`
+        );
+      } else if (!error){
+        detailRows.push(`<div class="row" style="margin-top:2px;color:var(--ink-dim)"><span>No active booking right now.</span></div>`);
+      }
+    }
+
+    detailRows.push(
+      `<div style="margin-top:8px">`+
+      `<a class="open-link" href="${BASE}/?cabin=${cabin.slug}" target="_blank" rel="noopener">▸ open screen ?cabin=${cabin.slug}</a>`+
+      `</div>`
+    );
+
+    return `
+      <div class="card ${cls}">
+        <div class="cabin-name">${esc(cabin.name)} <span class="slug">${esc(cabin.slug)}</span></div>
+        <span class="status-pill ${pill}">${label}</span>
+        <div class="detail">${detailRows.join('')}</div>
+      </div>`;
+  }
+
+  async function fetchJSON(url){
+    const res = await fetch(url, {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    return res.json();
+  }
+
+  async function checkCabin(cabin){
+    let cel=null, guest=null, error=null;
+    try{
+      const c = await fetchJSON(`${BASE}/api/celebration?cabin=${cabin.slug}`);
+      cel = c;
+    }catch(e){ error = e.message; }
+    try{
+      const g = await fetchJSON(`${BASE}/api/guest?cabin=${cabin.slug}`);
+      guest = g && g.guest ? g.guest : null;
+    }catch(e){ if(!error) error = e.message; }
+    return {cabin, cel, guest, error};
+  }
+
+  async function run(){
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = 'Checking…';
+    grid.innerHTML = CABINS.map(c=>`
+      <div class="card s-grey">
+        <div class="cabin-name">${esc(c.name)} <span class="slug">${esc(c.slug)}</span></div>
+        <span class="status-pill p-grey">…</span>
+        <div class="detail loading">Checking ${esc(c.slug)}…</div>
+      </div>`).join('');
+
+    const results = await Promise.all(CABINS.map(checkCabin));
+    grid.innerHTML = results.map(r=>render(r.cabin, r.cel, r.guest, r.error)).join('');
+
+    const t = new Date();
+    updatedEl.textContent = 'Updated ' + t.toLocaleTimeString();
+    refreshBtn.disabled = false;
+    refreshBtn.textContent = 'Refresh all';
+  }
+
+  refreshBtn.addEventListener('click', run);
+  run();
+</script>
+</body>
+</html>

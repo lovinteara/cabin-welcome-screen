@@ -98,9 +98,9 @@ const CABINS = {
   'little-chalet':{ name: 'Little Chalet',         lat: 44.4300, lon: -111.4000, wifi: 'LittleChaletInTheForest',pw: 'Chalet42652',       checkout: '10:00 AM', wifiSet: true },
   'big-chalet':   { name: 'Big Chalet',            lat: 44.4310, lon: -111.4010, wifi: 'Chalet in the forest',  pw: 'Chalet4265',        checkout: '10:00 AM', wifiSet: true },
   caldera:        { name: 'Caldera Cottage',       lat: 44.4100, lon: -111.3900, wifi: 'Caldera Cottage',       pw: 'Lodgepole3795',     checkout: '10:00 AM', wifiSet: true },
-  dshouse:        { name: "D'Shouse Haven",        lat: 44.4200, lon: -111.3750, wifi: 'DshouseHaven',          pw: 'MARK2021',          checkout: '10:00 AM', wifiSet: true },
-  rrl:            { name: 'RRL Sleeps 14',         lat: 44.4180, lon: -111.3820, wifi: 'RiverRockLodge',        pw: 'Cabin2018',         checkout: '10:00 AM', wifiSet: true },
-  charming:       { name: 'Charming Log Home',     lat: 44.4350, lon: -111.3650, wifi: 'DodgeInn',             pw: 'Untracked21',       checkout: '10:00 AM', wifiSet: true }
+  dshouse:        { name: "D'Shouse Haven",        lat: 44.453480, lon: -111.411289, wifi: 'DshouseHaven',          pw: 'MARK2021',          checkout: '10:00 AM', wifiSet: true },
+  rrl:            { name: 'RRL Sleeps 14',         lat: 44.450901, lon: -111.415939, wifi: 'RiverRockLodge',        pw: 'Cabin2018',         checkout: '10:00 AM', wifiSet: true },
+  charming:       { name: 'Charming Log Home',     lat: 44.450761, lon: -111.416851, wifi: 'DodgeInn',             pw: 'Untracked21',       checkout: '10:00 AM', wifiSet: true }
 };
 
 const CONTACT = {

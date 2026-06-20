@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Cabin Welcome Screen — Master Links</title>
+<style>
+  :root{
+    --bg:#14110d; --panel:#1e1a14; --edge:#322b21;
+    --ink:#f3ece0; --dim:#a89d8a; --gold:#e3a008; --pine:#5fb878;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Iowan Old Style",Georgia,serif;
+    padding:26px 18px 70px;line-height:1.5;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:25px;margin:0 0 2px}
+  .eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:2.5px;
+    text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+  h2{font-size:13px;font-family:ui-monospace,Menlo,monospace;letter-spacing:2px;
+    text-transform:uppercase;color:var(--gold);margin:30px 0 12px;
+    border-bottom:1px solid var(--edge);padding-bottom:7px}
+  .row{
+    background:var(--panel);border:1px solid var(--edge);border-radius:8px;
+    padding:11px 14px;margin-bottom:8px;
+  }
+  .label{font-weight:600;font-size:15px;display:block;margin-bottom:3px}
+  a{color:var(--pine);text-decoration:none;font-family:ui-monospace,Menlo,monospace;
+    font-size:12.5px;word-break:break-all}
+  a:hover{text-decoration:underline}
+  .todo{color:var(--dim);font-style:italic;font-family:Georgia,serif;font-size:13px}
+  .note{font-size:12px;color:var(--dim);margin-top:4px}
+  footer{margin-top:36px;font-size:12px;color:var(--dim);line-height:1.7;
+    border-top:1px solid var(--edge);padding-top:14px}
+  code{background:#000;padding:1px 6px;border-radius:4px;font-size:12px;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Visit Island Park · CabinCast Pro</div>
+  <h1>Cabin Welcome Screen — Master Links</h1>
+
+  <h2>Cabin Screen URLs (Pi points here)</h2>
+  <div class="row"><span class="label">Huckleberry Hut</span><a href="https://cabin-welcome-screen.netlify.app/?cabin=huckleberry" target="_blank">cabin-welcome-screen.netlify.app/?cabin=huckleberry</a></div>
+  <div class="row"><span class="label">The Gathering Place</span><a href="https://cabin-welcome-screen.netlify.app/?cabin=gathering" target="_blank">cabin-welcome-screen.netlify.app/?cabin=gathering</a></div>
+  <div class="row"><span class="label">Little Chalet</span><a href="https://cabin-welcome-screen.netlify.app/?cabin=little-chalet" target="_blank">cabin-welcome-screen.netlify.app/?cabin=little-chalet</a></div>
+  <div class="row"><span class="label">Big Chalet</span><a href="https://cabin-welcome-screen.netlify.app/?cabin=big-chalet" target="_blank">cabin-welcome-screen.netlify.app/?cabin=big-chalet</a></div>
+  <div class="row"><span class="label">Caldera Cottage</span><a href="https://cabin-welcome-screen.netlify.app/?cabin=caldera" target="_blank">cabin-welcome-screen.netlify.app/?cabin=caldera</a></div>
+  <div class="row"><span class="label">D'Shouse Haven</span><a href="https://cabin-welcome-screen.netlify.app/?cabin=dshouse" target="_blank">cabin-welcome-screen.netlify.app/?cabin=dshouse</a></div>
+  <div class="row"><span class="label">RRL Sleeps 14</span><a href="https://cabin-welcome-screen.netlify.app/?cabin=rrl" target="_blank">cabin-welcome-screen.netlify.app/?cabin=rrl</a></div>
+  <div class="row"><span class="label">Charming Log Home</span><a href="https://cabin-welcome-screen.netlify.app/?cabin=charming" target="_blank">cabin-welcome-screen.netlify.app/?cabin=charming</a></div>
+
+  <h2>Admin &amp; Tools</h2>
+  <div class="row"><span class="label">Admin page</span><a href="https://cabin-welcome-screen.netlify.app/admin.html" target="_blank">cabin-welcome-screen.netlify.app/admin.html</a></div>
+  <div class="row"><span class="label">Fleet status dashboard</span><a href="https://cabin-welcome-screen.netlify.app/status.html" target="_blank">cabin-welcome-screen.netlify.app/status.html</a><div class="note">Live once you upload status.html to the repo.</div></div>
+
+  <h2>Lock Sync</h2>
+  <div class="row"><span class="label">Sync lock codes (click to run)</span><a href="https://cabin-welcome-screen.netlify.app/.netlify/functions/lockcode-sync" target="_blank">cabin-welcome-screen.netlify.app/.netlify/functions/lockcode-sync</a><div class="note">Click to push current lock codes to the locks. Updates all cabins.</div></div>
+
+  <h2>Backend &amp; Hosting</h2>
+  <div class="row"><span class="label">Live site</span><a href="https://cabin-welcome-screen.netlify.app" target="_blank">cabin-welcome-screen.netlify.app</a></div>
+  <div class="row"><span class="label">GitHub repo</span><a href="https://github.com/lovinteara/cabin-welcome-screen" target="_blank">github.com/lovinteara/cabin-welcome-screen</a></div>
+  <div class="row"><span class="label">Netlify dashboard</span><a href="https://app.netlify.com" target="_blank">app.netlify.com</a> <span class="note">— project: cabin-welcome-screen</span></div>
+
+  <h2>JotForm — Celebration Request</h2>
+  <div class="row"><span class="label">Main form (live public link)</span><a href="https://form.jotform.com/261501117298050" target="_blank">form.jotform.com/261501117298050</a><div class="note">Form ID: 261501117298050 · use the LIVE link to test, not the preview/test version.</div></div>
+
+  <h2>JotForm — Per-Cabin Prefill Links</h2>
+  <div class="row"><span class="label">Huckleberry Hut</span><a href="https://form.jotform.com/261501117298050/prefill/6a1c3f5b34306678ed4b2a19e390" target="_blank">…/prefill/6a1c3f5b34306678ed4b2a19e390</a></div>
+  <div class="row"><span class="label">The Gathering Place</span><a href="https://form.jotform.com/261501117298050/prefill/6a1c3f80333565cb77dd051073ae" target="_blank">…/prefill/6a1c3f80333565cb77dd051073ae</a></div>
+  <div class="row"><span class="label">Little Chalet</span><a href="https://form.jotform.com/261501117298050/prefill/6a1c3fb63430667ca83a87bd6c17" target="_blank">…/prefill/6a1c3fb63430667ca83a87bd6c17</a></div>
+  <div class="row"><span class="label">Big Chalet</span><a href="https://form.jotform.com/261501117298050/prefill/6a1c3fde333565c9f3355c2c2a3b" target="_blank">…/prefill/6a1c3fde333565c9f3355c2c2a3b</a></div>
+  <div class="row"><span class="label">Caldera Cottage</span><a href="https://form.jotform.com/261501117298050/prefill/6a1c3ffc6563316103a5c38d0355" target="_blank">…/prefill/6a1c3ffc6563316103a5c38d0355</a></div>
+  <div class="row"><span class="label">D'Shouse Haven</span><a href="https://form.jotform.com/261501117298050/prefill/6a1c400f3430668821b62beddc52" target="_blank">…/prefill/6a1c400f3430668821b62beddc52</a></div>
+  <div class="row"><span class="label">RRL Sleeps 14</span><a href="https://form.jotform.com/261501117298050/prefill/6a1c402c323831ec13f243ec7a1e" target="_blank">…/prefill/6a1c402c323831ec13f243ec7a1e</a></div>
+  <div class="row"><span class="label">Charming Log Home</span><a href="https://form.jotform.com/261501117298050/prefill/6a1c4045323831fefbf7b7904920" target="_blank">…/prefill/6a1c4045323831fefbf7b7904920</a></div>
+
+  <h2>Troubleshooting Endpoints</h2>
+  <div class="row"><span class="label">Celebration data (swap slug)</span><a href="https://cabin-welcome-screen.netlify.app/api/celebration?cabin=caldera" target="_blank">…/api/celebration?cabin=caldera</a></div>
+  <div class="row"><span class="label">Guest / booking data (swap slug)</span><a href="https://cabin-welcome-screen.netlify.app/api/guest?cabin=caldera" target="_blank">…/api/guest?cabin=caldera</a></div>
+
+  <footer>
+    Cabin slugs: <code>huckleberry</code> <code>gathering</code> <code>little-chalet</code>
+    <code>big-chalet</code> <code>caldera</code> <code>dshouse</code> <code>rrl</code> <code>charming</code><br>
+    All 8 prefill links complete. Prefill links are managed in JotForm → Publish → Prefill.
+  </footer>
+</div>
+</body>
+</html>
