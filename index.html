@@ -2626,10 +2626,13 @@
     });
 
     setInterval(() => loadWeather(cabin), 30*60*1000);
-    // Retry guest lookup every 30 min in case OwnerRez was down on page load
+    // Retry guest lookup every hour. Always call applyGuest — even when the
+    // API returns null — so the slide resets to the generic "Welcome!" once
+    // the guest checks out, instead of staying personalized to a departed
+    // guest until the next page reload.
     setInterval(() => {
       loadGuest(key).then(guest => {
-        if (guest && guest.firstName) applyGuest(guest, theme, cabin);
+        applyGuest(guest, theme, cabin);
       });
     }, 60*60*1000);
     // Check cleaning mode every minute
