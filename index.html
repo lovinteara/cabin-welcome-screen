@@ -285,6 +285,46 @@
   </div>
 </div>
 
+ <!-- West Yellowstone West Entrance cam -->
+<div class="slide" data-slide="westyellowstone" id="westyell-slide" style="justify-content:flex-start;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2vh;">
+    <div>
+      <div class="slide-label"><span class="live-dot"></span>Live snapshot · West Entrance · updates every 2 min</div>
+      <h1 style="font-size:5vw; font-family:Georgia,serif; font-weight:400;">West Yellowstone · West Entrance</h1>
+    </div>
+  </div>
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; min-height:0; width:100%;">
+    <img id="westyell-snapshot"
+      src="https://www.nps.gov/webcams-yell/west_into.jpg"
+      style="max-width:100%; max-height:78vh; object-fit:contain; border-radius:1.5vw;"
+      alt="West Yellowstone West Entrance"
+      onerror="this.style.display='none'; document.getElementById('westyell-fallback').style.display='flex';"
+    />
+    <div id="westyell-fallback" style="display:none; flex-direction:column; align-items:center; gap:2vh; opacity:0.5;">
+      <p style="font-size:2.5vw;">Camera temporarily unavailable</p>
+      <p style="font-size:2vw;">Check nps.gov/yell for conditions</p>
+    </div>
+  </div>
+</div>
+
+<!-- Grand Teton — Teton Range from Moose (live YouTube) -->
+<div class="slide" data-slide="grandteton" id="grandteton-slide" style="justify-content:flex-start;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2vh;">
+    <div>
+      <div class="slide-label"><span class="live-dot"></span>Live · Craig Thomas Discovery &amp; Visitor Center</div>
+      <h1 style="font-size:5vw; font-family:Georgia,serif; font-weight:400;">Grand Teton · Teton Range from Moose</h1>
+    </div>
+  </div>
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; min-height:0; width:100%;">
+    <iframe id="grandteton-frame"
+      src="https://www.youtube.com/embed/XhBUrjhJm1A?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
+      style="width:100%; max-width:100%; aspect-ratio:16/9; max-height:78vh; border:none; border-radius:1.5vw;"
+      allow="autoplay; encrypted-media"
+      title="Grand Teton Range Live Webcam">
+    </iframe>
+  </div>
+</div>
+ 
 <!-- Slide 4: Activity -->
 <div class="slide" data-slide="4">
   <div style="display:flex; gap:4vw; align-items:flex-start;">
@@ -1157,6 +1197,8 @@
       if (sid === 'parkalerts') duration = 30000;
       if (sid === 'roadconditions') duration = 20000; // Campfire — needs time to read
       if (sid === 'oasis') duration = 30000; // Oasis Mini — relaxing watch slide (Little Chalet)
+      if (sid === 'westyellowstone') duration = 12000;
+      if (sid === 'grandteton') duration = 20000;
       setTimeout(() => { goNext(); scheduleNext(); }, duration);
     } catch(e) {
       console.error('scheduleNext error:', e);
@@ -1171,6 +1213,8 @@
     if (snap) snap.src = 'https://g1.ipcamlive.com/player/snapshot.php?alias=highmtn&t=' + Date.now();
     const osborne = document.getElementById('osborne-snapshot');
     if (osborne) osborne.src = 'https://511.idaho.gov/map/Cctv/186.C3--2?t=' + Date.now();
+   const westyell = document.getElementById('westyell-snapshot');
+    if (westyell) westyell.src = 'https://www.nps.gov/webcams-yell/west_into.jpg?t=' + Date.now();
   }, 120000);
 
   // Also refresh when webcam slide becomes active
@@ -1630,7 +1674,7 @@
 
   function applyContact() {
     document.getElementById('contact-host').textContent = CONTACT.hostName + ' · ' + CONTACT.hostPhone;
-    document.getElementById('contact-souv').textContent = CONTACT.souvenirSite;
+    document.getElementById('contact-souv').textContent = 'Shop online · ships to you · ' + CONTACT.souvenirSite;
     document.getElementById('contact-emerg').textContent = CONTACT.emergency;
     document.getElementById('contact-hosp').textContent = CONTACT.hospital;
   }
