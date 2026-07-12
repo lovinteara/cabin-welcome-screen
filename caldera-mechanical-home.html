@@ -5,12 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Caldera Mechanical — Heating, Cooling &amp; Mechanical | Island Park, Idaho</title>
 <meta name="description" content="Caldera Mechanical — trusted heating, cooling, and mechanical service in Island Park, Idaho. Furnace &amp; boiler, A/C, repairs, and maintenance. Call for a free estimate."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --char:#181c22; --char-2:#20262e; --ink:#1c2530; --slate:#516070; --mut:#8a97a5;
-    --line:#e7e2db; --cream:#f8f6f2; --white:#ffffff;
-    --brand:#e0791c; --brand-deep:#bd5f11; --brand-soft:#fbe9d5; --flame:#f0a04b;
-    --blue:#2f6f9e;
+    --char:#0e2c50; --char-2:#143a66; --ink:#17263f; --slate:#4b5b72; --mut:#8493a6;
+    --line:#e3e7ee; --cream:#f4f6f9; --white:#ffffff;
+    --brand:#d21f2d; --brand-deep:#a8151f; --brand-soft:#f9e1e3; --flame:#f3646f;
+    --blue:#2f5c8c;
+    --serif:"Zilla Slab",Georgia,"Times New Roman",serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -20,7 +24,7 @@
   a{color:inherit;text-decoration:none}
   img{max-width:100%}
   .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
-  h1,h2,h3{line-height:1.15;margin:0}
+  h1,h2,h3{line-height:1.15;margin:0;font-family:var(--serif)}
   .btn{display:inline-flex;align-items:center;gap:9px;border:none;border-radius:10px;
     padding:14px 22px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.2px;
     transition:transform .12s ease,filter .12s ease;font-family:inherit}
@@ -31,15 +35,13 @@
   .eyebrow{font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--brand-deep)}
 
   /* ---------- Header ---------- */
-  header{position:sticky;top:0;z-index:30;background:rgba(24,28,34,.92);
-    backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+  header{position:sticky;top:0;z-index:30;background:rgba(10,31,56,.94);
+    backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.09)}
   .nav{display:flex;align-items:center;gap:20px;height:66px}
   .brand{display:flex;align-items:center;gap:11px;color:#fff}
-  .mark{width:38px;height:38px;border-radius:9px;flex:0 0 auto;
-    background:radial-gradient(circle at 50% 30%,var(--flame),var(--brand-deep));
-    display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.16)}
-  .mark svg{width:22px;height:22px}
-  .brand b{font-size:17px;font-weight:800;letter-spacing:.3px;line-height:1}
+  .mark{height:40px;width:auto;border-radius:8px;flex:0 0 auto;display:block;
+    box-shadow:0 2px 9px rgba(0,0,0,.4)}
+  .brand b{font-size:18px;font-weight:700;letter-spacing:.3px;line-height:1;font-family:var(--serif)}
   .brand small{display:block;font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--flame);margin-top:3px}
   .nav-links{display:flex;gap:26px;margin-left:auto}
   .nav-links a{color:#d6dde4;font-size:14.5px;font-weight:600}
@@ -49,13 +51,17 @@
 
   /* ---------- Hero ---------- */
   .hero{position:relative;background:
-      radial-gradient(1100px 520px at 78% -10%,rgba(224,121,28,.42),transparent 60%),
-      radial-gradient(760px 420px at 8% 110%,rgba(47,111,158,.28),transparent 62%),
-      linear-gradient(180deg,#181c22,#141922);
+      radial-gradient(1100px 520px at 82% -10%,rgba(210,31,45,.46),transparent 60%),
+      radial-gradient(820px 460px at 4% 116%,rgba(47,92,140,.5),transparent 62%),
+      linear-gradient(180deg,#0e2c50,#0a2140);
     color:#fff;overflow:hidden}
-  .hero::after{content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
-    background:radial-gradient(circle at 50% 120%,rgba(240,160,75,.18),transparent 55%)}
-  .hero-in{position:relative;z-index:1;padding:78px 0 88px;max-width:720px}
+  .hero::after{content:"";position:absolute;inset:0;opacity:.6;pointer-events:none;
+    background:radial-gradient(circle at 50% 120%,rgba(243,100,111,.16),transparent 55%)}
+  .hero-grid{display:flex;align-items:center;gap:44px;padding:70px 0 80px}
+  .hero-in{position:relative;z-index:1;flex:1 1 auto;max-width:640px}
+  .hero-art{flex:0 0 auto;width:min(360px,34%);border-radius:18px;
+    box-shadow:0 26px 64px rgba(0,0,0,.5);position:relative;z-index:1}
+  @media(max-width:900px){.hero-grid{display:block;padding:64px 0 72px}.hero-art{display:none}}
   .hero .eyebrow{color:var(--flame)}
   .hero h1{font-size:clamp(34px,5.4vw,56px);font-weight:800;letter-spacing:-.5px;margin:16px 0 0}
   .hero h1 span{color:var(--flame)}
@@ -136,15 +142,16 @@
 
   /* ---------- Final CTA ---------- */
   .finalcta{background:
-      radial-gradient(700px 300px at 80% 0%,rgba(224,121,28,.4),transparent 60%),
-      linear-gradient(180deg,#20262e,#181c22);
+      radial-gradient(700px 300px at 80% 0%,rgba(210,31,45,.44),transparent 60%),
+      radial-gradient(600px 300px at 6% 110%,rgba(47,92,140,.4),transparent 60%),
+      linear-gradient(180deg,#123a66,#0b2647);
     color:#fff;text-align:center;border-radius:20px;padding:56px 26px;margin:0 auto}
   .finalcta h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;letter-spacing:-.4px}
   .finalcta p{color:#c9d2db;font-size:17px;margin:14px auto 0;max-width:520px}
   .finalcta .hero-cta{justify-content:center}
 
   /* ---------- Footer ---------- */
-  footer{background:#12161c;color:#9aa6b2;padding:44px 0 30px;font-size:14px}
+  footer{background:#081a33;color:#9aa6b2;padding:44px 0 30px;font-size:14px}
   .foot-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
     border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:26px;margin-bottom:20px}
   .foot-brand{display:flex;align-items:center;gap:11px;color:#fff}
@@ -160,11 +167,7 @@
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top" aria-label="Caldera Mechanical home">
-      <span class="mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 20 L9 9 M9 9 L12 3 L15 9 M15 9 L20 20 M6.5 14.5 H17.5"/>
-        </svg>
-      </span>
+      <img class="mark" src="caldera-mechanical-logo.jpg" alt="Caldera Mechanical logo"/>
       <span><b>Caldera Mechanical</b><small>Heating · Cooling</small></span>
     </a>
     <nav class="nav-links">
@@ -183,7 +186,8 @@
 <a id="top"></a>
 <!-- ===================== HERO ===================== -->
 <section class="hero">
-  <div class="wrap hero-in">
+  <div class="wrap hero-grid">
+   <div class="hero-in">
     <div class="eyebrow">30 Years Experience · Serving Island Park, Idaho</div>
     <h1>Reliable heating, cooling &amp; <span>mechanical</span> — done right.</h1>
     <p class="lead">From no-heat emergencies to full furnace and A/C installs, Caldera Mechanical keeps your home comfortable year-round with honest work and upfront pricing — backed by 30 years of hands-on experience.</p>
@@ -199,6 +203,8 @@
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Free estimates</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Upfront, honest pricing</span>
     </div>
+   </div>
+   <img class="hero-art" src="caldera-mechanical-logo.jpg" alt="Caldera Mechanical — heating and cooling logo"/>
   </div>
 </section>
 
@@ -363,7 +369,7 @@
   <div class="wrap">
     <div class="finalcta">
       <h2>Let's get your comfort back on track</h2>
-      <p>Heating, cooling, or hot water on the fritz? Reach out today for a free estimate.</p>
+      <p>Heating or cooling on the fritz? Reach out today for a free estimate.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="tel:+13856850272">Call (385) 685-0272</a>
         <a class="btn btn-ghost" href="#contact">Request an estimate</a>
@@ -377,10 +383,8 @@
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <span class="mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 L9 9 M9 9 L12 3 L15 9 M15 9 L20 20 M6.5 14.5 H17.5"/></svg>
-        </span>
-        <span><b style="font-size:16px">Caldera Mechanical</b><br><span style="font-size:12.5px;color:#8a97a5">Heating · Cooling · Mechanical</span></span>
+        <img class="mark" src="caldera-mechanical-logo.jpg" alt="Caldera Mechanical logo"/>
+        <span><b style="font-size:16px;font-family:var(--serif)">Caldera Mechanical</b><br><span style="font-size:12.5px;color:#8a97a5">Heating · Cooling · Mechanical</span></span>
       </div>
       <div class="foot-contact">
         <a href="tel:+13856850272">(385) 685-0272</a>
