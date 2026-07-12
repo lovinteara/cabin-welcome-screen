@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Caldera Mechanical — Invoices &amp; Checklist</title>
+<style>
+  :root{
+    --bg:#11151a; --chrome:#1b222b; --edge:#2c3742;
+    --ink:#eef2f6; --dim:#9fb0c0; --brand:#e08a2b; --brand-deep:#c6741c;
+    --blue:#4f9bd6; --green:#4bb573; --amber:#e0a83a; --red:#d9604a;
+    --paper:#ffffff; --paper-ink:#1c2530; --paper-dim:#5b6875; --paper-edge:#d9e0e7;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font:inherit;cursor:pointer}
+  input,select,textarea{font:inherit}
+
+  /* ---------- Top chrome ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:20;background:var(--chrome);
+    border-bottom:1px solid var(--edge);
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    padding:12px 18px;
+  }
+  .logo{display:flex;align-items:center;gap:11px;margin-right:6px}
+  .logo .mark{
+    width:38px;height:38px;border-radius:9px;flex:0 0 auto;
+    background:radial-gradient(circle at 50% 32%,var(--brand),var(--brand-deep));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 2px rgba(255,255,255,.14);
+  }
+  .logo .mark svg{width:22px;height:22px}
+  .logo .name{font-weight:700;font-size:16px;letter-spacing:.3px;line-height:1.1}
+  .logo .name small{display:block;font-weight:500;font-size:10px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--brand);margin-top:2px}
+
+  .tabs{display:flex;gap:6px}
+  .tab{
+    background:transparent;color:var(--dim);border:1px solid transparent;
+    padding:9px 16px;border-radius:8px;font-weight:600;font-size:14px;
+  }
+  .tab:hover{color:var(--ink)}
+  .tab.on{background:var(--bg);color:var(--brand);border-color:var(--edge)}
+
+  .spacer{flex:1}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .btn{
+    background:var(--brand);color:#241403;border:none;border-radius:8px;
+    padding:10px 15px;font-weight:700;font-size:13px;letter-spacing:.2px;
+  }
+  .btn:hover{filter:brightness(1.07)}
+  .btn.ghost{background:transparent;color:var(--dim);border:1px solid var(--edge)}
+  .btn.ghost:hover{color:var(--ink);border-color:var(--dim)}
+  .btn.blue{background:var(--blue);color:#06121c}
+  select.load{
+    background:var(--bg);color:var(--ink);border:1px solid var(--edge);
+    border-radius:8px;padding:9px 12px;font-size:13px;max-width:230px;
+  }
+
+  .page{max-width:900px;margin:0 auto;padding:24px 18px 90px}
+  .hidden{display:none !important}
+  .hint{color:var(--dim);font-size:12.5px;margin:0 auto 16px;max-width:900px;
+    padding:0 18px;line-height:1.5}
+
+  /* ---------- Invoice paper ---------- */
+  .paper{
+    background:var(--paper);color:var(--paper-ink);border-radius:12px;
+    padding:44px 46px;box-shadow:0 14px 40px rgba(0,0,0,.4);
+  }
+  .paper input,.paper textarea,.paper select{
+    background:transparent;border:none;color:var(--paper-ink);
+    font-family:inherit;padding:2px 3px;border-radius:4px;width:100%;
+  }
+  .paper input:focus,.paper textarea:focus,.paper select:focus{
+    outline:none;background:#fff7ec;box-shadow:0 0 0 2px rgba(224,138,43,.35)
+  }
+  .paper input::placeholder,.paper textarea::placeholder{color:#b6c0ca}
+  .paper textarea{resize:vertical;line-height:1.5}
+
+  .inv-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+    border-bottom:2px solid var(--paper-ink);padding-bottom:22px}
+  .biz{flex:1 1 300px;min-width:260px}
+  .biz .biz-name{font-size:23px;font-weight:800;letter-spacing:.3px;color:var(--brand-deep)}
+  .biz .biz-name input{font-size:23px;font-weight:800;color:var(--brand-deep)}
+  .biz .line input{font-size:12.5px;color:var(--paper-dim)}
+  .inv-title{text-align:right;flex:0 0 auto}
+  .inv-title h2{margin:0;font-size:30px;letter-spacing:3px;color:var(--paper-ink);font-weight:800}
+  .inv-meta{margin-top:12px;font-size:12.5px}
+  .inv-meta .row{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:5px}
+  .inv-meta .row label{color:var(--paper-dim);text-transform:uppercase;letter-spacing:1px;font-size:10px}
+  .inv-meta .row input,.inv-meta .row select{width:135px;text-align:right;font-weight:600}
+  .inv-meta .row input[type=date]{text-align:right}
+
+  .status-pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;
+    padding:5px 12px;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+  .status-pill.unpaid{background:#fce9e5;color:#b23b26}
+  .status-pill.paid{background:#e4f5ea;color:#1f8a4c}
+
+  .parties{display:flex;gap:30px;flex-wrap:wrap;margin-top:22px}
+  .party{flex:1 1 240px}
+  .party h3{margin:0 0 6px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--paper-dim);font-weight:700}
+  .party input{font-size:13.5px}
+  .party .cust-name input{font-weight:700;font-size:15px}
+
+  table.items{width:100%;border-collapse:collapse;margin-top:24px;font-size:13.5px}
+  table.items th{
+    text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;
+    color:#fff;background:var(--brand-deep);font-weight:700;padding:9px 10px;
+  }
+  table.items th.num{text-align:right}
+  table.items th:first-child{border-radius:6px 0 0 6px}
+  table.items th:last-child{border-radius:0 6px 6px 0}
+  table.items td{padding:4px 8px;border-bottom:1px solid var(--paper-edge);vertical-align:middle}
+  table.items td.num input{text-align:right}
+  table.items .amt{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+  .qty input,.rate input{width:100%}
+  td.del{width:26px;text-align:center;padding:0}
+  .rowdel{background:none;border:none;color:#c9d2db;font-size:18px;line-height:1;padding:2px 4px}
+  .rowdel:hover{color:var(--red)}
+
+  .additems{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .additems button{
+    background:#f1f4f7;color:var(--paper-ink);border:1px solid var(--paper-edge);
+    border-radius:7px;padding:7px 12px;font-size:12px;font-weight:600;
+  }
+  .additems button:hover{border-color:var(--brand);color:var(--brand-deep)}
+  .additems button.add{background:var(--paper-ink);color:#fff;border-color:var(--paper-ink)}
+  .additems .preset-pick{
+    background:#f1f4f7 !important;color:var(--paper-ink);border:1px solid var(--paper-edge);
+    border-radius:7px;padding:7px 12px;font-size:12px;font-weight:600;width:auto;cursor:pointer;
+  }
+  .additems .preset-pick:hover{border-color:var(--brand)}
+  .additems-hint{font-size:11.5px;color:var(--paper-dim);align-self:center}
+
+  .payblock{margin-top:28px;border-top:1px solid var(--paper-edge);padding-top:16px}
+  .payblock h3{margin:0 0 12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--paper-dim);font-weight:700}
+  .paygrid{display:flex;gap:26px;flex-wrap:wrap;font-size:12.5px}
+  .paycol{flex:1 1 190px;min-width:170px}
+  .paycol .k{font-weight:700;color:var(--paper-ink);margin-bottom:5px}
+  .paycol textarea{color:var(--paper-dim);font-size:12.5px;min-height:44px;line-height:1.45}
+  .paycol input{color:var(--brand-deep);font-size:12.5px;font-weight:600;
+    border:1px solid var(--paper-edge) !important;border-radius:6px;padding:6px 8px}
+  .paycol input:focus{color:var(--paper-ink)}
+  .payhelp{font-size:10.5px;color:#9aa6b2;margin-top:5px;line-height:1.4}
+  .payemail{color:var(--paper-dim)}
+
+  .foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-top:26px}
+  .notes{flex:1 1 280px}
+  .notes h3{margin:0 0 6px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--paper-dim);font-weight:700}
+  .notes textarea{font-size:12.5px;color:var(--paper-dim);min-height:80px}
+
+  .totals{flex:0 0 300px;font-size:13.5px}
+  .totals .trow{display:flex;justify-content:space-between;align-items:center;
+    padding:7px 0;border-bottom:1px solid var(--paper-edge)}
+  .totals .trow label{color:var(--paper-dim)}
+  .totals .trow .val{font-weight:600;font-variant-numeric:tabular-nums}
+  .totals .trow.taxrow input{width:52px;text-align:right;border:1px solid var(--paper-edge);border-radius:5px}
+  .totals .trow input.money{width:110px;text-align:right;border:1px solid var(--paper-edge);border-radius:5px}
+  .totals .grand{border-bottom:none;margin-top:6px;padding-top:12px;border-top:2px solid var(--paper-ink)}
+  .totals .grand label{font-weight:800;font-size:15px;color:var(--paper-ink);text-transform:uppercase;letter-spacing:.5px}
+  .totals .grand .val{font-weight:800;font-size:22px;color:var(--brand-deep)}
+  .totals .due{color:var(--red);font-weight:800}
+  .totals .due .val{color:var(--red)}
+
+  .paidstamp{text-align:center;margin-top:14px}
+  .track{margin-top:16px;text-align:right}
+
+  /* ---------- Checklist ---------- */
+  .cl-add{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;
+    background:var(--chrome);border:1px solid var(--edge);border-radius:12px;padding:16px 18px}
+  .cl-field{display:flex;flex-direction:column;gap:5px}
+  .cl-field label{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim);font-weight:600}
+  .cl-field.grow{flex:1 1 260px}
+  .cl-add input{
+    background:var(--bg);color:var(--ink);border:1px solid var(--edge);
+    border-radius:8px;padding:11px 12px;font-size:14px;width:100%;
+  }
+  .cl-add input[type=date]{color-scheme:dark}
+  .cl-filters{display:flex;gap:6px;margin:18px 0 10px}
+  .cl-filters button{background:transparent;color:var(--dim);border:1px solid var(--edge);
+    border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600}
+  .cl-filters button.on{background:var(--chrome);color:var(--brand);border-color:var(--brand)}
+  .cl-clear{margin-left:auto;color:var(--dim);border:none !important;background:none}
+  .cl-clear:hover{color:var(--red)}
+
+  .cl-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+  .cl-item{
+    display:flex;align-items:center;gap:13px;background:var(--chrome);
+    border:1px solid var(--edge);border-left:4px solid var(--edge);border-radius:10px;padding:13px 15px;
+  }
+  .cl-item.overdue{border-left-color:var(--red)}
+  .cl-item.soon{border-left-color:var(--amber)}
+  .cl-item.ok{border-left-color:var(--blue)}
+  .cl-item.done{border-left-color:var(--green);opacity:.62}
+  .cl-check{
+    width:22px;height:22px;flex:0 0 auto;border-radius:6px;border:2px solid var(--dim);
+    background:transparent;display:flex;align-items:center;justify-content:center;color:#06121c;
+  }
+  .cl-item.done .cl-check{background:var(--green);border-color:var(--green)}
+  .cl-check svg{width:13px;height:13px;opacity:0}
+  .cl-item.done .cl-check svg{opacity:1}
+  .cl-body{flex:1;min-width:0}
+  .cl-text{font-size:15px;font-weight:600;word-break:break-word}
+  .cl-item.done .cl-text{text-decoration:line-through;color:var(--dim)}
+  .cl-meta{font-size:12px;margin-top:3px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .cl-due{color:var(--dim)}
+  .cl-badge{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:999px}
+  .cl-badge.overdue{background:#3a1e19;color:#f0917d}
+  .cl-badge.soon{background:#3a2f16;color:#e6be6a}
+  .cl-badge.done{background:#183324;color:#7fd7a1}
+  .cl-del{background:none;border:none;color:#5f6f7d;font-size:19px;padding:2px 6px}
+  .cl-del:hover{color:var(--red)}
+  .cl-empty{color:var(--dim);text-align:center;padding:44px 10px;font-size:14px;line-height:1.6}
+
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--green);color:#06121c;font-weight:700;font-size:13.5px;
+    padding:11px 20px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:620px){
+    .paper{padding:26px 20px}
+    .inv-top{flex-direction:column}
+    .inv-title,.inv-meta .row{justify-content:flex-start;text-align:left}
+    .inv-meta .row{justify-content:flex-start}
+  }
+
+  /* ---------- Print: only the invoice paper, on white ---------- */
+  @media print{
+    @page{margin:14mm}
+    body{background:#fff}
+    .topbar,.hint,.additems,.rowdel,.track,#checklist,.toast{display:none !important}
+    .page{padding:0;max-width:none}
+    .paper{box-shadow:none;border-radius:0;padding:0}
+    .paper input,.paper textarea,.paper select{background:transparent !important;box-shadow:none !important}
+    table.items td.del{display:none}
+    table.items tr.blankrow{display:none}
+    .paper input::placeholder,.paper textarea::placeholder{color:transparent}
+    /* Make fill-in fields read as finished text, not form controls */
+    .paper input,.paper textarea,.paper select{border:none !important}
+    .totals .trow input.money,.totals .trow.taxrow input{border:none !important}
+    .paper input[type=number]::-webkit-inner-spin-button,
+    .paper input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+    .paper input[type=number]{-moz-appearance:textfield}
+    .paper input[type=date]::-webkit-calendar-picker-indicator{display:none}
+    .paper textarea{resize:none}
+    select{-webkit-appearance:none;appearance:none}
+    .payhelp,.additems-hint{display:none !important}
+    .paycol.pay-empty{display:none !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 20 L9 9 M9 9 L12 3 L15 9 M15 9 L20 20 M6.5 14.5 H17.5"/>
+      </svg>
+    </span>
+    <div class="name">Caldera Mechanical<small>Invoices &amp; Jobs</small></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" id="tab-invoice">🧾 Invoices</button>
+    <button class="tab" id="tab-checklist">✓ Checklist</button>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="actions" id="invoice-actions">
+    <select class="load" id="savedList" title="Open a saved invoice"></select>
+    <button class="btn ghost" id="newInv">＋ New</button>
+    <button class="btn blue" id="saveInv">Save</button>
+    <button class="btn" id="printInv">🖨 Print / PDF</button>
+  </div>
+</div>
+
+<!-- ============ INVOICE ============ -->
+<section id="invoice">
+  <p class="hint">Fill in the boxes and the math is automatic. <b>Save</b> keeps a copy on this device (reopen it any time from the dropdown). <b>Print / PDF</b> gives you a clean invoice — in the print dialog choose <b>“Save as PDF”</b> to email it, or send it to your printer.</p>
+
+  <div class="page">
+    <div class="paper" id="paper">
+
+      <div class="inv-top">
+        <div class="biz">
+          <div class="biz-name"><input id="bizName" value="Caldera Mechanical" placeholder="Your business name"/></div>
+          <div class="line"><input id="bizTagline" value="Heating · Cooling · Mechanical" placeholder="Tagline / services"/></div>
+          <div class="line"><input id="bizPhone" placeholder="Phone"/></div>
+          <div class="line"><input id="bizEmail" value="calderamechanical@gmail.com" placeholder="Email"/></div>
+          <div class="line"><input id="bizAddr" value="1258 E 3175 N, North Ogden, UT 84414" placeholder="Address"/></div>
+          <div class="line"><input id="bizLic" placeholder="License # (optional)"/></div>
+        </div>
+        <div class="inv-title">
+          <h2>INVOICE</h2>
+          <div class="inv-meta">
+            <div class="row"><label>Invoice #</label><input id="invNo"/></div>
+            <div class="row"><label>Date</label><input type="date" id="invDate"/></div>
+            <div class="row"><label>Due</label><input type="date" id="dueDate"/></div>
+            <div class="row"><label>Status</label>
+              <select id="status"><option value="unpaid">Unpaid</option><option value="paid">Paid</option></select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="parties">
+        <div class="party">
+          <h3>Bill To</h3>
+          <div class="cust-name"><input id="custName" placeholder="Customer name"/></div>
+          <input id="custAddr" placeholder="Address"/>
+          <input id="custPhone" placeholder="Phone"/>
+          <input id="custEmail" placeholder="Email"/>
+        </div>
+        <div class="party">
+          <h3>Job / Service Location</h3>
+          <input id="jobLoc" placeholder="Where the work was done (if different)"/>
+          <input id="jobDesc" placeholder="Job summary (e.g. Furnace replacement)"/>
+          <input id="poNum" placeholder="PO # (optional)"/>
+        </div>
+      </div>
+
+      <table class="items">
+        <thead>
+          <tr>
+            <th style="width:52%">Description</th>
+            <th class="num" style="width:12%">Qty</th>
+            <th class="num" style="width:16%">Rate</th>
+            <th class="num" style="width:18%">Amount</th>
+            <th class="del"></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+
+      <div class="additems">
+        <button class="add" data-preset="blank">＋ Add line</button>
+        <select id="presetPick" class="preset-pick" aria-label="Add a common job">
+          <option value="">＋ Add a common job / repair…</option>
+          <optgroup label="Installs">
+            <option>Central A/C install</option>
+            <option>Ductless mini-split A/C install (non-central)</option>
+            <option>Furnace install</option>
+            <option>Boiler install</option>
+            <option>Water heater install</option>
+            <option>Thermostat install</option>
+          </optgroup>
+          <optgroup label="Repairs &amp; Service">
+            <option>Furnace repair</option>
+            <option>Boiler repair</option>
+            <option>A/C repair</option>
+            <option>Thermocouple replacement</option>
+            <option>Igniter replacement</option>
+            <option>Flame sensor cleaning / replacement</option>
+            <option>Capacitor replacement</option>
+            <option>Blower motor replacement</option>
+            <option>Gas valve replacement</option>
+            <option>Circulator pump replacement</option>
+            <option>Refrigerant recharge</option>
+            <option>Condensate drain clearing</option>
+            <option>Ductwork repair</option>
+          </optgroup>
+          <optgroup label="Fees &amp; Labor">
+            <option>Service call</option>
+            <option>Diagnostic fee</option>
+            <option>Labor (per hour)</option>
+            <option>Parts &amp; materials</option>
+            <option>Trip charge</option>
+            <option>Seasonal maintenance / tune-up</option>
+            <option>Emergency / after-hours labor</option>
+          </optgroup>
+        </select>
+        <span class="additems-hint">Pick one to add a line — then just fill in the price.</span>
+      </div>
+
+      <div class="foot">
+        <div class="notes">
+          <h3>Notes &amp; Payment Terms</h3>
+          <textarea id="notes" placeholder="Thank you for your business! Payment due within 30 days. Checks payable to Caldera Mechanical. Questions? Call the number above."></textarea>
+        </div>
+        <div class="totals">
+          <div class="trow"><label>Subtotal</label><span class="val" id="subtotal">$0.00</span></div>
+          <div class="trow taxrow"><label>Tax <input id="taxRate" type="number" step="0.1" min="0" value="0"/> %</label><span class="val" id="taxAmt">$0.00</span></div>
+          <div class="trow"><label>Discount</label><input class="money" id="discount" type="number" step="0.01" min="0" placeholder="0.00"/></div>
+          <div class="trow grand"><label>Total</label><span class="val" id="total">$0.00</span></div>
+          <div class="trow"><label>Amount paid</label><input class="money" id="paid" type="number" step="0.01" min="0" placeholder="0.00"/></div>
+          <div class="trow due"><label>Balance due</label><span class="val" id="balance">$0.00</span></div>
+        </div>
+      </div>
+
+      <div class="payblock">
+        <h3>How To Pay</h3>
+        <div class="paygrid">
+          <div class="paycol" id="payCheckCol">
+            <div class="k">📮 Mail a check</div>
+            <textarea id="payCheckTo" rows="3">Make checks payable to Caldera Mechanical
+Mail to: 1258 E 3175 N, North Ogden, UT 84414</textarea>
+          </div>
+          <div class="paycol" id="payOnlineCol">
+            <div class="k">💳 Pay online</div>
+            <input id="payStripe" placeholder="Paste your Stripe payment link here"/>
+            <div class="payhelp">Add your Stripe link once it’s set up — it’ll show on every invoice.</div>
+          </div>
+          <div class="paycol">
+            <div class="k">✉️ Questions</div>
+            <div class="payemail" id="payEmail">calderamechanical@gmail.com</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="track">
+        <button class="btn ghost" id="trackDue" title="Add a reminder to the checklist">＋ Track this due date in checklist</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHECKLIST ============ -->
+<section id="checklist" class="hidden">
+  <p class="hint">A simple to-do list with due dates. Overdue turns <b style="color:#d9604a">red</b>, due within 3 days turns <b style="color:#e0a83a">amber</b>. Check items off when done. Saved automatically on this device.</p>
+  <div class="page">
+    <div class="cl-add">
+      <div class="cl-field grow">
+        <label for="clText">Task</label>
+        <input id="clText" placeholder="e.g. Send invoice to Johnson, order compressor part…" />
+      </div>
+      <div class="cl-field">
+        <label for="clDue">Due date</label>
+        <input id="clDue" type="date"/>
+      </div>
+      <button class="btn" id="clAdd">＋ Add task</button>
+    </div>
+
+    <div class="cl-filters">
+      <button class="on" data-filter="open">Open</button>
+      <button data-filter="all">All</button>
+      <button data-filter="done">Done</button>
+      <button class="cl-clear" id="clClear">Clear completed</button>
+    </div>
+
+    <ul class="cl-list" id="clList"></ul>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const LS = { biz:'cm_biz', invoices:'cm_invoices', draft:'cm_draft', seq:'cm_seq', checklist:'cm_checklist' };
+
+const money = n => '$' + (Math.round((+n||0)*100)/100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+const parseNum = v => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g,'')); return isNaN(n)?0:n; };
+const todayISO = () => new Date().toLocaleDateString('en-CA');
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1900); }
+function read(key,def){ try{ const v=localStorage.getItem(key); return v==null?def:JSON.parse(v);}catch(e){return def;} }
+function write(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){ toast('Storage full — remove old invoices'); } }
+
+/* ---------------- Tabs ---------------- */
+function showTab(which){
+  const inv = which==='invoice';
+  $('#invoice').classList.toggle('hidden',!inv);
+  $('#checklist').classList.toggle('hidden',inv);
+  $('#invoice-actions').classList.toggle('hidden',!inv);
+  $('#tab-invoice').classList.toggle('on',inv);
+  $('#tab-checklist').classList.toggle('on',!inv);
+  if(!inv) renderChecklist();
+}
+$('#tab-invoice').onclick = ()=>showTab('invoice');
+$('#tab-checklist').onclick = ()=>showTab('checklist');
+
+/* ---------------- Invoice fields ---------------- */
+const BIZ_FIELDS = ['bizName','bizTagline','bizPhone','bizEmail','bizAddr','bizLic','payCheckTo','payStripe'];
+const INV_FIELDS = ['invNo','invDate','dueDate','status','custName','custAddr','custPhone',
+  'custEmail','jobLoc','jobDesc','poNum','notes','taxRate','discount','paid'];
+
+/* ----- Line items ----- */
+function addRow(desc='',qty='1',rate=''){
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><input class="desc" placeholder="Description of work or part"/></td>'+
+    '<td class="num qty"><input type="text" inputmode="decimal" class="qty-in" /></td>'+
+    '<td class="num rate"><input type="text" inputmode="decimal" class="rate-in" placeholder="0.00"/></td>'+
+    '<td class="amt" data-amt>$0.00</td>'+
+    '<td class="del"><button class="rowdel" title="Remove line">×</button></td>';
+  tr.querySelector('.desc').value = desc;
+  tr.querySelector('.qty-in').value = qty;
+  tr.querySelector('.rate-in').value = rate;
+  tr.querySelector('.rowdel').onclick = ()=>{ tr.remove(); recalc(); saveDraft(); };
+  tr.querySelectorAll('input').forEach(i=>{
+    i.addEventListener('input',()=>{ recalc(); saveDraft(); });
+  });
+  $('#rows').appendChild(tr);
+  return tr;
+}
+
+function recalc(){
+  let sub = 0;
+  $$('#rows tr').forEach(tr=>{
+    const desc = tr.querySelector('.desc').value.trim();
+    const rateStr = tr.querySelector('.rate-in').value.trim();
+    const q = parseNum(tr.querySelector('.qty-in').value || '0');
+    const r = parseNum(tr.querySelector('.rate-in').value || '0');
+    const amt = q*r;
+    tr.querySelector('[data-amt]').textContent = money(amt);
+    // A row with nothing typed is dropped from the printed invoice.
+    tr.classList.toggle('blankrow', !desc && !rateStr);
+    sub += amt;
+  });
+  const taxRate = parseNum($('#taxRate').value);
+  const tax = sub * taxRate/100;
+  const disc = parseNum($('#discount').value);
+  const total = Math.max(0, sub + tax - disc);
+  const paid = parseNum($('#paid').value);
+  const bal = total - paid;
+  $('#subtotal').textContent = money(sub);
+  $('#taxAmt').textContent = money(tax);
+  $('#total').textContent = money(total);
+  $('#balance').textContent = money(bal);
+  // reflect paid status coloring on balance row
+  const dueRow = $('.totals .due');
+  dueRow.style.opacity = (bal<=0.005 && total>0) ? '.5' : '1';
+}
+
+/* ----- Presets ----- */
+$$('.additems button').forEach(b=>{
+  b.onclick = ()=>{
+    if(b.dataset.preset==='blank'){ addRow('', '1',''); }
+    recalc(); saveDraft();
+    const last = $('#rows').lastElementChild;
+    if(last) last.querySelector('.desc').focus();
+  };
+});
+// Common-job dropdown: adds a line with the chosen description, price left blank.
+$('#presetPick').addEventListener('change', e=>{
+  const desc = e.target.value;
+  if(!desc) return;
+  addRow(desc, '1', '');
+  recalc(); saveDraft();
+  e.target.selectedIndex = 0;
+  const last = $('#rows').lastElementChild;
+  if(last) last.querySelector('.rate-in').focus();
+});
+
+/* ---------------- Business profile (persists across invoices) ---------------- */
+function loadBiz(){
+  const biz = read(LS.biz, null);
+  if(biz) BIZ_FIELDS.forEach(f=>{ if(biz[f]!=null) $('#'+f).value = biz[f]; });
+}
+function saveBiz(){
+  const biz = {}; BIZ_FIELDS.forEach(f=> biz[f]=$('#'+f).value); write(LS.biz, biz);
+}
+function refreshPayBlock(){
+  const email = $('#bizEmail').value.trim();
+  $('#payEmail').textContent = email || 'calderamechanical@gmail.com';
+  // Hide the "Pay online" column on the printed invoice until a Stripe link is added.
+  $('#payOnlineCol').classList.toggle('pay-empty', !$('#payStripe').value.trim());
+}
+BIZ_FIELDS.forEach(f=> $('#'+f).addEventListener('input', ()=>{ saveBiz(); refreshPayBlock(); saveDraft(); }));
+
+/* ---------------- Draft autosave / gather / apply ---------------- */
+function gather(){
+  const data = { rows:[] };
+  BIZ_FIELDS.concat(INV_FIELDS).forEach(f=> data[f] = $('#'+f).value);
+  $$('#rows tr').forEach(tr=> data.rows.push({
+    desc: tr.querySelector('.desc').value,
+    qty:  tr.querySelector('.qty-in').value,
+    rate: tr.querySelector('.rate-in').value,
+  }));
+  return data;
+}
+function apply(data){
+  BIZ_FIELDS.concat(INV_FIELDS).forEach(f=>{ if(data[f]!=null) $('#'+f).value = data[f]; });
+  $('#rows').innerHTML='';
+  (data.rows && data.rows.length ? data.rows : [{}]).forEach(r=> addRow(r.desc||'', r.qty||'1', r.rate||''));
+  refreshPayBlock();
+  recalc();
+}
+let _dt;
+function saveDraft(){ clearTimeout(_dt); _dt=setTimeout(()=> write(LS.draft, gather()), 250); }
+INV_FIELDS.forEach(f=> $('#'+f).addEventListener('input', ()=>{ recalc(); saveDraft(); }));
+
+/* ---------------- Save / open / new invoices ---------------- */
+function nextInvNo(){
+  let seq = read(LS.seq, 1000);
+  seq += 1; write(LS.seq, seq);
+  const y = new Date().getFullYear();
+  return y + '-' + String(seq).padStart(4,'0');
+}
+function refreshSavedList(){
+  const invs = read(LS.invoices, []);
+  const sel = $('#savedList');
+  sel.innerHTML = '<option value="">📁 Saved invoices ('+invs.length+')</option>';
+  invs.slice().reverse().forEach(inv=>{
+    const o = document.createElement('option');
+    o.value = inv.id;
+    const who = inv.data.custName || 'No name';
+    o.textContent = '#'+(inv.data.invNo||'—')+' · '+who+' · '+money(computeTotal(inv.data));
+    sel.appendChild(o);
+  });
+  const del = document.createElement('option');
+}
+function computeTotal(d){
+  let sub=0; (d.rows||[]).forEach(r=> sub += parseNum(r.qty)*parseNum(r.rate));
+  const tax = sub*parseNum(d.taxRate)/100; const disc=parseNum(d.discount);
+  return Math.max(0, sub+tax-disc);
+}
+function saveInvoice(){
+  const data = gather();
+  if(!data.invNo){ data.invNo = nextInvNo(); $('#invNo').value = data.invNo; }
+  const invs = read(LS.invoices, []);
+  const idx = invs.findIndex(i=> i.data.invNo === data.invNo);
+  const rec = { id: idx>=0 ? invs[idx].id : 'inv_'+Date.now(), data, savedAt: todayISO() };
+  if(idx>=0) invs[idx] = rec; else invs.push(rec);
+  write(LS.invoices, invs);
+  write(LS.draft, data);
+  refreshSavedList();
+  toast(idx>=0 ? 'Invoice #'+data.invNo+' updated' : 'Invoice #'+data.invNo+' saved');
+}
+function openInvoice(id){
+  const invs = read(LS.invoices, []);
+  const rec = invs.find(i=> i.id===id);
+  if(!rec) return;
+  apply(rec.data); write(LS.draft, rec.data);
+  toast('Opened invoice #'+(rec.data.invNo||''));
+}
+function newInvoice(){
+  const blank = {};
+  INV_FIELDS.forEach(f=> blank[f]='');
+  blank.status='unpaid'; blank.taxRate='0';
+  blank.invNo = nextInvNo();
+  blank.invDate = todayISO();
+  const due = new Date(); due.setDate(due.getDate()+30);
+  blank.dueDate = due.toLocaleDateString('en-CA');
+  blank.rows = [{desc:'',qty:'1',rate:''}];
+  apply(blank); saveBiz && loadBiz(); // keep business profile
+  loadBiz();
+  write(LS.draft, gather());
+  toast('New invoice #'+blank.invNo);
+}
+$('#saveInv').onclick = saveInvoice;
+$('#newInv').onclick = newInvoice;
+$('#printInv').onclick = ()=>{ saveDraft(); window.print(); };
+$('#savedList').onchange = e=>{ if(e.target.value) openInvoice(e.target.value); e.target.value=''; };
+
+/* Track due date -> checklist */
+$('#trackDue').onclick = ()=>{
+  const who = $('#custName').value || 'customer';
+  const no = $('#invNo').value || '';
+  const bal = $('#balance').textContent;
+  addChecklistItem('Collect payment — Invoice #'+no+' ('+who+', '+bal+')', $('#dueDate').value||'');
+  toast('Added to checklist');
+  showTab('checklist');
+};
+
+/* ---------------- Checklist ---------------- */
+let clFilter = 'open';
+function loadChecklist(){ return read(LS.checklist, []); }
+function saveChecklist(items){ write(LS.checklist, items); }
+function addChecklistItem(text,due){
+  if(!text || !text.trim()) return;
+  const items = loadChecklist();
+  items.push({ id:'t_'+Date.now()+'_'+Math.round(performance.now()), text:text.trim(), due:due||'', done:false });
+  saveChecklist(items); renderChecklist();
+}
+function dueState(item){
+  if(item.done) return 'done';
+  if(!item.due) return 'ok';
+  const today = new Date(todayISO()+'T00:00:00');
+  const d = new Date(item.due+'T00:00:00');
+  const days = Math.round((d - today)/86400000);
+  if(days < 0) return 'overdue';
+  if(days <= 3) return 'soon';
+  return 'ok';
+}
+function fmtDue(iso){
+  if(!iso) return 'No due date';
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+}
+function daysLabel(item){
+  const st = dueState(item);
+  if(st==='done') return {cls:'done',txt:'Done'};
+  if(!item.due) return null;
+  const today = new Date(todayISO()+'T00:00:00');
+  const d = new Date(item.due+'T00:00:00');
+  const days = Math.round((d - today)/86400000);
+  if(days < 0) return {cls:'overdue',txt: (-days)+' day'+(days===-1?'':'s')+' overdue'};
+  if(days===0) return {cls:'soon',txt:'Due today'};
+  if(days<=3) return {cls:'soon',txt:'Due in '+days+' day'+(days===1?'':'s')};
+  return null;
+}
+function renderChecklist(){
+  const list = $('#clList');
+  let items = loadChecklist();
+  // sort: undated last, else by due date; done sink to bottom within view
+  items.sort((a,b)=>{
+    if(a.done!==b.done) return a.done?1:-1;
+    if(!a.due && !b.due) return 0;
+    if(!a.due) return 1; if(!b.due) return -1;
+    return a.due < b.due ? -1 : a.due > b.due ? 1 : 0;
+  });
+  const view = items.filter(i=> clFilter==='all' ? true : clFilter==='done' ? i.done : !i.done);
+  list.innerHTML='';
+  if(!view.length){
+    list.innerHTML = '<li class="cl-empty">'+(clFilter==='done'
+      ? 'Nothing completed yet.'
+      : 'No tasks here. Add one above — give it a due date and it’ll sort to the top when it’s coming due.')+'</li>';
+    return;
+  }
+  view.forEach(item=>{
+    const st = dueState(item);
+    const li = document.createElement('li');
+    li.className = 'cl-item '+st;
+    const badge = daysLabel(item);
+    li.innerHTML =
+      '<button class="cl-check" title="Mark done">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#06121c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>'+
+      '</button>'+
+      '<div class="cl-body">'+
+        '<div class="cl-text"></div>'+
+        '<div class="cl-meta"><span class="cl-due">📅 '+fmtDue(item.due)+'</span>'+
+          (badge?'<span class="cl-badge '+badge.cls+'">'+badge.txt+'</span>':'')+
+        '</div>'+
+      '</div>'+
+      '<button class="cl-del" title="Delete">×</button>';
+    li.querySelector('.cl-text').textContent = item.text;
+    li.querySelector('.cl-check').onclick = ()=>{ toggleDone(item.id); };
+    li.querySelector('.cl-del').onclick = ()=>{ deleteItem(item.id); };
+    list.appendChild(li);
+  });
+}
+function toggleDone(id){
+  const items = loadChecklist();
+  const it = items.find(i=>i.id===id); if(it){ it.done=!it.done; saveChecklist(items); renderChecklist(); }
+}
+function deleteItem(id){
+  saveChecklist(loadChecklist().filter(i=>i.id!==id)); renderChecklist();
+}
+$('#clAdd').onclick = ()=>{
+  addChecklistItem($('#clText').value, $('#clDue').value);
+  $('#clText').value=''; $('#clDue').value=''; $('#clText').focus();
+};
+$('#clText').addEventListener('keydown', e=>{ if(e.key==='Enter') $('#clAdd').click(); });
+$$('.cl-filters button[data-filter]').forEach(b=>{
+  b.onclick = ()=>{ clFilter=b.dataset.filter; $$('.cl-filters button[data-filter]').forEach(x=>x.classList.toggle('on',x===b)); renderChecklist(); };
+});
+$('#clClear').onclick = ()=>{
+  const items = loadChecklist();
+  if(!items.some(i=>i.done)){ toast('Nothing completed to clear'); return; }
+  saveChecklist(items.filter(i=>!i.done)); renderChecklist(); toast('Cleared completed tasks');
+};
+
+/* ---------------- Init ---------------- */
+(function init(){
+  loadBiz();
+  const draft = read(LS.draft, null);
+  if(draft && (draft.invNo || (draft.rows&&draft.rows.some(r=>r.desc||r.rate)))){
+    apply(draft);
+  } else {
+    // fresh start
+    const seqExists = read(LS.seq,null)!=null;
+    $('#invDate').value = todayISO();
+    const due = new Date(); due.setDate(due.getDate()+30);
+    $('#dueDate').value = due.toLocaleDateString('en-CA');
+    $('#invNo').value = nextInvNo();
+    addRow('', '1','');
+    recalc();
+    saveDraft();
+  }
+  refreshPayBlock();
+  refreshSavedList();
+  renderChecklist();
+})();
+</script>
+</body>
+</html>
