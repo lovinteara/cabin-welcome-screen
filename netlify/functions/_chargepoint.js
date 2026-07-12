@@ -19,21 +19,29 @@
 const DISCOVERY_URL = 'https://discovery.chargepoint.com/discovery/v3/globalconfig';
 const USER_AGENT    = 'cabin-charging-dashboard/1.0';
 
-// One entry per ChargePoint login. `property` ties a charger to the OwnerRez
-// property so we can match each charging session to the guest who was staying.
-// Caldera's login carries two physical chargers (cottage + garage); they come
-// back as two separate stations under the one account and stay split by name.
+// One entry per ChargePoint login (each charger has its own account).
+// `property` ties a charger to the OwnerRez property so we can match each
+// charging session to the guest who was staying. Caldera has two chargers —
+// the cottage and the garage — under two separate logins; both map to the
+// caldera property so both bill against Caldera's guests.
 //
 // Edit the labels/property keys here during go-live to match your real setup.
 const ACCOUNTS = [
-  { key: 'gathering',   label: 'The Gathering Place', property: 'gathering'   },
-  { key: 'huckleberry', label: 'Huckleberry Hut',     property: 'huckleberry' },
-  { key: 'caldera',     label: 'Caldera Cottage',     property: 'caldera'     },
-  { key: 'cty',         label: 'Close To Yellowstone', property: 'dshouse'    }
+  { key: 'gathering',      label: 'The Gathering Place',      property: 'gathering'   },
+  { key: 'huckleberry',    label: 'Huckleberry Hut',          property: 'huckleberry' },
+  { key: 'caldera',        label: 'Caldera Cottage',          property: 'caldera'     },
+  { key: 'caldera-garage', label: 'Caldera Cottage — Garage', property: 'caldera'     },
+  { key: 'cty',            label: 'Close To Yellowstone',     property: 'dshouse'     }
 ];
 
+// Env-var suffix for a charger key: uppercase, non-alphanumerics to underscore.
+// e.g. 'caldera-garage' -> CP_CALDERA_GARAGE_USER / CP_CALDERA_GARAGE_PASS
+function envKey(key) {
+  return key.toUpperCase().replace(/[^A-Z0-9]/g, '_');
+}
+
 function accountCreds(key) {
-  const U = key.toUpperCase();
+  const U = envKey(key);
   const user = process.env[`CP_${U}_USER`];
   const pass = process.env[`CP_${U}_PASS`];
   if (!user || !pass) return null;
@@ -189,9 +197,7 @@ function demoSessions(account, fromDate, toDate, rng) {
   const to   = new Date(toDate   + 'T23:59:59');
   const days = Math.max(1, Math.round((to - from) / 86400000));
   const guests = DEMO_GUESTS[account.property] || ['Guest'];
-  const stations = account.key === 'caldera'
-    ? [`${account.label}`, `${account.label} — Garage`]
-    : [account.label];
+  const stations = [account.label];
 
   const sessions = [];
   // Roughly one charging session every 3–5 days per station.

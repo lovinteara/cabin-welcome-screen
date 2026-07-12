@@ -45,15 +45,17 @@ Netlify's encrypted environment variables.
 2. Add a **username** and **password** pair for each cabin's ChargePoint account,
    using these exact names:
 
-   | Cabin | Username variable | Password variable |
-   |-------|-------------------|-------------------|
+   | Charger | Username variable | Password variable |
+   |---------|-------------------|-------------------|
    | The Gathering Place | `CP_GATHERING_USER` | `CP_GATHERING_PASS` |
    | Huckleberry Hut | `CP_HUCKLEBERRY_USER` | `CP_HUCKLEBERRY_PASS` |
-   | Caldera Cottage *(covers cottage **and** garage charger)* | `CP_CALDERA_USER` | `CP_CALDERA_PASS` |
+   | Caldera Cottage | `CP_CALDERA_USER` | `CP_CALDERA_PASS` |
+   | Caldera Cottage — Garage | `CP_CALDERA_GARAGE_USER` | `CP_CALDERA_GARAGE_PASS` |
    | Close To Yellowstone | `CP_CTY_USER` | `CP_CTY_PASS` |
 
-   Caldera's one login carries both its chargers — they show up as two separate
-   lines on the dashboard automatically.
+   Caldera has two separate logins — the cottage charger and the garage charger.
+   Both show as their own line on the dashboard and both bill against Caldera's
+   guests.
 
 3. *(Optional)* Set a default billing rate with `CP_RATE` (e.g. `0.16`). You can
    also change the rate right on the dashboard anytime.
