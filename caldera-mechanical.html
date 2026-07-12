@@ -4,12 +4,16 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Caldera Mechanical — Invoices &amp; Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#11151a; --chrome:#1b222b; --edge:#2c3742;
-    --ink:#eef2f6; --dim:#9fb0c0; --brand:#e08a2b; --brand-deep:#c6741c;
+    --bg:#0a1a2f; --chrome:#11263f; --edge:#26456a;
+    --ink:#eef2f6; --dim:#9fb0c0; --brand:#d21f2d; --brand-deep:#a8151f;
     --blue:#4f9bd6; --green:#4bb573; --amber:#e0a83a; --red:#d9604a;
     --paper:#ffffff; --paper-ink:#1c2530; --paper-dim:#5b6875; --paper-edge:#d9e0e7;
+    --serif:"Zilla Slab",Georgia,"Times New Roman",serif;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -30,13 +34,10 @@
   }
   .logo{display:flex;align-items:center;gap:11px;margin-right:6px}
   .logo .mark{
-    width:38px;height:38px;border-radius:9px;flex:0 0 auto;
-    background:radial-gradient(circle at 50% 32%,var(--brand),var(--brand-deep));
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:inset 0 0 0 2px rgba(255,255,255,.14);
+    height:38px;width:auto;border-radius:8px;flex:0 0 auto;display:block;
+    box-shadow:0 2px 8px rgba(0,0,0,.4);
   }
-  .logo .mark svg{width:22px;height:22px}
-  .logo .name{font-weight:700;font-size:16px;letter-spacing:.3px;line-height:1.1}
+  .logo .name{font-weight:700;font-size:16px;letter-spacing:.3px;line-height:1.1;font-family:var(--serif)}
   .logo .name small{display:block;font-weight:500;font-size:10px;letter-spacing:2px;
     text-transform:uppercase;color:var(--brand);margin-top:2px}
 
@@ -86,8 +87,9 @@
   .inv-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
     border-bottom:2px solid var(--paper-ink);padding-bottom:22px}
   .biz{flex:1 1 300px;min-width:260px}
-  .biz .biz-name{font-size:23px;font-weight:800;letter-spacing:.3px;color:var(--brand-deep)}
-  .biz .biz-name input{font-size:23px;font-weight:800;color:var(--brand-deep)}
+  .biz .paper-logo{height:52px;width:auto;border-radius:7px;margin-bottom:10px;display:block}
+  .biz .biz-name{font-size:23px;font-weight:800;letter-spacing:.3px;color:var(--brand-deep);font-family:var(--serif)}
+  .biz .biz-name input{font-size:23px;font-weight:800;color:var(--brand-deep);font-family:var(--serif)}
   .biz .line input{font-size:12.5px;color:var(--paper-dim)}
   .inv-title{text-align:right;flex:0 0 auto}
   .inv-title h2{margin:0;font-size:30px;letter-spacing:3px;color:var(--paper-ink);font-weight:800}
@@ -262,11 +264,7 @@
 
 <div class="topbar">
   <div class="logo">
-    <span class="mark" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 20 L9 9 M9 9 L12 3 L15 9 M15 9 L20 20 M6.5 14.5 H17.5"/>
-      </svg>
-    </span>
+    <img class="mark" src="caldera-mechanical-logo.jpg" alt="Caldera Mechanical logo"/>
     <div class="name">Caldera Mechanical<small>Invoices &amp; Jobs</small></div>
   </div>
 
@@ -294,6 +292,7 @@
 
       <div class="inv-top">
         <div class="biz">
+          <img class="paper-logo" src="caldera-mechanical-logo.jpg" alt="Caldera Mechanical logo"/>
           <div class="biz-name"><input id="bizName" value="Caldera Mechanical" placeholder="Your business name"/></div>
           <div class="line"><input id="bizTagline" value="Heating · Cooling · Mechanical" placeholder="Tagline / services"/></div>
           <div class="line"><input id="bizPhone" placeholder="Phone"/></div>
@@ -385,7 +384,7 @@
       <div class="foot">
         <div class="notes">
           <h3>Notes &amp; Payment Terms</h3>
-          <textarea id="notes" placeholder="Thank you for your business! Payment due within 30 days. Checks payable to Caldera Mechanical. Questions? Call the number above."></textarea>
+          <textarea id="notes" placeholder="Thank you for your business! Payment due within 30 days. See payment options below. Questions? Call the number above."></textarea>
         </div>
         <div class="totals">
           <div class="trow"><label>Subtotal</label><span class="val" id="subtotal">$0.00</span></div>
