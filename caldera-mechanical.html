@@ -132,6 +132,25 @@
   }
   .additems button:hover{border-color:var(--brand);color:var(--brand-deep)}
   .additems button.add{background:var(--paper-ink);color:#fff;border-color:var(--paper-ink)}
+  .additems .preset-pick{
+    background:#f1f4f7 !important;color:var(--paper-ink);border:1px solid var(--paper-edge);
+    border-radius:7px;padding:7px 12px;font-size:12px;font-weight:600;width:auto;cursor:pointer;
+  }
+  .additems .preset-pick:hover{border-color:var(--brand)}
+  .additems-hint{font-size:11.5px;color:var(--paper-dim);align-self:center}
+
+  .payblock{margin-top:28px;border-top:1px solid var(--paper-edge);padding-top:16px}
+  .payblock h3{margin:0 0 12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--paper-dim);font-weight:700}
+  .paygrid{display:flex;gap:26px;flex-wrap:wrap;font-size:12.5px}
+  .paycol{flex:1 1 190px;min-width:170px}
+  .paycol .k{font-weight:700;color:var(--paper-ink);margin-bottom:5px}
+  .paycol textarea{color:var(--paper-dim);font-size:12.5px;min-height:44px;line-height:1.45}
+  .paycol input{color:var(--brand-deep);font-size:12.5px;font-weight:600;
+    border:1px solid var(--paper-edge) !important;border-radius:6px;padding:6px 8px}
+  .paycol input:focus{color:var(--paper-ink)}
+  .payhelp{font-size:10.5px;color:#9aa6b2;margin-top:5px;line-height:1.4}
+  .payemail{color:var(--paper-dim)}
 
   .foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-top:26px}
   .notes{flex:1 1 280px}
@@ -223,6 +242,7 @@
     .paper{box-shadow:none;border-radius:0;padding:0}
     .paper input,.paper textarea,.paper select{background:transparent !important;box-shadow:none !important}
     table.items td.del{display:none}
+    table.items tr.blankrow{display:none}
     .paper input::placeholder,.paper textarea::placeholder{color:transparent}
     /* Make fill-in fields read as finished text, not form controls */
     .paper input,.paper textarea,.paper select{border:none !important}
@@ -233,6 +253,8 @@
     .paper input[type=date]::-webkit-calendar-picker-indicator{display:none}
     .paper textarea{resize:none}
     select{-webkit-appearance:none;appearance:none}
+    .payhelp,.additems-hint{display:none !important}
+    .paycol.pay-empty{display:none !important}
   }
 </style>
 </head>
@@ -275,8 +297,8 @@
           <div class="biz-name"><input id="bizName" value="Caldera Mechanical" placeholder="Your business name"/></div>
           <div class="line"><input id="bizTagline" value="Heating · Cooling · Mechanical" placeholder="Tagline / services"/></div>
           <div class="line"><input id="bizPhone" placeholder="Phone"/></div>
-          <div class="line"><input id="bizEmail" placeholder="Email"/></div>
-          <div class="line"><input id="bizAddr" placeholder="Address"/></div>
+          <div class="line"><input id="bizEmail" value="calderamechanical@gmail.com" placeholder="Email"/></div>
+          <div class="line"><input id="bizAddr" value="1258 E 3175 N, North Ogden, UT 84414" placeholder="Address"/></div>
           <div class="line"><input id="bizLic" placeholder="License # (optional)"/></div>
         </div>
         <div class="inv-title">
@@ -323,12 +345,42 @@
 
       <div class="additems">
         <button class="add" data-preset="blank">＋ Add line</button>
-        <button data-preset="Service call">Service call</button>
-        <button data-preset="Labor (per hour)|1|">Labor / hr</button>
-        <button data-preset="Diagnostic fee">Diagnostic</button>
-        <button data-preset="Parts &amp; materials">Parts</button>
-        <button data-preset="Trip charge">Trip charge</button>
-        <button data-preset="Maintenance / tune-up">Maintenance</button>
+        <select id="presetPick" class="preset-pick" aria-label="Add a common job">
+          <option value="">＋ Add a common job / repair…</option>
+          <optgroup label="Installs">
+            <option>Central A/C install</option>
+            <option>Ductless mini-split A/C install (non-central)</option>
+            <option>Furnace install</option>
+            <option>Boiler install</option>
+            <option>Water heater install</option>
+            <option>Thermostat install</option>
+          </optgroup>
+          <optgroup label="Repairs &amp; Service">
+            <option>Furnace repair</option>
+            <option>Boiler repair</option>
+            <option>A/C repair</option>
+            <option>Thermocouple replacement</option>
+            <option>Igniter replacement</option>
+            <option>Flame sensor cleaning / replacement</option>
+            <option>Capacitor replacement</option>
+            <option>Blower motor replacement</option>
+            <option>Gas valve replacement</option>
+            <option>Circulator pump replacement</option>
+            <option>Refrigerant recharge</option>
+            <option>Condensate drain clearing</option>
+            <option>Ductwork repair</option>
+          </optgroup>
+          <optgroup label="Fees &amp; Labor">
+            <option>Service call</option>
+            <option>Diagnostic fee</option>
+            <option>Labor (per hour)</option>
+            <option>Parts &amp; materials</option>
+            <option>Trip charge</option>
+            <option>Seasonal maintenance / tune-up</option>
+            <option>Emergency / after-hours labor</option>
+          </optgroup>
+        </select>
+        <span class="additems-hint">Pick one to add a line — then just fill in the price.</span>
       </div>
 
       <div class="foot">
@@ -343,6 +395,26 @@
           <div class="trow grand"><label>Total</label><span class="val" id="total">$0.00</span></div>
           <div class="trow"><label>Amount paid</label><input class="money" id="paid" type="number" step="0.01" min="0" placeholder="0.00"/></div>
           <div class="trow due"><label>Balance due</label><span class="val" id="balance">$0.00</span></div>
+        </div>
+      </div>
+
+      <div class="payblock">
+        <h3>How To Pay</h3>
+        <div class="paygrid">
+          <div class="paycol" id="payCheckCol">
+            <div class="k">📮 Mail a check</div>
+            <textarea id="payCheckTo" rows="3">Make checks payable to Caldera Mechanical
+Mail to: 1258 E 3175 N, North Ogden, UT 84414</textarea>
+          </div>
+          <div class="paycol" id="payOnlineCol">
+            <div class="k">💳 Pay online</div>
+            <input id="payStripe" placeholder="Paste your Stripe payment link here"/>
+            <div class="payhelp">Add your Stripe link once it’s set up — it’ll show on every invoice.</div>
+          </div>
+          <div class="paycol">
+            <div class="k">✉️ Questions</div>
+            <div class="payemail" id="payEmail">calderamechanical@gmail.com</div>
+          </div>
         </div>
       </div>
 
@@ -410,7 +482,7 @@ $('#tab-invoice').onclick = ()=>showTab('invoice');
 $('#tab-checklist').onclick = ()=>showTab('checklist');
 
 /* ---------------- Invoice fields ---------------- */
-const BIZ_FIELDS = ['bizName','bizTagline','bizPhone','bizEmail','bizAddr','bizLic'];
+const BIZ_FIELDS = ['bizName','bizTagline','bizPhone','bizEmail','bizAddr','bizLic','payCheckTo','payStripe'];
 const INV_FIELDS = ['invNo','invDate','dueDate','status','custName','custAddr','custPhone',
   'custEmail','jobLoc','jobDesc','poNum','notes','taxRate','discount','paid'];
 
@@ -437,10 +509,14 @@ function addRow(desc='',qty='1',rate=''){
 function recalc(){
   let sub = 0;
   $$('#rows tr').forEach(tr=>{
+    const desc = tr.querySelector('.desc').value.trim();
+    const rateStr = tr.querySelector('.rate-in').value.trim();
     const q = parseNum(tr.querySelector('.qty-in').value || '0');
     const r = parseNum(tr.querySelector('.rate-in').value || '0');
     const amt = q*r;
     tr.querySelector('[data-amt]').textContent = money(amt);
+    // A row with nothing typed is dropped from the printed invoice.
+    tr.classList.toggle('blankrow', !desc && !rateStr);
     sub += amt;
   });
   const taxRate = parseNum($('#taxRate').value);
@@ -461,17 +537,21 @@ function recalc(){
 /* ----- Presets ----- */
 $$('.additems button').forEach(b=>{
   b.onclick = ()=>{
-    const p = b.dataset.preset;
-    if(p==='blank'){ addRow('', '1',''); }
-    else {
-      const parts = p.split('|'); // desc | qty | rate
-      const desc = parts[0].replace(/&amp;/g,'&');
-      addRow(desc, parts[1]||'1', parts[2]||'');
-    }
+    if(b.dataset.preset==='blank'){ addRow('', '1',''); }
     recalc(); saveDraft();
     const last = $('#rows').lastElementChild;
     if(last) last.querySelector('.desc').focus();
   };
+});
+// Common-job dropdown: adds a line with the chosen description, price left blank.
+$('#presetPick').addEventListener('change', e=>{
+  const desc = e.target.value;
+  if(!desc) return;
+  addRow(desc, '1', '');
+  recalc(); saveDraft();
+  e.target.selectedIndex = 0;
+  const last = $('#rows').lastElementChild;
+  if(last) last.querySelector('.rate-in').focus();
 });
 
 /* ---------------- Business profile (persists across invoices) ---------------- */
@@ -482,7 +562,13 @@ function loadBiz(){
 function saveBiz(){
   const biz = {}; BIZ_FIELDS.forEach(f=> biz[f]=$('#'+f).value); write(LS.biz, biz);
 }
-BIZ_FIELDS.forEach(f=> $('#'+f).addEventListener('input', ()=>{ saveBiz(); saveDraft(); }));
+function refreshPayBlock(){
+  const email = $('#bizEmail').value.trim();
+  $('#payEmail').textContent = email || 'calderamechanical@gmail.com';
+  // Hide the "Pay online" column on the printed invoice until a Stripe link is added.
+  $('#payOnlineCol').classList.toggle('pay-empty', !$('#payStripe').value.trim());
+}
+BIZ_FIELDS.forEach(f=> $('#'+f).addEventListener('input', ()=>{ saveBiz(); refreshPayBlock(); saveDraft(); }));
 
 /* ---------------- Draft autosave / gather / apply ---------------- */
 function gather(){
@@ -499,6 +585,7 @@ function apply(data){
   BIZ_FIELDS.concat(INV_FIELDS).forEach(f=>{ if(data[f]!=null) $('#'+f).value = data[f]; });
   $('#rows').innerHTML='';
   (data.rows && data.rows.length ? data.rows : [{}]).forEach(r=> addRow(r.desc||'', r.qty||'1', r.rate||''));
+  refreshPayBlock();
   recalc();
 }
 let _dt;
@@ -693,6 +780,7 @@ $('#clClear').onclick = ()=>{
     recalc();
     saveDraft();
   }
+  refreshPayBlock();
   refreshSavedList();
   renderChecklist();
 })();
