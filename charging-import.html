@@ -35,6 +35,12 @@
   select,input,textarea{font:inherit;font-size:15px;width:100%;background:#0f0c08;color:var(--ink);
     border:1px solid var(--panel-edge);border-radius:6px;padding:10px 12px}
   textarea{min-height:170px;resize:vertical;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.5}
+  .modes{display:flex;gap:8px;margin-bottom:14px}
+  .mode{background:transparent;color:var(--ink-dim);border:1px solid var(--panel-edge);
+    padding:8px 16px;font-size:13px;font-weight:400}
+  .mode.on{background:var(--gold);color:#1a1206;font-weight:600;border-color:var(--gold)}
+  .hint{font-size:12px;color:var(--ink-dim);line-height:1.5;margin:0 0 8px}
+  .hint b{color:var(--gold)}
   .chk{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-dim);margin-bottom:16px}
   .chk input{width:auto}
   button{font:inherit;font-size:15px;background:var(--gold);color:#1a1206;border:none;border-radius:7px;
@@ -79,7 +85,12 @@
         <input type="number" id="year" min="2020" max="2030" step="1"/>
       </div>
     </div>
-    <label for="text">Paste the statement here</label>
+    <div class="modes">
+      <button type="button" class="mode on" data-mode="statement">Paste statement</button>
+      <button type="button" class="mode" data-mode="manual">Type kWh</button>
+    </div>
+    <label for="text" id="textlabel">Paste the statement here</label>
+    <div class="hint" id="hint">Copy the whole statement from ChargePoint and paste it. If the kWh numbers don't come through (they're links in ChargePoint), use <b>Type kWh</b> instead.</div>
     <textarea id="text" placeholder="7/11   3333 Lupine Dr   Island Park   CP HOME   AC   3h 14m 19s   17.832 kWh&#10;7/10   3333 Lupine Dr   Island Park   CP HOME   AC   23h 12s        66.143 kWh&#10;..."></textarea>
     <div class="chk" style="margin-top:12px">
       <input type="checkbox" id="replace"/>
@@ -97,8 +108,23 @@
 
 <script>
   const $ = id => document.getElementById(id);
+  let mode = 'statement';
 
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+  function setMode(m){
+    mode = m;
+    document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('on', b.dataset.mode===m));
+    if(m==='manual'){
+      $('textlabel').textContent = 'Type one session per line: date and kWh';
+      $('hint').innerHTML = 'Read each session off the ChargePoint statement and type it as <b>date&nbsp;kWh</b> — one per line. Example:<br>7/11 17.832<br>7/10 66.143';
+      $('text').placeholder = '7/11 17.832\n7/11 4.631\n7/10 66.143\n7/9 23.773\n7/8 1.869';
+    }else{
+      $('textlabel').textContent = 'Paste the statement here';
+      $('hint').innerHTML = "Copy the whole statement from ChargePoint and paste it. If the kWh numbers don't come through (they're links in ChargePoint), use <b>Type kWh</b> instead.";
+      $('text').placeholder = '7/11   3333 Lupine Dr   Island Park   CP HOME   AC   3h 14m 19s   17.832 kWh\n7/10   3333 Lupine Dr   Island Park   CP HOME   AC   23h 12s        66.143 kWh\n...';
+    }
+  }
 
   async function loadStatus(){
     try{
@@ -134,7 +160,7 @@
     try{
       const res = await fetch('/api/charging-import',{
         method:'POST', headers:{'content-type':'application/json'},
-        body: JSON.stringify({ charger, year, text, replace: $('replace').checked })
+        body: JSON.stringify({ charger, year, text, mode, replace: $('replace').checked })
       });
       const d = await res.json();
       if(d.ok){
@@ -153,6 +179,7 @@
   }
 
   $('year').value = new Date().getFullYear();
+  document.querySelectorAll('.mode').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
   $('go').addEventListener('click', doImport);
   loadStatus();
 </script>

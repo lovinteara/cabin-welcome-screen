@@ -53,6 +53,24 @@ function parseStatement(text, year) {
   return sessions;
 }
 
+// Manual quick-entry: one session per line as "M/D kWh" (e.g. "7/11 17.832").
+// Used when ChargePoint's kWh values won't copy (they're links). Strict so it
+// won't mistake address/zip/duration numbers for energy.
+function parseManual(text, year) {
+  const sessions = [];
+  for (const line of text.split(/\r?\n/)) {
+    const m = line.match(/^\s*(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?[\s,]+([\d]+(?:\.\d+)?)/);
+    if (!m) continue;
+    let y = m[3] ? parseInt(m[3], 10) : year;
+    if (y < 100) y += 2000;
+    const mm = String(parseInt(m[1], 10)).padStart(2, '0');
+    const dd = String(parseInt(m[2], 10)).padStart(2, '0');
+    const kwh = parseFloat(m[4]);
+    if (!isNaN(kwh)) sessions.push({ start: `${y}-${mm}-${dd}T12:00:00.000Z`, kwh });
+  }
+  return sessions;
+}
+
 exports.handler = async function (event) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -91,17 +109,21 @@ exports.handler = async function (event) {
   const text = body.text || '';
   const year = parseInt(body.year, 10) || new Date().getFullYear();
   const replace = !!body.replace;
+  const mode = body.mode === 'manual' ? 'manual' : 'statement';
 
   if (!validKeys.has(charger)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Pick a charger.' }) };
   }
   if (!text.trim()) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Paste the statement text first.' }) };
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Enter or paste the data first.' }) };
   }
 
-  const parsed = parseStatement(text, year);
+  const parsed = mode === 'manual' ? parseManual(text, year) : parseStatement(text, year);
   if (!parsed.length) {
-    return { statusCode: 200, headers, body: JSON.stringify({ ok: false, parsed: 0, added: 0, message: "Couldn't find any charging sessions in that text. Make sure it includes the dates and the kWh amounts." }) };
+    const message = mode === 'manual'
+      ? "Couldn't read any lines. Type one session per line as a date and kWh, e.g. 7/11 17.832"
+      : "Couldn't find kWh amounts in that text — in ChargePoint the energy numbers are blue links that often don't copy. Switch to “Type kWh” and enter them, or copy from ChargePoint's website instead.";
+    return { statusCode: 200, headers, body: JSON.stringify({ ok: false, parsed: 0, added: 0, message }) };
   }
 
   const existing = replace ? [] : await getImportedSessions(event, charger);
