@@ -224,7 +224,7 @@
   }
 
   function render(data){
-    $('updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+    $('updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + (data.build ? ' · ' + data.build : '');
 
     if(data.demo){
       $('banner').innerHTML = '<b>Showing sample data.</b> Add your ChargePoint logins in Netlify '+

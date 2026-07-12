@@ -12,6 +12,10 @@
 // Runs in demo mode automatically until ChargePoint credentials are added as
 // Netlify env vars (see CHARGEPOINT_SETUP.md).
 
+// Bump BUILD whenever this function changes so the dashboard can show which
+// version is actually deployed (handy for confirming a deploy went live).
+const BUILD = 'v5-discovery-post';
+
 const cp = require('./_chargepoint');
 const {
   PROPERTY_IDS,
@@ -180,6 +184,7 @@ exports.handler = async function (event) {
     headers,
     body: JSON.stringify({
       demo,
+      build: BUILD,
       from,
       to,
       rate,
