@@ -4,7 +4,7 @@
 // ChargePoint has no official public API for *home* chargers, so this uses
 // the same unofficial driver API the mobile app and the community
 // `python-chargepoint` library use:
-//   1. discover endpoints   GET  https://discovery.chargepoint.com/discovery/v3/globalconfig
+//   1. discover endpoints   POST https://discovery.chargepoint.com/discovery/v3/globalconfig {username}
 //   2. log in               POST {sso_endpoint}v1/user/login   {username,password}
 //                           -> sets the `coulomb_sess` session token
 //   3. pull charging history from the driver "charging activity" endpoint,
@@ -68,20 +68,26 @@ function defaultRate() {
 
 // ---- Live ChargePoint client -------------------------------------------------
 
-async function discoverEndpoints() {
+async function discoverEndpoints(username) {
+  // Discovery is a POST with the username — ChargePoint returns the correct
+  // regional endpoints for that account. (A GET here gets a 405.)
   const res = await fetch(DISCOVERY_URL, {
-    headers: { 'user-agent': USER_AGENT, 'accept': 'application/json' }
+    method: 'POST',
+    headers: {
+      'user-agent': USER_AGENT,
+      'content-type': 'application/json',
+      'accept': 'application/json'
+    },
+    body: JSON.stringify({ username })
   });
   if (!res.ok) throw new Error(`discovery ${res.status}`);
   const cfg = await res.json();
-  // The discovery payload nests endpoints per region; grab the first region's
-  // endpoints (US). Shape: { <region>: { endpoints: { sso_endpoint, ... } } }
-  const region = cfg && (cfg.US || cfg[Object.keys(cfg)[0]]);
-  const endpoints = (region && (region.endpoints || region)) || {};
+  const ep = (cfg && (cfg.endpoints || cfg)) || {};
+  const str = v => (typeof v === 'string' ? v : (v && (v.value || v.url)) || '');
   return {
-    sso:    endpoints.sso_endpoint    || 'https://sso.chargepoint.com/',
-    portal: endpoints.portal_domain_endpoint || 'https://account.chargepoint.com/',
-    accounts: endpoints.accounts_endpoint || 'https://account.chargepoint.com/'
+    sso:      str(ep.sso_endpoint)           || 'https://sso.chargepoint.com/',
+    portal:   str(ep.portal_domain_endpoint) || 'https://account.chargepoint.com/',
+    accounts: str(ep.accounts_endpoint)      || 'https://account.chargepoint.com/'
   };
 }
 
@@ -182,7 +188,7 @@ async function fetchAccountSessions(key, fromDate, toDate) {
   const creds = accountCreds(key);
   if (!creds) return { sessions: [], status: 'unconfigured', detail: 'No login set' };
   try {
-    const endpoints = await discoverEndpoints();
+    const endpoints = await discoverEndpoints(creds.user);
     const token = await login(endpoints, creds.user, creds.pass);
     const sessions = await fetchActivity(endpoints, token, fromDate, toDate);
     return { sessions, status: 'ok', detail: `${sessions.length} session(s)` };
