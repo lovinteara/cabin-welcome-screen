@@ -34,7 +34,6 @@ const ACCOUNTS = [
   { key: 'gathering',      label: 'The Gathering Place',      property: 'gathering'   },
   { key: 'chalets',        label: 'Chalets',                  property: null          },
   { key: 'huckleberry',    label: 'Huckleberry Hut',          property: 'huckleberry' },
-  { key: 'cty',            label: 'Close To Yellowstone',     property: null          },
   { key: 'caldera',        label: 'Caldera Cottage',          property: 'caldera'     },
   { key: 'caldera-garage', label: 'Caldera Cottage — Garage', property: 'caldera'     }
 ];
@@ -307,8 +306,7 @@ const DEMO_GUESTS = {
   gathering:   ['The Andersons', 'Marcus Lee', 'Priya & Sam', 'The Whitfields'],
   huckleberry: ['Jordan Blake', 'The Nguyen Family', 'Dana Ruiz'],
   caldera:     ['The Petersons', 'Chloe Adams', 'Rob & Kim', 'The Halvorsens'],
-  chalets:     ['The Riveras', 'Sam Dalton', 'The Brookes'],
-  cty:         ['Elena Marsh', 'The Carters', 'Devon Wu']
+  chalets:     ['The Riveras', 'Sam Dalton', 'The Brookes']
 };
 
 function demoSessions(account, fromDate, toDate, rng) {
