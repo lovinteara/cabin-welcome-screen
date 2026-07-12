@@ -20,18 +20,23 @@ const DISCOVERY_URL = 'https://discovery.chargepoint.com/discovery/v3/globalconf
 const USER_AGENT    = 'cabin-charging-dashboard/1.0';
 
 // One entry per ChargePoint login (each charger has its own account).
-// `property` ties a charger to the OwnerRez property so we can match each
-// charging session to the guest who was staying. Caldera has two chargers —
-// the cottage and the garage — under two separate logins; both map to the
+// `property` ties a charger to the OwnerRez property so each charging session
+// can be matched to the guest who was staying. It may be:
+//   - a property key (e.g. 'huckleberry')  -> match that cabin's guests
+//   - an array of keys                      -> match across several cabins
+//   - null                                  -> no cabin link; show sessions by
+//                                              date so the owner bills manually
+// Caldera has two chargers (cottage + garage) under two logins; both map to the
 // caldera property so both bill against Caldera's guests.
 //
-// Edit the labels/property keys here during go-live to match your real setup.
+// Edit the labels/property keys here to match your real setup.
 const ACCOUNTS = [
   { key: 'gathering',      label: 'The Gathering Place',      property: 'gathering'   },
+  { key: 'chalets',        label: 'Chalets',                  property: null          },
   { key: 'huckleberry',    label: 'Huckleberry Hut',          property: 'huckleberry' },
+  { key: 'cty',            label: 'Close To Yellowstone',     property: null          },
   { key: 'caldera',        label: 'Caldera Cottage',          property: 'caldera'     },
-  { key: 'caldera-garage', label: 'Caldera Cottage — Garage', property: 'caldera'     },
-  { key: 'cty',            label: 'Close To Yellowstone',     property: 'dshouse'     }
+  { key: 'caldera-garage', label: 'Caldera Cottage — Garage', property: 'caldera'     }
 ];
 
 // Env-var suffix for a charger key: uppercase, non-alphanumerics to underscore.
@@ -189,14 +194,15 @@ const DEMO_GUESTS = {
   gathering:   ['The Andersons', 'Marcus Lee', 'Priya & Sam', 'The Whitfields'],
   huckleberry: ['Jordan Blake', 'The Nguyen Family', 'Dana Ruiz'],
   caldera:     ['The Petersons', 'Chloe Adams', 'Rob & Kim', 'The Halvorsens'],
-  dshouse:     ['Elena Marsh', 'The Carters', 'Devon Wu']
+  chalets:     ['The Riveras', 'Sam Dalton', 'The Brookes'],
+  cty:         ['Elena Marsh', 'The Carters', 'Devon Wu']
 };
 
 function demoSessions(account, fromDate, toDate, rng) {
   const from = new Date(fromDate + 'T00:00:00');
   const to   = new Date(toDate   + 'T23:59:59');
   const days = Math.max(1, Math.round((to - from) / 86400000));
-  const guests = DEMO_GUESTS[account.property] || ['Guest'];
+  const guests = DEMO_GUESTS[account.property] || DEMO_GUESTS[account.key] || ['Guest'];
   const stations = [account.label];
 
   const sessions = [];

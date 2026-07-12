@@ -85,11 +85,20 @@ exports.handler = async function (event) {
       });
     }
 
-    // 2) Match each session to a guest.
+    // 2) Match each session to a guest. A charger with a property key (or an
+    //    array of them) gets guest names; one with property=null is shown by
+    //    date so the owner bills manually. Demo data always carries names.
+    const matchable = demo ? true : account.property != null;
     let bookings = null;
-    if (!demo) {
-      const pid = PROPERTY_IDS[account.property];
-      bookings = pid ? await fetchBookings(pid, from, to) : null;
+    if (!demo && matchable) {
+      const props = Array.isArray(account.property) ? account.property : [account.property];
+      bookings = [];
+      for (const p of props) {
+        const pid = PROPERTY_IDS[p];
+        if (!pid) continue;
+        const b = await fetchBookings(pid, from, to);
+        if (b) bookings.push(...b);
+      }
     }
 
     const perStation = new Map();
@@ -105,9 +114,11 @@ exports.handler = async function (event) {
       let guestName;
       if (demo) {
         guestName = s._demoGuest || 'Guest';
-      } else {
+      } else if (matchable) {
         const g = guestForSession(s, bookings);
         guestName = g ? g.name : 'Unmatched (owner / gap)';
+      } else {
+        guestName = null; // no cabin link — bill by date
       }
 
       // Per-station rollup
@@ -115,10 +126,12 @@ exports.handler = async function (event) {
       st.kwh += kwh; st.cost += cost; st.sessions += 1;
       perStation.set(s.station, st);
 
-      // Per-guest rollup
-      const gr = perGuest.get(guestName) || { name: guestName, kwh: 0, cost: 0, sessions: 0 };
-      gr.kwh += kwh; gr.cost += cost; gr.sessions += 1;
-      perGuest.set(guestName, gr);
+      // Per-guest rollup (only when we have guest names)
+      if (guestName) {
+        const gr = perGuest.get(guestName) || { name: guestName, kwh: 0, cost: 0, sessions: 0 };
+        gr.kwh += kwh; gr.cost += cost; gr.sessions += 1;
+        perGuest.set(guestName, gr);
+      }
 
       sessionRows.push({
         station: s.station,
@@ -140,6 +153,7 @@ exports.handler = async function (event) {
       key: account.key,
       label: account.label,
       property: account.property,
+      matchable,
       configured: demo ? false : !!cp.accountCreds(account.key),
       totalKwh: round2(totalKwh),
       totalCost: round2(totalKwh * rate),
