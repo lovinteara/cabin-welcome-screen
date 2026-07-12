@@ -46,8 +46,10 @@ function guestForSession(session, bookings) {
   // Same-day turnover: the guest whose stay started latest owns the morning.
   matches.sort((a, b) => (b.arrival || '').localeCompare(a.arrival || ''));
   const b = matches[0];
+  const g = b.guest || {};
+  const fullName = [g.first_name, g.last_name].filter(Boolean).join(' ');
   return {
-    name: (b.guest && (b.guest.full_name || b.guest.name)) || 'Guest',
+    name: fullName || g.full_name || g.name || 'Guest',
     arrival: b.arrival,
     departure: b.departure,
     bookingId: b.id
