@@ -4,9 +4,9 @@
 // charging session matched to the guest who was staying (via OwnerRez), plus a
 // dollar estimate at an owner-set $/kWh rate. Powers charging.html.
 //
-// GET /api/charging?from=YYYY-MM-DD&to=YYYY-MM-DD&rate=0.16
+// GET /api/charging?from=YYYY-MM-DD&to=YYYY-MM-DD&rate=0.20
 //   from/to  date range (defaults to the current calendar month)
-//   rate     $/kWh used for the cost estimate (defaults to CP_RATE or 0.16)
+//   rate     $/kWh used for the cost estimate (defaults to CP_RATE or 0.20)
 //   demo=1   force demo data even if credentials are set
 //
 // Runs in demo mode automatically until ChargePoint credentials are added as

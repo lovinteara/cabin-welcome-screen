@@ -62,7 +62,7 @@ function anyCredsConfigured() {
 // the CP_RATE env var or the ?rate= query param; falls back to a sane default.
 function defaultRate() {
   const r = parseFloat(process.env.CP_RATE || '');
-  return Number.isFinite(r) && r > 0 ? r : 0.16;
+  return Number.isFinite(r) && r > 0 ? r : 0.20;
 }
 
 // ---- Live ChargePoint client -------------------------------------------------
