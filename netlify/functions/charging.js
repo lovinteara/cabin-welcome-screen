@@ -75,11 +75,15 @@ exports.handler = async function (event) {
   for (const account of cp.ACCOUNTS) {
     // 1) Gather sessions (live from ChargePoint, or demo).
     let sessions;
+    let status = demo ? 'demo' : 'ok';
+    let statusDetail = '';
     if (demo) {
       sessions = cp.demoSessions(account, from, to, rng);
     } else {
       const raw = await cp.fetchAccountSessions(account.key, from, to);
-      sessions = raw.filter(s => {
+      status = raw.status;
+      statusDetail = raw.detail || '';
+      sessions = raw.sessions.filter(s => {
         const d = (s.start || '').slice(0, 10);
         return d && d >= from && d <= to;
       });
@@ -154,6 +158,8 @@ exports.handler = async function (event) {
       label: account.label,
       property: account.property,
       matchable,
+      status,
+      statusDetail,
       configured: demo ? false : !!cp.accountCreds(account.key),
       totalKwh: round2(totalKwh),
       totalCost: round2(totalKwh * rate),

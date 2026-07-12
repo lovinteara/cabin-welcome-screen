@@ -86,6 +86,9 @@ async function discoverEndpoints() {
 }
 
 // Log in and return the coulomb_sess session token (used as cp-session-token).
+// Throws AuthError on a bad username/password so callers can report it clearly.
+class AuthError extends Error {}
+
 async function login(endpoints, user, pass) {
   const url = new URL('v1/user/login', endpoints.sso).toString();
   const res = await fetch(url, {
@@ -93,6 +96,9 @@ async function login(endpoints, user, pass) {
     headers: { 'user-agent': USER_AGENT, 'content-type': 'application/json' },
     body: JSON.stringify({ username: user, password: pass })
   });
+  if (res.status === 401 || res.status === 403) {
+    throw new AuthError(`sign-in rejected (${res.status})`);
+  }
   if (!res.ok) throw new Error(`login ${res.status}`);
 
   // Token arrives as the `coulomb_sess` cookie and/or in the JSON body.
@@ -104,7 +110,7 @@ async function login(endpoints, user, pass) {
     const body = await res.json().catch(() => ({}));
     token = body.sessionId || body.session_id || body.token || null;
   }
-  if (!token) throw new Error('login: no session token returned');
+  if (!token) throw new AuthError('sign-in returned no session token');
   return token;
 }
 
@@ -126,8 +132,8 @@ async function fetchActivity(endpoints, token, fromDate, toDate) {
     body: JSON.stringify({ from_date: fromDate, to_date: toDate })
   });
   if (!res.ok) {
-    console.error('ChargePoint activity error:', res.status, (await res.text()).slice(0, 300));
-    return [];
+    const snippet = (await res.text()).slice(0, 120).replace(/\s+/g, ' ');
+    throw new Error(`history ${res.status}: ${snippet}`);
   }
   const data = await res.json().catch(() => null);
   if (!data) return [];
@@ -167,16 +173,23 @@ function toIso(v) {
 }
 
 // Fetch normalized sessions for one account, logging in first.
+// Returns { sessions, status, detail } where status is one of:
+//   'ok'           logged in and pulled activity (sessions may still be empty)
+//   'unconfigured' no username/password set for this charger
+//   'auth_failed'  ChargePoint rejected the username/password
+//   'error'        something else went wrong reaching ChargePoint
 async function fetchAccountSessions(key, fromDate, toDate) {
   const creds = accountCreds(key);
-  if (!creds) return [];
+  if (!creds) return { sessions: [], status: 'unconfigured', detail: 'No login set' };
   try {
     const endpoints = await discoverEndpoints();
     const token = await login(endpoints, creds.user, creds.pass);
-    return await fetchActivity(endpoints, token, fromDate, toDate);
+    const sessions = await fetchActivity(endpoints, token, fromDate, toDate);
+    return { sessions, status: 'ok', detail: `${sessions.length} session(s)` };
   } catch (e) {
-    console.error(`ChargePoint account "${key}" failed:`, e.message);
-    return [];
+    const status = e instanceof AuthError ? 'auth_failed' : 'error';
+    console.error(`ChargePoint account "${key}" ${status}:`, e.message);
+    return { sessions: [], status, detail: e.message };
   }
 }
 
