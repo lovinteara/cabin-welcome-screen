@@ -118,6 +118,11 @@
   .sessions.open{display:block}
   .sessions td,.sessions th{font-size:12px}
   .none{color:var(--ink-dim);font-style:italic;padding-top:12px;font-size:13px}
+  .note-link{color:var(--ink-dim);font-size:12px;margin-top:12px;font-style:italic}
+  .stat{font-size:13px;padding-top:12px;line-height:1.5}
+  .stat.s-green{color:var(--green)}
+  .stat.s-red{color:var(--red)}
+  .stat.s-grey{color:var(--ink-dim)}
   .loading{color:var(--ink-dim);font-style:italic;padding:30px 0}
   footer{margin-top:34px;font-size:12px;color:var(--grey);line-height:1.7;
     border-top:1px solid var(--panel-edge);padding-top:16px}
@@ -253,10 +258,34 @@
         <tr>
           <td>${fmtWhen(s.start)}</td>
           <td>${esc(s.station)}</td>
-          <td>${esc(s.guest)}</td>
+          <td>${s.guest ? esc(s.guest) : '—'}</td>
           <td class="num">${fmtKwh(s.kwh)}</td>
           <td class="num amt">${fmt$(s.cost)}</td>
         </tr>`).join('');
+
+      // Chargers linked to a cabin get a per-guest breakdown; those without a
+      // cabin link (e.g. Chalets, Close To Yellowstone) are shown by date.
+      const byGuest = `
+        <table>
+          <thead><tr><th>Guest</th><th class="num">kWh</th><th class="num">Sessions</th><th class="num">Amount</th><th></th></tr></thead>
+          <tbody>${guestRows}</tbody>
+        </table>
+        <button class="toggle">▸ Show ${c.sessionCount} individual session${c.sessionCount===1?'':'s'}</button>
+        <div class="sessions">
+          <table>
+            <thead><tr><th>When</th><th>Charger</th><th>Guest</th><th class="num">kWh</th><th class="num">Amount</th></tr></thead>
+            <tbody>${sessionRows}</tbody>
+          </table>
+        </div>`;
+
+      const byDate = `
+        <div class="note-link">Not linked to a single cabin — bill by the dates below.</div>
+        <table>
+          <thead><tr><th>When</th><th class="num">kWh</th><th class="num">Amount</th></tr></thead>
+          <tbody>${c.sessions.map(s=>`
+            <tr><td>${fmtWhen(s.start)}</td><td class="num">${fmtKwh(s.kwh)}</td><td class="num amt">${fmt$(s.cost)}</td></tr>
+          `).join('')}</tbody>
+        </table>`;
 
       card.innerHTML = `
         <div class="card-head">
@@ -264,18 +293,8 @@
           <div class="card-tot"><b>${fmtKwh(c.totalKwh)}</b> kWh · <span class="amt">${fmt$(c.totalCost)}</span> · ${c.sessionCount} session${c.sessionCount===1?'':'s'}</div>
         </div>
         ${ c.sessionCount===0
-            ? '<div class="none">No charging in this date range.</div>'
-            : `<table>
-                <thead><tr><th>Guest</th><th class="num">kWh</th><th class="num">Sessions</th><th class="num">Amount</th><th></th></tr></thead>
-                <tbody>${guestRows}</tbody>
-               </table>
-               <button class="toggle">▸ Show ${c.sessionCount} individual session${c.sessionCount===1?'':'s'}</button>
-               <div class="sessions">
-                 <table>
-                   <thead><tr><th>When</th><th>Charger</th><th>Guest</th><th class="num">kWh</th><th class="num">Amount</th></tr></thead>
-                   <tbody>${sessionRows}</tbody>
-                 </table>
-               </div>`
+            ? statusNote(c)
+            : (c.matchable ? byGuest : byDate)
         }`;
       grid.appendChild(card);
     });
@@ -302,6 +321,18 @@
       `to the guest staying that night (via OwnerRez), then estimates the bill at your $/kWh rate. `+
       `${data.demo?'<b>Currently showing sample data.</b> ':''}`+
       `Range: ${data.from} → ${data.to}. Energy is measured; the dollar figure is an estimate you set the rate for.`;
+  }
+
+  // Friendly zero-session message that explains *why* there's nothing.
+  function statusNote(c){
+    if(c.status==='unconfigured')
+      return '<div class="stat s-grey">No login added for this charger yet — add it in Netlify to see usage.</div>';
+    if(c.status==='auth_failed')
+      return '<div class="stat s-red">ChargePoint sign-in failed — double-check this charger\'s username &amp; password in Netlify.</div>';
+    if(c.status==='error')
+      return '<div class="stat s-red">Couldn\'t reach ChargePoint'+(c.statusDetail?' ('+esc(c.statusDetail)+')':'')+'. It\'ll retry — if it sticks, tell me.</div>';
+    // status ok (or demo) with no sessions
+    return '<div class="stat s-green">Connected ✓ — no charging in this date range. Try a wider range like “Year to date”.</div>';
   }
 
   function billLine(c,g,data){

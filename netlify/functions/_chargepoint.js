@@ -20,18 +20,23 @@ const DISCOVERY_URL = 'https://discovery.chargepoint.com/discovery/v3/globalconf
 const USER_AGENT    = 'cabin-charging-dashboard/1.0';
 
 // One entry per ChargePoint login (each charger has its own account).
-// `property` ties a charger to the OwnerRez property so we can match each
-// charging session to the guest who was staying. Caldera has two chargers —
-// the cottage and the garage — under two separate logins; both map to the
+// `property` ties a charger to the OwnerRez property so each charging session
+// can be matched to the guest who was staying. It may be:
+//   - a property key (e.g. 'huckleberry')  -> match that cabin's guests
+//   - an array of keys                      -> match across several cabins
+//   - null                                  -> no cabin link; show sessions by
+//                                              date so the owner bills manually
+// Caldera has two chargers (cottage + garage) under two logins; both map to the
 // caldera property so both bill against Caldera's guests.
 //
-// Edit the labels/property keys here during go-live to match your real setup.
+// Edit the labels/property keys here to match your real setup.
 const ACCOUNTS = [
   { key: 'gathering',      label: 'The Gathering Place',      property: 'gathering'   },
+  { key: 'chalets',        label: 'Chalets',                  property: null          },
   { key: 'huckleberry',    label: 'Huckleberry Hut',          property: 'huckleberry' },
+  { key: 'cty',            label: 'Close To Yellowstone',     property: null          },
   { key: 'caldera',        label: 'Caldera Cottage',          property: 'caldera'     },
-  { key: 'caldera-garage', label: 'Caldera Cottage — Garage', property: 'caldera'     },
-  { key: 'cty',            label: 'Close To Yellowstone',     property: 'dshouse'     }
+  { key: 'caldera-garage', label: 'Caldera Cottage — Garage', property: 'caldera'     }
 ];
 
 // Env-var suffix for a charger key: uppercase, non-alphanumerics to underscore.
@@ -81,6 +86,9 @@ async function discoverEndpoints() {
 }
 
 // Log in and return the coulomb_sess session token (used as cp-session-token).
+// Throws AuthError on a bad username/password so callers can report it clearly.
+class AuthError extends Error {}
+
 async function login(endpoints, user, pass) {
   const url = new URL('v1/user/login', endpoints.sso).toString();
   const res = await fetch(url, {
@@ -88,6 +96,9 @@ async function login(endpoints, user, pass) {
     headers: { 'user-agent': USER_AGENT, 'content-type': 'application/json' },
     body: JSON.stringify({ username: user, password: pass })
   });
+  if (res.status === 401 || res.status === 403) {
+    throw new AuthError(`sign-in rejected (${res.status})`);
+  }
   if (!res.ok) throw new Error(`login ${res.status}`);
 
   // Token arrives as the `coulomb_sess` cookie and/or in the JSON body.
@@ -99,7 +110,7 @@ async function login(endpoints, user, pass) {
     const body = await res.json().catch(() => ({}));
     token = body.sessionId || body.session_id || body.token || null;
   }
-  if (!token) throw new Error('login: no session token returned');
+  if (!token) throw new AuthError('sign-in returned no session token');
   return token;
 }
 
@@ -121,8 +132,8 @@ async function fetchActivity(endpoints, token, fromDate, toDate) {
     body: JSON.stringify({ from_date: fromDate, to_date: toDate })
   });
   if (!res.ok) {
-    console.error('ChargePoint activity error:', res.status, (await res.text()).slice(0, 300));
-    return [];
+    const snippet = (await res.text()).slice(0, 120).replace(/\s+/g, ' ');
+    throw new Error(`history ${res.status}: ${snippet}`);
   }
   const data = await res.json().catch(() => null);
   if (!data) return [];
@@ -162,16 +173,23 @@ function toIso(v) {
 }
 
 // Fetch normalized sessions for one account, logging in first.
+// Returns { sessions, status, detail } where status is one of:
+//   'ok'           logged in and pulled activity (sessions may still be empty)
+//   'unconfigured' no username/password set for this charger
+//   'auth_failed'  ChargePoint rejected the username/password
+//   'error'        something else went wrong reaching ChargePoint
 async function fetchAccountSessions(key, fromDate, toDate) {
   const creds = accountCreds(key);
-  if (!creds) return [];
+  if (!creds) return { sessions: [], status: 'unconfigured', detail: 'No login set' };
   try {
     const endpoints = await discoverEndpoints();
     const token = await login(endpoints, creds.user, creds.pass);
-    return await fetchActivity(endpoints, token, fromDate, toDate);
+    const sessions = await fetchActivity(endpoints, token, fromDate, toDate);
+    return { sessions, status: 'ok', detail: `${sessions.length} session(s)` };
   } catch (e) {
-    console.error(`ChargePoint account "${key}" failed:`, e.message);
-    return [];
+    const status = e instanceof AuthError ? 'auth_failed' : 'error';
+    console.error(`ChargePoint account "${key}" ${status}:`, e.message);
+    return { sessions: [], status, detail: e.message };
   }
 }
 
@@ -189,14 +207,15 @@ const DEMO_GUESTS = {
   gathering:   ['The Andersons', 'Marcus Lee', 'Priya & Sam', 'The Whitfields'],
   huckleberry: ['Jordan Blake', 'The Nguyen Family', 'Dana Ruiz'],
   caldera:     ['The Petersons', 'Chloe Adams', 'Rob & Kim', 'The Halvorsens'],
-  dshouse:     ['Elena Marsh', 'The Carters', 'Devon Wu']
+  chalets:     ['The Riveras', 'Sam Dalton', 'The Brookes'],
+  cty:         ['Elena Marsh', 'The Carters', 'Devon Wu']
 };
 
 function demoSessions(account, fromDate, toDate, rng) {
   const from = new Date(fromDate + 'T00:00:00');
   const to   = new Date(toDate   + 'T23:59:59');
   const days = Math.max(1, Math.round((to - from) / 86400000));
-  const guests = DEMO_GUESTS[account.property] || ['Guest'];
+  const guests = DEMO_GUESTS[account.property] || DEMO_GUESTS[account.key] || ['Guest'];
   const stations = [account.label];
 
   const sessions = [];

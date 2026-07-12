@@ -45,17 +45,24 @@ Netlify's encrypted environment variables.
 2. Add a **username** and **password** pair for each cabin's ChargePoint account,
    using these exact names:
 
-   | Charger | Username variable | Password variable |
-   |---------|-------------------|-------------------|
-   | The Gathering Place | `CP_GATHERING_USER` | `CP_GATHERING_PASS` |
-   | Huckleberry Hut | `CP_HUCKLEBERRY_USER` | `CP_HUCKLEBERRY_PASS` |
-   | Caldera Cottage | `CP_CALDERA_USER` | `CP_CALDERA_PASS` |
-   | Caldera Cottage — Garage | `CP_CALDERA_GARAGE_USER` | `CP_CALDERA_GARAGE_PASS` |
-   | Close To Yellowstone | `CP_CTY_USER` | `CP_CTY_PASS` |
+   | Charger | Username variable | Password variable | Guest matching |
+   |---------|-------------------|-------------------|----------------|
+   | The Gathering Place | `CP_GATHERING_USER` | `CP_GATHERING_PASS` | The Gathering Place guests |
+   | Chalets | `CP_CHALETS_USER` | `CP_CHALETS_PASS` | by date (not linked to one cabin) |
+   | Huckleberry Hut | `CP_HUCKLEBERRY_USER` | `CP_HUCKLEBERRY_PASS` | Huckleberry Hut guests |
+   | Close To Yellowstone | `CP_CTY_USER` | `CP_CTY_PASS` | by date (not linked to one cabin) |
+   | Caldera Cottage | `CP_CALDERA_USER` | `CP_CALDERA_PASS` | Caldera guests |
+   | Caldera Cottage — Garage | `CP_CALDERA_GARAGE_USER` | `CP_CALDERA_GARAGE_PASS` | Caldera guests |
 
    Caldera has two separate logins — the cottage charger and the garage charger.
    Both show as their own line on the dashboard and both bill against Caldera's
    guests.
+
+   **Guest matching:** chargers tied to one cabin automatically show which guest
+   was staying when they charged. **Chalets** and **Close To Yellowstone** aren't
+   tied to a single bookable cabin, so those cards list each session **by date**
+   and you bill whoever was staying. If either one is actually used by a specific
+   cabin's guests, tell me the cabin and I'll switch on automatic guest names.
 
 3. *(Optional)* Set a default billing rate with `CP_RATE` (e.g. `0.16`). You can
    also change the rate right on the dashboard anytime.
