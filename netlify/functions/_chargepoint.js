@@ -68,27 +68,46 @@ function defaultRate() {
 
 // ---- Live ChargePoint client -------------------------------------------------
 
+// ChargePoint's standard US endpoints — used as a fallback if discovery fails.
+const DEFAULT_ENDPOINTS = {
+  sso:      'https://sso.chargepoint.com/',
+  portal:   'https://account.chargepoint.com/',
+  accounts: 'https://account.chargepoint.com/',
+  region:   'NA-US'
+};
+
 async function discoverEndpoints(username) {
   // Discovery is a POST with the username — ChargePoint returns the correct
-  // regional endpoints for that account. (A GET here gets a 405.)
-  const res = await fetch(DISCOVERY_URL, {
-    method: 'POST',
-    headers: {
-      'user-agent': USER_AGENT,
-      'content-type': 'application/json',
-      'accept': 'application/json'
-    },
-    body: JSON.stringify({ username })
-  });
-  if (!res.ok) throw new Error(`discovery ${res.status}`);
-  const cfg = await res.json();
-  const ep = (cfg && (cfg.endpoints || cfg)) || {};
-  const str = v => (typeof v === 'string' ? v : (v && (v.value || v.url)) || '');
-  return {
-    sso:      str(ep.sso_endpoint)           || 'https://sso.chargepoint.com/',
-    portal:   str(ep.portal_domain_endpoint) || 'https://account.chargepoint.com/',
-    accounts: str(ep.accounts_endpoint)      || 'https://account.chargepoint.com/'
-  };
+  // regional endpoints for that account. This is best-effort: if it fails we
+  // fall back to the standard endpoints and still attempt to log in, so a
+  // flaky discovery step never blocks everything.
+  try {
+    const res = await fetch(DISCOVERY_URL, {
+      method: 'POST',
+      headers: {
+        'user-agent': USER_AGENT,
+        'content-type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: JSON.stringify({ username })
+    });
+    if (!res.ok) {
+      console.error('ChargePoint discovery', res.status, (await res.text()).slice(0, 200));
+      return DEFAULT_ENDPOINTS;
+    }
+    const cfg = await res.json();
+    const ep = (cfg && (cfg.endpoints || cfg)) || {};
+    const str = v => (typeof v === 'string' ? v : (v && (v.value || v.url)) || '');
+    return {
+      sso:      str(ep.sso_endpoint)           || DEFAULT_ENDPOINTS.sso,
+      portal:   str(ep.portal_domain_endpoint) || DEFAULT_ENDPOINTS.portal,
+      accounts: str(ep.accounts_endpoint)      || DEFAULT_ENDPOINTS.accounts,
+      region:   (cfg && cfg.region) || DEFAULT_ENDPOINTS.region
+    };
+  } catch (e) {
+    console.error('ChargePoint discovery exception:', e.message);
+    return DEFAULT_ENDPOINTS;
+  }
 }
 
 // Log in and return the coulomb_sess session token (used as cp-session-token).
@@ -103,9 +122,12 @@ async function login(endpoints, user, pass) {
     body: JSON.stringify({ username: user, password: pass })
   });
   if (res.status === 401 || res.status === 403) {
-    throw new AuthError(`sign-in rejected (${res.status})`);
+    throw new AuthError(`sign-in rejected (${res.status}) — check username/password`);
   }
-  if (!res.ok) throw new Error(`login ${res.status}`);
+  if (!res.ok) {
+    const snippet = (await res.text()).slice(0, 140).replace(/\s+/g, ' ');
+    throw new Error(`login ${res.status}: ${snippet}`);
+  }
 
   // Token arrives as the `coulomb_sess` cookie and/or in the JSON body.
   let token = null;
@@ -133,6 +155,7 @@ async function fetchActivity(endpoints, token, fromDate, toDate) {
       'content-type': 'application/json',
       'cp-session-type': 'CP_SESSION_TOKEN',
       'cp-session-token': token,
+      'cp-region': endpoints.region || 'NA-US',
       'cookie': `coulomb_sess=${token}`
     },
     body: JSON.stringify({ from_date: fromDate, to_date: toDate })
