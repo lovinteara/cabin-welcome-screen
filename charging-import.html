@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Import Charging Statement</title>
+<style>
+  :root{
+    --bg:#14110d; --panel:#1e1a14; --panel-edge:#322b21;
+    --ink:#f3ece0; --ink-dim:#a89d8a; --gold:#e3a008;
+    --green:#5fb878; --amber:#e0a030; --grey:#6b6256; --red:#d9694e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Iowan Old Style",Georgia,"Times New Roman",serif;
+    -webkit-font-smoothing:antialiased;padding:28px 18px 60px;}
+  .wrap{max-width:760px;margin:0 auto}
+  header{border-bottom:1px solid var(--panel-edge);padding-bottom:16px;margin-bottom:20px;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  h1{font-size:24px;font-weight:600;margin:0}
+  h1 .sub{display:block;font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:400}
+  a.back{color:var(--gold);text-decoration:none;font-size:13px}
+  a.back:hover{text-decoration:underline}
+  .how{background:var(--panel);border:1px solid var(--panel-edge);border-radius:10px;
+    padding:14px 18px;margin-bottom:22px;font-size:14px;line-height:1.6;color:var(--ink-dim)}
+  .how b{color:var(--ink)}
+  .how ol{margin:8px 0 0;padding-left:20px}
+  .card{background:var(--panel);border:1px solid var(--panel-edge);border-radius:10px;
+    padding:18px;margin-bottom:20px}
+  label{display:block;font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--ink-dim);margin:0 0 6px}
+  .row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .row > div{flex:1;min-width:150px}
+  select,input,textarea{font:inherit;font-size:15px;width:100%;background:#0f0c08;color:var(--ink);
+    border:1px solid var(--panel-edge);border-radius:6px;padding:10px 12px}
+  textarea{min-height:170px;resize:vertical;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.5}
+  .chk{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-dim);margin-bottom:16px}
+  .chk input{width:auto}
+  button{font:inherit;font-size:15px;background:var(--gold);color:#1a1206;border:none;border-radius:7px;
+    padding:12px 22px;cursor:pointer;font-weight:600;letter-spacing:.3px}
+  button:disabled{opacity:.5;cursor:default}
+  .msg{margin-top:14px;font-size:14px;line-height:1.5;display:none}
+  .msg.show{display:block}
+  .msg.ok{color:var(--green)} .msg.err{color:var(--red)}
+  .status{margin-top:6px}
+  .srow{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid rgba(50,43,33,.6);font-size:14px}
+  .srow:last-child{border-bottom:none}
+  .srow .n{color:var(--ink-dim);font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  .srow .has{color:var(--green)} .srow .none{color:var(--grey)}
+  h2{font-size:15px;font-weight:600;margin:0 0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="sub">Visit Island Park · EV Charging</span>Import a Statement</h1>
+    <a class="back" href="charging.html">← Back to dashboard</a>
+  </header>
+
+  <div class="how">
+    <b>How to get the numbers in:</b>
+    <ol>
+      <li>In the ChargePoint app or website, open <b>Activity → Monthly Statement</b> for a charger.</li>
+      <li>Select the month, then <b>select &amp; copy</b> the whole statement (the rows with dates and kWh).</li>
+      <li>Pick that charger below, choose the year, <b>paste</b>, and tap Import.</li>
+    </ol>
+    Do this once per charger per month. New sessions add on; duplicates are skipped automatically.
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label for="charger">Charger</label>
+        <select id="charger"></select>
+      </div>
+      <div style="max-width:130px;flex:0 0 130px">
+        <label for="year">Statement year</label>
+        <input type="number" id="year" min="2020" max="2030" step="1"/>
+      </div>
+    </div>
+    <label for="text">Paste the statement here</label>
+    <textarea id="text" placeholder="7/11   3333 Lupine Dr   Island Park   CP HOME   AC   3h 14m 19s   17.832 kWh&#10;7/10   3333 Lupine Dr   Island Park   CP HOME   AC   23h 12s        66.143 kWh&#10;..."></textarea>
+    <div class="chk" style="margin-top:12px">
+      <input type="checkbox" id="replace"/>
+      <label for="replace" style="margin:0;text-transform:none;letter-spacing:0;font-family:inherit;font-size:13px;color:var(--ink-dim)">Replace this charger's data instead of adding to it</label>
+    </div>
+    <button id="go">Import</button>
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <div class="card">
+    <h2>What's imported so far</h2>
+    <div class="status" id="status"><div class="srow"><span class="none">Loading…</span></div></div>
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+  async function loadStatus(){
+    try{
+      const res = await fetch('/api/charging-import');
+      const data = await res.json();
+      const sel = $('charger');
+      // populate dropdown once
+      if(!sel.options.length){
+        data.chargers.forEach(c=>{
+          const o = document.createElement('option');
+          o.value = c.key; o.textContent = c.label;
+          sel.appendChild(o);
+        });
+      }
+      $('status').innerHTML = data.chargers.map(c=>`
+        <div class="srow">
+          <span>${esc(c.label)}</span>
+          <span class="n ${c.count?'has':'none'}">${c.count?`${c.count} session${c.count===1?'':'s'} · latest ${esc(c.latest||'')}`:'nothing yet'}</span>
+        </div>`).join('');
+    }catch(e){
+      $('status').innerHTML = '<div class="srow"><span class="none">Couldn\'t load status.</span></div>';
+    }
+  }
+
+  async function doImport(){
+    const msg = $('msg');
+    msg.className = 'msg';
+    const charger = $('charger').value;
+    const year = $('year').value;
+    const text = $('text').value;
+    if(!text.trim()){ msg.textContent='Paste the statement text first.'; msg.className='msg err show'; return; }
+    $('go').disabled = true; $('go').textContent = 'Importing…';
+    try{
+      const res = await fetch('/api/charging-import',{
+        method:'POST', headers:{'content-type':'application/json'},
+        body: JSON.stringify({ charger, year, text, replace: $('replace').checked })
+      });
+      const d = await res.json();
+      if(d.ok){
+        msg.className='msg ok show';
+        msg.textContent = `Imported ✓ Found ${d.parsed} session${d.parsed===1?'':'s'}, added ${d.added} new. This charger now has ${d.total} total (${d.totalKwh} kWh). Open the dashboard to see it.`;
+        $('text').value='';
+        loadStatus();
+      }else{
+        msg.className='msg err show';
+        msg.textContent = d.message || d.error || 'Nothing was imported.';
+      }
+    }catch(e){
+      msg.className='msg err show'; msg.textContent='Something went wrong. Try again.';
+    }
+    $('go').disabled=false; $('go').textContent='Import';
+  }
+
+  $('year').value = new Date().getFullYear();
+  $('go').addEventListener('click', doImport);
+  loadStatus();
+</script>
+</body>
+</html>

@@ -123,6 +123,8 @@
   .stat.s-green{color:var(--green)}
   .stat.s-red{color:var(--red)}
   .stat.s-grey{color:var(--ink-dim)}
+  .ilink{color:var(--gold);text-decoration:none;font-size:13px;border-bottom:1px solid transparent}
+  .ilink:hover{border-bottom-color:var(--gold)}
   .loading{color:var(--ink-dim);font-style:italic;padding:30px 0}
   footer{margin-top:34px;font-size:12px;color:var(--grey);line-height:1.7;
     border-top:1px solid var(--panel-edge);padding-top:16px}
@@ -137,7 +139,10 @@
 <div class="wrap">
   <header>
     <h1><span class="sub">Visit Island Park · EV Charging</span>Charging Dashboard</h1>
-    <span class="updated" id="updated"></span>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <a class="ilink" href="charging-import.html">＋ Import statement</a>
+      <span class="updated" id="updated"></span>
+    </div>
   </header>
 
   <div class="controls">
@@ -325,14 +330,10 @@
 
   // Friendly zero-session message that explains *why* there's nothing.
   function statusNote(c){
-    if(c.status==='unconfigured')
-      return '<div class="stat s-grey">No login added for this charger yet — add it in Netlify to see usage.</div>';
-    if(c.status==='auth_failed')
-      return '<div class="stat s-red">ChargePoint sign-in failed — double-check this charger\'s username &amp; password in Netlify.</div>';
-    if(c.status==='error')
-      return '<div class="stat s-red">Couldn\'t reach ChargePoint'+(c.statusDetail?' ('+esc(c.statusDetail)+')':'')+'. It\'ll retry — if it sticks, tell me.</div>';
-    // status ok (or demo) with no sessions
-    return '<div class="stat s-green">Connected ✓ — no charging in this date range. Try a wider range like “Year to date”.</div>';
+    if(c.status==='no_import')
+      return '<div class="stat s-grey">No statement imported yet for this charger — tap <a class="ilink" href="charging-import.html">Import statement</a> to add its usage.</div>';
+    // status ok (or demo) with no sessions in this range
+    return '<div class="stat s-green">No charging in this date range. Try a wider range like “Year to date”.</div>';
   }
 
   function billLine(c,g,data){
