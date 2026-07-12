@@ -14,7 +14,7 @@
 
 // Bump BUILD whenever this function changes so the dashboard can show which
 // version is actually deployed (handy for confirming a deploy went live).
-const BUILD = 'v6-login-fallback';
+const BUILD = 'v7-debug-probe';
 
 const cp = require('./_chargepoint');
 const {
@@ -63,6 +63,30 @@ exports.handler = async function (event) {
   };
 
   const q = event.queryStringParameters || {};
+
+  // Safe one-time diagnostic: /api/charging?debug=1 probes the discovery
+  // endpoint for the first configured charger (username only, no password) so
+  // we can see which request ChargePoint accepts. Remove once connected.
+  if (q.debug === '1') {
+    const acct = cp.ACCOUNTS.find(a => cp.accountCreds(a.key));
+    if (!acct) {
+      return { statusCode: 200, headers, body: JSON.stringify({ debug: true, note: 'No charger login configured yet.' }) };
+    }
+    const creds = cp.accountCreds(acct.key);
+    const probes = await cp.probeDiscovery(creds.user);
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        debug: true,
+        build: BUILD,
+        account: acct.key,
+        userMasked: creds.user.slice(0, 3) + '***' + creds.user.slice(-2),
+        probes
+      }, null, 2)
+    };
+  }
+
   const { first, last } = monthBoundsDenver();
   const from = /^\d{4}-\d{2}-\d{2}$/.test(q.from || '') ? q.from : first;
   const to   = /^\d{4}-\d{2}-\d{2}$/.test(q.to   || '') ? q.to   : last;

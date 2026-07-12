@@ -222,6 +222,44 @@ async function fetchAccountSessions(key, fromDate, toDate) {
   }
 }
 
+// ---- Diagnostics -------------------------------------------------------------
+
+// Probe the discovery endpoint several ways to find which the server accepts.
+// Uses ONLY the username (never the password), so it can't affect the account.
+// On a 200 it also reports the sso/login endpoint ChargePoint hands back.
+async function probeDiscovery(username) {
+  const variants = [
+    { name: 'A-default',    ua: USER_AGENT },
+    { name: 'B-lib-ua',     ua: 'python_chargepoint/1.5.2' },
+    { name: 'C-ios-app',    ua: 'ChargePoint/230 CFNetwork/1410.0.3 Darwin/22.6.0' },
+    { name: 'D-browser',    ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1' }
+  ];
+  const out = [];
+  for (const v of variants) {
+    try {
+      const res = await fetch(DISCOVERY_URL, {
+        method: 'POST',
+        headers: { 'user-agent': v.ua, 'content-type': 'application/json' },
+        body: JSON.stringify({ username })
+      });
+      const raw = await res.text();
+      let sso = null;
+      if (res.ok) {
+        try {
+          const cfg = JSON.parse(raw);
+          const ep = (cfg && (cfg.endpoints || cfg)) || {};
+          const str = x => (typeof x === 'string' ? x : (x && (x.value || x.url)) || '');
+          sso = str(ep.sso_endpoint) || null;
+        } catch (_) { /* leave sso null */ }
+      }
+      out.push({ variant: v.name, status: res.status, sso, body: raw.slice(0, 160).replace(/\s+/g, ' ') });
+    } catch (e) {
+      out.push({ variant: v.name, error: e.message });
+    }
+  }
+  return out;
+}
+
 // ---- Demo data ---------------------------------------------------------------
 
 // Deterministic pseudo-random so the demo looks stable across reloads for a
@@ -277,6 +315,7 @@ module.exports = {
   anyCredsConfigured,
   defaultRate,
   fetchAccountSessions,
+  probeDiscovery,
   demoSessions,
   seeded
 };
