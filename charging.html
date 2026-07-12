@@ -165,7 +165,7 @@
     </div>
     <div class="field">
       <label for="rate">Rate $/kWh</label>
-      <input type="number" id="rate" step="0.01" min="0" value="0.16"/>
+      <input type="number" id="rate" step="0.01" min="0" value="0.20"/>
     </div>
     <button id="run">Update</button>
   </div>
@@ -216,7 +216,7 @@
   async function load(){
     $('grid').innerHTML = '<div class="loading">Loading charging data…</div>';
     $('tiles').innerHTML = ''; $('banner').innerHTML = '';
-    const params = new URLSearchParams({from:fromEl.value, to:toEl.value, rate:rateEl.value||'0.16'});
+    const params = new URLSearchParams({from:fromEl.value, to:toEl.value, rate:rateEl.value||'0.20'});
     let data;
     try{
       const res = await fetch('/api/charging?'+params.toString());
