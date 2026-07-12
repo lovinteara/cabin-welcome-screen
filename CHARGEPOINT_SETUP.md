@@ -4,6 +4,22 @@ A dashboard to see how much electricity each cabin's ChargePoint charger used,
 which guest was staying when they charged, and a dollar estimate so you can bill
 them for it. So you're not paying for guests' fuel.
 
+> **How data gets in (important):** ChargePoint has no official API for home
+> chargers and blocks automated logins from a server, so the dashboard can't log
+> into ChargePoint for you. Instead you **paste the monthly statement** into the
+> importer and it fills the dashboard with real numbers.
+>
+> - **Import page:** https://cabin-welcome-screen.netlify.app/charging-import.html
+>   (linked from the dashboard as **＋ Import statement**)
+> - In ChargePoint → **Activity → Monthly Statement**, copy the rows (dates +
+>   kWh), pick the charger, choose the year, paste, and Import. Do it once per
+>   charger per month; duplicates are skipped automatically.
+>
+> The guest-matching and billing all still work — they run on the imported
+> sessions. The `CP_*_USER` / `CP_*_PASS` variables below are no longer used and
+> can be deleted. The `OWNERREZ_*` variables are still needed for guest matching,
+> and `CP_RATE` still sets the default $/kWh.
+
 - **Dashboard:** https://cabin-welcome-screen.netlify.app/charging.html
   (also linked from the Admin page under **Tools → ⚡ EV Charging**)
 - **Data source:** `/api/charging` (Netlify function `charging.js`)

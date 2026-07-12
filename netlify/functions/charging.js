@@ -14,9 +14,10 @@
 
 // Bump BUILD whenever this function changes so the dashboard can show which
 // version is actually deployed (handy for confirming a deploy went live).
-const BUILD = 'v8-debug-shapes';
+const BUILD = 'v9-import';
 
 const cp = require('./_chargepoint');
+const { getImportedSessions } = require('./_store');
 const {
   PROPERTY_IDS,
   fetchBookings,
@@ -98,26 +99,30 @@ exports.handler = async function (event) {
     return Number.isFinite(r) && r > 0 ? r : cp.defaultRate();
   })();
 
-  const demo = q.demo === '1' || !cp.anyCredsConfigured();
+  // Real data now comes from imported ChargePoint statements (stored in Blobs),
+  // since ChargePoint blocks automated logins from a server. Demo only on
+  // explicit ?demo=1.
+  const demo = q.demo === '1';
 
   const rng = cp.seeded(hashRange(from, to));
 
   const chargers = [];
   for (const account of cp.ACCOUNTS) {
-    // 1) Gather sessions (live from ChargePoint, or demo).
+    // 1) Gather sessions — imported ChargePoint statement data (or demo).
     let sessions;
     let status = demo ? 'demo' : 'ok';
     let statusDetail = '';
     if (demo) {
       sessions = cp.demoSessions(account, from, to, rng);
     } else {
-      const raw = await cp.fetchAccountSessions(account.key, from, to);
-      status = raw.status;
-      statusDetail = raw.detail || '';
-      sessions = raw.sessions.filter(s => {
-        const d = (s.start || '').slice(0, 10);
-        return d && d >= from && d <= to;
-      });
+      const all = await getImportedSessions(event, account.key);
+      status = all.length ? 'ok' : 'no_import';
+      sessions = all
+        .filter(s => {
+          const d = (s.start || '').slice(0, 10);
+          return d && d >= from && d <= to;
+        })
+        .map(s => ({ ...s, station: s.station || account.label }));
     }
 
     // 2) Match each session to a guest. A charger with a property key (or an
