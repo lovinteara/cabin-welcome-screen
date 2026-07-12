@@ -14,7 +14,7 @@
 
 // Bump BUILD whenever this function changes so the dashboard can show which
 // version is actually deployed (handy for confirming a deploy went live).
-const BUILD = 'v5-discovery-post';
+const BUILD = 'v6-login-fallback';
 
 const cp = require('./_chargepoint');
 const {
