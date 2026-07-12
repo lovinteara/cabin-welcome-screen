@@ -32,7 +32,7 @@ const USER_AGENT    = 'cabin-charging-dashboard/1.0';
 // Edit the labels/property keys here to match your real setup.
 const ACCOUNTS = [
   { key: 'gathering',      label: 'The Gathering Place',      property: 'gathering'   },
-  { key: 'chalets',        label: 'Chalets',                  property: null          },
+  { key: 'chalets',        label: 'Chalets',                  property: ['little-chalet', 'big-chalet'] },
   { key: 'huckleberry',    label: 'Huckleberry Hut',          property: 'huckleberry' },
   { key: 'caldera',        label: 'Caldera Cottage',          property: 'caldera'     },
   { key: 'caldera-garage', label: 'Caldera Cottage — Garage', property: 'caldera'     }
