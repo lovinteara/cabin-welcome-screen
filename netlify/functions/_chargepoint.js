@@ -224,38 +224,71 @@ async function fetchAccountSessions(key, fromDate, toDate) {
 
 // ---- Diagnostics -------------------------------------------------------------
 
-// Probe the discovery endpoint several ways to find which the server accepts.
-// Uses ONLY the username (never the password), so it can't affect the account.
-// On a 200 it also reports the sso/login endpoint ChargePoint hands back.
+function extractSso(raw) {
+  try {
+    const cfg = JSON.parse(raw);
+    const ep = (cfg && (cfg.endpoints || cfg)) || {};
+    const str = x => (typeof x === 'string' ? x : (x && (x.value || x.url)) || '');
+    return str(ep.sso_endpoint) || null;
+  } catch (_) { return null; }
+}
+
+// Probe the discovery endpoint several request-shapes to find one the server
+// accepts. Uses ONLY the username (never the password), so it can't affect the
+// account. On a 200 it reports the sso/login endpoint ChargePoint returns.
 async function probeDiscovery(username) {
-  const variants = [
-    { name: 'A-default',    ua: USER_AGENT },
-    { name: 'B-lib-ua',     ua: 'python_chargepoint/1.5.2' },
-    { name: 'C-ios-app',    ua: 'ChargePoint/230 CFNetwork/1410.0.3 Darwin/22.6.0' },
-    { name: 'D-browser',    ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1' }
+  const ua = 'ChargePoint/230 CFNetwork/1410.0.3 Darwin/22.6.0';
+  const deviceData = {
+    deviceId: 'cabin-dashboard',
+    deviceModel: 'iPhone',
+    deviceOsVersion: '16.6',
+    deviceType: 'IOS',
+    appVersion: '5.90'
+  };
+  const tries = [
+    { name: '1 json {username}', method: 'POST', ct: 'application/json', body: JSON.stringify({ username }) },
+    { name: '2 +deviceData',     method: 'POST', ct: 'application/json', body: JSON.stringify({ username, deviceData }) },
+    { name: '3 form-encoded',    method: 'POST', ct: 'application/x-www-form-urlencoded', body: `username=${encodeURIComponent(username)}` },
+    { name: '4 GET ?username',   method: 'GET',  url: `${DISCOVERY_URL}?username=${encodeURIComponent(username)}` }
   ];
   const out = [];
-  for (const v of variants) {
+  for (const t of tries) {
+    try {
+      const res = await fetch(t.url || DISCOVERY_URL, {
+        method: t.method,
+        headers: t.method === 'GET' ? { 'user-agent': ua } : { 'user-agent': ua, 'content-type': t.ct },
+        body: t.method === 'GET' ? undefined : t.body
+      });
+      const raw = await res.text();
+      out.push({ try: t.name, status: res.status, sso: res.ok ? extractSso(raw) : null, body: raw.slice(0, 140).replace(/\s+/g, ' ') });
+    } catch (e) {
+      out.push({ try: t.name, error: e.message });
+    }
+  }
+  return out;
+}
+
+// Basic discovery check for every configured account, to see whether the 500
+// is universal or specific to one account's username.
+async function probeAllAccounts() {
+  const ua = 'ChargePoint/230 CFNetwork/1410.0.3 Darwin/22.6.0';
+  const out = [];
+  for (const a of ACCOUNTS) {
+    const creds = accountCreds(a.key);
+    if (!creds) continue;
+    const u = creds.user;
+    const info = { key: a.key, isEmail: u.includes('@'), userLen: u.length, userHint: u.slice(0, 2) + '…' + u.slice(-4) };
     try {
       const res = await fetch(DISCOVERY_URL, {
         method: 'POST',
-        headers: { 'user-agent': v.ua, 'content-type': 'application/json' },
-        body: JSON.stringify({ username })
+        headers: { 'user-agent': ua, 'content-type': 'application/json' },
+        body: JSON.stringify({ username: u })
       });
       const raw = await res.text();
-      let sso = null;
-      if (res.ok) {
-        try {
-          const cfg = JSON.parse(raw);
-          const ep = (cfg && (cfg.endpoints || cfg)) || {};
-          const str = x => (typeof x === 'string' ? x : (x && (x.value || x.url)) || '');
-          sso = str(ep.sso_endpoint) || null;
-        } catch (_) { /* leave sso null */ }
-      }
-      out.push({ variant: v.name, status: res.status, sso, body: raw.slice(0, 160).replace(/\s+/g, ' ') });
-    } catch (e) {
-      out.push({ variant: v.name, error: e.message });
-    }
+      info.status = res.status;
+      info.body = raw.slice(0, 100).replace(/\s+/g, ' ');
+    } catch (e) { info.error = e.message; }
+    out.push(info);
   }
   return out;
 }
@@ -316,6 +349,7 @@ module.exports = {
   defaultRate,
   fetchAccountSessions,
   probeDiscovery,
+  probeAllAccounts,
   demoSessions,
   seeded
 };
