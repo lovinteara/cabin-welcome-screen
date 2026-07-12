@@ -14,7 +14,7 @@
 
 // Bump BUILD whenever this function changes so the dashboard can show which
 // version is actually deployed (handy for confirming a deploy went live).
-const BUILD = 'v7-debug-probe';
+const BUILD = 'v8-debug-shapes';
 
 const cp = require('./_chargepoint');
 const {
@@ -73,16 +73,19 @@ exports.handler = async function (event) {
       return { statusCode: 200, headers, body: JSON.stringify({ debug: true, note: 'No charger login configured yet.' }) };
     }
     const creds = cp.accountCreds(acct.key);
-    const probes = await cp.probeDiscovery(creds.user);
+    const [probes, accounts] = await Promise.all([
+      cp.probeDiscovery(creds.user),
+      cp.probeAllAccounts()
+    ]);
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         debug: true,
         build: BUILD,
-        account: acct.key,
-        userMasked: creds.user.slice(0, 3) + '***' + creds.user.slice(-2),
-        probes
+        firstAccount: acct.key,
+        requestShapes: probes,
+        accounts
       }, null, 2)
     };
   }
