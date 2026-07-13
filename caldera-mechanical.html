@@ -158,6 +158,15 @@
   .paycol input:focus{color:var(--paper-ink)}
   .payhelp{font-size:10.5px;color:#9aa6b2;margin-top:5px;line-height:1.4}
   .payemail{color:var(--paper-dim)}
+  .cardfee-set{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--paper-dim);margin:-4px 0 8px;cursor:pointer}
+  .cardfee-set input{width:auto}
+  .cardfee-rate{font-size:11.5px;color:var(--paper-dim);margin:0 0 14px}
+  .cardfee-rate.hidden{display:none}
+  .cardfee-rate input{width:58px;color:var(--paper-ink);border:1px solid var(--paper-edge);border-radius:5px;padding:3px 6px;text-align:right;font-weight:600}
+  .cardfee-note{color:#9aa6b2}
+  .pay-amt{font-weight:700;color:var(--paper-ink);font-size:13px;margin-bottom:5px}
+  .pay-amt:empty{display:none}
+  .pay-amt.card{color:var(--brand-deep)}
 
   .foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-top:26px}
   .notes{flex:1 1 280px}
@@ -279,7 +288,7 @@
     .paper input[type=date]::-webkit-calendar-picker-indicator{display:none}
     .paper textarea{resize:none}
     select{-webkit-appearance:none;appearance:none}
-    .payhelp,.additems-hint{display:none !important}
+    .payhelp,.additems-hint,.cardfee-set,.cardfee-rate{display:none !important}
     .paycol.pay-empty{display:none !important}
   }
 </style>
@@ -426,14 +435,18 @@
 
       <div class="payblock">
         <h3>How To Pay</h3>
+        <label class="cardfee-set"><input type="checkbox" id="cardFeeOn"/> Add the card processing fee to card payments (check price stays lower)</label>
+        <div class="cardfee-rate hidden" id="cardFeeRate">Card fee to cover: <input id="cardFeePct" type="number" step="0.1" min="0" value="2.9"/> % + $<input id="cardFeeFixed" type="number" step="0.01" min="0" value="0.30"/> <span class="cardfee-note">(Stripe’s standard US card fee is 2.9% + $0.30)</span></div>
         <div class="paygrid">
           <div class="paycol" id="payCheckCol">
             <div class="k">📮 Mail a check</div>
+            <div class="pay-amt" id="checkAmt"></div>
             <textarea id="payCheckTo" rows="3">Make checks payable to Andy Galbraith
 Mail to: PO Box 668, Island Park, ID 83429</textarea>
           </div>
           <div class="paycol" id="payOnlineCol">
-            <div class="k">💳 Pay online</div>
+            <div class="k">💳 Pay online (card)</div>
+            <div class="pay-amt card" id="cardAmt"></div>
             <input id="payStripe" placeholder="Paste your Stripe payment link here"/>
             <div class="payhelp">Add your Stripe link once it’s set up — it’ll show on every invoice.</div>
           </div>
@@ -617,7 +630,10 @@ $('#tab-invoice').onclick = ()=>showTab('invoice');
 $('#tab-checklist').onclick = ()=>showTab('checklist');
 
 /* ---------------- Invoice fields ---------------- */
-const BIZ_FIELDS = ['bizName','bizTagline','bizPhone','bizEmail','bizAddr','bizLic','payCheckTo','payStripe'];
+const BIZ_FIELDS = ['bizName','bizTagline','bizPhone','bizEmail','bizAddr','bizLic','payCheckTo','payStripe','cardFeeOn','cardFeePct','cardFeeFixed'];
+// Field get/set that also handles checkboxes (cardFeeOn).
+function fval(f){ const el=$('#'+f); if(!el) return ''; return el.type==='checkbox' ? (el.checked?'1':'') : el.value; }
+function fset(f,v){ const el=$('#'+f); if(!el) return; if(el.type==='checkbox') el.checked = (v==='1'||v===true); else el.value = (v==null?'':v); }
 const INV_FIELDS = ['invNo','invDate','dueDate','status','sentDate','custName','custAddr','custPhone',
   'custEmail','jobLoc','jobDesc','poNum','notes','taxRate','discount','paid'];
 
@@ -667,6 +683,8 @@ function recalc(){
   // reflect paid status coloring on balance row
   const dueRow = $('.totals .due');
   dueRow.style.opacity = (bal<=0.005 && total>0) ? '.5' : '1';
+  LAST_DUE = Math.max(0, bal);
+  updatePayAmounts();
   updateSentInfo();
 }
 
@@ -693,23 +711,42 @@ $('#presetPick').addEventListener('change', e=>{
 /* ---------------- Business profile (persists across invoices) ---------------- */
 function loadBiz(){
   const biz = read(LS.biz, null);
-  if(biz) BIZ_FIELDS.forEach(f=>{ if(biz[f]!=null) $('#'+f).value = biz[f]; });
+  if(biz) BIZ_FIELDS.forEach(f=>{ if(biz[f]!=null) fset(f, biz[f]); });
 }
 function saveBiz(){
-  const biz = {}; BIZ_FIELDS.forEach(f=> biz[f]=$('#'+f).value); write(LS.biz, biz);
+  const biz = {}; BIZ_FIELDS.forEach(f=> biz[f]=fval(f)); write(LS.biz, biz);
+}
+let LAST_DUE = 0;
+// Gross up the amount so that after Stripe takes its cut, the net equals `net`.
+function cardAmount(net){
+  const pct = parseNum($('#cardFeePct').value)/100, fixed = parseNum($('#cardFeeFixed').value);
+  if(!(pct>=0 && pct<1)) return net;
+  return Math.ceil(((net + fixed)/(1 - pct))*100)/100;
+}
+function updatePayAmounts(){
+  const on = $('#cardFeeOn').checked;
+  $('#cardFeeRate').classList.toggle('hidden', !on);
+  if(on && LAST_DUE>0.005){
+    $('#checkAmt').textContent = 'By check: '+money(LAST_DUE);
+    $('#cardAmt').textContent  = 'By card: '+money(cardAmount(LAST_DUE))+' (incl. fee)';
+  } else {
+    $('#checkAmt').textContent=''; $('#cardAmt').textContent='';
+  }
 }
 function refreshPayBlock(){
   const email = $('#bizEmail').value.trim();
   $('#payEmail').textContent = email || 'calderamechanical@gmail.com';
   // Hide the "Pay online" column on the printed invoice until a Stripe link is added.
   $('#payOnlineCol').classList.toggle('pay-empty', !$('#payStripe').value.trim());
+  updatePayAmounts();
 }
 BIZ_FIELDS.forEach(f=> $('#'+f).addEventListener('input', ()=>{ saveBiz(); refreshPayBlock(); saveDraft(); }));
+$('#cardFeeOn').addEventListener('change', ()=>{ saveBiz(); refreshPayBlock(); saveDraft(); });
 
 /* ---------------- Draft autosave / gather / apply ---------------- */
 function gather(){
   const data = { rows:[] };
-  BIZ_FIELDS.concat(INV_FIELDS).forEach(f=> data[f] = $('#'+f).value);
+  BIZ_FIELDS.concat(INV_FIELDS).forEach(f=> data[f] = fval(f));
   $$('#rows tr').forEach(tr=> data.rows.push({
     desc: tr.querySelector('.desc').value,
     qty:  tr.querySelector('.qty-in').value,
@@ -718,7 +755,7 @@ function gather(){
   return data;
 }
 function apply(data){
-  BIZ_FIELDS.concat(INV_FIELDS).forEach(f=>{ if(data[f]!=null) $('#'+f).value = data[f]; });
+  BIZ_FIELDS.concat(INV_FIELDS).forEach(f=>{ if(data[f]!=null) fset(f, data[f]); });
   $('#rows').innerHTML='';
   (data.rows && data.rows.length ? data.rows : [{}]).forEach(r=> addRow(r.desc||'', r.qty||'1', r.rate||''));
   refreshPayBlock();
@@ -821,8 +858,14 @@ async function sendInvoice(){
          'Invoice: #'+(data.invNo||''), 'Amount due: '+money(balance), 'Due date: '+dueNice+' (2 weeks)');
   if(link) L.push('', 'View or print your invoice here:', link);
   L.push('', 'Payment options:');
-  if((data.payStripe||'').trim()) L.push('• Pay online: '+data.payStripe.trim());
-  if((data.payCheckTo||'').trim()) L.push('• '+data.payCheckTo.replace(/\n/g,' — '));
+  const feeOn = $('#cardFeeOn').checked;
+  if((data.payStripe||'').trim()){
+    if(feeOn) L.push('• Pay online by card: '+money(cardAmount(balance))+' (includes card processing fee) — '+data.payStripe.trim());
+    else L.push('• Pay online: '+data.payStripe.trim());
+  }
+  if((data.payCheckTo||'').trim()){
+    L.push('• '+(feeOn ? 'Pay by check ('+money(balance)+', no card fee): ' : '')+data.payCheckTo.replace(/\n/g,' — '));
+  }
   L.push('', 'Questions? Reply to this email'+(data.bizPhone?(' or call '+data.bizPhone):'')+'.', '', 'Thank you,', data.bizName||'Caldera Mechanical');
   const subject = 'Invoice #'+(data.invNo||'')+' from '+(data.bizName||'Caldera Mechanical');
   const mailto = 'mailto:'+encodeURIComponent(email)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(L.join('\n'));

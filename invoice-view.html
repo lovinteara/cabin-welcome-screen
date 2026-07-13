@@ -65,6 +65,8 @@
   .paygrid h3{margin:0 0 10px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
   .paycol{flex:1 1 190px}
   .paycol .k{font-weight:700;margin-bottom:4px}
+  .paycol .amt{font-weight:700;color:var(--ink);font-size:13px;margin-bottom:4px}
+  .paycol .amt.card{color:var(--brand-deep)}
   .paycol .v{color:var(--dim);white-space:pre-line}
   .paycol a{color:var(--brand-deep);font-weight:700;word-break:break-all}
   .notes{margin-top:22px;font-size:12.5px;color:var(--dim);white-space:pre-line}
@@ -104,6 +106,12 @@ function computeTotals(d){
   const paid = parseNum(d.paid);
   return { sub, tax, disc, total, paid, balance: total-paid };
 }
+// Gross up so that after the card processing fee, the business nets `net`.
+function cardAmountFor(net, d){
+  const pct = parseNum(d.cardFeePct)/100, fixed = parseNum(d.cardFeeFixed);
+  if(!(pct>=0 && pct<1)) return net;
+  return Math.ceil(((net + fixed)/(1 - pct))*100)/100;
+}
 
 async function load(){
   const p = new URLSearchParams(location.search);
@@ -130,6 +138,9 @@ function render(d){
   const stripe = (d.payStripe||'').trim();
   const payCheck = (d.payCheckTo||'').trim();
   const dueNice = fmtDate(d.dueDate);
+  const feeOn = (d.cardFeeOn==='1' || d.cardFeeOn===true);
+  const dueAmt = t.balance || t.total;
+  const cardAmt = feeOn ? cardAmountFor(dueAmt, d) : dueAmt;
 
   document.getElementById('wrap').innerHTML = `
     <div class="paper">
@@ -178,11 +189,13 @@ function render(d){
         <div class="tr due"><span class="k">Balance due</span><span class="v">${money(t.balance)}</span></div>`:''}
       </div>
 
-      ${(status!=='paid' && dueNice)?`<div class="duebanner">Please pay ${money(t.balance||t.total)} by ${dueNice}.</div>`:''}
+      ${(status!=='paid' && dueNice)?`<div class="duebanner">${feeOn && stripe
+          ? `Please pay by ${dueNice}: <b>${money(dueAmt)}</b> by check, or <b>${money(cardAmt)}</b> by card (includes card fee).`
+          : `Please pay ${money(dueAmt)} by ${dueNice}.`}</div>`:''}
 
       <div class="paygrid">
-        ${payCheck?`<div class="paycol"><div class="k">📮 Mail a check</div><div class="v">${esc(payCheck)}</div></div>`:''}
-        ${stripe?`<div class="paycol"><div class="k">💳 Pay online</div><a class="paybig" href="${esc(stripe)}" target="_blank" rel="noopener">${esc(stripe)}</a></div>`:''}
+        ${payCheck?`<div class="paycol"><div class="k">📮 Mail a check</div>${feeOn?`<div class="amt">By check: ${money(dueAmt)}</div>`:''}<div class="v">${esc(payCheck)}</div></div>`:''}
+        ${stripe?`<div class="paycol"><div class="k">💳 Pay online (card)</div>${feeOn?`<div class="amt card">By card: ${money(cardAmt)} <span style="font-weight:400;color:#8a97a5">(incl. fee)</span></div>`:''}<a class="paybig" href="${esc(stripe)}" target="_blank" rel="noopener">${esc(stripe)}</a></div>`:''}
         <div class="paycol"><div class="k">✉️ Questions</div><div class="v">${esc(d.bizEmail||'calderamechanical@gmail.com')}${d.bizPhone?'\n'+esc(d.bizPhone):''}</div></div>
       </div>
 
@@ -191,7 +204,9 @@ function render(d){
 
   // top bar
   document.getElementById('bar').style.display = 'flex';
-  if(stripe){ const pb=document.getElementById('payBtn'); pb.href=stripe; pb.style.display='inline-flex'; }
+  if(stripe){ const pb=document.getElementById('payBtn'); pb.href=stripe;
+    pb.textContent = feeOn ? ('💳 Pay '+money(cardAmt)+' online') : '💳 Pay online';
+    pb.style.display='inline-flex'; }
   document.title = 'Invoice '+(d.invNo?('#'+d.invNo):'')+' — Caldera Mechanical';
 }
 
