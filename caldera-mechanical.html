@@ -230,6 +230,25 @@
     padding:11px 20px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+  /* Login gate */
+  .gate{position:fixed;inset:0;z-index:100;background:linear-gradient(180deg,#0e2c50,#0a1a2f);
+    display:flex;align-items:center;justify-content:center;padding:24px}
+  .gate.hidden{display:none}
+  .gate-card{background:var(--chrome);border:1px solid var(--edge);border-radius:16px;
+    padding:32px 28px;width:100%;max-width:360px;text-align:center;box-shadow:0 22px 64px rgba(0,0,0,.55)}
+  .gate-logo{width:76px;height:76px;border-radius:15px;margin:0 auto 14px;display:block;box-shadow:0 6px 18px rgba(0,0,0,.45)}
+  .gate-card h2{margin:0;font-size:22px;font-family:var(--serif);color:var(--ink);letter-spacing:.3px}
+  .gate-sub{color:var(--dim);font-size:14px;margin:8px 0 20px;line-height:1.5}
+  .gate-card input{width:100%;font:inherit;font-size:16px;background:var(--bg);color:var(--ink);
+    border:1px solid var(--edge);border-radius:9px;padding:13px 14px;text-align:center}
+  .gate-card input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(210,31,45,.28)}
+  .gate-card .btn{width:100%;justify-content:center;margin-top:12px}
+  .gate-card .btn[disabled]{opacity:.6;cursor:default}
+  .gate-msg{min-height:18px;font-size:13px;margin-top:12px;color:var(--brand);font-weight:600}
+  .gate-msg.ok{color:var(--green)}
+  .gate-hint{font-size:12px;color:var(--dim);margin-top:16px;line-height:1.5}
+  @media print{.gate{display:none !important}}
+
   @media(max-width:620px){
     .paper{padding:26px 20px}
     .inv-top{flex-direction:column}
@@ -282,6 +301,7 @@
     <button class="btn ghost" id="newInv">＋ New</button>
     <button class="btn blue" id="saveInv">Save</button>
     <button class="btn" id="printInv">🖨 Print / PDF</button>
+    <button class="btn ghost" id="delInv" title="Delete the open invoice">🗑</button>
   </div>
 </div>
 
@@ -453,6 +473,18 @@ Mail to: PO Box 668, Island Park, ID 83429</textarea>
   </div>
 </section>
 
+<div class="gate" id="loginGate">
+  <div class="gate-card">
+    <img class="gate-logo" src="caldera-mechanical-icon.png" alt="Caldera Mechanical"/>
+    <h2>Caldera Mechanical</h2>
+    <p class="gate-sub" id="gateSub">Enter your password to open your invoices &amp; checklist.</p>
+    <input id="gatePw" type="password" placeholder="Password" autocomplete="current-password"/>
+    <button class="btn" id="gateBtn">Log in</button>
+    <div class="gate-msg" id="gateMsg"></div>
+    <div class="gate-hint">First time here? Type a password and tap Log in — that becomes your password on every device.</div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -467,6 +499,86 @@ const todayISO = () => new Date().toLocaleDateString('en-CA');
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1900); }
 function read(key,def){ try{ const v=localStorage.getItem(key); return v==null?def:JSON.parse(v);}catch(e){return def;} }
 function write(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){ toast('Storage full — remove old invoices'); } }
+
+/* ================= Cloud sync (login-protected, syncs across devices) =================
+   Invoices + checklist live server-side (Netlify Blobs) behind a shared password.
+   localStorage is used only as an offline cache/mirror so nothing is lost if the
+   network hiccups. */
+const API = '/api/invoices';
+let CLOUD_KEY = localStorage.getItem('cm_cloud_key') || '';
+let INVOICES  = read(LS.invoices, []);   // [{id,data,savedAt}] — cache, replaced by cloud on login
+let CHECKLIST = read(LS.checklist, []);  // cache
+let CLOUD_OK  = false;                    // true once we've authenticated this session
+
+async function apiFetch(path, opts){
+  opts = opts || {};
+  const res = await fetch(API + path, Object.assign({}, opts, {
+    headers: Object.assign({ 'Content-Type':'application/json', 'x-caldera-key': CLOUD_KEY }, opts.headers||{})
+  }));
+  if(res.status === 401){ const e = new Error('auth'); e.auth = true; throw e; }
+  if(!res.ok){ throw new Error('http '+res.status); }
+  return res;
+}
+
+// Authenticate (also first-time set-up). Returns {ok, created}.
+async function cloudAuth(password){
+  const res = await fetch(API + '?action=auth', {
+    method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ password })
+  });
+  const j = await res.json();
+  if(j.ok){ CLOUD_KEY = password; localStorage.setItem('cm_cloud_key', password); CLOUD_OK = true; }
+  return j;
+}
+
+// Pull invoices + checklist from the cloud into memory + local cache.
+async function cloudLoadAll(){
+  const ir = await apiFetch('', {});          // invoices
+  INVOICES = (await ir.json()).invoices || [];
+  write(LS.invoices, INVOICES);
+  try{
+    const cr = await apiFetch('?resource=checklist', {});
+    CHECKLIST = (await cr.json()).items || [];
+    write(LS.checklist, CHECKLIST);
+  }catch(e){ /* checklist optional */ }
+  CLOUD_OK = true;
+}
+
+async function cloudSaveInvoice(rec){
+  const res = await apiFetch('', { method:'PUT', body: JSON.stringify({ invoice: rec }) });
+  return (await res.json());
+}
+async function cloudDeleteInvoice(id){ await apiFetch('?id='+encodeURIComponent(id), { method:'DELETE' }); }
+async function cloudSaveChecklist(items){
+  try{ await apiFetch('?resource=checklist', { method:'PUT', body: JSON.stringify({ items }) }); }
+  catch(e){ if(e.auth) showGate(); }
+}
+
+/* ---------------- Login gate ---------------- */
+function showGate(msg){
+  const g = $('#loginGate'); g.classList.remove('hidden');
+  if(msg){ $('#gateMsg').textContent = msg; }
+  setTimeout(()=>{ try{ $('#gatePw').focus(); }catch(e){} }, 50);
+}
+function hideGate(){ $('#loginGate').classList.add('hidden'); }
+async function attemptLogin(){
+  const pw = $('#gatePw').value.trim();
+  const msg = $('#gateMsg'); msg.className='gate-msg';
+  if(pw.length < 4){ msg.textContent = 'Use at least 4 characters.'; return; }
+  $('#gateBtn').disabled = true; msg.textContent = 'Checking…';
+  try{
+    const r = await cloudAuth(pw);
+    if(!r.ok){ msg.textContent = 'Wrong password. Try again.'; $('#gateBtn').disabled=false; return; }
+    msg.className='gate-msg ok'; msg.textContent = r.created ? 'Password set! Loading…' : 'Welcome back! Loading…';
+    await cloudLoadAll();
+    hideGate();
+    if(!$('#invNo').value){ $('#invNo').value = nextInvNo(); saveDraft(); }
+    refreshSavedList(); renderChecklist();
+    $('#gatePw').value='';
+  }catch(e){
+    msg.textContent = 'Could not reach the server. Check your connection and try again.';
+  }
+  $('#gateBtn').disabled = false;
+}
 
 /* ---------------- Tabs ---------------- */
 function showTab(which){
@@ -593,48 +705,65 @@ function saveDraft(){ clearTimeout(_dt); _dt=setTimeout(()=> write(LS.draft, gat
 INV_FIELDS.forEach(f=> $('#'+f).addEventListener('input', ()=>{ recalc(); saveDraft(); }));
 
 /* ---------------- Save / open / new invoices ---------------- */
+// Next invoice number: highest #YYYY-NNNN across all saved invoices + 1, so
+// numbering stays consistent no matter which device makes the next invoice.
 function nextInvNo(){
-  let seq = read(LS.seq, 1000);
-  seq += 1; write(LS.seq, seq);
   const y = new Date().getFullYear();
-  return y + '-' + String(seq).padStart(4,'0');
-}
-function refreshSavedList(){
-  const invs = read(LS.invoices, []);
-  const sel = $('#savedList');
-  sel.innerHTML = '<option value="">📁 Saved invoices ('+invs.length+')</option>';
-  invs.slice().reverse().forEach(inv=>{
-    const o = document.createElement('option');
-    o.value = inv.id;
-    const who = inv.data.custName || 'No name';
-    o.textContent = '#'+(inv.data.invNo||'—')+' · '+who+' · '+money(computeTotal(inv.data));
-    sel.appendChild(o);
-  });
-  const del = document.createElement('option');
+  let max = 1000;
+  INVOICES.forEach(i=>{ const m=String((i.data&&i.data.invNo)||'').match(/^(\d{4})-0*(\d+)$/); if(m && +m[1]===y) max=Math.max(max, +m[2]); });
+  return y + '-' + String(max+1).padStart(4,'0');
 }
 function computeTotal(d){
   let sub=0; (d.rows||[]).forEach(r=> sub += parseNum(r.qty)*parseNum(r.rate));
   const tax = sub*parseNum(d.taxRate)/100; const disc=parseNum(d.discount);
   return Math.max(0, sub+tax-disc);
 }
-function saveInvoice(){
+function refreshSavedList(){
+  const sel = $('#savedList');
+  const invs = INVOICES.slice().sort((a,b)=>String(b.savedAt||'').localeCompare(String(a.savedAt||'')));
+  sel.innerHTML = '<option value="">📁 Saved invoices ('+invs.length+')</option>';
+  invs.forEach(inv=>{
+    const o = document.createElement('option');
+    o.value = inv.id;
+    const who = (inv.data&&inv.data.custName) || 'No name';
+    o.textContent = '#'+((inv.data&&inv.data.invNo)||'—')+' · '+who+' · '+money(computeTotal(inv.data||{}));
+    sel.appendChild(o);
+  });
+}
+async function saveInvoice(){
   const data = gather();
   if(!data.invNo){ data.invNo = nextInvNo(); $('#invNo').value = data.invNo; }
-  const invs = read(LS.invoices, []);
-  const idx = invs.findIndex(i=> i.data.invNo === data.invNo);
-  const rec = { id: idx>=0 ? invs[idx].id : 'inv_'+Date.now(), data, savedAt: todayISO() };
-  if(idx>=0) invs[idx] = rec; else invs.push(rec);
-  write(LS.invoices, invs);
+  const existing = INVOICES.find(i=> i.data && i.data.invNo === data.invNo);
+  const rec = { id: existing ? existing.id : 'inv_'+Date.now(), data, savedAt: new Date().toISOString() };
   write(LS.draft, data);
-  refreshSavedList();
-  toast(idx>=0 ? 'Invoice #'+data.invNo+' updated' : 'Invoice #'+data.invNo+' saved');
+  const putLocal = ()=>{ const idx=INVOICES.findIndex(i=>i.id===rec.id); if(idx>=0) INVOICES[idx]=rec; else INVOICES.push(rec); write(LS.invoices, INVOICES); refreshSavedList(); };
+  try{
+    await cloudSaveInvoice(rec);
+    putLocal();
+    toast(existing ? 'Invoice #'+data.invNo+' updated' : 'Invoice #'+data.invNo+' saved');
+  }catch(e){
+    if(e.auth){ showGate('Please log in again to save.'); return; }
+    putLocal();
+    toast('Saved on this device — couldn’t reach the cloud. Hit Save again when back online.');
+  }
 }
 function openInvoice(id){
-  const invs = read(LS.invoices, []);
-  const rec = invs.find(i=> i.id===id);
+  const rec = INVOICES.find(i=> i.id===id);
   if(!rec) return;
   apply(rec.data); write(LS.draft, rec.data);
-  toast('Opened invoice #'+(rec.data.invNo||''));
+  toast('Opened invoice #'+((rec.data&&rec.data.invNo)||''));
+}
+async function deleteCurrentInvoice(){
+  const no = $('#invNo').value;
+  const rec = INVOICES.find(i=> i.data && i.data.invNo === no);
+  if(!rec){ toast('This invoice isn’t saved yet'); return; }
+  if(!confirm('Delete invoice #'+no+'? This removes it from all your devices.')) return;
+  try{ await cloudDeleteInvoice(rec.id); }
+  catch(e){ if(e.auth){ showGate(); return; } }
+  INVOICES = INVOICES.filter(i=> i.id!==rec.id);
+  write(LS.invoices, INVOICES);
+  refreshSavedList();
+  toast('Invoice #'+no+' deleted');
 }
 function newInvoice(){
   const blank = {};
@@ -653,6 +782,7 @@ function newInvoice(){
 $('#saveInv').onclick = saveInvoice;
 $('#newInv').onclick = newInvoice;
 $('#printInv').onclick = ()=>{ saveDraft(); window.print(); };
+$('#delInv').onclick = deleteCurrentInvoice;
 $('#savedList').onchange = e=>{ if(e.target.value) openInvoice(e.target.value); e.target.value=''; };
 
 /* Track due date -> checklist */
@@ -667,8 +797,8 @@ $('#trackDue').onclick = ()=>{
 
 /* ---------------- Checklist ---------------- */
 let clFilter = 'open';
-function loadChecklist(){ return read(LS.checklist, []); }
-function saveChecklist(items){ write(LS.checklist, items); }
+function loadChecklist(){ return CHECKLIST; }
+function saveChecklist(items){ CHECKLIST = items; write(LS.checklist, items); cloudSaveChecklist(items); }
 function addChecklistItem(text,due){
   if(!text || !text.trim()) return;
   const items = loadChecklist();
@@ -770,19 +900,35 @@ $('#clClear').onclick = ()=>{
   if(draft && (draft.invNo || (draft.rows&&draft.rows.some(r=>r.desc||r.rate)))){
     apply(draft);
   } else {
-    // fresh start
-    const seqExists = read(LS.seq,null)!=null;
+    // fresh start (invoice number is assigned after login so it stays in sync)
     $('#invDate').value = todayISO();
     const due = new Date(); due.setDate(due.getDate()+30);
     $('#dueDate').value = due.toLocaleDateString('en-CA');
-    $('#invNo').value = nextInvNo();
     addRow('', '1','');
     recalc();
     saveDraft();
   }
   refreshPayBlock();
-  refreshSavedList();
+  refreshSavedList();   // shows cached list until the cloud responds
   renderChecklist();
+
+  // Gate wiring
+  $('#gateBtn').onclick = attemptLogin;
+  $('#gatePw').addEventListener('keydown', e=>{ if(e.key==='Enter') attemptLogin(); });
+
+  // Auth: if we already have a saved password, load from the cloud; else show the gate.
+  (async ()=>{
+    if(CLOUD_KEY){
+      try{
+        await cloudLoadAll();
+        hideGate();
+        if(!$('#invNo').value){ $('#invNo').value = nextInvNo(); saveDraft(); }
+        refreshSavedList(); renderChecklist();
+      }catch(e){ showGate(); }
+    } else {
+      showGate();
+    }
+  })();
 })();
 </script>
 </body>
