@@ -500,6 +500,20 @@ function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('sh
 function read(key,def){ try{ const v=localStorage.getItem(key); return v==null?def:JSON.parse(v);}catch(e){return def;} }
 function write(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){ toast('Storage full — remove old invoices'); } }
 
+// One-time address fix: the business moved its billing to a PO box. Rewrite the
+// old North Ogden street address to the Island Park PO box wherever it was
+// cached on this device (business profile, draft, and saved invoices).
+const NEW_ADDR = 'PO Box 668, Island Park, ID 83429';
+function fixAddrObj(o){
+  if(!o || typeof o!=='object') return false;
+  const RE = /1258\s*E\s*3175\s*N,?\s*North Ogden,?\s*UT\s*84414/i;
+  let ch=false;
+  ['bizAddr','payCheckTo'].forEach(k=>{
+    if(typeof o[k]==='string' && RE.test(o[k])){ o[k]=o[k].replace(RE, NEW_ADDR); ch=true; }
+  });
+  return ch;
+}
+
 /* ================= Cloud sync (login-protected, syncs across devices) =================
    Invoices + checklist live server-side (Netlify Blobs) behind a shared password.
    localStorage is used only as an offline cache/mirror so nothing is lost if the
@@ -534,7 +548,10 @@ async function cloudAuth(password){
 async function cloudLoadAll(){
   const ir = await apiFetch('', {});          // invoices
   INVOICES = (await ir.json()).invoices || [];
+  // Auto-fix the old address on any saved invoices, then push the corrections back.
+  const dirty = INVOICES.filter(inv=> fixAddrObj(inv.data));
   write(LS.invoices, INVOICES);
+  for(const inv of dirty){ try{ await cloudSaveInvoice(inv); }catch(e){} }
   try{
     const cr = await apiFetch('?resource=checklist', {});
     CHECKLIST = (await cr.json()).items || [];
@@ -895,6 +912,11 @@ $('#clClear').onclick = ()=>{
 
 /* ---------------- Init ---------------- */
 (function init(){
+  // Fix the cached old address on this device before anything renders.
+  (function(){
+    const biz = read(LS.biz, null); if(biz && fixAddrObj(biz)) write(LS.biz, biz);
+    const d = read(LS.draft, null); if(d && fixAddrObj(d)) write(LS.draft, d);
+  })();
   loadBiz();
   const draft = read(LS.draft, null);
   if(draft && (draft.invNo || (draft.rows&&draft.rows.some(r=>r.desc||r.rate)))){
