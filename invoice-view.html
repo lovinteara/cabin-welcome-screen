@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Invoice — Caldera Mechanical</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="caldera-mechanical-icon.png"/>
+<style>
+  :root{
+    --bg:#0a1a2f; --ink:#1c2530; --dim:#5b6875; --edge:#d9e0e7;
+    --brand:#d21f2d; --brand-deep:#a8151f; --green:#2e9e57;
+    --serif:"Zilla Slab",Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;padding:0 0 60px}
+  .bar{position:sticky;top:0;z-index:5;background:rgba(10,26,47,.95);backdrop-filter:blur(8px);
+    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .btn{font:inherit;font-size:14px;font-weight:700;border:none;border-radius:9px;padding:11px 20px;cursor:pointer;
+    text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+  .btn.pay{background:var(--green);color:#fff}
+  .btn.print{background:#e7ecf1;color:#12263f}
+  .btn:hover{filter:brightness(1.06)}
+  .wrap{max-width:820px;margin:22px auto;padding:0 16px}
+  .paper{background:#fff;border-radius:12px;padding:40px 42px;box-shadow:0 16px 44px rgba(0,0,0,.4)}
+  .msg{color:#dfe6ee;text-align:center;padding:60px 20px;font-size:16px;line-height:1.6}
+  .inv-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:20px}
+  .logo{height:52px;width:auto;border-radius:7px;margin-bottom:10px;display:block}
+  .biz-name{font-size:23px;font-weight:800;color:var(--brand-deep);font-family:var(--serif)}
+  .biz .l{font-size:12.5px;color:var(--dim)}
+  .inv-title{text-align:right}
+  .inv-title h2{margin:0;font-size:30px;letter-spacing:3px;font-weight:800;font-family:var(--serif)}
+  .meta{margin-top:12px;font-size:12.5px}
+  .meta .r{display:flex;justify-content:flex-end;gap:8px;margin-top:5px}
+  .meta .r span:first-child{color:var(--dim);text-transform:uppercase;letter-spacing:1px;font-size:10px;align-self:center}
+  .meta .r b{min-width:120px;text-align:right}
+  .pill{display:inline-block;border-radius:999px;padding:3px 11px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+  .pill.unpaid{background:#fce9e5;color:#b23b26}
+  .pill.paid{background:#e4f5ea;color:#1f8a4c}
+  .parties{display:flex;gap:30px;flex-wrap:wrap;margin-top:20px}
+  .party{flex:1 1 240px}
+  .party h3{margin:0 0 5px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+  .party .nm{font-weight:700;font-size:15px}
+  .party div{font-size:13.5px}
+  table{width:100%;border-collapse:collapse;margin-top:22px;font-size:13.5px}
+  th{text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#fff;background:var(--brand-deep);
+    font-weight:700;padding:9px 10px}
+  th.num,td.num{text-align:right}
+  th:first-child{border-radius:6px 0 0 6px}th:last-child{border-radius:0 6px 6px 0}
+  td{padding:9px 10px;border-bottom:1px solid var(--edge)}
+  .totals{margin-top:20px;margin-left:auto;max-width:320px;font-size:13.5px}
+  .totals .tr{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--edge)}
+  .totals .tr .k{color:var(--dim)}
+  .totals .grand{border-bottom:none;border-top:2px solid var(--ink);margin-top:6px;padding-top:12px}
+  .totals .grand .k{font-weight:800;font-size:15px;text-transform:uppercase}
+  .totals .grand .v{font-weight:800;font-size:22px;color:var(--brand-deep)}
+  .totals .due .v{color:var(--brand);font-weight:800}
+  .duebanner{margin-top:20px;background:#fbeaec;border:1px solid #f2c4c9;color:#a8151f;border-radius:10px;
+    padding:12px 16px;font-size:14px;font-weight:600}
+  .paygrid{display:flex;gap:26px;flex-wrap:wrap;margin-top:26px;border-top:1px solid var(--edge);padding-top:16px;font-size:12.5px}
+  .paygrid h3{margin:0 0 10px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+  .paycol{flex:1 1 190px}
+  .paycol .k{font-weight:700;margin-bottom:4px}
+  .paycol .v{color:var(--dim);white-space:pre-line}
+  .paycol a{color:var(--brand-deep);font-weight:700;word-break:break-all}
+  .notes{margin-top:22px;font-size:12.5px;color:var(--dim);white-space:pre-line}
+  .notes h3{margin:0 0 6px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+  .paybig{display:block;margin:8px 0 0}
+  @media print{
+    body{background:#fff;padding:0}
+    .bar{display:none}
+    .wrap{margin:0;max-width:none;padding:0}
+    .paper{box-shadow:none;border-radius:0;padding:0}
+    @page{margin:14mm}
+  }
+  @media(max-width:560px){.paper{padding:26px 20px}.inv-top{flex-direction:column}.inv-title{text-align:left}.meta .r{justify-content:flex-start}}
+</style>
+</head>
+<body>
+<div class="bar" id="bar" style="display:none">
+  <a class="btn pay" id="payBtn" style="display:none" target="_blank" rel="noopener">💳 Pay online</a>
+  <button class="btn print" onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+<div class="wrap" id="wrap">
+  <div class="msg" id="msg">Loading invoice…</div>
+</div>
+
+<script>
+"use strict";
+const money = n => '$' + (Math.round((+n||0)*100)/100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+const parseNum = v => { const n=parseFloat(String(v).replace(/[^0-9.\-]/g,'')); return isNaN(n)?0:n; };
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmtDate = iso => { if(!iso) return ''; const d=new Date(iso+'T00:00:00'); return isNaN(d)?esc(iso):d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); };
+
+function computeTotals(d){
+  let sub=0; (d.rows||[]).forEach(r=> sub += parseNum(r.qty)*parseNum(r.rate));
+  const tax = sub*parseNum(d.taxRate)/100;
+  const disc = parseNum(d.discount);
+  const total = Math.max(0, sub+tax-disc);
+  const paid = parseNum(d.paid);
+  return { sub, tax, disc, total, paid, balance: total-paid };
+}
+
+async function load(){
+  const p = new URLSearchParams(location.search);
+  const id = p.get('id'), token = p.get('token');
+  if(!id || !token){ show('This invoice link looks incomplete. Please ask for a new link.'); return; }
+  let data;
+  try{
+    const res = await fetch('/api/invoices?view='+encodeURIComponent(id)+'&token='+encodeURIComponent(token));
+    if(!res.ok){ show('This invoice could not be found. It may have been removed, or the link is incorrect.'); return; }
+    data = (await res.json()).invoice.data;
+  }catch(e){ show('Could not load this invoice right now. Please try again in a moment.'); return; }
+  render(data);
+}
+function show(t){ document.getElementById('msg').textContent = t; }
+
+function render(d){
+  const t = computeTotals(d);
+  const rowsHtml = (d.rows||[]).filter(r=> (r.desc&&r.desc.trim()) || parseNum(r.rate))
+    .map(r=>`<tr><td>${esc(r.desc||'')}</td><td class="num">${esc(r.qty||'')}</td><td class="num">${money(parseNum(r.rate))}</td><td class="num">${money(parseNum(r.qty)*parseNum(r.rate))}</td></tr>`).join('');
+  const status = (d.status==='paid') ? 'paid' : 'unpaid';
+  const line = (id,v)=> v ? `<div class="l">${esc(v)}</div>` : '';
+  const metaRow = (k,v)=> v ? `<div class="r"><span>${k}</span><b>${esc(v)}</b></div>` : '';
+
+  const stripe = (d.payStripe||'').trim();
+  const payCheck = (d.payCheckTo||'').trim();
+  const dueNice = fmtDate(d.dueDate);
+
+  document.getElementById('wrap').innerHTML = `
+    <div class="paper">
+      <div class="inv-top">
+        <div class="biz">
+          <img class="logo" src="caldera-mechanical-logo.jpg" alt="Caldera Mechanical"/>
+          <div class="biz-name">${esc(d.bizName||'Caldera Mechanical')}</div>
+          ${line('t',d.bizTagline)}${line('p',d.bizPhone)}${line('e',d.bizEmail)}${line('a',d.bizAddr)}${line('lic',d.bizLic)}
+        </div>
+        <div class="inv-title">
+          <h2>INVOICE</h2>
+          <div class="meta">
+            ${metaRow('Invoice #',d.invNo)}
+            ${metaRow('Date',fmtDate(d.invDate))}
+            ${metaRow('Due',dueNice)}
+            <div class="r"><span>Status</span><b><span class="pill ${status}">${status}</span></b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="parties">
+        <div class="party">
+          <h3>Bill To</h3>
+          <div class="nm">${esc(d.custName||'')}</div>
+          ${d.custAddr?`<div>${esc(d.custAddr)}</div>`:''}
+          ${d.custPhone?`<div>${esc(d.custPhone)}</div>`:''}
+          ${d.custEmail?`<div>${esc(d.custEmail)}</div>`:''}
+        </div>
+        ${(d.jobLoc||d.jobDesc||d.poNum)?`<div class="party"><h3>Job / Service</h3>
+          ${d.jobDesc?`<div class="nm">${esc(d.jobDesc)}</div>`:''}
+          ${d.jobLoc?`<div>${esc(d.jobLoc)}</div>`:''}
+          ${d.poNum?`<div>PO #${esc(d.poNum)}</div>`:''}</div>`:''}
+      </div>
+
+      <table>
+        <thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th></tr></thead>
+        <tbody>${rowsHtml||'<tr><td colspan="4" style="color:#8a97a5">No line items.</td></tr>'}</tbody>
+      </table>
+
+      <div class="totals">
+        <div class="tr"><span class="k">Subtotal</span><span>${money(t.sub)}</span></div>
+        ${t.tax?`<div class="tr"><span class="k">Tax</span><span>${money(t.tax)}</span></div>`:''}
+        ${t.disc?`<div class="tr"><span class="k">Discount</span><span>−${money(t.disc)}</span></div>`:''}
+        <div class="tr grand"><span class="k">Total</span><span class="v">${money(t.total)}</span></div>
+        ${t.paid?`<div class="tr"><span class="k">Amount paid</span><span>${money(t.paid)}</span></div>
+        <div class="tr due"><span class="k">Balance due</span><span class="v">${money(t.balance)}</span></div>`:''}
+      </div>
+
+      ${(status!=='paid' && dueNice)?`<div class="duebanner">Please pay ${money(t.balance||t.total)} by ${dueNice}.</div>`:''}
+
+      <div class="paygrid">
+        ${payCheck?`<div class="paycol"><div class="k">📮 Mail a check</div><div class="v">${esc(payCheck)}</div></div>`:''}
+        ${stripe?`<div class="paycol"><div class="k">💳 Pay online</div><a class="paybig" href="${esc(stripe)}" target="_blank" rel="noopener">${esc(stripe)}</a></div>`:''}
+        <div class="paycol"><div class="k">✉️ Questions</div><div class="v">${esc(d.bizEmail||'calderamechanical@gmail.com')}${d.bizPhone?'\n'+esc(d.bizPhone):''}</div></div>
+      </div>
+
+      ${d.notes?`<div class="notes"><h3>Notes</h3>${esc(d.notes)}</div>`:''}
+    </div>`;
+
+  // top bar
+  document.getElementById('bar').style.display = 'flex';
+  if(stripe){ const pb=document.getElementById('payBtn'); pb.href=stripe; pb.style.display='inline-flex'; }
+  document.title = 'Invoice '+(d.invNo?('#'+d.invNo):'')+' — Caldera Mechanical';
+}
+
+load();
+</script>
+</body>
+</html>

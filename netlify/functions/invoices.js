@@ -90,6 +90,17 @@ exports.handler = async function (event) {
     return { statusCode: 200, headers, body: JSON.stringify({ ok: true, created: !!res.created }) };
   }
 
+  // ---- Public invoice view (no password — needs the invoice's share token) ----
+  // Used by invoice-view.html so a customer can open the link you email them.
+  if (event.httpMethod === 'GET' && q.view) {
+    let rec = null;
+    try { rec = await st.get('inv/' + q.view, { type: 'json' }); } catch (e) {}
+    if (!rec || !rec.token || !q.token || rec.token !== q.token) {
+      return { statusCode: 404, headers, body: JSON.stringify({ error: 'not found' }) };
+    }
+    return { statusCode: 200, headers, body: JSON.stringify({ invoice: { id: rec.id, data: rec.data } }) };
+  }
+
   // ---- Everything below needs a valid password ----
   const auth = await checkAuth(st, key, false);
   if (!auth.ok) {
@@ -136,7 +147,12 @@ exports.handler = async function (event) {
     const body = parseBody();
     const inv = body && body.invoice;
     if (!inv || !inv.id) return { statusCode: 400, headers, body: JSON.stringify({ error: 'invoice.id required' }) };
-    const rec = { id: String(inv.id), data: inv.data || {}, savedAt: inv.savedAt || new Date().toISOString() };
+    const rec = {
+      id: String(inv.id),
+      data: inv.data || {},
+      savedAt: inv.savedAt || new Date().toISOString(),
+      token: (inv.token && String(inv.token)) || crypto.randomBytes(12).toString('hex')
+    };
     await st.set('inv/' + rec.id, JSON.stringify(rec));
     return { statusCode: 200, headers, body: JSON.stringify({ ok: true, invoice: rec }) };
   }

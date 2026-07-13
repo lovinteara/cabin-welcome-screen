@@ -61,6 +61,9 @@
   .btn.ghost{background:transparent;color:var(--dim);border:1px solid var(--edge)}
   .btn.ghost:hover{color:var(--ink);border-color:var(--dim)}
   .btn.blue{background:var(--blue);color:#06121c}
+  .btn.green{background:var(--green);color:#06210f}
+  .sent-info{margin-top:10px;font-size:11.5px;color:var(--green);font-weight:700;text-align:right}
+  .sent-info.overdue{color:var(--red)}
   select.load{
     background:var(--bg);color:var(--ink);border:1px solid var(--edge);
     border-radius:8px;padding:9px 12px;font-size:13px;max-width:230px;
@@ -300,6 +303,7 @@
     <select class="load" id="savedList" title="Open a saved invoice"></select>
     <button class="btn ghost" id="newInv">＋ New</button>
     <button class="btn blue" id="saveInv">Save</button>
+    <button class="btn green" id="sendInv" title="Email this invoice to the customer">✉ Send</button>
     <button class="btn" id="printInv">🖨 Print / PDF</button>
     <button class="btn ghost" id="delInv" title="Delete the open invoice">🗑</button>
   </div>
@@ -332,6 +336,8 @@
               <select id="status"><option value="unpaid">Unpaid</option><option value="paid">Paid</option></select>
             </div>
           </div>
+          <input type="hidden" id="sentDate"/>
+          <div class="sent-info" id="sentInfo"></div>
         </div>
       </div>
 
@@ -612,7 +618,7 @@ $('#tab-checklist').onclick = ()=>showTab('checklist');
 
 /* ---------------- Invoice fields ---------------- */
 const BIZ_FIELDS = ['bizName','bizTagline','bizPhone','bizEmail','bizAddr','bizLic','payCheckTo','payStripe'];
-const INV_FIELDS = ['invNo','invDate','dueDate','status','custName','custAddr','custPhone',
+const INV_FIELDS = ['invNo','invDate','dueDate','status','sentDate','custName','custAddr','custPhone',
   'custEmail','jobLoc','jobDesc','poNum','notes','taxRate','discount','paid'];
 
 /* ----- Line items ----- */
@@ -661,6 +667,7 @@ function recalc(){
   // reflect paid status coloring on balance row
   const dueRow = $('.totals .due');
   dueRow.style.opacity = (bal<=0.005 && total>0) ? '.5' : '1';
+  updateSentInfo();
 }
 
 /* ----- Presets ----- */
@@ -747,22 +754,88 @@ function refreshSavedList(){
     sel.appendChild(o);
   });
 }
-async function saveInvoice(){
+// Persist current form to cloud (+ local cache). Returns {ok, rec, existing, offline, auth}.
+async function persistInvoice(){
   const data = gather();
   if(!data.invNo){ data.invNo = nextInvNo(); $('#invNo').value = data.invNo; }
   const existing = INVOICES.find(i=> i.data && i.data.invNo === data.invNo);
-  const rec = { id: existing ? existing.id : 'inv_'+Date.now(), data, savedAt: new Date().toISOString() };
+  const rec = { id: existing ? existing.id : 'inv_'+Date.now(), data, savedAt: new Date().toISOString(), token: existing && existing.token };
   write(LS.draft, data);
-  const putLocal = ()=>{ const idx=INVOICES.findIndex(i=>i.id===rec.id); if(idx>=0) INVOICES[idx]=rec; else INVOICES.push(rec); write(LS.invoices, INVOICES); refreshSavedList(); };
+  const putLocal = (r)=>{ const idx=INVOICES.findIndex(i=>i.id===r.id); if(idx>=0) INVOICES[idx]=r; else INVOICES.push(r); write(LS.invoices, INVOICES); refreshSavedList(); };
   try{
-    await cloudSaveInvoice(rec);
-    putLocal();
-    toast(existing ? 'Invoice #'+data.invNo+' updated' : 'Invoice #'+data.invNo+' saved');
+    const resp = await cloudSaveInvoice(rec);
+    const saved = (resp && resp.invoice) ? resp.invoice : rec;
+    putLocal(saved);
+    return { ok:true, rec:saved, existing:!!existing };
   }catch(e){
-    if(e.auth){ showGate('Please log in again to save.'); return; }
-    putLocal();
-    toast('Saved on this device — couldn’t reach the cloud. Hit Save again when back online.');
+    if(e.auth){ showGate('Please log in again to save.'); return { ok:false, auth:true }; }
+    putLocal(rec);
+    return { ok:false, offline:true, rec };
   }
+}
+async function saveInvoice(){
+  const r = await persistInvoice();
+  if(r.ok) toast(r.existing ? 'Invoice #'+r.rec.data.invNo+' updated' : 'Invoice #'+r.rec.data.invNo+' saved');
+  else if(r.offline) toast('Saved on this device — couldn’t reach the cloud. Hit Save again when back online.');
+}
+
+// "Sent … · due …" banner under the invoice meta.
+function updateSentInfo(){
+  const el = $('#sentInfo'); if(!el) return;
+  const sent = $('#sentDate').value, due = $('#dueDate').value;
+  el.classList.remove('overdue');
+  if(!sent){ el.textContent=''; return; }
+  const fmt = iso => new Date(iso+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  let txt = '✅ Sent '+fmt(sent);
+  if($('#status').value==='paid'){ txt += ' · Paid'; }
+  else if(due){
+    const days = Math.round((new Date(due+'T00:00:00') - new Date(todayISO()+'T00:00:00'))/86400000);
+    if(days<0){ txt += ' · '+(-days)+' day'+(days===-1?'':'s')+' overdue'; el.classList.add('overdue'); }
+    else txt += ' · due '+fmt(due)+' ('+days+' day'+(days===1?'':'s')+' left)';
+  }
+  el.textContent = txt;
+}
+
+// Email this invoice to the customer: sets a 2-week due date, saves, then opens
+// the mail app pre-filled with a link to the online invoice + payment options.
+async function sendInvoice(){
+  const email = ($('#custEmail').value||'').trim();
+  if(!email){ toast('Add the customer’s email first'); $('#custEmail').focus(); return; }
+  const hasItems = $$('#rows tr').some(tr=> tr.querySelector('.desc').value.trim() || parseNum(tr.querySelector('.rate-in').value));
+  if(!hasItems){ toast('Add at least one line item first'); return; }
+  // Start the 2-week payment clock from today.
+  $('#sentDate').value = todayISO();
+  const due = new Date(); due.setDate(due.getDate()+14);
+  $('#dueDate').value = due.toLocaleDateString('en-CA');
+  recalc();
+  const r = await persistInvoice();
+  if(r.auth) return;
+  const rec = r.rec;
+  const data = gather();
+  const balance = Math.max(0, computeTotal(data) - parseNum(data.paid));
+  const dueNice = new Date($('#dueDate').value+'T00:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const base = location.origin + location.pathname.replace(/[^/]*$/,'');
+  const link = (rec && rec.token) ? base+'invoice-view.html?id='+encodeURIComponent(rec.id)+'&token='+encodeURIComponent(rec.token) : '';
+  const L = [];
+  L.push('Hi '+(data.custName||'there')+',','','Here is your invoice from '+(data.bizName||'Caldera Mechanical')+'.','',
+         'Invoice: #'+(data.invNo||''), 'Amount due: '+money(balance), 'Due date: '+dueNice+' (2 weeks)');
+  if(link) L.push('', 'View or print your invoice here:', link);
+  L.push('', 'Payment options:');
+  if((data.payStripe||'').trim()) L.push('• Pay online: '+data.payStripe.trim());
+  if((data.payCheckTo||'').trim()) L.push('• '+data.payCheckTo.replace(/\n/g,' — '));
+  L.push('', 'Questions? Reply to this email'+(data.bizPhone?(' or call '+data.bizPhone):'')+'.', '', 'Thank you,', data.bizName||'Caldera Mechanical');
+  const subject = 'Invoice #'+(data.invNo||'')+' from '+(data.bizName||'Caldera Mechanical');
+  const mailto = 'mailto:'+encodeURIComponent(email)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(L.join('\n'));
+  // Track the due date on the checklist (replace any earlier reminder for this invoice).
+  const tag = 'Invoice #'+(data.invNo||'');
+  CHECKLIST = CHECKLIST.filter(it=> !(it.text && it.text.indexOf(tag)>=0 && /Collect payment/.test(it.text)));
+  saveChecklist(CHECKLIST);
+  addChecklistItem('Collect payment — '+tag+' ('+(data.custName||'customer')+', '+money(balance)+')', $('#dueDate').value);
+  updateSentInfo();
+  if(!link) toast('Emailing summary (online link needs a connection). Due '+dueNice);
+  else toast('Opening email… payment due '+dueNice);
+  window.__lastMailto = mailto;
+  window.location.href = mailto;
 }
 function openInvoice(id){
   const rec = INVOICES.find(i=> i.id===id);
@@ -798,6 +871,7 @@ function newInvoice(){
 }
 $('#saveInv').onclick = saveInvoice;
 $('#newInv').onclick = newInvoice;
+$('#sendInv').onclick = sendInvoice;
 $('#printInv').onclick = ()=>{ saveDraft(); window.print(); };
 $('#delInv').onclick = deleteCurrentInvoice;
 $('#savedList').onchange = e=>{ if(e.target.value) openInvoice(e.target.value); e.target.value=''; };
