@@ -77,6 +77,39 @@
 <h1>WelcomeScreen Pro — Admin</h1>
 <p class="subtitle">Visit Island Park Idaho · 8 properties · Click any slide to preview</p>
 
+<div class="section-header" style="margin-top:0;">Quick Links</div>
+<div class="links">
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=huckleberry" target="_blank" class="link-btn">Huckleberry</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=gathering" target="_blank" class="link-btn">Gathering</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=little-chalet" target="_blank" class="link-btn">Little Chalet</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=big-chalet" target="_blank" class="link-btn">Big Chalet</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=caldera" target="_blank" class="link-btn">Caldera</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=dshouse" target="_blank" class="link-btn">D'Shouse</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=rrl" target="_blank" class="link-btn">RRL</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=charming" target="_blank" class="link-btn">Charming</a>
+  <a href="https://cabin-welcome-screen.netlify.app/?cabin=huckleberry&cleaning=true" target="_blank" class="link-btn">🧹 Test Cleaning Mode</a>
+</div>
+
+<div class="section-header">Tools</div>
+<div class="links">
+  <a href="https://cabin-welcome-screen.netlify.app/status.html" target="_blank" class="link-btn">📊 Fleet Status</a>
+  <a href="https://cabin-welcome-screen.netlify.app/charging.html" target="_blank" class="link-btn">⚡ EV Charging</a>
+  <a href="https://cabin-welcome-screen.netlify.app/caldera-mechanical.html" target="_blank" class="link-btn">🧾 Invoices — Caldera Mechanical</a>
+  <a href="https://cabin-welcome-screen.netlify.app/cabin-links.html" target="_blank" class="link-btn">🔗 All Links</a>
+  <a href="https://cabin-welcome-screen.netlify.app/api/lockcode-status" target="_blank" class="link-btn">🔓 Lock Codes — Check Status</a>
+  <a href="https://app.netlify.com/sites/cabin-welcome-screen/functions/lockcode-sync" target="_blank" class="link-btn">▶ Run Lock Sync (Netlify)</a>
+  <a href="#" onclick="toggleSyncHelp(event)" class="link-btn">? How do I sync?</a>
+</div>
+
+<div id="sync-help" style="display:none; background:#1a1f2e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:14px 16px; margin-top:10px; font-size:12px; line-height:1.7; opacity:0.85; max-width:760px;">
+  <strong style="opacity:1;">Check Status</strong> is read-only — it shows the code each cabin <em>should</em> have right now, straight from OwnerRez. It never touches a lock, so it is always safe to open.
+  <br><br>
+  <strong style="opacity:1;">Running the sync</strong> is what actually writes codes to the Schlage locks. It runs on its own twice a day (11&nbsp;AM Mountain clears departing guests, 3&nbsp;PM Mountain sets arriving guests). Because it is a scheduled function, Netlify will not let it run from a plain web link — opening that URL just returns a blank page.
+  <br><br>
+  To run it by hand: click <strong style="opacity:1;">Run Lock Sync (Netlify)</strong> above, then press the <strong style="opacity:1;">Run now</strong> button on that page. Results appear in the log directly underneath. You must be signed in to Netlify.
+</div>
+
+
 <div class="cabin-tabs">
   <button class="cabin-tab active" onclick="setCabin('huckleberry','The Huckleberry Hut','Y3llowst0neTrout!',this)">Huckleberry Hut</button>
   <button class="cabin-tab" onclick="setCabin('gathering','The Gathering Place','Cascade4139',this)">Gathering Place</button>
@@ -135,28 +168,6 @@
   <div class="pi-card"><div class="pi-name">Charming Log Home</div><div class="pi-status status-ok">✓ Running</div></div>
   <div class="pi-card"><div class="pi-name">River Rock Lodge</div><div class="pi-status status-ok">✓ Running</div></div>
   <div class="pi-card"><div class="pi-name">D'Shouse Haven</div><div class="pi-status status-ok">✓ Running</div></div>
-</div>
-
-<div class="section-header">Quick Links</div>
-<div class="links">
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=huckleberry" target="_blank" class="link-btn">Huckleberry</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=gathering" target="_blank" class="link-btn">Gathering</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=little-chalet" target="_blank" class="link-btn">Little Chalet</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=big-chalet" target="_blank" class="link-btn">Big Chalet</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=caldera" target="_blank" class="link-btn">Caldera</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=dshouse" target="_blank" class="link-btn">D'Shouse</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=rrl" target="_blank" class="link-btn">RRL</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=charming" target="_blank" class="link-btn">Charming</a>
-  <a href="https://cabin-welcome-screen.netlify.app/?cabin=huckleberry&cleaning=true" target="_blank" class="link-btn">🧹 Test Cleaning Mode</a>
-</div>
-
-<div class="section-header">Tools</div>
-<div class="links">
-  <a href="https://cabin-welcome-screen.netlify.app/status.html" target="_blank" class="link-btn">📊 Fleet Status</a>
-  <a href="https://cabin-welcome-screen.netlify.app/charging.html" target="_blank" class="link-btn">⚡ EV Charging</a>
-  <a href="https://cabin-welcome-screen.netlify.app/caldera-mechanical.html" target="_blank" class="link-btn">🧾 Invoices — Caldera Mechanical</a>
-  <a href="https://cabin-welcome-screen.netlify.app/cabin-links.html" target="_blank" class="link-btn">🔗 All Links</a>
-  <a href="https://cabin-welcome-screen.netlify.app/.netlify/functions/lockcode-sync" target="_blank" class="link-btn">🔒 Sync Lock Codes</a>
 </div>
 
 <div class="modal" id="modal">
@@ -304,6 +315,12 @@ async function clearCelebration() {
 }
 
 buildSlides();
+
+function toggleSyncHelp(e){
+  if (e) e.preventDefault();
+  var box = document.getElementById('sync-help');
+  box.style.display = (box.style.display === 'none' || !box.style.display) ? 'block' : 'none';
+}
 </script>
 </body>
 </html>
