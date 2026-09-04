@@ -97,16 +97,21 @@
   <a href="https://cabin-welcome-screen.netlify.app/caldera-mechanical.html" target="_blank" class="link-btn">🧾 Invoices — Caldera Mechanical</a>
   <a href="https://cabin-welcome-screen.netlify.app/cabin-links.html" target="_blank" class="link-btn">🔗 All Links</a>
   <a href="https://cabin-welcome-screen.netlify.app/api/lockcode-status" target="_blank" class="link-btn">🔓 Lock Codes — Check Status</a>
-  <a href="https://app.netlify.com/sites/cabin-welcome-screen/functions/lockcode-sync" target="_blank" class="link-btn">▶ Run Lock Sync (Netlify)</a>
+  <a href="#" onclick="runLockSync(event)" class="link-btn" style="background:rgba(224,163,74,0.18); border:1px solid #e0a34a; color:#f0d9b5;">▶ Sync Locks Now</a>
+  <a href="https://app.netlify.com/projects/cabin-welcome-screen" target="_blank" class="link-btn">⚙ Netlify Dashboard</a>
   <a href="#" onclick="toggleSyncHelp(event)" class="link-btn">? How do I sync?</a>
 </div>
 
+<div id="sync-run-status" style="font-size:12px; margin-top:10px; min-height:18px; max-width:760px;"></div>
+
 <div id="sync-help" style="display:none; background:#1a1f2e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:14px 16px; margin-top:10px; font-size:12px; line-height:1.7; opacity:0.85; max-width:760px;">
-  <strong style="opacity:1;">Check Status</strong> is read-only — it shows the code each cabin <em>should</em> have right now, straight from OwnerRez. It never touches a lock, so it is always safe to open.
+  <strong style="opacity:1;">Lock Codes &mdash; Check Status</strong> is read-only. It shows the code each cabin <em>should</em> have right now, straight from OwnerRez. It never touches a lock, so it is always safe to open.
   <br><br>
-  <strong style="opacity:1;">Running the sync</strong> is what actually writes codes to the Schlage locks. It runs on its own twice a day (11&nbsp;AM Mountain clears departing guests, 3&nbsp;PM Mountain sets arriving guests). Because it is a scheduled function, Netlify will not let it run from a plain web link — opening that URL just returns a blank page.
+  <strong style="opacity:1;">Sync Locks Now</strong> actually writes the codes to the Schlage locks. Use it for last-minute bookings that land between the scheduled runs. It will ask for your sync key the first time each visit. The sync normally runs on its own twice a day &mdash; 11&nbsp;AM Mountain clears departing guests, 3&nbsp;PM Mountain sets arriving guests.
   <br><br>
-  To run it by hand: click <strong style="opacity:1;">Run Lock Sync (Netlify)</strong> above, then press the <strong style="opacity:1;">Run now</strong> button on that page. Results appear in the log directly underneath. You must be signed in to Netlify.
+  After syncing, open <strong style="opacity:1;">Check Status</strong> to confirm the code landed before you send it to the guest.
+  <br><br>
+  <strong style="opacity:1;">Netlify Dashboard</strong> is the backup route if the button ever fails: in Netlify go to <strong style="opacity:1;">Logs &amp; metrics &rarr; Functions &rarr; lockcode-sync</strong> and press <strong style="opacity:1;">Run now</strong>.
 </div>
 
 
@@ -315,6 +320,43 @@ async function clearCelebration() {
 }
 
 buildSlides();
+
+var _lockSyncKey = null;
+function runLockSync(e){
+  if (e) e.preventDefault();
+  var box = document.getElementById('sync-run-status');
+  if (!_lockSyncKey) {
+    _lockSyncKey = window.prompt('Enter your lock sync key:');
+    if (!_lockSyncKey) { box.innerHTML = ''; return; }
+  }
+  if (!confirm('This will push door codes to the physical locks now. Continue?')) return;
+  box.innerHTML = '<span style="opacity:0.7;">Syncing locks\u2026 this can take up to a minute.</span>';
+  fetch('/api/lockcode-run?key=' + encodeURIComponent(_lockSyncKey), { cache: 'no-store' })
+    .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, status: r.status, body: j }; }); })
+    .then(function(res){
+      if (res.status === 401) {
+        _lockSyncKey = null;
+        box.innerHTML = '<span style="color:#f0928f;">Wrong key \u2014 click Sync Locks Now to try again.</span>';
+        return;
+      }
+      if (!res.ok) {
+        box.innerHTML = '<span style="color:#f0928f;">Sync failed: ' + (res.body.error || res.status) + '</span>';
+        return;
+      }
+      var rows = (res.body.results || []).map(function(r){
+        var ok = (r.status === 'set' || r.status === 'no-guest');
+        var color = ok ? '#8fd6a0' : '#f0c98f';
+        var detail = r.status === 'set'
+          ? ('code ' + r.code + ' \u00b7 ' + (r.guest || ''))
+          : r.status;
+        return '<div style="color:' + color + ';">\u2022 ' + r.cabin + ' \u2014 ' + detail + '</div>';
+      }).join('');
+      box.innerHTML = '<div style="color:#8fd6a0; margin-bottom:4px;">Sync complete.</div>' + rows;
+    })
+    .catch(function(err){
+      box.innerHTML = '<span style="color:#f0928f;">Sync failed: ' + err.message + '</span>';
+    });
+}
 
 function toggleSyncHelp(e){
   if (e) e.preventDefault();
